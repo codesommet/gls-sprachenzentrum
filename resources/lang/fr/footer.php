@@ -27,5 +27,5 @@ return [
     'privacy' => 'Politique de confidentialité',
     'imprint' => 'Mentions légales',
 
-    'copyright' => 'GLS © 2025. Tous droits réservés.',
+    'copyright' => 'GLS ©️ 2025. Tous droits réservés.',
 ];

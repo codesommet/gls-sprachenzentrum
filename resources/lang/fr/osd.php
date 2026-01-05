@@ -95,11 +95,25 @@ return [
     ],
 
     'contact' => [
-    'title'  => 'Contactez-nous',
-    'call'   => 'Appelez-nous',
-    'email'  => 'Envoyez un email',
-    'visit'  => 'Visitez nos centres',
-    'follow' => 'Suivez-nous',
-],
+
+        'title' => 'Des Questions ? Contactez-nous !',
+
+        'call'  => 'APPELEZ-NOUS',
+        'email' => 'ÉCRIVEZ-NOUS',
+        'visit' => 'RENDEZ-NOUS VISITE',
+
+        'follow' => 'SUIVEZ-NOUS',
+
+        'addresses' => '
+            14 Bd de Paris, 1er étage N°8, Casablanca 20000<br>
+            Avenue Yacoub El Mansour, Immeuble Espace Guéliz, 3ème étage Bureau 28, Marrakech<br>
+            Avenue Fal Ould Oumeir, Immeuble 77, 1er étage N°1, Agdal, Rabat<br>
+            Avenue Mohammed V, Bureaux Rania, 7ème étage, Kénitra<br>
+            Avenue Mohamed V Rue Halima N°12 Diyar, Salé<br>
+            Av. Massoude Al Wafkaoui, Place des taxis, Hay Essalam, Agadir
+        ',
+
+        'map_url' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3331.744621379457!2d-6.836039!3d33.978558!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda76b6d63b66b1d%3A0x3c6ee0a64f273aa2!2sAgdal%2C%20Rabat!5e0!3m2!1sen!2sma!4v1700000000000',
+    ],
 
 ];

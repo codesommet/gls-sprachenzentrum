@@ -171,25 +171,25 @@
             <div class="div-block-5-copy reveal delay-1">
 
                 <h2 class="h-section-subtitle-contact fade-blur-title reveal delay-1">
-                    {{ __('contact.title') }}
+                    {{ __('osd.contact.title') }}
                 </h2>
 
                 <div class="div-block-21">
                     <a href="tel:+212669515019" class="link-block reveal delay-1">
                         <div class="text-block-3">
-                            <span class="text-span">{{ __('contact.call') }}<br></span>+212 6 69 51 50 19
+                            <span class="text-span">{{ __('osd.contact.call') }}<br></span>+212 6 69 51 50 19
                         </div>
                     </a>
 
                     <a href="mailto:info@glssprachenzentrum.ma" class="link-block-2 reveal delay-2">
                         <div class="text-block-3">
-                            <span class="text-span">{{ __('contact.email') }}<br></span>info@glssprachenzentrum.ma
+                            <span class="text-span">{{ __('osd.contact.email') }}<br></span>info@glssprachenzentrum.ma
                         </div>
                     </a>
                 </div>
 
                 <div class="text-block-3 visit-block reveal delay-3">
-                    <span class="text-span">{{ __('contact.visit') }}<br></span>
+                    <span class="text-span">{{ __('osd.contact.visit') }}<br></span>
                     14 Bd de Paris, 1er étage N°8, Casablanca 20000<br>
                     Avenue Yacoub El Mansour, 3ème étage Bureau 28, Marrakech<br>
                     Avenue Fal Ould Oumeir, 1er étage N°1, Agdal, Rabat<br>
@@ -199,7 +199,7 @@
                 </div>
 
                 <div class="footer-socials-block reveal delay-1">
-                    <div class="text-block-3"><span class="text-span">{{ __('contact.follow') }}</span></div>
+                    <div class="text-block-3"><span class="text-span">{{ __('osd.contact.follow') }}</span></div>
                     <div class="div-block-20">
                         <a href="#" class="footer-social-link ig"><i class="bi bi-instagram"></i></a>
                         <a href="#" class="footer-social-link fb"><i class="bi bi-facebook"></i></a>
