@@ -56,6 +56,8 @@ FOOTER LINKS
 margin-bottom: 10px;
 }
 .mt-md-0{
+font-weight: 400;
+font-size: 12px !important;
 color: var(--dark--off-white);
 }
 .footer-links a,
@@ -114,13 +116,15 @@ margin-top: 2rem;
 }
 
 .footer-bottom a {
-color: var(--dark--off-white); /* match */
+color: var(--dark--off-white);
+font-weight: 500;
+font-size: 12px !important;
 text-decoration: none;
 transition: color .2s ease;
 }
 
 .footer-bottom a:hover {
-color: var(--dark--yellow);
+color: white;
 }
 
 .footer-legal {

@@ -472,7 +472,7 @@
 /* ===== Small Mobile Edge Fix ===== */
 @media screen and (max-width: 479px) {
   .get-started-section.section {
-    padding: 4rem 1.5rem;
+    padding: 2rem 1rem;
   }
 
   .container {
