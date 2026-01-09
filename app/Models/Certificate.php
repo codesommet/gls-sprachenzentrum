@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Certificate extends Model
 {
     protected $fillable = [
-
         // Personal Info
         'last_name',
         'first_name',
@@ -51,42 +51,42 @@ class Certificate extends Model
 
         // Final
         'final_result',
+
+        'public_token',
     ];
 
     protected $casts = [
-        'birth_date'     => 'date',
-        'exam_date'      => 'date',
-        'issue_date'     => 'date',
+        'birth_date' => 'date',
+        'exam_date' => 'date',
+        'issue_date' => 'date',
 
-        'written_total'        => 'integer',
-        'written_max'          => 'integer',
+        'written_total' => 'integer',
+        'written_max' => 'integer',
 
-        'reading_score'        => 'integer',
-        'reading_max'          => 'integer',
+        'reading_score' => 'integer',
+        'reading_max' => 'integer',
 
-        'grammar_score'        => 'integer',
-        'grammar_max'          => 'integer',
+        'grammar_score' => 'integer',
+        'grammar_max' => 'integer',
 
-        'listening_score'      => 'integer',
-        'listening_max'        => 'integer',
+        'listening_score' => 'integer',
+        'listening_max' => 'integer',
 
-        'writing_score'        => 'integer',
-        'writing_max'          => 'integer',
+        'writing_score' => 'integer',
+        'writing_max' => 'integer',
 
-        'oral_total'           => 'integer',
-        'oral_max'             => 'integer',
+        'oral_total' => 'integer',
+        'oral_max' => 'integer',
 
-        'presentation_score'   => 'integer',
-        'presentation_max'     => 'integer',
+        'presentation_score' => 'integer',
+        'presentation_max' => 'integer',
 
-        'discussion_score'     => 'integer',
-        'discussion_max'       => 'integer',
+        'discussion_score' => 'integer',
+        'discussion_max' => 'integer',
 
         'problemsolving_score' => 'integer',
-        'problemsolving_max'   => 'integer',
+        'problemsolving_max' => 'integer',
     ];
-
-
 
     /*
     |--------------------------------------------------------------------------
@@ -106,27 +106,30 @@ class Certificate extends Model
 
     public function getTotalPercentageAttribute()
     {
-        return $this->total_max == 0
-            ? 0
-            : round(($this->total_score / $this->total_max) * 100, 2);
+        return $this->total_max == 0 ? 0 : round(($this->total_score / $this->total_max) * 100, 2);
     }
 
     public function getWrittenPercentageAttribute()
     {
-        return $this->written_max == 0
-            ? 0
-            : round(($this->written_total / $this->written_max) * 100, 2);
+        return $this->written_max == 0 ? 0 : round(($this->written_total / $this->written_max) * 100, 2);
     }
 
     public function getOralPercentageAttribute()
     {
-        return $this->oral_max == 0
-            ? 0
-            : round(($this->oral_total / $this->oral_max) * 100, 2);
+        return $this->oral_max == 0 ? 0 : round(($this->oral_total / $this->oral_max) * 100, 2);
     }
 
     public function getFullNameAttribute()
     {
         return strtoupper($this->last_name) . ' ' . ucfirst($this->first_name);
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function (Certificate $certificate) {
+            if (empty($certificate->public_token)) {
+                $certificate->public_token = Str::random(48);
+            }
+        });
     }
 }
