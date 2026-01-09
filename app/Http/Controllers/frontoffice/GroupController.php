@@ -10,14 +10,14 @@ class GroupController extends Controller
 {
     public function show($slug)
     {
-        // Get site
+        if (in_array($slug, ['gls-online', 'online'], true)) {
+            return redirect()->route('front.online-courses');
+        }
+
         $site = Site::where('slug', $slug)->firstOrFail();
 
-        // Extract view name from slug
-        // gls-marrakech → marrakech
         $view = str_replace('gls-', '', $slug);
 
-        // Get groups
         $groups = Group::with('teacher')
             ->where('site_id', $site->id)
             ->orderBy('status')
@@ -25,7 +25,6 @@ class GroupController extends Controller
             ->get()
             ->groupBy('period_label');
 
-        // Check if view exists (security)
         if (!view()->exists("frontoffice.sites.$view")) {
             abort(404);
         }

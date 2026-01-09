@@ -7,6 +7,7 @@ use App\Http\Requests\Backoffice\Certificates\StoreCertificateRequest;
 use App\Http\Requests\Backoffice\Certificates\UpdateCertificateRequest;
 use App\Models\Certificate;
 use Barryvdh\DomPDF\Facade\Pdf;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class CertificateController extends Controller
 {
@@ -125,20 +126,36 @@ class CertificateController extends Controller
     }
 
     /**
-     * PDF EXPORT
+     * PDF EXPORT + QR CODE
      */
     public function pdf(string $id)
-{
-    $certificate = Certificate::findOrFail($id);
+    {
+        $certificate = Certificate::findOrFail($id);
 
-    $pdf = Pdf::loadView('backoffice.certificates.pdf', compact('certificate'))
-        ->setPaper('a4')
-        ->setOption('isHtml5ParserEnabled', true)
-        ->setOption('isRemoteEnabled', true);
+        // URL publique qui servira au QR (scan => download)
+        $url = route('certificates.public.download', [
+            'token' => $certificate->public_token,
+        ]);
 
-    return $pdf->download('certificate-' . $certificate->certificate_number . '.pdf');
-}
+        // QR en PNG base64 (compatible DomPDF)
+        $qrPng = QrCode::format('png')
+            ->size(180)
+            ->margin(1)
+            ->generate($url);
 
+        $qrCodeBase64 = base64_encode($qrPng);
+
+        $pdf = Pdf::loadView('backoffice.certificates.pdf', [
+                'certificate' => $certificate,
+                'qrCodeBase64' => $qrCodeBase64,
+                'qrUrl' => $url, // utile si tu veux aussi afficher l’URL en petit texte
+            ])
+            ->setPaper('a4')
+            ->setOption('isHtml5ParserEnabled', true)
+            ->setOption('isRemoteEnabled', true);
+
+        return $pdf->download('certificate-' . $certificate->certificate_number . '.pdf');
+    }
 
     /**
      * ---------------------------------------------------------
