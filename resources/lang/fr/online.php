@@ -37,7 +37,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | INFO SECTION (Graduation / Duration / Times / Cost)
+    | INFO SECTION
     |--------------------------------------------------------------------------
     */
     'info' => [
@@ -101,6 +101,23 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | GROUPS / SCHEDULE – ONLINE
+    |--------------------------------------------------------------------------
+    */
+    'groups' => [
+        'title' => 'Nos groupes – GLS Marrakech',
+
+        'morning' => '10h00 – 12h30 • Groupes du matin',
+        'midday' => '13h00 – 15h30 • Groupes de la mi-journée',
+        'afternoon' => '16h00 – 18h00 • Groupes d’après-midi',
+        'evening' => '19h00 – 21h30 • Groupes du soir',
+
+        'active' => 'Actifs',
+        'upcoming' => 'À venir',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | MORE INFO GRID
     |--------------------------------------------------------------------------
     */
@@ -134,7 +151,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | PODCAST SECTION – 9onsol Talks
+    | PODCAST SECTION
     |--------------------------------------------------------------------------
     */
     'podcast' => [
@@ -145,26 +162,17 @@ return [
 
         'text' => "Dans cet épisode de <strong>9onsol Talks</strong>, l’équipe GLS Sprachenzentrum 
                    discute des options réelles pour les jeunes qui rêvent de s’installer en Allemagne — 
-                   études universitaires ou formation professionnelle (Ausbildung).<br><br>
-
-                   L’épisode explore les raisons pour lesquelles l’Allemagne est devenue un véritable rêve 
-                   pour les jeunes Marocains : démarches de visa, comptes bloqués, pression psychologique 
-                   et expériences réelles de migration.<br><br>
-
-                   Nous détaillons les différences entre études et Ausbildung, le niveau d’allemand requis 
-                   (comme l’examen DSH), ainsi que les critères pour choisir la voie qui correspond le mieux 
-                   à vos objectifs, budget et calendrier.",
+                   études universitaires ou formation professionnelle (Ausbildung).",
     ],
 
     /*
     |--------------------------------------------------------------------------
-    | CTA FINAL SECTION
+    | CTA FINAL
     |--------------------------------------------------------------------------
     */
     'cta' => [
         'title' => "Ganz Einfach !<br>Pas besoin de compliquer les choses.",
         'text'  => "De cette façon, nous évitons les maux de tête et nous nous assurons que vous gardez 
-                    toute votre énergie pour apprendre efficacement. Le cours en ligne GLS demande une 
-                    participation active — pas de visionnage passif, mais du vrai apprentissage.",
+                    toute votre énergie pour apprendre efficacement.",
     ],
 ];
