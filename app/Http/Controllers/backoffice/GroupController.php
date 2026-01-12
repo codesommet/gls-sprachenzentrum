@@ -8,6 +8,8 @@ use App\Http\Requests\Backoffice\Groups\UpdateGroupRequest;
 use App\Models\Group;
 use App\Models\Site;
 use App\Models\Teacher;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class GroupController extends Controller
 {
@@ -16,7 +18,6 @@ class GroupController extends Controller
      */
     public function index()
     {
-        // Load relationships
         $groups = Group::with(['site', 'teacher'])
             ->latest()
             ->paginate(10);
@@ -40,10 +41,11 @@ class GroupController extends Controller
      */
     public function store(StoreGroupRequest $request)
     {
-        // Create group with all validated fields (including new date fields)
         Group::create($request->validated());
 
-        return redirect()->route('backoffice.groups.index')->with('success', 'Le groupe a été créé avec succès.');
+        return redirect()
+            ->route('backoffice.groups.index')
+            ->with('success', 'Le groupe a été créé avec succès.');
     }
 
     /**
@@ -75,11 +77,11 @@ class GroupController extends Controller
     public function update(UpdateGroupRequest $request, string $id)
     {
         $group = Group::findOrFail($id);
-
-        // Update group with validated data (including suivi du groupe)
         $group->update($request->validated());
 
-        return redirect()->route('backoffice.groups.index')->with('success', 'Le groupe a été mis à jour avec succès.');
+        return redirect()
+            ->route('backoffice.groups.index')
+            ->with('success', 'Le groupe a été mis à jour avec succès.');
     }
 
     /**
@@ -88,11 +90,67 @@ class GroupController extends Controller
     public function destroy(string $id)
     {
         $group = Group::findOrFail($id);
-
         $group->delete();
 
-        return redirect()->route('backoffice.groups.index')->with('success', 'Le groupe a été supprimé avec succès.');
+        return redirect()
+            ->route('backoffice.groups.index')
+            ->with('success', 'Le groupe a été supprimé avec succès.');
     }
+
+    /**
+     * ✅ NEW: Page backoffice to manage "applied students" for a group
+     * Route: backoffice.groups.applications
+     */
+    public function applications(Group $group, Request $request)
+    {
+        // 1) If you already have a relationship on Group like: applications()
+        if (method_exists($group, 'applications')) {
+            $applications = $group->applications()
+                ->latest()
+                ->paginate(20);
+
+            return view('backoffice.groups.applications', compact('group', 'applications'));
+        }
+
+        // 2) Fallback: try to detect common tables for applications
+        //    (so your page works even before you create the relationship)
+        $candidateTables = [
+            'group_applications',
+            'applications',
+            'group_registrations',
+            'registrations',
+            'inscriptions',
+            'applies',
+        ];
+
+        $foundTable = null;
+        foreach ($candidateTables as $table) {
+            if (Schema::hasTable($table) && Schema::hasColumn($table, 'group_id')) {
+                $foundTable = $table;
+                break;
+            }
+        }
+
+        if (!$foundTable) {
+            // No table found -> show empty list
+            $applications = collect();
+            return view('backoffice.groups.applications', compact('group', 'applications'))
+                ->with('warning', "Aucune table d'inscriptions trouvée. Crée une table (ex: group_applications) avec group_id.");
+        }
+
+        // Minimal query on detected table
+        $applications = \DB::table($foundTable)
+            ->where('group_id', $group->id)
+            ->orderByDesc('id')
+            ->paginate(20);
+
+        return view('backoffice.groups.applications', compact('group', 'applications'))
+            ->with('info', "Source: table `$foundTable` (fallback).");
+    }
+
+    /**
+     * Used for frontoffice date-picker: get all weekdays between date_debut and date_fin
+     */
     public function getDates($site_id, $level)
     {
         $groups = Group::where('site_id', $site_id)
