@@ -14,6 +14,8 @@ class GroupApplication extends Model implements HasMedia
         'group_id',
         'full_name',
         'whatsapp_number',
+        'email',  
+        'note',
         'birthday',
         'status',
     ];

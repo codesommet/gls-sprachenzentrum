@@ -28,7 +28,7 @@ class Group extends Model
 
         'status',
 
-        // NEW FIELDS – SUIVI DU GROUPE
+        'note',
         'date_debut',
         'date_fin',
     ];
