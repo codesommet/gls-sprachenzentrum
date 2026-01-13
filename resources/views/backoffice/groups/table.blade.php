@@ -69,20 +69,22 @@
 
                     {{-- ACTIONS --}}
                     <td>
+                        <a href="{{ route('backoffice.groups.applications', $group->id) }}"
+                            class="btn btn-sm btn-outline-primary" title="Voir les inscriptions">
+                            <i class="ti ti-eye"></i>
+                        </a>
                         {{-- EDIT --}}
                         <a href="{{ route('backoffice.groups.edit', $group->id) }}"
-                           class="avtar avtar-xs btn-link-secondary me-2"
-                           title="Modifier">
+                            class="avtar avtar-xs btn-link-secondary me-2" title="Modifier">
                             <i class="ti ti-edit f-20"></i>
                         </a>
 
                         {{-- DELETE --}}
-                        <form action="{{ route('backoffice.groups.destroy', $group->id) }}"
-                              method="POST" class="d-inline-block">
+                        <form action="{{ route('backoffice.groups.destroy', $group->id) }}" method="POST"
+                            class="d-inline-block">
                             @csrf @method('DELETE')
                             <button class="avtar avtar-xs btn-link-secondary border-0 bg-transparent p-0"
-                                    onclick="return confirm('Supprimer ce groupe ?')"
-                                    title="Supprimer">
+                                onclick="return confirm('Supprimer ce groupe ?')" title="Supprimer">
                                 <i class="ti ti-trash f-20"></i>
                             </button>
                         </form>
