@@ -1,0 +1,322 @@
+/* =======================================
+BLOG PAGE – GLOBAL WRAPPER
+======================================= */
+.blog-page {
+background-color: var(--light--off-white, #f7f7f7);
+}
+
+/* =======================================
+BLOG HERO SECTION
+======================================= */
+.blog-hero-section {
+position: relative;
+overflow: hidden;
+
+/* Background image + improved dark overlay */
+background-image:
+linear-gradient(rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.62)),
+url("/assets/images/about/Centre-GLS-de-langue-Allemande.jpg");
+
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+
+color: var(--light--off-white);
+padding-top: 5rem;
+padding-bottom: 5rem;
+
+border-bottom-left-radius: 60px;
+border-bottom-right-radius: 60px;
+}
+.blog-hero-margin {
+margin-top: -64px;
+}
+.blog-hero-inner {
+max-width: 720px;
+}
+
+/* Badge */
+.blog-hero-badge {
+margin-top: 20px;
+display: inline-flex;
+align-items: center;
+padding: 0.25rem 0.9rem;
+border-radius: 999px;
+background-color: rgba(255, 255, 255, 0.12);
+font-size: 0.85rem;
+letter-spacing: 0.08em;
+text-transform: uppercase;
+margin-bottom: 1rem;
+
+/* readability */
+color: #ffffff;
+text-shadow: 0 3px 8px rgba(0, 0, 0, 0.45);
+}
+
+/* Title */
+.blog-hero-title {
+font-size: 3rem;
+font-weight: 700;
+line-height: 1.1;
+letter-spacing: -0.04em;
+margin-bottom: 1rem;
+
+color: var(--light--off-white);
+text-shadow: 0 3px 10px rgba(0, 0, 0, 0.45);
+}
+
+/* Subtitle */
+.blog-hero-subtitle {
+font-size: 1.125rem;
+line-height: 1.5;
+max-width: 36rem;
+margin-bottom: 1.5rem;
+
+color: #ffffff;
+text-shadow: 0 3px 10px rgba(0, 0, 0, 0.45);
+}
+
+/* Meta text */
+.blog-hero-meta {
+font-size: 0.95rem;
+opacity: 0.95;
+
+color: #ffffff;
+text-shadow: 0 3px 10px rgba(0, 0, 0, 0.45);
+}
+
+/* =======================================
+MOBILE ADJUSTMENTS
+======================================= */
+@media screen and (max-width: 767px) {
+.blog-hero-section {
+padding-top: 3.5rem;
+padding-bottom: 3.5rem;
+border-bottom-left-radius: 40px;
+border-bottom-right-radius: 40px;
+background-position: center top;
+}
+
+.blog-hero-title {
+font-size: 2.2rem;
+}
+
+.blog-hero-subtitle {
+font-size: 1rem;
+}
+
+.blog-hero-inner {
+text-align: left;
+}
+}
+.section {
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
+@media (max-width: 767px) {
+    .section {
+        padding-top: 60px;
+        padding-bottom: 60px;
+    }
+}
+
+.rich-text {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #2b2b2b;
+}
+
+.rich-text p {
+    margin-bottom: 1.25rem;
+}
+
+.card {
+    border-radius: 16px;
+    background-color: #ffffff;
+}
+
+.card.shadow-sm {
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.card h2,
+.card h3 {
+    letter-spacing: -0.5px;
+}
+
+.card .small {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+}
+
+.btn.btn-dark {
+    background-color: var(--color-surface);
+    border-color: var(--color-surface);
+    color: black;
+}
+
+.btn.btn-dark:hover {
+    background-color: var(--color-surface);
+    border-color: var(--color-surface);
+    color: black;
+}
+
+.row.g-4 > [class*="col-"] {
+    display: flex;
+}
+
+.row.g-4 > [class*="col-"] > .card {
+    width: 100%;
+}
+
+.section .card p {
+    color: white;
+}
+
+.fc-info-card {
+    gap: 14px;
+}
+
+.fc-card-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.fc-card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(33, 30, 29, 0.07);
+    flex: 0 0 44px;
+}
+
+.fc-card-icon i {
+    font-size: 1.25rem;
+    color: #211e1d;
+}
+
+.fc-marokko-hero {
+    position: relative;
+    overflow: hidden;
+}
+
+.fc-marokko-hero-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transform: scale(1.03);
+}
+
+.fc-marokko-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(33, 30, 29, 0.65);
+}
+
+.fc-marokko-hero .container {
+    position: relative;
+    z-index: 2;
+}
+
+.fc-gallery-item {
+    display: block;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    transform: translateZ(0);
+}
+
+.fc-gallery-item img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    aspect-ratio: 16 / 10;
+    transition: transform 450ms ease;
+}
+
+.fc-gallery-item:hover img {
+    transform: scale(1.04);
+}
+
+@media (min-width: 768px) {
+    .fc-gallery .col-md-7 .fc-gallery-item img {
+        aspect-ratio: 16 / 11;
+    }
+}
+
+.fc-cta {
+    background-color: #211e1d !important;
+    color: var(--color-surface);
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.fc-cta-content {
+    max-width: 720px;
+}
+
+.fc-cta-title {
+    color: var(--color-surface);
+    font-weight: 800;
+    letter-spacing: -0.8px;
+    line-height: 1.1;
+    font-size: clamp(1.8rem, 2.6vw, 2.6rem);
+}
+
+.fc-cta-text {
+    color: #ffffff;
+    opacity: 0.92;
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+.fc-cta-action {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.btn.btn-white{
+    background-color: black;
+    color: white;
+    border-color: #ffffff;
+}
+.btn.btn-white:hover{
+    background-color: black;
+    color: white;
+    border-color: #ffffff;
+}
+.fc-cta-btn {
+    background-color: #ffffff;
+    color: #211e1d;
+    border-color: #ffffff;
+    padding: 14px 22px;
+    border-radius: 999px;
+    font-weight: 700;
+}
+
+.fc-cta-btn:hover {
+    background-color: #f2f2f2;
+    color: #211e1d;
+    border-color: #f2f2f2;
+}
+
+@media (max-width: 991px) {
+    .fc-cta-action {
+        justify-content: flex-start;
+    }
+    .fc-cta-btn {
+        width: 100%;
+        justify-content: center;
+        display: inline-flex;
+    }
+}

@@ -191,7 +191,7 @@
 }
 
 .h-section-subtitle {
-    color: var(--off-black) !important;
+    color: var(--color-surface) !important;
     font-weight: 600 !important;
     text-wrap: balance;
     margin-top: 0;
@@ -622,4 +622,3 @@
       padding-right: 1.5rem;
     }
   }
-  

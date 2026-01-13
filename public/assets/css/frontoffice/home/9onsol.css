@@ -29,9 +29,7 @@
 ================================ */
 .about-card {
   border-radius: var(--radius-small, 24px);
-  background-image:
-  linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
-  linear-gradient(225deg, #f9d976 0%, #f39c12 30%, #00b894 65%, #0984e3 100%);
+  background-color: var(--dark--off-black);
 
   color: var(--off-white);
   padding: 4rem 3rem;

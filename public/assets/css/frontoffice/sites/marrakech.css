@@ -15,7 +15,6 @@
 
   margin-top: -40px;
   padding-top: 120px;
-  padding-bottom: 0;
   margin-bottom: 280px;
   display: flex;
   justify-content: center;
@@ -587,6 +586,7 @@
   background-color: var(--light--off-white);
   display: flex;
   justify-content: center;
+  border-radius: 100px;
 }
 
 .inline-cta-block {
@@ -666,4 +666,45 @@
 .gls-info-section {
     background-color: var(--yellow) !important;
     padding: 4rem 2rem;
+}
+
+/* Group row with Apply button */
+.gls-group-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+}
+
+.gls-group-text{
+  flex:1;
+  min-width:0;
+}
+
+/* Apply button */
+.gls-apply-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:.55rem 1rem;
+  border-radius:999px;
+  font-size:.95rem;
+  font-weight:700;
+  text-decoration:none;
+  background: var(--off-black);
+  color: var(--off-white);
+  transition: .2s ease;
+  white-space:nowrap;
+}
+
+.gls-apply-btn:hover{
+  transform: translateY(-2px);
+}
+
+/* Mobile: stack nicely */
+@media (max-width: 479px){
+  .gls-group-row{
+    align-items:flex-start;
+    gap:.75rem;
+  }
 }

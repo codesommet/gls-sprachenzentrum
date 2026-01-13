@@ -13,8 +13,8 @@
   border-top-left-radius: 60px;
   border-top-right-radius: 60px;
   background-image:
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
-    linear-gradient(225deg, #0057ff 0%, #00d98a 40%, #00a06e 70%, #ffd84c 100%);
+  linear-gradient(to bottom, #0000001a, #0000001a),
+  linear-gradient(225deg, #004aad 0%, #0174df 50%, #00d98a 100%);
   padding-top: 5rem;
   padding-bottom: 1.5rem;
   z-index: 5;
