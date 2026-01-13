@@ -1,8 +1,7 @@
 <?php
 
 return [
-
-    'intro_text' => "Au GLS Sprachenzentrum Morocco, nous croyons que l’apprentissage de l’allemand ouvre des portes à de nouvelles opportunités. Notre mission est d’offrir un environnement inspirant et motivant aux étudiants de Rabat, Casablanca, Marrakech et Agadir.",
+    'intro_text' => 'Au GLS Sprachenzentrum Morocco, nous croyons que l’apprentissage de l’allemand ouvre des portes à de nouvelles opportunités. Notre mission est d’offrir un environnement inspirant et motivant aux étudiants de Rabat, Casablanca, Marrakech et Agadir.',
 
     'about' => 'À propos',
     'about_us' => 'Notre école',
@@ -26,6 +25,16 @@ return [
     'terms' => 'Conditions générales',
     'privacy' => 'Politique de confidentialité',
     'imprint' => 'Mentions légales',
+    'cookies' => 'Cookies',
 
     'copyright' => 'GLS ©️ 2025. Tous droits réservés.',
+    'newsletter' => [
+        'title' => 'Newsletter',
+        'text' => 'Recevez nos nouveautés, offres et dates d’examens directement par email.',
+        'placeholder' => 'Votre email',
+        'button' => 'S’inscrire',
+        'success' => 'Merci ! Vous êtes bien inscrit(e) à la newsletter.',
+        'already' => 'Vous êtes déjà inscrit(e) avec cet email.',
+        'error' => 'Une erreur est survenue. Réessayez.',
+    ],
 ];

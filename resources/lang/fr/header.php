@@ -14,8 +14,9 @@ return [
     'pricing' => 'Tarifs',
 
     'exams' => 'Examens',
-    'goethe_exams' => 'Examens GLS',
+    'gls_exams' => 'Examens GLS',
     'osd_exams' => 'Examens ÖSD',
+    'goethe_exams' => 'Examens Goethe',
 
     'resources' => 'Ressources',
     'blog' => 'Blog',
