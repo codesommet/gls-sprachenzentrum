@@ -494,3 +494,8 @@ color: var(--off-black) !important;
 padding: 0 !important;
 }
 
+@media screen and (max-width: 479px) {
+  .hero-section.blog-hero-section {
+    padding: 4rem 2rem;
+  }
+}

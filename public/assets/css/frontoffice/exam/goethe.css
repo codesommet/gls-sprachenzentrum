@@ -191,7 +191,7 @@
 }
 
 .h-section-subtitle {
-    color: var(--color-surface) !important;
+    color: black !important;
     font-weight: 600 !important;
     text-wrap: balance;
     margin-top: 0;

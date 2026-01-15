@@ -1,14 +1,14 @@
 /* ================================
    PAGE WRAPPER
 ================================ */
-.blog-page {
+.student-stories-page {
   background-color: var(--light--off-white, #f7f7f7);
 }
 
 /* ================================
    STUDENT STORIES HERO
 ================================ */
-.student-hero {
+.student-stories-hero {
   margin-top: -64px;
   position: relative;
   overflow: hidden;
@@ -25,12 +25,12 @@
   border-bottom-right-radius: 60px;
 }
 
-.blog-hero-inner {
+.student-stories-hero-inner {
   max-width: 720px;
 }
 
 /* Badge */
-.blog-hero-badge {
+.student-stories-hero-badge {
   display: inline-flex;
   align-items: center;
   padding: 0.25rem 0.9rem;
@@ -45,7 +45,7 @@
 }
 
 /* Title */
-.blog-hero-title {
+.student-stories-hero-title {
   font-size: 3rem;
   font-weight: 700;
   line-height: 1.1;
@@ -56,7 +56,7 @@
 }
 
 /* Subtitle */
-.blog-hero-subtitle {
+.student-stories-hero-subtitle {
   font-size: 1.125rem;
   line-height: 1.5;
   max-width: 36rem;
@@ -66,7 +66,7 @@
 }
 
 /* Meta */
-.blog-hero-meta {
+.student-stories-hero-meta {
   font-size: 0.95rem;
   opacity: 0.95;
   color: #ffffff;
@@ -76,7 +76,7 @@
 /* ================================
    STUDENT STORY CARDS
 ================================ */
-.story-card {
+.student-stories-card {
   background-color: #ffffff;
   border-radius: var(--radius-mid, 18px);
   overflow: hidden;
@@ -87,20 +87,20 @@
   flex-direction: column;
 }
 
-.story-image-wrapper {
+.student-stories-image-wrapper {
   width: 100%;
   aspect-ratio: 4 / 3;
   overflow: hidden;
 }
 
-.story-image {
+.student-stories-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
 }
 
-.story-body {
+.student-stories-body {
   padding: 1.2rem 1.5rem;
   flex: 1;
   display: flex;
@@ -108,21 +108,21 @@
   justify-content: space-between;
 }
 
-.story-name {
+.student-stories-name {
   font-size: 1.2rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
   color: var(--color-text, #1f2937);
 }
 
-.story-path {
+.student-stories-path {
   font-size: 0.95rem;
   color: #4b5563;
   margin-bottom: 1rem;
   line-height: 1.4;
 }
 
-.story-badge {
+.student-stories-badge {
   display: inline-block;
   font-size: 0.85rem;
   background-color: black;
@@ -138,7 +138,7 @@
    RESPONSIVE FIXES
 ================================ */
 @media screen and (max-width: 767px) {
-  .student-hero {
+  .student-stories-hero {
     padding-top: 4rem;
     padding-bottom: 4rem;
     border-bottom-left-radius: 40px;
@@ -146,45 +146,47 @@
     background-position: center top;
   }
 
-  .blog-hero-title {
+  .student-stories-hero-title {
     font-size: 2.2rem;
   }
 
-  .blog-hero-subtitle {
+  .student-stories-hero-subtitle {
     font-size: 1rem;
   }
 
-  .story-card {
+  .student-stories-card {
     text-align: center;
   }
 
-  .story-body {
+  .student-stories-body {
     align-items: center;
   }
 }
+
 .h-section-subtitle {
   color: black !important;
 }
+
 /* ==========================
    IMAGE HOVER EFFECT
 ========================== */
-.story-image-wrapper {
+.student-stories-image-wrapper {
   position: relative;
   overflow: hidden;
 }
 
-.story-image {
+.student-stories-image {
   transition: transform 0.6s ease, filter 0.6s ease;
 }
 
 /* Hover zoom */
-.story-card:hover .story-image {
+.student-stories-card:hover .student-stories-image {
   transform: scale(1.12);
   filter: brightness(0.85);
 }
 
 /* Optional soft overlay on hover */
-.story-image-wrapper::after {
+.student-stories-image-wrapper::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -192,6 +194,11 @@
   transition: background 0.4s ease;
 }
 
-.story-card:hover .story-image-wrapper::after {
+.student-stories-card:hover .student-stories-image-wrapper::after {
   background: rgba(0, 0, 0, 0.25);
+}
+@media screen and (max-width: 479px) {
+    .section {
+        padding: 6rem 2rem !important;
+    }
 }

@@ -110,6 +110,13 @@
   color: var(--color-text);
   font-size: var(--small-size);
 }
+.contact-section-subtitle {
+  font-size: clamp(2rem, 6vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--color-surface) !important;
+}
+
 
 /* =========================================================
    BUTTON STYLES (PRIMARY OVERRIDE)
