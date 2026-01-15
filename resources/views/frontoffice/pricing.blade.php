@@ -7,8 +7,8 @@
 @section('content')
 
     <!-- ============================
-         HERO SECTION
-    ============================ -->
+                     HERO SECTION
+                ============================ -->
     <section class="hero-section section about-hero reveal delay-1">
         <div class="container is-hero reveal delay-2">
 
@@ -30,8 +30,8 @@
 
 
     <!-- ============================
-         PRICING TABS
-    ============================ -->
+                     PRICING TABS
+                ============================ -->
     <div class="container py-5 reveal delay-1">
 
         <div class="gls-tabs-menu d-flex flex-wrap justify-content-center gap-2 mb-4 reveal delay-2">
@@ -79,6 +79,16 @@
             <div id="pricing-subtitle" class="text-block-6 reveal delay-2">
                 {{ __('pricing.headers.online.subtitle') }}
             </div>
+
+            {{-- ✅ One-time inscription info (not in table) --}}
+            <div class="text-block-6 reveal delay-2">
+                Frais d’inscription : <strong>300 DH</strong> (payés une seule fois lors de la première inscription).
+            </div>
+
+            {{-- ✅ B2 one-time inscription --}}
+            <div class="text-block-6 reveal delay-2">
+                Inscription niveau B2 : <strong>200 DH</strong> (payée une seule fois).
+            </div>
         </div>
 
 
@@ -93,8 +103,8 @@
 
 
     <!-- ============================
-         JS DYNAMIC PRICING
-    ============================ -->
+                     JS DYNAMIC PRICING
+                ============================ -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
 
@@ -103,29 +113,39 @@
             const title = document.getElementById("pricing-title");
             const subtitle = document.getElementById("pricing-subtitle");
 
-            const pricing = @json(__('pricing.data'));
-            const headers = @json(__('pricing.headers'));
+            // ✅ IMPORTANT: use trans() to guarantee arrays (not strings)
+            const pricing = @json(trans('pricing.data'));
+            const headers = @json(trans('pricing.headers'));
 
             function loadTable(tab) {
 
-                title.textContent = headers[tab].title;
-                subtitle.textContent = headers[tab].subtitle;
+                // ✅ guard (avoid blank page if key missing)
+                if (!headers[tab] || !pricing[tab]) {
+                    table.innerHTML = "";
+                    title.textContent = "";
+                    subtitle.textContent = "";
+                    return;
+                }
+
+                title.textContent = headers[tab].title ?? "";
+                subtitle.textContent = headers[tab].subtitle ?? "";
 
                 const p = pricing[tab];
 
                 table.innerHTML = `
-            <div class="table-rich-text-pricing2 w-richtext">
-                ${p.col1.map(v => `<p>${v}</p>`).join("")}
-            </div>
+                    <div class="table-rich-text-pricing2 w-richtext">
+                        <p>Niveau</p>
+                        ${p.col1.slice(1).map(v => `<p>${v}</p>`).join("")}
+                    </div>
 
-            <div class="table-rich-text-pricing w-richtext text-center">
-                ${p.col2.map(v => `<p>${v}</p>`).join("")}
-            </div>
+                    <div class="table-rich-text-pricing w-richtext text-center">
+                        ${p.col2.map(v => `<p>${v}</p>`).join("")}
+                    </div>
 
-            <div class="table-rich-text-pricing w-richtext text-center">
-                ${p.col3.map(v => `<p>${v}</p>`).join("")}
-            </div>
-        `;
+                    <div class="table-rich-text-pricing w-richtext text-center">
+                        ${p.col3.map(v => `<p>${v}</p>`).join("")}
+                    </div>
+                `;
             }
 
             loadTable("online");
@@ -144,8 +164,8 @@
     </script>
 
     <!-- ============================
-         CTA BLOCK
-    ============================ -->
+                     CTA BLOCK
+                ============================ -->
     <section class="get-started-section section reveal delay-1">
         <div class="container is-2-col-grid reveal delay-2">
 

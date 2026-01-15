@@ -135,6 +135,9 @@
                 'afternoon' => __('sites/agadir.groups.afternoon'),
                 'evening'   => __('sites/agadir.groups.evening'),
             ];
+
+            // Choisis ici le champ à afficher selon ta langue (tu peux changer 'name_fr' -> 'name')
+            $groupNameField = 'name_fr';
         @endphp
 
         @foreach ($periods as $key => $label)
@@ -162,7 +165,9 @@
 
                                 @forelse ($collection->where('status', 'active') as $group)
                                     <p class="reveal delay-1">
-                                        {{ $group->teacher->name }} - {{ strtoupper($group->level) }} - {{ $group->time_range }}
+                                        {{ data_get($group, $groupNameField) ?? $group->name }}
+                                        - {{ strtoupper($group->level) }}
+                                        - {{ $group->time_range }}
                                     </p>
                                 @empty
                                     <p class="reveal delay-1">Aucun groupe actif</p>
@@ -174,7 +179,9 @@
 
                                 @forelse ($collection->where('status', 'upcoming') as $group)
                                     <p class="reveal delay-1">
-                                        {{ $group->teacher->name }} - {{ strtoupper($group->level) }} - {{ $group->time_range }}
+                                        {{ data_get($group, $groupNameField) ?? $group->name }}
+                                        - {{ strtoupper($group->level) }}
+                                        - {{ $group->time_range }}
                                     </p>
                                 @empty
                                     <p class="reveal delay-1">Pas de nouveaux groupes prévus</p>
@@ -192,6 +199,7 @@
 
     </div>
 </section>
+
 
 {{-- ===========================
      9ONSOL TALKS – AGADIR
@@ -220,19 +228,29 @@
 </section>
 
 <!-- CTA -->
+@include('frontoffice.templates.consultation-form')
+
 <section class="inline-cta-section section reveal delay-1">
-  <div class="inline-cta-block reveal delay-2">
-      
-      <h2 class="heading-cta fade-blur-title reveal delay-3">{!! __('sites/agadir.cta.title') !!}</h2>
+    <div class="inline-cta-block reveal delay-2">
 
-      <p class="cta-box-subtext reveal delay-1">{!! __('sites/agadir.cta.text') !!}</p>
+        <h2 class="heading-cta fade-blur-title reveal delay-3">
+            {!! __('sites/agadir.cta.title') !!}
+        </h2>
 
-      <a href="{{ route('front.contact') }}" class="cta-btn reveal delay-2">
-          {{ __('sites/agadir.cta.button') }}
-      </a>
+        <p class="cta-box-subtext reveal delay-1">
+            {!! __('sites/agadir.cta.text') !!}
+        </p>
 
-  </div>
+        <button type="button"
+                class="cta-btn reveal delay-2"
+                data-bs-toggle="modal"
+                data-bs-target="#consultationModal">
+            {{ __('sites/agadir.cta.button') }}
+        </button>
+
+    </div>
 </section>
+
  
 <!-- ===========================
      DROPDOWN + INFO JS

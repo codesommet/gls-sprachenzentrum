@@ -148,6 +148,9 @@
                 'afternoon' => __('sites/kenitra.groups.afternoon'),
                 'evening'   => __('sites/kenitra.groups.evening'),
             ];
+
+            // Champ du nom du groupe à afficher (change si besoin: name / name_fr / name_en / name_ar / name_de)
+            $groupNameField = 'name_fr';
         @endphp
 
         @foreach ($periods as $key => $label)
@@ -175,9 +178,9 @@
 
                                 @forelse ($collection->where('status', 'active') as $group)
                                     <p class="reveal delay-1">
-                                        {{ $group->teacher->name }} -
-                                        {{ strtoupper($group->level) }} -
-                                        {{ $group->time_range }}
+                                        {{ data_get($group, $groupNameField) ?? $group->name }}
+                                        - {{ strtoupper($group->level) }}
+                                        - {{ $group->time_range }}
                                     </p>
                                 @empty
                                     <p class="reveal delay-1">Aucun groupe actif</p>
@@ -189,9 +192,9 @@
 
                                 @forelse ($collection->where('status', 'upcoming') as $group)
                                     <p class="reveal delay-1">
-                                        {{ $group->teacher->name }} -
-                                        {{ strtoupper($group->level) }} -
-                                        {{ $group->time_range }}
+                                        {{ data_get($group, $groupNameField) ?? $group->name }}
+                                        - {{ strtoupper($group->level) }}
+                                        - {{ $group->time_range }}
                                     </p>
                                 @empty
                                     <p class="reveal delay-1">Pas de nouveaux groupes prévus</p>
@@ -246,6 +249,8 @@
 <!-- ===========================
      CTA
 =========================== -->
+@include('frontoffice.templates.consultation-form')
+
 <section class="inline-cta-section section reveal delay-1">
     <div class="inline-cta-block reveal delay-2">
 
@@ -257,12 +262,16 @@
             {!! __('sites/kenitra.cta.text') !!}
         </p>
 
-        <a href="{{ route('front.contact') }}" class="cta-btn reveal delay-2">
+        <button type="button"
+                class="cta-btn reveal delay-2"
+                data-bs-toggle="modal"
+                data-bs-target="#consultationModal">
             {{ __('sites/kenitra.cta.button') }}
-        </a>
+        </button>
 
     </div>
 </section>
+
 
 <!-- JAVASCRIPT -->
 <<script>

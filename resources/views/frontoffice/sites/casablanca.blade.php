@@ -148,6 +148,9 @@
                 'afternoon' => __('sites/casablanca.groups.afternoon'),
                 'evening'   => __('sites/casablanca.groups.evening'),
             ];
+
+            // Champ du nom du groupe à afficher (modifiable)
+            $groupNameField = 'name_fr';
         @endphp
 
         @foreach ($periods as $key => $label)
@@ -176,9 +179,9 @@
 
                                 @forelse ($collection->where('status', 'active') as $group)
                                     <p class="reveal delay-1">
-                                        {{ $group->teacher->name }} -
-                                        {{ strtoupper($group->level) }} -
-                                        {{ $group->time_range }}
+                                        {{ data_get($group, $groupNameField) ?? $group->name }}
+                                        - {{ strtoupper($group->level) }}
+                                        - {{ $group->time_range }}
                                     </p>
                                 @empty
                                     <p class="reveal delay-1">Aucun groupe actif</p>
@@ -191,9 +194,9 @@
 
                                 @forelse ($collection->where('status', 'upcoming') as $group)
                                     <p class="reveal delay-1">
-                                        {{ $group->teacher->name }} -
-                                        {{ strtoupper($group->level) }} -
-                                        {{ $group->time_range }}
+                                        {{ data_get($group, $groupNameField) ?? $group->name }}
+                                        - {{ strtoupper($group->level) }}
+                                        - {{ $group->time_range }}
                                     </p>
                                 @empty
                                     <p class="reveal delay-1">Pas de nouveaux groupes prévus</p>
@@ -211,8 +214,6 @@
 
     </div>
 </section>
-
-
 
 <!-- ===========================
      9ONSOL TALKS – CASABLANCA
@@ -246,19 +247,29 @@
 <!-- ===========================
      CTA
 =========================== -->
+@include('frontoffice.templates.consultation-form')
+
 <section class="inline-cta-section section reveal delay-1">
     <div class="inline-cta-block reveal delay-2">
-        
-        <h2 class="heading-cta fade-blur-title reveal delay-3">{!! __('sites/casablanca.cta.title') !!}</h2>
 
-        <p class="cta-box-subtext reveal delay-1">{!! __('sites/casablanca.cta.text') !!}</p>
+        <h2 class="heading-cta fade-blur-title reveal delay-3">
+            {!! __('sites/casablanca.cta.title') !!}
+        </h2>
 
-        <a href="{{ route('front.contact') }}" class="cta-btn reveal delay-2">
+        <p class="cta-box-subtext reveal delay-1">
+            {!! __('sites/casablanca.cta.text') !!}
+        </p>
+
+        <button type="button"
+                class="cta-btn reveal delay-2"
+                data-bs-toggle="modal"
+                data-bs-target="#consultationModal">
             {{ __('sites/casablanca.cta.button') }}
-        </a>
+        </button>
 
     </div>
 </section>
+
 
 
 <script>

@@ -202,9 +202,10 @@
 
     <div class="div-block-5-copy reveal delay-3">
 
-      <h2 class="h-section-subtitle reveal fade-blur-title delay-1">
-        {!! __('faq.contact.title') !!}
-      </h2>
+      <h2 class="contact-section-subtitle reveal fade-blur-title delay-1">
+    {!! __('goethe.contact.title') !!}
+</h2>
+
 
       <div class="div-block-21 reveal delay-2">
 

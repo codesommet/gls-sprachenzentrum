@@ -8,8 +8,8 @@
 @section('content')
 
     <!-- =========================================================
-         HERO SECTION
-    ========================================================= -->
+             HERO SECTION
+        ========================================================= -->
     <section class="hero-section section intensive-hero reveal delay-1">
         <div class="container is-hero reveal delay-2">
 
@@ -30,8 +30,8 @@
     </section>
 
     <!-- =========================================================
-         RICH TEXT SECTION
-    ========================================================= -->
+             RICH TEXT SECTION
+        ========================================================= -->
     <section class="rich-text-section section reveal delay-1">
         <div class="container reveal delay-2">
             <div class="rich-text w-richtext reveal delay-3">
@@ -43,8 +43,8 @@
     </section>
 
     <!-- =========================================================
-         COURSES GRID
-    ========================================================= -->
+             COURSES GRID
+        ========================================================= -->
     <section class="home-courses-section section reveal delay-1">
         <div class="container is-h-courses reveal delay-2">
 
@@ -128,8 +128,8 @@
     </section>
 
     <!-- =========================================================
-         QUESTIONS + CONSULTATION SECTION
-    ========================================================= -->
+             QUESTIONS + CONSULTATION SECTION
+        ========================================================= -->
     <section class="rich-text-section section reveal delay-1">
         <div class="container reveal delay-2">
             <div class="rich-text w-richtext reveal delay-3">
@@ -148,8 +148,8 @@
     </section>
 
     <!-- =========================================================
-         INLINE CTA
-    ========================================================= -->
+             INLINE CTA
+        ========================================================= -->
     <section class="inline-cta-section my-5 reveal delay-1">
         <div class="container reveal delay-2">
             <div class="inline-cta-block mx-auto reveal delay-3">
@@ -167,8 +167,8 @@
     </section>
 
     <!-- =========================================================
-         GET STARTED
-    ========================================================= -->
+             GET STARTED
+        ========================================================= -->
     <section class="get-started-section section reveal delay-1">
         <div class="container is-2-col-grid reveal delay-2">
 
@@ -196,16 +196,17 @@
     </section>
 
     <!-- =========================================================
-         CONTACT SECTION
-    ========================================================= -->
+             CONTACT SECTION
+        ========================================================= -->
     <section class="contact-section section reveal delay-1">
         <div class="container is-2-col-grid reveal delay-2">
 
             <div class="div-block-5-copy reveal delay-3">
 
-                <h2 class="h-section-subtitle reveal fade-blur-title delay-1">
-                    {!! __('intensive.contact.title') !!}
+                <h2 class="contact-section-subtitle reveal fade-blur-title delay-1">
+                    {!! __('goethe.contact.title') !!}
                 </h2>
+
 
                 <div class="div-block-21 reveal delay-2">
 

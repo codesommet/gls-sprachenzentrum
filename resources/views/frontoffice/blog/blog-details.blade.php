@@ -1,7 +1,7 @@
 @extends('frontoffice.layouts.app')
 
-@section('title', $post->title())
-@section('meta_description', Str::limit(strip_tags($post->content()), 150))
+@section('title', $post->title)
+@section('meta_description', \Illuminate\Support\Str::limit(strip_tags($post->content), 150))
 
 <link rel="stylesheet" href="{{ asset('assets/css/frontoffice/blog/blog-details.css') }}">
 
@@ -13,8 +13,8 @@
     =============================== --}}
     <section class="blog-details-hero reveal delay-1">
 
-        <img src="{{ $post->getFirstMediaUrl('blog_images') }}"
-             alt="{{ $post->title() }}"
+        <img src="{{ $post->getFirstMediaUrl('blog_images') ?: asset('assets/images/placeholder.webp') }}"
+             alt="{{ $post->title }}"
              class="blog-details-hero-img reveal delay-2">
 
         <div class="blog-details-hero-overlay reveal delay-1"></div>
@@ -23,24 +23,22 @@
             <div class="blog-details-hero-content reveal delay-3">
 
                 <div class="blog-hero-badge mb-3 reveal delay-1">
-                    {{ $post->category->name() }}
+                    {{ $post->category->name ?? '' }}
                 </div>
 
                 <h1 class="blog-details-title fade-blur-title reveal delay-2">
-                    {{ $post->title() }}
+                    {{ $post->title }}
                 </h1>
 
                 <div class="blog-details-meta reveal delay-3">
                     <span>⏱ {{ $post->reading_time }} {{ __('blog.featured.meta_read') }}</span>
                     <span class="dot">•</span>
-                    <span>{{ $post->updated_at->translatedFormat('d M Y') }}</span>
+                    <span>{{ optional($post->updated_at ?? $post->created_at)->translatedFormat('d M Y') }}</span>
                 </div>
 
             </div>
         </div>
     </section>
-
-
 
     {{-- ===============================
          BREADCRUMB
@@ -54,12 +52,10 @@
                 <a href="{{ route('blog.index') }}">{{ __('blog.breadcrumb.blog') }}</a>
                 <span class="sep">›</span>
 
-                <span class="current">{{ $post->title() }}</span>
+                <span class="current">{{ $post->title }}</span>
             </nav>
         </div>
     </section>
-
-
 
     {{-- ===============================
          ARTICLE CONTENT
@@ -68,7 +64,7 @@
         <div class="container reveal delay-2">
             <div class="blog-details-content reveal delay-3">
 
-                {!! $post->content() !!}
+                {!! $post->content !!}
 
                 <div class="blog-share mt-5 reveal delay-1">
                     <p class="fw-bold mb-2 reveal delay-1">{{ __('blog.details.share') }}</p>
@@ -92,7 +88,8 @@
                             <i class="bi bi-whatsapp"></i>
                         </a>
 
-                        <a href="#" onclick="navigator.clipboard.writeText('{{ Request::url() }}'); return false;"
+                        <a href="#"
+                           onclick="navigator.clipboard.writeText('{{ Request::url() }}'); return false;"
                            class="social-icon reveal delay-1">
                             <i class="bi bi-link-45deg"></i>
                         </a>
@@ -103,8 +100,6 @@
             </div>
         </div>
     </section>
-
-
 
     {{-- ===============================
          RELATED POSTS
@@ -125,25 +120,25 @@
 
                             <div class="blog-card-image-wrapper reveal delay-1">
                                 <a href="{{ route('blog.show', $r->slug) }}">
-                                    <img src="{{ $r->getFirstMediaUrl('blog_images') }}"
+                                    <img src="{{ $r->getFirstMediaUrl('blog_images') ?: asset('assets/images/placeholder.webp') }}"
                                          class="blog-card-image reveal delay-2"
-                                         alt="{{ $r->title() }}">
+                                         alt="{{ $r->title }}">
                                 </a>
 
                                 <div class="blog-card-category reveal delay-3">
-                                    {{ $r->category->name() }}
+                                    {{ $r->category->name ?? '' }}
                                 </div>
                             </div>
 
                             <div class="blog-card-body reveal delay-2">
                                 <h3 class="blog-card-title fade-blur-title reveal delay-1">
                                     <a href="{{ route('blog.show', $r->slug) }}">
-                                        {{ $r->title() }}
+                                        {{ $r->title }}
                                     </a>
                                 </h3>
 
                                 <p class="blog-card-excerpt reveal delay-2">
-                                    {{ Str::words(strip_tags($r->content()), 20) }}
+                                    {{ \Illuminate\Support\Str::words(strip_tags($r->content), 20) }}
                                 </p>
                             </div>
 
@@ -158,6 +153,4 @@
     @endif
 
 </main>
-
 @endsection
-

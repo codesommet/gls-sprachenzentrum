@@ -235,5 +235,20 @@
         </tr>
     </table>
 
+    <!-- QR CODE (BOTTOM RIGHT) -->
+    @if(!empty($qrCodeBase64))
+        <div style="position: fixed; right: 35px; bottom: 35px; text-align:center;">
+            <img
+                src="data:image/png;base64,{{ $qrCodeBase64 }}"
+                alt="QR Code"
+                style="width:110px; height:110px;"
+            >
+            <div style="font-size: 9px; margin-top: 6px;">
+                Scan to download
+            </div>
+        </div>
+    @endif
+
 </body>
+
 </html>

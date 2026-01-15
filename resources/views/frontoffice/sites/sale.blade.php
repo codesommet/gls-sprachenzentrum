@@ -157,6 +157,9 @@
                 'afternoon' => __('sites/sale.groups.afternoon'),
                 'evening'   => __('sites/sale.groups.evening'),
             ];
+
+            // Champ du nom du groupe à afficher (change si besoin: name / name_fr / name_en / name_ar / name_de)
+            $groupNameField = 'name_fr';
         @endphp
 
         @foreach ($periods as $key => $label)
@@ -185,9 +188,9 @@
 
                                 @forelse ($collection->where('status', 'active') as $group)
                                     <p class="reveal delay-1">
-                                        {{ $group->teacher->name }} -
-                                        {{ strtoupper($group->level) }} -
-                                        {{ $group->time_range }}
+                                        {{ data_get($group, $groupNameField) ?? $group->name }}
+                                        - {{ strtoupper($group->level) }}
+                                        - {{ $group->time_range }}
                                     </p>
                                 @empty
                                     <p class="reveal delay-1">Aucun groupe actif</p>
@@ -200,9 +203,9 @@
 
                                 @forelse ($collection->where('status', 'upcoming') as $group)
                                     <p class="reveal delay-1">
-                                        {{ $group->teacher->name }} -
-                                        {{ strtoupper($group->level) }} -
-                                        {{ $group->time_range }}
+                                        {{ data_get($group, $groupNameField) ?? $group->name }}
+                                        - {{ strtoupper($group->level) }}
+                                        - {{ $group->time_range }}
                                     </p>
                                 @empty
                                     <p class="reveal delay-1">Pas de nouveaux groupes prévus</p>
@@ -220,9 +223,6 @@
 
     </div>
 </section>
-
-
-
 {{-- ===========================
      9ONSOL – SALÉ EPISODE
 =========================== --}}
@@ -258,9 +258,11 @@
 <!-- ===========================
      CTA – SALÉ
 =========================== -->
+@include('frontoffice.templates.consultation-form')
+
 <section class="inline-cta-section section reveal delay-1">
     <div class="inline-cta-block reveal delay-2">
-        
+
         <h2 class="heading-cta fade-blur-title reveal delay-3">
             {!! __('sites/sale.cta.title') !!}
         </h2>
@@ -269,12 +271,16 @@
             {!! __('sites/sale.cta.text') !!}
         </p>
 
-        <a href="{{ route('front.contact') }}" class="cta-btn reveal delay-2">
+        <button type="button"
+                class="cta-btn reveal delay-2"
+                data-bs-toggle="modal"
+                data-bs-target="#consultationModal">
             {{ __('sites/sale.cta.button') }}
-        </a>
+        </button>
 
     </div>
 </section>
+
 
 
 <!-- ===========================

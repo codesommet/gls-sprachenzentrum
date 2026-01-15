@@ -158,6 +158,22 @@
         </div>
     </section>
 
+    @include('frontoffice.sites.partials.groups-schedule', [
+        'title' => __('sites/online.groups.title'),
+        'groups' => $groups ?? collect(),
+        'groupNameField' => 'name_fr',
+        'labels' => [
+            'morning' => __('sites/online.groups.morning'),
+            'midday' => __('sites/online.groups.midday'),
+            'afternoon' => __('sites/online.groups.afternoon'),
+            'evening' => __('sites/online.groups.evening'),
+            'active' => __('sites/online.groups.active'),
+            'upcoming' => __('sites/online.groups.upcoming'),
+            'empty_active' => 'Aucun groupe actif',
+            'empty_upcoming' => 'Pas de nouveaux groupes prévus',
+        ],
+    ])
+
     <section class="gls-online-info section reveal delay-1">
 
         <div class="gls-online-info-container container reveal delay-2">
@@ -249,13 +265,10 @@
                 <h2 class="reveal fade-blur-title delay-1">{{ __('online.podcast.title') }}</h2>
                 <h3 class="reveal fade-blur-title delay-2">{{ __('online.podcast.subtitle') }}</h3>
 
-               <iframe width="760" height="415"
-        src="{!! __('online.podcast.video_url') !!}"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen
-        class="gls-podcast-video">
-</iframe>
+                <iframe width="760" height="415" src="{!! __('online.podcast.video_url') !!}" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen class="gls-podcast-video">
+                </iframe>
 
 
 
@@ -286,5 +299,34 @@
         </div>
     </section>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
 
+            const dropdowns = document.querySelectorAll(".schedule-dropdown");
+
+            dropdowns.forEach(drop => {
+                const trigger = drop.querySelector(".schedule-dropdown_trigger");
+                const content = drop.querySelector(".schedule-dropdown_content");
+
+                trigger.addEventListener("click", () => {
+
+                    const isOpen = drop.classList.contains("open");
+
+                    dropdowns.forEach(d => {
+                        d.classList.remove("open");
+                        const c = d.querySelector(".schedule-dropdown_content");
+                        c.style.height = 0;
+                        c.style.opacity = 0;
+                    });
+
+                    if (!isOpen) {
+                        drop.classList.add("open");
+                        content.style.height = content.scrollHeight + "px";
+                        content.style.opacity = 1;
+                    }
+                });
+            });
+
+        });
+    </script>
 @endsection

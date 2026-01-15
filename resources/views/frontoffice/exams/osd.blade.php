@@ -7,8 +7,8 @@
 @section('content')
 
     <!-- ============================
-         HERO
-    ============================= -->
+             HERO
+        ============================= -->
     <section class="hero-section section about-hero reveal delay-1">
         <div class="container is-hero reveal delay-2">
             <div class="hero_subtitle reveal delay-1">{{ __('osd.hero.subtitle') }}</div>
@@ -25,8 +25,8 @@
     </section>
 
     <!-- ============================
-         INTRO
-    ============================= -->
+             INTRO
+        ============================= -->
     <div class="rich-text-section section reveal delay-1">
         <div class="container reveal delay-2">
             <div class="rich-text w-richtext reveal delay-3">
@@ -39,8 +39,8 @@
     </div>
 
     <!-- ============================
-         4 STEPS
-    ============================= -->
+             4 STEPS
+        ============================= -->
     <section class="gls-more-info section reveal delay-1">
         <div class="container gls-more-info-container reveal delay-2">
 
@@ -91,8 +91,8 @@
     </section>
 
     <!-- ============================
-         LEVEL DETAILS
-    ============================= -->
+             LEVEL DETAILS
+        ============================= -->
     <div class="rich-text-section section reveal delay-1">
         <div class="container reveal delay-2">
             <div class="rich-text w-richtext reveal delay-3">
@@ -126,8 +126,8 @@
     </div>
 
     <!-- ============================
-         EXAM CARDS
-    ============================= -->
+             EXAM CARDS
+        ============================= -->
     <div class="courses-section section reveal delay-1">
         <div class="container is-h-courses reveal delay-2">
 
@@ -162,8 +162,8 @@
     </div>
 
     <!-- ============================
-         CONTACT SECTION
-    ============================= -->
+             CONTACT SECTION
+        ============================= -->
     <section class="contact-section section reveal delay-1">
         <div class="container is-2-col-grid reveal delay-2">
 
@@ -190,12 +190,7 @@
 
                 <div class="text-block-3 visit-block reveal delay-3">
                     <span class="text-span">{{ __('osd.contact.visit') }}<br></span>
-                    14 Bd de Paris, 1er étage N°8, Casablanca 20000<br>
-                    Avenue Yacoub El Mansour, 3ème étage Bureau 28, Marrakech<br>
-                    Avenue Fal Ould Oumeir, 1er étage N°1, Agdal, Rabat<br>
-                    Avenue Mohammed V, 7ème étage, Kénitra<br>
-                    Avenue Mohamed V Rue Halima N°12 Diyar, Salé<br>
-                    Av. Massoude Al Wafkaoui, Hay Essalam, Agadir
+                    {!! __('osd.contact.addresses') !!}
                 </div>
 
                 <div class="footer-socials-block reveal delay-1">
@@ -211,13 +206,13 @@
 
             <!-- RIGHT MAP -->
             <a href="https://maps.app.goo.gl/g4PjrPB7wHQAqrSZA" target="_blank" class="div-block-7 reveal delay-2">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3331.744621379457!2d-6.836039!3d33.978558!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda76b6d63b66b1d%3A0x3c6ee0a64f273aa2!2sAgdal%2C%20Rabat!5e0!3m2!1sen!2sma!4v1700000000000"
-                    loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade">
+                <iframe src="{{ __('osd.contact.map_url') }}" loading="lazy" allowfullscreen
+                    referrerpolicy="no-referrer-when-downgrade">
                 </iframe>
             </a>
 
         </div>
     </section>
+
 
 @endsection

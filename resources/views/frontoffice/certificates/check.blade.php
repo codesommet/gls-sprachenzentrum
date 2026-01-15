@@ -64,15 +64,20 @@
         </div>
 
         {{-- DÉTAILS DU CERTIFICAT SI TROUVÉ --}}
-        @php
-            $cert = session('certificate_success');
-        @endphp
+@php
+    $cert = session('certificate_success');
+    $publicToken = is_array($cert) ? ($cert['public_token'] ?? null) : null;
+@endphp
 
-        @if ($cert)
-            <div class="row justify-content-center mt-4">
-                <div class="col-md-8">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
+@if ($cert)
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-10">
+            <div class="card shadow-sm">
+                <div class="card-body">
+
+                    <div class="row align-items-center">
+                        {{-- LEFT : CERTIFICATE INFO --}}
+                        <div class="col-md-8">
                             <h4 class="mb-3">Certificat GLS</h4>
 
                             <p><strong>Nom :</strong> {{ $cert['first_name'] }} {{ $cert['last_name'] }}</p>
@@ -89,15 +94,45 @@
 
                             <p><strong>Numéro du certificat :</strong> {{ $cert['certificate_number'] }}</p>
 
-                            <a href="{{ route('backoffice.certificates.pdf', $cert['id']) }}" target="_blank"
-                                class="btn btn-outline-primary mt-3">
-                                Télécharger le certificat (PDF)
-                            </a>
+                            @if($publicToken)
+                                <a href="{{ route('certificates.public.download', ['token' => $publicToken]) }}"
+                                   target="_blank"
+                                   class="btn btn-dark mt-3">
+                                    Télécharger le certificat (PDF)
+                                </a>
+                            @else
+                                <div class="alert alert-warning mt-3 mb-0">
+                                    Lien public indisponible : token manquant.
+                                </div>
+                            @endif
+                        </div>
+
+                        {{-- RIGHT : QR CODE --}}
+                        <div class="col-md-4 text-center">
+                            <div class="border rounded p-3">
+                                @if($publicToken)
+                                    <img
+                                        src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data={{ urlencode(route('certificates.public.download', ['token' => $publicToken])) }}"
+                                        alt="QR Code Certificat"
+                                        class="img-fluid"
+                                    >
+                                    <div class="text-muted mt-2" style="font-size: 13px;">
+                                        Scanner pour télécharger<br>le certificat
+                                    </div>
+                                @else
+                                    <div class="text-muted" style="font-size: 13px;">
+                                        QR code indisponible
+                                    </div>
+                                @endif
+                            </div>
                         </div>
                     </div>
+
                 </div>
             </div>
-        @endif
+        </div>
+    </div>
+@endif
 
 
     </div>

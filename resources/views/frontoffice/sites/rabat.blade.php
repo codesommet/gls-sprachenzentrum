@@ -159,6 +159,9 @@
                 'afternoon' => __('sites/rabat.groups.afternoon'),
                 'evening'   => __('sites/rabat.groups.evening'),
             ];
+
+            // Champ du nom du groupe à afficher
+            $groupNameField = 'name_fr';
         @endphp
 
         @foreach ($periods as $key => $label)
@@ -181,28 +184,30 @@
 
                         <div class="price-table-rich-text reveal delay-1">
 
+                            <!-- ACTIVE -->
                             <div class="table-rich-text reveal delay-2">
                                 <p><strong>{{ __('sites/rabat.groups.active') }}</strong></p>
 
                                 @forelse ($collection->where('status', 'active') as $group)
                                     <p class="reveal delay-1">
-                                        {{ $group->teacher->name }} –
-                                        {{ strtoupper($group->level) }} –
-                                        {{ $group->time_range }}
+                                        {{ data_get($group, $groupNameField) ?? $group->name }}
+                                        – {{ strtoupper($group->level) }}
+                                        – {{ $group->time_range }}
                                     </p>
                                 @empty
                                     <p class="reveal delay-1">Aucun groupe actif</p>
                                 @endforelse
                             </div>
 
+                            <!-- UPCOMING -->
                             <div class="table-rich-text reveal delay-3">
                                 <p><strong>{{ __('sites/rabat.groups.upcoming') }}</strong></p>
 
                                 @forelse ($collection->where('status', 'upcoming') as $group)
                                     <p class="reveal delay-1">
-                                        {{ $group->teacher->name }} –
-                                        {{ strtoupper($group->level) }} –
-                                        {{ $group->time_range }}
+                                        {{ data_get($group, $groupNameField) ?? $group->name }}
+                                        – {{ strtoupper($group->level) }}
+                                        – {{ $group->time_range }}
                                     </p>
                                 @empty
                                     <p class="reveal delay-1">Pas de nouveaux groupes prévus</p>
@@ -220,8 +225,6 @@
 
     </div>
 </section>
-
-
 
 <!-- ===========================
      9ONSOL — RABAT EPISODE
@@ -259,6 +262,8 @@
 <!-- ===========================
      CTA – RABAT
 =========================== -->
+@include('frontoffice.templates.consultation-form')
+
 <section class="inline-cta-section section reveal delay-1">
     <div class="inline-cta-block reveal delay-2">
 
@@ -270,12 +275,16 @@
             {!! __('sites/rabat.cta.text') !!}
         </p>
 
-        <a href="{{ route('front.contact') }}" class="cta-btn reveal delay-2">
+        <button type="button"
+                class="cta-btn reveal delay-2"
+                data-bs-toggle="modal"
+                data-bs-target="#consultationModal">
             {{ __('sites/rabat.cta.button') }}
-        </a>
+        </button>
 
     </div>
 </section>
+
 
 
 <!-- ===========================
