@@ -10,6 +10,7 @@ use App\Models\Site;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
+use App\Models\GroupApplication;
 
 class GroupController extends Controller
 {
@@ -43,9 +44,7 @@ class GroupController extends Controller
     {
         Group::create($request->validated());
 
-        return redirect()
-            ->route('backoffice.groups.index')
-            ->with('success', 'Le groupe a été créé avec succès.');
+        return redirect()->route('backoffice.groups.index')->with('success', 'Le groupe a été créé avec succès.');
     }
 
     /**
@@ -79,9 +78,7 @@ class GroupController extends Controller
         $group = Group::findOrFail($id);
         $group->update($request->validated());
 
-        return redirect()
-            ->route('backoffice.groups.index')
-            ->with('success', 'Le groupe a été mis à jour avec succès.');
+        return redirect()->route('backoffice.groups.index')->with('success', 'Le groupe a été mis à jour avec succès.');
     }
 
     /**
@@ -92,9 +89,7 @@ class GroupController extends Controller
         $group = Group::findOrFail($id);
         $group->delete();
 
-        return redirect()
-            ->route('backoffice.groups.index')
-            ->with('success', 'Le groupe a été supprimé avec succès.');
+        return redirect()->route('backoffice.groups.index')->with('success', 'Le groupe a été supprimé avec succès.');
     }
 
     /**
@@ -105,23 +100,14 @@ class GroupController extends Controller
     {
         // 1) If you already have a relationship on Group like: applications()
         if (method_exists($group, 'applications')) {
-            $applications = $group->applications()
-                ->latest()
-                ->paginate(20);
+            $applications = $group->applications()->latest()->paginate(20);
 
             return view('backoffice.groups.applications', compact('group', 'applications'));
         }
 
         // 2) Fallback: try to detect common tables for applications
         //    (so your page works even before you create the relationship)
-        $candidateTables = [
-            'group_applications',
-            'applications',
-            'group_registrations',
-            'registrations',
-            'inscriptions',
-            'applies',
-        ];
+        $candidateTables = ['group_applications', 'applications', 'group_registrations', 'registrations', 'inscriptions', 'applies'];
 
         $foundTable = null;
         foreach ($candidateTables as $table) {
@@ -134,18 +120,13 @@ class GroupController extends Controller
         if (!$foundTable) {
             // No table found -> show empty list
             $applications = collect();
-            return view('backoffice.groups.applications', compact('group', 'applications'))
-                ->with('warning', "Aucune table d'inscriptions trouvée. Crée une table (ex: group_applications) avec group_id.");
+            return view('backoffice.groups.applications', compact('group', 'applications'))->with('warning', "Aucune table d'inscriptions trouvée. Crée une table (ex: group_applications) avec group_id.");
         }
 
         // Minimal query on detected table
-        $applications = \DB::table($foundTable)
-            ->where('group_id', $group->id)
-            ->orderByDesc('id')
-            ->paginate(20);
+        $applications = \DB::table($foundTable)->where('group_id', $group->id)->orderByDesc('id')->paginate(20);
 
-        return view('backoffice.groups.applications', compact('group', 'applications'))
-            ->with('info', "Source: table `$foundTable` (fallback).");
+        return view('backoffice.groups.applications', compact('group', 'applications'))->with('info', "Source: table `$foundTable` (fallback).");
     }
 
     /**
@@ -174,5 +155,24 @@ class GroupController extends Controller
         }
 
         return response()->json($days);
+    }
+
+    public function approve(Group $group, GroupApplication $application)
+    {
+        // security: ensure application belongs to group
+        abort_unless($application->group_id == $group->id, 404);
+
+        $application->update(['status' => 'approved']);
+
+        return back()->with('success', 'Inscription approuvée.');
+    }
+
+    public function reject(Group $group, GroupApplication $application)
+    {
+        abort_unless($application->group_id == $group->id, 404);
+
+        $application->update(['status' => 'rejected']);
+
+        return back()->with('success', 'Inscription refusée.');
     }
 }

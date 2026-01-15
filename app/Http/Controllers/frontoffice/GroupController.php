@@ -25,10 +25,24 @@ class GroupController extends Controller
             ->get()
             ->groupBy('period_label');
 
+        $applyGroups = Group::query()
+            ->where('site_id', $site->id)
+            ->where('status', 'active')
+            ->orderBy('level')
+            ->orderBy('period_label')
+            ->get();
+
+        $selectedGroupId = request()->query('group');
+
         if (!view()->exists("frontoffice.sites.$view")) {
             abort(404);
         }
 
-        return view("frontoffice.sites.$view", compact('site', 'groups'));
+        return view("frontoffice.sites.$view", compact(
+            'site',
+            'groups',
+            'applyGroups',
+            'selectedGroupId'
+        ));
     }
 }

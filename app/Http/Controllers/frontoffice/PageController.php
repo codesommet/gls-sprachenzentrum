@@ -44,12 +44,7 @@ class PageController extends Controller
             ]);
         }
 
-        $groups = Group::where('site_id', $site->id)
-            ->whereDate('date_fin', '>=', now())
-            ->orderBy('status')
-            ->orderBy('level')
-            ->get()
-            ->groupBy('period_label');
+        $groups = Group::where('site_id', $site->id)->whereDate('date_fin', '>=', now())->orderBy('status')->orderBy('level')->get()->groupBy('period_label');
 
         return view('frontoffice.online-courses', [
             'groups' => $groups,
@@ -91,9 +86,7 @@ class PageController extends Controller
         $certificate = Certificate::where('certificate_number', $request->certificate_number)->first();
 
         if (!$certificate) {
-            return redirect()
-                ->route('front.certificate.check')
-                ->with('certificate_error', 'Aucun certificat trouvé pour ce numéro.');
+            return redirect()->route('front.certificate.check')->with('certificate_error', 'Aucun certificat trouvé pour ce numéro.');
         }
 
         return redirect()
@@ -139,9 +132,30 @@ class PageController extends Controller
             'message' => 'required|string|min:5',
         ]);
 
-        Mail::to('rochdi.karouali1234@gmail.com')
-            ->send(new ContactMessageMail($request->all()));
+        Mail::to('rochdi.karouali1234@gmail.com')->send(new ContactMessageMail($request->all()));
 
         return back()->with('success', 'Votre message a bien été envoyé.');
+    }
+    public function goetheExams()
+    {
+        return view('frontoffice.exams.goethe');
+    }
+    public function terms()
+    {
+        return view('frontoffice.legal.terms');
+    }
+
+    public function privacy()
+    {
+        return view('frontoffice.legal.privacy');
+    }
+    public function fcMarokko()
+    {
+        return view('frontoffice.partners.fc-marokko');
+    }
+
+    public function discoverYourLevel()
+    {
+        return view('frontoffice.discover-your-level');
     }
 }
