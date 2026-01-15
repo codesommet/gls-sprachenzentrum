@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>GLS Sprachenzentrum – Learning Center Morocco</title>
-<meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Favicons -->
     <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('assets/images/favicon/favicon-96x96.png') }}">
@@ -16,7 +16,7 @@
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Custom Styles -->
     <link rel="stylesheet" href="{{ asset('assets/css/frontoffice/style.css') }}">
@@ -88,6 +88,39 @@
             </iframe>
         </div>
     </div>
+
+    <button id="backToTop" aria-label="Back to top">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+            <path d="M6 14l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+        </svg>
+    </button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const btn = document.getElementById('backToTop');
+            if (!btn) return;
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    btn.classList.add('show');
+                } else {
+                    btn.classList.remove('show');
+                }
+            });
+
+            btn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+@include('frontoffice.templates.group-apply-modals', [
+    'applyGroups' => $applyGroups ?? collect()
+])
+@include('frontoffice.legal.cookies')
 
 </body>
 
