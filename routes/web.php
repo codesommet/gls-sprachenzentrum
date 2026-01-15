@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use App\Http\Controllers\Api\GroupApiController;
+use App\Http\Controllers\CertificatePublicController;
 
 /**
  * =============================
@@ -62,3 +63,6 @@ Route::prefix('api')->group(function () {
         return \App\Models\Site::select('id','name','city')->get();
     });
 });
+
+Route::get('/certificates/download/{token}', [CertificatePublicController::class, 'download'])
+    ->name('certificates.public.download');

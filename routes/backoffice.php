@@ -16,6 +16,9 @@ use App\Http\Controllers\Backoffice\TeacherController;
 use App\Http\Controllers\Backoffice\GroupController;
 use App\Http\Controllers\Backoffice\CertificateController;
 
+/* ✅ NEW */
+use App\Http\Controllers\Frontoffice\GroupApplicationController as GroupApplicationController;
+
 /*
 |--------------------------------------------------------------------------
 | BACKOFFICE ROUTES
@@ -29,7 +32,8 @@ use App\Http\Controllers\Backoffice\CertificateController;
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 /* Optional dynamic pages (avoid profile conflict) */
-Route::get('/dashboard/{routeName}/{name?}', [DashboardController::class, 'pageView'])->where('routeName', '^(?!profile).*$');
+Route::get('/dashboard/{routeName}/{name?}', [DashboardController::class, 'pageView'])
+    ->where('routeName', '^(?!profile).*$');
 
 /*
 |--------------------------------------------------------------------------
@@ -39,10 +43,11 @@ Route::get('/dashboard/{routeName}/{name?}', [DashboardController::class, 'pageV
 Route::prefix('backoffice')
     ->name('backoffice.')
     ->group(function () {
+
         /*
-        |--------------------------------------------------------------------------
+        |----------------------------------------------------------------------
         | BLOG → Catégories
-        |--------------------------------------------------------------------------
+        |----------------------------------------------------------------------
         */
         Route::prefix('blog/categories')
             ->name('blog.categories.')
@@ -56,9 +61,9 @@ Route::prefix('backoffice')
             });
 
         /*
-        |--------------------------------------------------------------------------
+        |----------------------------------------------------------------------
         | BLOG → Articles
-        |--------------------------------------------------------------------------
+        |----------------------------------------------------------------------
         */
         Route::prefix('blog/posts')
             ->name('blog.posts.')
@@ -72,9 +77,9 @@ Route::prefix('backoffice')
             });
 
         /*
-        |--------------------------------------------------------------------------
+        |----------------------------------------------------------------------
         | SITES GLS
-        |--------------------------------------------------------------------------
+        |----------------------------------------------------------------------
         */
         Route::prefix('sites')
             ->name('sites.')
@@ -88,9 +93,9 @@ Route::prefix('backoffice')
             });
 
         /*
-        |--------------------------------------------------------------------------
+        |----------------------------------------------------------------------
         | ENSEIGNANTS
-        |--------------------------------------------------------------------------
+        |----------------------------------------------------------------------
         */
         Route::prefix('teachers')
             ->name('teachers.')
@@ -104,9 +109,9 @@ Route::prefix('backoffice')
             });
 
         /*
-        |--------------------------------------------------------------------------
+        |----------------------------------------------------------------------
         | GROUPES
-        |--------------------------------------------------------------------------
+        |----------------------------------------------------------------------
         */
         Route::prefix('groups')
             ->name('groups.')
@@ -117,12 +122,22 @@ Route::prefix('backoffice')
                 Route::get('/{group}/edit', [GroupController::class, 'edit'])->name('edit');
                 Route::put('/{group}', [GroupController::class, 'update'])->name('update');
                 Route::delete('/{group}', [GroupController::class, 'destroy'])->name('destroy');
+
+                // ✅ List applications
+                Route::get('/{group}/applications', [GroupController::class, 'applications'])->name('applications');
+
+                // ✅ Approve / Disapprove
+                Route::patch('/{group}/applications/{application}/approve', [GroupApplicationController::class, 'approve'])
+                    ->name('applications.approve');
+
+                Route::patch('/{group}/applications/{application}/reject', [GroupApplicationController::class, 'reject'])
+                    ->name('applications.reject');
             });
 
         /*
-        |--------------------------------------------------------------------------
+        |----------------------------------------------------------------------
         | CERTIFICATS
-        |--------------------------------------------------------------------------
+        |----------------------------------------------------------------------
         */
         Route::prefix('certificates')
             ->name('certificates.')
@@ -140,23 +155,18 @@ Route::prefix('backoffice')
             });
 
         /*
-|--------------------------------------------------------------------------
-| STUDIENKOLLEGS
-|--------------------------------------------------------------------------
-*/
+        |----------------------------------------------------------------------
+        | STUDIENKOLLEGS
+        |----------------------------------------------------------------------
+        */
         Route::prefix('studienkollegs')
             ->name('studienkollegs.')
             ->group(function () {
                 Route::get('/', [\App\Http\Controllers\Backoffice\StudienkollegController::class, 'index'])->name('index');
-
                 Route::get('/create', [\App\Http\Controllers\Backoffice\StudienkollegController::class, 'create'])->name('create');
-
                 Route::post('/', [\App\Http\Controllers\Backoffice\StudienkollegController::class, 'store'])->name('store');
-
                 Route::get('/{studienkolleg}/edit', [\App\Http\Controllers\Backoffice\StudienkollegController::class, 'edit'])->name('edit');
-
                 Route::put('/{studienkolleg}', [\App\Http\Controllers\Backoffice\StudienkollegController::class, 'update'])->name('update');
-
                 Route::delete('/{studienkolleg}', [\App\Http\Controllers\Backoffice\StudienkollegController::class, 'destroy'])->name('destroy');
             });
     });
@@ -167,12 +177,7 @@ Route::prefix('backoffice')
 |--------------------------------------------------------------------------
 */
 Route::prefix('dashboard')->group(function () {
-    // Profile page
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-
-    // Update info
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-
-    // Update password
     Route::post('/profile/update-password', [ProfileController::class, 'updatePassword'])->name('profile.updatePassword');
 });
