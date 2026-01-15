@@ -7,9 +7,7 @@ display: flex;
 
 /* SECTION BACKGROUND GRADIENT */
 .intensive-course-gls.section {
-background-image:
-linear-gradient(to bottom, rgba(0,0,0,0.20), rgba(0,0,0,0.20)),
-linear-gradient(225deg, #003b82 0%, #006eff 40%, #00d98a 100%);
+background-color: #211e1d;
 
 padding: 6rem 4rem;
 margin-top: -64px !important;

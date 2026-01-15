@@ -4,16 +4,8 @@
 .hero-section.section.about-hero {
   border-bottom-left-radius: 60px;
   border-bottom-right-radius: 60px;
-      background-image:
-  linear-gradient(to bottom, rgba(0,0,0,0.20), rgba(0,0,0,0.20)),
-  linear-gradient(
-      225deg,
-      #003b82 0%,
-      #006eff 40%,
-      #00d98a 100%
-  );
-
-
+  background-color: #211e1d;
+  
   margin-top: -40px; 
   padding-top: 120px; 
   margin-bottom: 280px;

@@ -6,9 +6,7 @@
     z-index: 2;
     border-bottom-left-radius: var(--radius-big);
     border-bottom-right-radius: var(--radius-big);
-    background-image:
-    linear-gradient(to bottom, #00000010, #00000010),
-    linear-gradient(135deg, #003b8e 0%, #00a06e 100%);
+    background-color: #211e1d;
 
     margin-bottom: 0;
     margin-top: -64px;

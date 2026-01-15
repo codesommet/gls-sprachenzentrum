@@ -7,9 +7,7 @@ body{
 .hero-section.section.about-hero {
   border-bottom-left-radius: 60px;
   border-bottom-right-radius: 60px;
-background-image:
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.20)),
-    linear-gradient(225deg, #00a06e 0%, #00d98a 28%, #1fb6ff 65%, #0752c5 100%);
+ background-color: #211e1d;
 
   margin-top: -40px; 
   padding-top: 120px; 

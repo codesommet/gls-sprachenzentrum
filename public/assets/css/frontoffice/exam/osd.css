@@ -4,9 +4,7 @@
 .hero-section.section.about-hero {
   border-bottom-left-radius: 60px;
   border-bottom-right-radius: 60px Im !important;
-      background-image:
-  linear-gradient(to bottom, #0000001a, #0000001a),
-  linear-gradient(225deg, #004aad 0%, #0174df 50%, #00d98a 100%);
+  background-color: #211e1d;
 
   margin-top: -40px; 
   padding-top: 120px; 

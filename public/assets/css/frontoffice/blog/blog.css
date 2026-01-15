@@ -499,3 +499,33 @@ padding: 0 !important;
     padding: 4rem 2rem;
   }
 }
+.blog-featured-section .col-lg-8 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+/* Featured card — same border on all sides, all devices */
+.blog-card.blog-card--featured {
+  background-color: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 24px;
+  overflow: hidden; /* keeps clean rounded corners */
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
+}
+
+/* Image wrapper should not visually break the card border */
+.blog-card.blog-card--featured .blog-card-image-wrapper {
+  border-radius: 0;
+  overflow: hidden;
+}
+
+/* Keep category badge nicely inside */
+.blog-card.blog-card--featured .blog-card-category {
+  left: 1rem;
+  bottom: 1rem;
+}
+
+/* Optional: slightly tighter body padding consistency */
+.blog-card.blog-card--featured .blog-card-body {
+  padding: 1.5rem 1.6rem 1.4rem;
+}

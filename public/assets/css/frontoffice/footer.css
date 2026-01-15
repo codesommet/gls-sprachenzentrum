@@ -162,73 +162,73 @@ margin-bottom: 2.5rem;
 NEWSLETTER (Footer)
 ========================================================= */
 #newsletterForm {
-    align-items: center;
+align-items: center;
 }
 
 /* RTL: inverser l'ordre input/bouton */
 .site-footer.rtl #newsletterForm {
-    flex-direction: row-reverse;
+flex-direction: row-reverse;
 }
 
 #newsletterEmail.form-control {
-    max-width: 380px;          
-    width: 100%;
-    background: #181615;       /* match footer-bottom */
-    border: 1px solid #2a2725; /* même tone que footer columns border */
-    color: var(--color-surface);
-    border-radius: 12px;
-    padding: 12px 14px;
-    box-shadow: none;
+max-width: 380px;
+width: 100%;
+background: #181615; /* match footer-bottom */
+border: 1px solid #2a2725; /* même tone que footer columns border */
+color: var(--color-surface);
+border-radius: 12px;
+padding: 12px 14px;
+box-shadow: none;
 }
 
 /* Placeholder */
 #newsletterEmail.form-control::placeholder {
-    color: rgba(255, 255, 255, 0.55);
+color: rgba(255, 255, 255, 0.55);
 }
 
 /* Focus clean */
 #newsletterEmail.form-control:focus {
-    border-color: var(--color-surface);
-    box-shadow: 0 0 0 3px rgba(188, 150, 0, 0.15);
-    outline: none;
+border-color: var(--color-surface);
+box-shadow: 0 0 0 3px rgba(188, 150, 0, 0.15);
+outline: none;
 }
 
 /* Bouton "S'inscrire" style propre */
 #newsletterBtn.btn {
-    background: transparent;
-    border: 1px solid var(--color-surface);
-    color: var(--color-surface);
-    border-radius: 12px;
-    padding: 12px 16px;
-    font-weight: 700;
-    letter-spacing: 0.2px;
-    white-space: nowrap;
-    transition: background .2s ease, color .2s ease, transform .2s ease;
+background: transparent;
+border: 1px solid var(--color-surface);
+color: var(--color-surface);
+border-radius: 12px;
+padding: 12px 16px;
+font-weight: 700;
+letter-spacing: 0.2px;
+white-space: nowrap;
+transition: background .2s ease, color .2s ease, transform .2s ease;
 }
 
 #newsletterBtn.btn:disabled {
-    opacity: .65;
-    /* transform: none; */
+opacity: .65;
+/* transform: none; */
 }
 
 /* Message spacing */
 #newsletterMsg {
-    min-height: 18px;
+min-height: 18px;
 }
 
 /* Mobile: input full width */
 @media (max-width: 768px) {
-    #newsletterEmail.form-control {
-        max-width: 100%;
-    }
+#newsletterEmail.form-control {
+max-width: 100%;
+}
 
-    #newsletterForm {
-        flex-wrap: wrap;
-    }
+#newsletterForm {
+flex-wrap: wrap;
+}
 
-    #newsletterBtn.btn {
-        width: 100%;
-    }
+#newsletterBtn.btn {
+width: 100%;
+}
 }
 
 
@@ -236,53 +236,69 @@ NEWSLETTER (Footer)
 BACK TO TOP BUTTON
 ========================================================= */
 #backToTop {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background: var(--dark--off-black); /* bleu comme l'image */
-    color: #fff;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(10px);
-    transition: opacity .25s ease, transform .25s ease, visibility .25s;
-    z-index: 999;
+position: fixed;
+bottom: 24px;
+right: 24px;
+width: 52px;
+height: 52px;
+border-radius: 50%;
+background: var(--dark--off-black); /* bleu comme l'image */
+color: #fff;
+border: none;
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+opacity: 0;
+visibility: hidden;
+transform: translateY(10px);
+transition: opacity .25s ease, transform .25s ease, visibility .25s;
+z-index: 999;
 }
 
 /* RTL support */
 .site-footer.rtl #backToTop {
-    right: auto;
-    left: 24px;
+right: auto;
+left: 24px;
 }
 
 /* Visible */
 #backToTop.show {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+opacity: 1;
+visibility: visible;
+transform: translateY(0);
 }
 
 /* Hover */
 #backToTop:hover {
-    background: var(--dark--off-black);
-    transform: translateY(-2px);
+background: var(--dark--off-black);
+transform: translateY(-2px);
 }
 
 /* Focus accessibility */
 #backToTop:focus {
-    outline: none;
-    box-shadow: 0 0 0 4px rgba(255, 254, 232, 0.35);
+outline: none;
+box-shadow: 0 0 0 4px rgba(255, 254, 232, 0.35);
 
 }
 
 /* SVG smooth */
 #backToTop svg {
-    pointer-events: none;
+pointer-events: none;
+}
+.mb-0 {
+color: var(--dark--off-white);
+}
+@media (max-width: 767px) {
+  #newsletterBtn{
+    width: auto;              /* pas full width */
+    min-width: 160px;         /* taille minimale propre */
+    padding: 10px 18px;       /* bouton plus compact */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;          
+    font-size: 0.95rem;
+    border-radius: 14px;
+  }
 }

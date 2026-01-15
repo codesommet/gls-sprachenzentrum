@@ -162,12 +162,11 @@ GLS – INTENSIVE COURSES SECTION (A1–B2)
   align-items: flex-start;
   padding: 1.5rem;
   display: flex;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .course-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  
 }
 
 .course-card.is-green { background-color: var(--light--green); }
@@ -264,7 +263,6 @@ GLS LEVEL RESULT SECTION (WHITE)
 .gls-level-section.section {
   background-color: #ffffff !important;
   padding-top: 2rem;
-  padding-bottom: 6rem;
 }
 
 .container.is-gls-level {
@@ -549,7 +547,6 @@ GLS LEVEL RESULT SECTION (WHITE)
     flex-direction: column;
     justify-content: center;
     gap: 2rem;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
     width: 96%;
     margin: 0 auto;
   }
@@ -623,7 +620,6 @@ GLS LEVEL RESULT SECTION (WHITE)
     border: none;
     display: block;
     margin: 0 auto;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   }
   
   /* ===============================
@@ -724,5 +720,132 @@ MOBILE SPACING FIX (QUIZ PAGE)
   .gls-level-section .courses-cards {
     padding-left: 0.25rem;
     padding-right: 0.25rem;
+  }
+}
+
+/* =========================================================
+SPECIAL GERMAN COURSES (like screenshot – compact version)
+========================================================= */
+
+.special-courses-section.section {
+  padding-top: 4rem;
+  padding-bottom: 6rem;
+}
+
+.container.is-special-courses {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Title */
+.special-courses-title {
+  margin: 0 0 0.5rem 0;
+  font-size: clamp(2.1rem, 4.5vw, 4rem); /* ⬅️ reduced */
+  font-weight: 900;
+  line-height: 1.05;
+  color: var(--off-black);
+  letter-spacing: -0.02em;
+}
+
+.special-courses-subtitle {
+  margin: 0 0 1.75rem 0;
+  font-size: 1.2rem; /* ⬅️ reduced */
+  font-weight: 700;
+  color: var(--light--blue);
+}
+
+/* Grid layout */
+.special-courses-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(220px, 1fr));
+  gap: 2rem;
+  align-items: stretch;
+}
+
+/* Second row alignment */
+.special-courses-grid .special-course-card:nth-child(4) { grid-column: 1; }
+.special-courses-grid .special-course-card:nth-child(5) { grid-column: 2; }
+
+/* Card */
+.special-course-card {
+  border-radius: 22px;
+  padding: 1.6rem 1.8rem 1.5rem; /* ⬅️ smaller padding */
+  min-height: 210px;            /* ⬅️ reduced height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  color: var(--off-black);
+}
+
+.special-course-card:hover {
+  transform: translateY(-4px);
+}
+
+/* Card title */
+.special-course-card-title {
+  margin: 0 0 0.6rem 0;
+  font-size: 1.35rem; /* ⬅️ reduced */
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+/* Card text */
+.special-course-card-text {
+  margin: 0 0 1.1rem 0;
+  font-size: 0.95rem; /* ⬅️ reduced */
+  font-weight: 600;
+  line-height: 1.4;
+  max-width: 420px;
+}
+
+/* Button */
+.button.is-special-course-btn {
+  margin-top: auto;
+  background: #111;
+  color: #fff;
+  border-radius: 999px;
+  padding: 0.6rem 1.4rem; /* ⬅️ smaller pill */
+  font-weight: 800;
+  font-size: 0.85rem;     /* ⬅️ reduced */
+  text-decoration: none;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.button.is-special-course-btn:hover {
+  background: #000;
+  transform: translateY(-1px);
+}
+
+/* Colors */
+.special-course-card.is-blue   { background: #81caff; }
+.special-course-card.is-orange { background: #f3b44a; }
+.special-course-card.is-yellow { background: #f8f058; }
+.special-course-card.is-green  { background: #52d58d; }
+.special-course-card.is-gray   { background: #bdbdb2; }
+
+/* Responsive */
+@media screen and (max-width: 991px) {
+  .special-courses-grid {
+    grid-template-columns: repeat(2, minmax(240px, 1fr));
+  }
+
+  .special-courses-grid .special-course-card:nth-child(4),
+  .special-courses-grid .special-course-card:nth-child(5) {
+    grid-column: auto;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .special-courses-section.section {
+    padding-top: 3rem;
+    padding-bottom: 4rem;
+  }
+
+  .special-courses-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
   }
 }
