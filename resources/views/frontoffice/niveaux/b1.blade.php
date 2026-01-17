@@ -12,7 +12,7 @@
 
             <!-- LEFT IMAGE -->
             <div class="gls-hero-image reveal delay-1">
-                <img src="{{ asset('assets/images/niveaux/hero-b1.avif') }}" alt="{{ __('niveaux/b1.hero_alt') }}"
+                <img src="{{ asset('assets/images/about/grid1.webp') }}" alt="{{ __('niveaux/b1.hero_alt') }}"
                     class="reveal delay-2">
             </div>
 
