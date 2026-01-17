@@ -1,0 +1,21 @@
+# ===== LOCAL (VS CODE / PC) =====
+
+git status
+git add .
+git commit -m "update GLS"
+git push
+
+
+# ===== SERVER (HOSTINGER SSH) =====
+
+ssh u728601666@fr-int-web1652
+
+cd ~/domains/green-hornet-846200.hostingersite.com/laravel
+git pull
+
+composer install --no-dev --optimize-autoloader
+
+php artisan migrate --force
+
+php artisan optimize:clear
+php artisan optimize
