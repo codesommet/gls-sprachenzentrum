@@ -7,8 +7,8 @@
 @section('content')
 
     <!-- ============================
-             HERO
-        ============================= -->
+                 HERO
+            ============================= -->
     <section class="hero-section section is-no-image reveal delay-1">
         <div class="container is-hero reveal delay-2">
             <h1 class="hero_title fade-blur-title reveal delay-1">
@@ -21,8 +21,8 @@
     </section>
 
     <!-- ============================
-             TERMS CONTENT
-        ============================= -->
+                 TERMS CONTENT
+            ============================= -->
     <div class="rich-text-section section">
         <div class="container">
             <div class="legal-rich-text w-richtext">
@@ -109,16 +109,16 @@
     </div>
 
     <!-- =========================================================
-             CONTACT SECTION
-        ========================================================= -->
+                 CONTACT SECTION
+            ========================================================= -->
     <section class="contact-section section reveal delay-1">
         <div class="container is-2-col-grid reveal delay-2">
 
             <div class="div-block-5-copy reveal delay-3">
 
                 <h2 class="contact-section-subtitle reveal fade-blur-title delay-1">
-    {!! __('goethe.contact.title') !!}
-</h2>
+                    {!! __('goethe.contact.title') !!}
+                </h2>
 
 
                 <div class="div-block-21 reveal delay-2">
@@ -150,10 +150,27 @@
                     </div>
 
                     <div class="div-block-20 reveal delay-1">
-                        <a href="#" class="footer-social-link ig reveal delay-2"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="footer-social-link fb reveal delay-3"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="footer-social-link yt reveal delay-1"><i class="bi bi-youtube"></i></a>
-                        <a href="#" class="footer-social-link wa reveal delay-2"><i class="bi bi-whatsapp"></i></a>
+                        <a href="https://www.instagram.com/gls.sprachenzentrum/" class="footer-social-link ig"
+                            target="_blank" rel="noopener noreferrer" aria-label="GLS Sprachenzentrum sur Instagram">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+
+                        <a href="https://www.facebook.com/gls.sale/" class="footer-social-link fb" target="_blank"
+                            rel="noopener noreferrer" aria-label="GLS Sprachenzentrum sur Facebook">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+
+                        <a href="https://www.youtube.com/@9onsolsTalks" class="footer-social-link yt" target="_blank"
+                            rel="noopener noreferrer" aria-label="GLS Sprachenzentrum sur YouTube">
+                            <i class="bi bi-youtube"></i>
+                        </a>
+
+                        <a href="https://api.whatsapp.com/send/?phone=0669515019&text&type=phone_number&app_absent=0"
+                            class="footer-social-link wa" target="_blank" rel="noopener noreferrer"
+                            aria-label="Contacter GLS Sprachenzentrum sur WhatsApp">
+                            <i class="bi bi-whatsapp"></i>
+                        </a>
+
                     </div>
                 </div>
 

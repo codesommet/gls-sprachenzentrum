@@ -46,7 +46,8 @@
                 </p>
 
                 <!-- CTA BUTTON -->
-                <a href="#" class="button w-button reveal delay-3">
+                <a href="#" class="button w-button reveal delay-3" data-bs-toggle="modal"
+                    data-bs-target="#glsEnrollModal">
                     {{ __('niveaux/b2.btn_inscrire') }}
                 </a>
 
@@ -59,8 +60,8 @@
 
 
     <!-- ===========================================================
-             AVANTAGES B2
-        =========================================================== -->
+                     AVANTAGES B2
+                =========================================================== -->
     <div class="section is-off-white reveal delay-1">
         <div class="container is-2-col-grid is-flipped reveal delay-2">
 
@@ -81,7 +82,8 @@
 
                 </div>
 
-                <a href="#" class="button w-button reveal delay-3">
+                <a href="#" class="button w-button reveal delay-3" data-bs-toggle="modal"
+                    data-bs-target="#glsEnrollModal">
                     {{ __('niveaux/b2.btn_inscrire') }}
                 </a>
             </div>
@@ -98,8 +100,8 @@
 
 
     <!-- ===========================================================
-             INFO CARDS
-        =========================================================== -->
+                     INFO CARDS
+                =========================================================== -->
     <section class="gls-info-section gls-section reveal delay-1">
         <div class="gls-container reveal delay-2">
 
@@ -157,8 +159,8 @@
 
 
     <!-- ===========================================================
-             PATH SECTION
-        =========================================================== -->
+                     PATH SECTION
+                =========================================================== -->
     <section class="gls-path-section reveal delay-1">
 
         <div class="gls-path-container reveal delay-2">
@@ -222,8 +224,8 @@
 
 
     <!-- ===========================================================
-             RICH TEXT B2
-        =========================================================== -->
+                     RICH TEXT B2
+                =========================================================== -->
     <section class="gls-a1-rich-section reveal delay-1">
 
         <div class="gls-a1-rich-container reveal delay-2">
@@ -305,7 +307,8 @@
 
             <p class="cta-box-subtext reveal delay-1">{!! __('niveaux/b2.cta_text') !!}</p>
 
-            <a href="/online-registration" class="cta-btn reveal delay-2">
+            <a href="/online-registration" class="cta-btn reveal delay-2" data-bs-toggle="modal"
+                    data-bs-target="#consultationModal">
                 {{ __('niveaux/b2.cta_btn') }}
             </a>
 
@@ -314,8 +317,8 @@
 
 
     <!-- ===========================================================
-             DYNAMIC JS – TRANSLATION SAFE
-        =========================================================== -->
+                     DYNAMIC JS – TRANSLATION SAFE
+                =========================================================== -->
     <script>
         const data = {
             A1: {

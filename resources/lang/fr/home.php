@@ -84,83 +84,83 @@ return [
 
         'intensive' => [
             'title' => 'Cours intensifs d’allemand',
-            'subtitle' => 'Cours d’allemand A1 – B2',
-            'description' => 'Du lundi au vendredi — 2h30 par séance.',
+            'subtitle' => 'Cours d’allemand A1–B2',
+            'description' => 'Du lundi au vendredi — 2h30 par séance',
 
-            'levels' => [
-                [
+            'cards' => [
+                'a1' => [
                     'letter' => 'A',
                     'number' => '1',
-                    'title' => 'Apprendre<br>l’Allemand A1',
-                    'text' => 'Apprenez les bases de l’allemand. Parfait pour débuter !',
-                    'color' => '',
+                    'title' => 'Apprendre<br>l’allemand A1',
+                    'text' => 'Apprenez les bases de l’allemand.<br>Parfait pour débuter !',
+                    'button' => 'En savoir plus',
+                    'route' => 'front.online-courses',
                 ],
-                [
+                'a2' => [
                     'letter' => 'A',
                     'number' => '2',
-                    'title' => 'Apprendre<br>l’Allemand A2',
-                    'text' => 'Construisez une base solide en allemand.',
-                    'color' => 'is-green',
+                    'title' => 'Apprendre<br>l’allemand A2',
+                    'text' => 'Construisez une base solide en langue allemande.',
+                    'button' => 'En savoir plus',
+                    'route' => 'front.exams.gls',
                 ],
-                [
+                'b1' => [
                     'letter' => 'B',
                     'number' => '1',
-                    'title' => 'Apprendre<br>l’Allemand B1',
-                    'text' => 'Développez vos compétences en allemand.',
-                    'color' => 'is-purple',
+                    'title' => 'Apprendre<br>l’allemand B1',
+                    'text' => 'Développez vos compétences en langue allemande.',
+                    'button' => 'En savoir plus',
+                    'route' => 'front.exams.goethe',
                 ],
-                [
+                'b2' => [
                     'letter' => 'B',
                     'number' => '2',
-                    'title' => 'Apprendre<br>l’Allemand B2',
-                    'text' => 'Atteignez un niveau avancé en allemand.',
-                    'color' => 'is-yellow',
+                    'title' => 'Apprendre<br>l’allemand B2',
+                    'text' => 'Atteignez un niveau avancé en allemand avec notre programme B2.',
+                    'button' => 'En savoir plus',
+                    'route' => 'front.online-courses',
                 ],
             ],
         ],
 
         'online' => [
-            'title' => 'Cours en ligne & Examens',
-            'subtitle' => 'Préparation, flexibilité et certification.',
+            'title' => 'Cours en ligne & examens',
+            'subtitle' => 'Préparation, flexibilité et certification',
 
-            'items' => [
-                [
-                    'title' => 'Cours<br>En Ligne',
-                    'text' => 'Apprenez l’allemand depuis chez vous !',
+            'cards' => [
+                'online' => [
+                    'title' => 'Cours<br>en ligne',
+                    'text' => 'Apprenez l’allemand depuis le confort de votre domicile.',
                     'button' => 'En savoir plus',
-                    'color' => 'is-orange',
+                    'route' => 'front.online-courses',
                 ],
-                [
-                    'title' => 'Préparation<br>Examens GLS',
-                    'text' => 'Préparez-vous aux examens officiels GLS au Maroc.',
+                'gls' => [
+                    'title' => 'Préparation<br>examens GLS',
+                    'text' => 'Préparez-vous aux examens officiels de langue allemande GLS au Maroc.',
                     'button' => 'Voir les programmes',
-                    'color' => 'is-green',
+                    'route' => 'front.exams.gls',
                 ],
-                [
-                    'title' => 'Préparation<br>Examens Goethe',
-                    'text' => 'Obtenez la certification internationale Goethe.',
+                'goethe' => [
+                    'title' => 'Préparation<br>examens Goethe',
+                    'text' => 'Obtenez la certification Goethe reconnue à l’international.',
                     'button' => 'Voir les programmes',
-                    'color' => 'is-purple',
+                    'route' => 'front.exams.goethe',
                 ],
             ],
         ],
-
-        'buttons' => [
-            'learn_more' => 'En savoir plus',
-        ],
     ],
+
     'learn_more' => [
         'title' => 'Apprendre l’allemand<br>Avec<br>GLS Maroc',
 
         'description' => "Chez GLS Maroc, apprendre l’allemand est une expérience immersive et adaptée à chaque étudiant.
-        Nos petites classes et nos formateurs certifiés garantissent un accompagnement pédagogique de qualité,
-        du niveau débutant jusqu’au niveau avancé, avec un suivi personnalisé pour atteindre vos objectifs en Allemagne.",
+    Nos petites classes et nos formateurs certifiés garantissent un accompagnement pédagogique de qualité,
+    du niveau débutant jusqu’au niveau avancé, avec un suivi personnalisé pour atteindre vos objectifs en Allemagne.",
 
         'cards' => [
-            // Carte 1 — Informations des tarifs
             [
                 'title' => 'Informations<br>tarifs',
-                'link' => route('front.pricing'),
+                'route' => 'front.pricing',
                 'icon' => '
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                      stroke="var(--light--green)" stroke-width="2" viewBox="0 0 24 24">
@@ -170,10 +170,9 @@ return [
             ',
             ],
 
-            // Carte 2 — Nos groupes d'études
             [
                 'title' => 'Nos<br>groupes',
-                'link' => route('front.about'),
+                'action' => 'open-groups-site-modal',
                 'icon' => '
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                      stroke="var(--light--green)" stroke-width="2" viewBox="0 0 24 24">

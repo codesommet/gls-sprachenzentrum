@@ -61,11 +61,11 @@
                         </a>
                     </li>
 
-                    <li>
+                    {{-- <li>
                         <a href="{{ LaravelLocalization::localizeUrl(route('front.partners.fc_marokko')) }}">
                             {{ __('footer.partner_fc_marokko') }}
                         </a>
-                    </li>
+                    </li> --}}
 
                     <li>
                         <a href="{{ LaravelLocalization::localizeUrl(route('front.discover-your-level')) }}">
@@ -232,62 +232,21 @@
         </div>
     </div>
 
-    {{-- ===== Newsletter Script (AJAX) ===== --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('newsletterForm');
-            if (!form) return;
-
-            const msg = document.getElementById('newsletterMsg');
-            const btn = document.getElementById('newsletterBtn');
-            const emailInput = document.getElementById('newsletterEmail');
-
-            form.addEventListener('submit', async function(e) {
-                e.preventDefault();
-
-                msg.textContent = '';
-                msg.className = 'small mt-2';
-                btn.disabled = true;
-
-                try {
-                    const formData = new FormData(form);
-
-                    const res = await fetch(form.action, {
-                        method: 'POST',
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest',
-                            'X-CSRF-TOKEN': form.querySelector('input[name="_token"]').value,
-                            'Accept': 'application/json',
-                        },
-                        body: formData,
-                    });
-
-                    const data = await res.json();
-
-                    if (!res.ok) {
-                        const firstError = (data && data.errors && data.errors.email && data.errors
-                                .email[0]) ?
-                            data.errors.email[0] :
-                            (data && data.message ? data.message : 'Error');
-
-                        msg.textContent = firstError;
-                        msg.classList.add('text-danger');
-                        return;
-                    }
-
-                    msg.textContent = data.message || 'OK';
-                    msg.classList.add('text-success');
-
-                    if (data.status === 'subscribed') {
-                        emailInput.value = '';
-                    }
-                } catch (err) {
-                    msg.textContent = "{{ __('footer.newsletter.error') }}";
-                    msg.classList.add('text-danger');
-                } finally {
-                    btn.disabled = false;
-                }
-            });
-        });
+    <script src="{{ asset('assets/js/newsletter.js') }}"></script>
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {},
+            Tawk_LoadStart = new Date();
+        (function() {
+            var s1 = document.createElement("script"),
+                s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/69666fd7d7f0511983c59b92/1jes29osr';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
     </script>
+    <!--End of Tawk.to Script-->
+
 </footer>

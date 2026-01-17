@@ -15,19 +15,38 @@ return [
     'pricing' => 'Tarifs',
 
     'exams' => 'Examens',
-    'goethe_exams' => 'Examens GLS',
-    'osd_exams' => 'Examens ÖSD',
+    'exams_gls' => 'Examens GLS',
+    'exams_osd' => 'Examens ÖSD',
+    'exams_goethe' => 'Examens Goethe',
 
     'resources' => 'Ressources',
     'blog' => 'Blog',
     'student_stories' => 'Parcours étudiants',
+    'certificate_check' => 'Vérifier un certificat',
+    'studienkollegs' => 'Studienkollegs',
+    'discover_your_level' => 'Découvrir mon niveau',
+
+    'levels' => 'Niveaux',
+    'partner_fc_marokko' => 'Partenariat FC Marokko',
+
+    // Sites (slugs)
+    'sites' => [
+        'casablanca' => 'Casablanca',
+        'marrakech'  => 'Marrakech',
+        'rabat'      => 'Rabat',
+        'kenitra'    => 'Kénitra',
+        'sale'       => 'Salé',
+        'agadir'     => 'Agadir',
+        'online'     => 'En ligne',
+    ],
 
     'terms' => 'Conditions générales',
     'privacy' => 'Politique de confidentialité',
     'imprint' => 'Mentions légales',
     'cookies' => 'Cookies',
 
-    'copyright' => 'GLS ©️ 2025. Tous droits réservés.',
+    'copyright' => 'EQUIPE GLS ©️ 2026. Tous droits réservés.',
+
     'newsletter' => [
         'title' => 'Newsletter',
         'text' => 'Recevez nos nouveautés, offres et dates d’examens directement par email.',

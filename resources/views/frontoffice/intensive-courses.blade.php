@@ -8,8 +8,8 @@
 @section('content')
 
     <!-- =========================================================
-             HERO SECTION
-        ========================================================= -->
+                         HERO SECTION
+                    ========================================================= -->
     <section class="hero-section section intensive-hero reveal delay-1">
         <div class="container is-hero reveal delay-2">
 
@@ -22,7 +22,7 @@
             </h1>
 
             <div class="hero-image reveal delay-3">
-                <img src="{{ asset('assets/images/intensive-courses/hero.png') }}" alt="{{ __('intensive.hero.img_alt') }}"
+                <img src="{{ asset('assets/images/intensive-courses/hero-intensive.webp') }}" alt="{{ __('intensive.hero.img_alt') }}"
                     class="full-image reveal delay-1" loading="lazy">
             </div>
 
@@ -30,8 +30,8 @@
     </section>
 
     <!-- =========================================================
-             RICH TEXT SECTION
-        ========================================================= -->
+                         RICH TEXT SECTION
+                    ========================================================= -->
     <section class="rich-text-section section reveal delay-1">
         <div class="container reveal delay-2">
             <div class="rich-text w-richtext reveal delay-3">
@@ -43,8 +43,8 @@
     </section>
 
     <!-- =========================================================
-             COURSES GRID
-        ========================================================= -->
+                         COURSES GRID
+                    ========================================================= -->
     <section class="home-courses-section section reveal delay-1">
         <div class="container is-h-courses reveal delay-2">
 
@@ -128,8 +128,8 @@
     </section>
 
     <!-- =========================================================
-             QUESTIONS + CONSULTATION SECTION
-        ========================================================= -->
+                         QUESTIONS + CONSULTATION SECTION
+                    ========================================================= -->
     <section class="rich-text-section section reveal delay-1">
         <div class="container reveal delay-2">
             <div class="rich-text w-richtext reveal delay-3">
@@ -148,8 +148,8 @@
     </section>
 
     <!-- =========================================================
-             INLINE CTA
-        ========================================================= -->
+                         INLINE CTA
+                    ========================================================= -->
     <section class="inline-cta-section my-5 reveal delay-1">
         <div class="container reveal delay-2">
             <div class="inline-cta-block mx-auto reveal delay-3">
@@ -158,17 +158,18 @@
                     {{ __('intensive.cta.title') }}
                 </h2>
 
-                <a href="{{ route('front.contact') }}" class="button is-big is-white w-button reveal delay-2">
+                <button type="button" class="button is-big is-white w-button reveal delay-2" data-bs-toggle="modal"
+                    data-bs-target="#consultationModal">
                     {{ __('intensive.cta.button') }}
-                </a>
+                </button>
 
             </div>
         </div>
     </section>
 
     <!-- =========================================================
-             GET STARTED
-        ========================================================= -->
+                         GET STARTED
+                    ========================================================= -->
     <section class="get-started-section section reveal delay-1">
         <div class="container is-2-col-grid reveal delay-2">
 
@@ -187,7 +188,8 @@
                     <p class="reveal delay-1">{!! __('intensive.start.p3') !!}</p>
                 </div>
 
-                <a href="#" class="button w-button reveal delay-2">
+                <a href="{{ LaravelLocalization::localizeUrl(route('front.contact')) }}"
+                    class="button w-button reveal delay-2">
                     {{ __('intensive.start.button') }}
                 </a>
             </div>
@@ -196,8 +198,8 @@
     </section>
 
     <!-- =========================================================
-             CONTACT SECTION
-        ========================================================= -->
+                         CONTACT SECTION
+                    ========================================================= -->
     <section class="contact-section section reveal delay-1">
         <div class="container is-2-col-grid reveal delay-2">
 
@@ -237,11 +239,27 @@
                     </div>
 
                     <div class="div-block-20 reveal delay-1">
-                        <a href="#" class="footer-social-link ig reveal delay-2"><i
-                                class="bi bi-instagram"></i></a>
-                        <a href="#" class="footer-social-link fb reveal delay-3"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="footer-social-link yt reveal delay-1"><i class="bi bi-youtube"></i></a>
-                        <a href="#" class="footer-social-link wa reveal delay-2"><i class="bi bi-whatsapp"></i></a>
+                        <a href="https://www.instagram.com/gls.sprachenzentrum/" class="footer-social-link ig"
+                            target="_blank" rel="noopener noreferrer" aria-label="GLS Sprachenzentrum sur Instagram">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+
+                        <a href="https://www.facebook.com/gls.sale/" class="footer-social-link fb" target="_blank"
+                            rel="noopener noreferrer" aria-label="GLS Sprachenzentrum sur Facebook">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+
+                        <a href="https://www.youtube.com/@9onsolsTalks" class="footer-social-link yt" target="_blank"
+                            rel="noopener noreferrer" aria-label="GLS Sprachenzentrum sur YouTube">
+                            <i class="bi bi-youtube"></i>
+                        </a>
+
+                        <a href="https://api.whatsapp.com/send/?phone=0669515019&text&type=phone_number&app_absent=0"
+                            class="footer-social-link wa" target="_blank" rel="noopener noreferrer"
+                            aria-label="Contacter GLS Sprachenzentrum sur WhatsApp">
+                            <i class="bi bi-whatsapp"></i>
+                        </a>
+
                     </div>
                 </div>
 

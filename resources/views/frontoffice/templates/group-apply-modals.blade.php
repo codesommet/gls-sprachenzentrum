@@ -22,8 +22,8 @@
                         <div class="form-content">
 
                             <div class="form-header" id="applyGroupFormHeader">
-                                <h1 class="form-title">Apply – Groupe GLS</h1>
-                                <p class="form-subtitle">Votre demande sera envoyée avec le groupe sélectionné</p>
+                                <h1 class="form-title">{{ __('templates/group-apply-modals.header.title') }}</h1>
+                                <p class="form-subtitle">{{ __('templates/group-apply-modals.header.subtitle') }}</p>
                             </div>
 
                             {{-- ✅ ONE message box only (used for errors + duplicate) --}}
@@ -35,68 +35,83 @@
                                 <input type="hidden" name="group_id" id="applyGroupId" value="">
 
                                 <div class="form-group">
-                                    <label>Selected group</label>
-                                    <input type="text" id="applyGroupLabel" readonly placeholder="Auto rempli">
+                                    <label>{{ __('templates/group-apply-modals.fields.group.label') }}</label>
+                                    <input type="text" id="applyGroupLabel" readonly
+                                        placeholder="{{ __('templates/group-apply-modals.fields.group.placeholder') }}">
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Schedule</label>
-                                    <input type="text" id="applyGroupSchedule" readonly placeholder="Auto rempli">
+                                    <label>{{ __('templates/group-apply-modals.fields.schedule.label') }}</label>
+                                    <input type="text" id="applyGroupSchedule" readonly
+                                        placeholder="{{ __('templates/group-apply-modals.fields.schedule.placeholder') }}">
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Level</label>
-                                    <input type="text" id="applyGroupLevel" readonly placeholder="Auto rempli">
+                                    <label>{{ __('templates/group-apply-modals.fields.level.label') }}</label>
+                                    <input type="text" id="applyGroupLevel" readonly
+                                        placeholder="{{ __('templates/group-apply-modals.fields.level.placeholder') }}">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="applyFullName">Full name <span class="required">*</span></label>
+                                    <label
+                                        for="applyFullName">{{ __('templates/group-apply-modals.fields.full_name.label') }}
+                                        <span class="required">*</span></label>
                                     <input type="text" id="applyFullName" name="full_name"
-                                        placeholder="Your full name" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="apply_email">Email <span class="required">*</span></label>
-                                    <input type="email" id="apply_email" name="email"
-                                        placeholder="email@example.com" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="applyPhone">Phone <span class="required">*</span></label>
-                                    <input type="tel" id="applyPhone" name="phone" placeholder="+212 6xx-xxxxxx"
+                                        placeholder="{{ __('templates/group-apply-modals.fields.full_name.placeholder') }}"
                                         required>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="applyAddress">Address</label>
-                                    <input type="text" id="applyAddress" name="address"
-                                        placeholder="City, street...">
+                                    <label
+                                        for="apply_email">{{ __('templates/group-apply-modals.fields.email.label') }}
+                                        <span class="required">*</span></label>
+                                    <input type="email" id="apply_email" name="email"
+                                        placeholder="{{ __('templates/group-apply-modals.fields.email.placeholder') }}"
+                                        required>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="applyBirthday">Date de naissance</label>
+                                    <label for="applyPhone">{{ __('templates/group-apply-modals.fields.phone.label') }}
+                                        <span class="required">*</span></label>
+                                    <input type="tel" id="applyPhone" name="phone"
+                                        placeholder="{{ __('templates/group-apply-modals.fields.phone.placeholder') }}"
+                                        required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label
+                                        for="applyAddress">{{ __('templates/group-apply-modals.fields.address.label') }}</label>
+                                    <input type="text" id="applyAddress" name="address"
+                                        placeholder="{{ __('templates/group-apply-modals.fields.address.placeholder') }}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label
+                                        for="applyBirthday">{{ __('templates/group-apply-modals.fields.birthday.label') }}</label>
                                     <input type="date" id="applyBirthday" name="birthday"
                                         max="{{ now()->subYears(10)->format('Y-m-d') }}">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="applyNote">Note</label>
-                                    <textarea id="applyNote" name="note" placeholder="Optional message..."></textarea>
+                                    <label
+                                        for="applyNote">{{ __('templates/group-apply-modals.fields.note.label') }}</label>
+                                    <textarea id="applyNote" name="note" placeholder="{{ __('templates/group-apply-modals.fields.note.placeholder') }}"></textarea>
                                 </div>
 
                                 <div class="button-group">
-                                    <button type="button" class="button" data-bs-dismiss="modal">Cancel</button>
-                                    <button type="submit" class="button" id="applyGroupSubmitBtn">Send</button>
+                                    <button type="button" class="button"
+                                        data-bs-dismiss="modal">{{ __('templates/group-apply-modals.buttons.cancel') }}</button>
+                                    <button type="submit" class="button"
+                                        id="applyGroupSubmitBtn">{{ __('templates/group-apply-modals.buttons.submit') }}</button>
                                 </div>
                             </form>
 
                             {{-- ✅ Success UI --}}
                             <div class="success-message" id="applyGroupSuccessMessage">
                                 <div class="success-icon"></div>
-                                <h3>Merci !</h3>
-                                <p id="applyGroupSuccessText">Votre demande a bien été envoyée. Notre équipe vous
-                                    contactera
-                                    sous peu.</p>
+                                <h3>{{ __('templates/group-apply-modals.messages.success_title') }}</h3>
+                                <p id="applyGroupSuccessText">
+                                    {{ __('templates/group-apply-modals.messages.success_text') }}</p>
                             </div>
 
                         </div>

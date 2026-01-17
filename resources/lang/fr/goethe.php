@@ -94,6 +94,31 @@ return [
         ],
     ],
 
+    'exams' => [
+    'title' => 'Tous les examens sur place !',
+    'subtitle' => 'Centre officiel d’examen Goethe & Examen GLS (bientôt)',
+
+    'card1' => [
+        'title'  => 'Examen Goethe',
+        'text'   => 'Examen officiel allemand reconnu pour les études, le travail, l’Ausbildung et les visas.',
+        'button' => 'En savoir plus',
+        'route'  => 'front.exams.goethe', 
+    ],
+
+    'card2' => [
+        'title'  => 'Examen GLS',
+        'text'   => 'Un nouvel examen moderne développé par GLS pour une validation rapide et claire du niveau.',
+        'button' => 'Bientôt disponible',
+        'route'  => 'front.exams.gls', 
+    ],
+
+    'card3' => [
+        'title'  => 'Test de positionnement',
+        'text'   => 'Vous ne connaissez pas votre niveau ? Notre test vous guide vers la préparation Goethe adaptée.',
+        'button' => 'Commencer le test',
+        'route'  => 'front.discover-your-level', 
+    ],
+],
     // =========================================================
     // CONTACT SECTION
     // =========================================================
@@ -115,7 +140,7 @@ return [
         Av. Massoude Al Wafkaoui, Place des taxis, Hay Essalam, Agadir
     ',
 
-    'map_url' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3331.744621379457!2d-6.836039!3d33.978558!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda76b6d63b66b1d%3A0x3c6ee0a64f273aa2!2sAgdal%2C%20Rabat!5e0!3m2!1sen!2sma!4v1700000000000',
+    'map_url' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3307.8001465016737!2d-6.8485901!3d33.9976668!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda76dcf7a656da5%3A0xcaf46ae5e6e81d87!2sGLS%20Sprachenzentrum%20-%20Centre%20GLS%20de%20langue%20Allemande%20Rabat!5e0!3m2!1sen!2sma!4v1768563248691!5m2!1sen!2sma" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade',
 ],
 
 ];

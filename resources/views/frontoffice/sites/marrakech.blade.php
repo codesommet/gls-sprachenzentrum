@@ -7,8 +7,8 @@
 @section('content')
 
     <!-- ===========================
-         HERO SECTION – MARRAKECH
-    =========================== -->
+             HERO SECTION – MARRAKECH
+        =========================== -->
     <section class="hero-section section about-hero reveal delay-1">
         <div class="container is-hero reveal delay-2">
 
@@ -31,8 +31,8 @@
 
 
     <!-- ===========================
-         ABOUT MARRAKECH CENTER
-    =========================== -->
+             ABOUT MARRAKECH CENTER
+        =========================== -->
     <section class="gls-section gls-richtext-wrapper reveal delay-1">
         <div class="gls-container reveal delay-2">
             <div class="gls-richtext reveal delay-3">
@@ -65,8 +65,8 @@
 
 
     <!-- ===========================
-         PHOTO STRIP
-    =========================== -->
+             PHOTO STRIP
+        =========================== -->
     <section class="gls-photo-strip section reveal delay-1">
         <div class="gls-container gls-photo-grid reveal delay-2">
 
@@ -83,8 +83,8 @@
 
 
     <!-- ===========================
-         INFO CARDS
-    =========================== -->
+             INFO CARDS
+        =========================== -->
     <section class="gls-info-section gls-section reveal delay-1">
 
         <div class="gls-container reveal delay-2">
@@ -143,8 +143,8 @@
 
 
     <!-- ===========================
-         GROUPS – MARRAKECH
-    =========================== -->
+             GROUPS – MARRAKECH
+        =========================== -->
     <section class="gls-schedule-section reveal delay-1">
         <div class="gls-schedule-container reveal delay-2">
 
@@ -245,8 +245,8 @@
     </section>
 
     <!-- ===========================
-         9ONSOL – DEUTSHOW
-    =========================== -->
+             9ONSOL – DEUTSHOW
+        =========================== -->
     <section class="home-about-section section reveal delay-1">
         <div class="container about-grid reveal delay-2">
 
@@ -273,7 +273,6 @@
     </section>
 
     <!-- CTA -->
-    @include('frontoffice.templates.consultation-form')
 
     <section class="inline-cta-section section reveal delay-1">
         <div class="inline-cta-block reveal delay-2">

@@ -12,7 +12,7 @@
 
             <!-- LEFT IMAGE -->
             <div class="gls-hero-image">
-                <img src="{{ asset('assets/images/niveaux/hero-a1.avif') }}" alt="{{ __('niveaux/a1.hero_alt') }}">
+                <img src="{{ asset('assets/images/about/grid1.webp') }}" alt="{{ __('niveaux/a1.hero_alt') }}">
             </div>
 
             <!-- RIGHT CONTENT -->
@@ -43,7 +43,7 @@
                 <p class="course-hero_paragraph">{!! __('niveaux/a1.paragraph') !!}</p>
 
                 <!-- CTA BUTTON -->
-                <a href="#" class="button w-button">
+                <a href="#" class="button w-button" data-bs-toggle="modal" data-bs-target="#glsEnrollModal">
                     {{ __('niveaux/a1.btn_inscrire') }}
                 </a>
 
@@ -56,8 +56,8 @@
 
 
     <!-- ===========================================================
-         AVANTAGES
-    =========================================================== -->
+                         AVANTAGES
+                    =========================================================== -->
 
     <div class="section is-off-white">
         <div class="container is-2-col-grid is-flipped">
@@ -79,7 +79,7 @@
 
                 </div>
 
-                <a href="#" class="button w-button">
+                <a href="#" class="button w-button" data-bs-toggle="modal" data-bs-target="#glsEnrollModal">
                     {{ __('niveaux/a1.btn_inscrire') }}
                 </a>
 
@@ -87,7 +87,7 @@
 
             <!-- RIGHT IMAGE -->
             <div class="image-block">
-                <img src="https://cdn.prod.website-files.com/66d00cd15406f5f0f85bbb6e/6834a395d8a1e54d6d1ab11a_die-deutschule-04.avif"
+                <img src="{{ asset('assets/images/niveaux/affiche.webp') }}"
                     alt="{{ __('niveaux/a1.class_alt') }}" class="full-image">
             </div>
 
@@ -95,8 +95,8 @@
     </div>
 
     <!-- ===========================================================
-         INFO CARDS
-    =========================================================== -->
+                         INFO CARDS
+                    =========================================================== -->
 
     <section class="gls-info-section gls-section">
 
@@ -150,8 +150,8 @@
     </section>
 
     <!-- ===========================================================
-         RICH TEXT A2 – Fully Dynamic (Same Classes as A1)
-    =========================================================== -->
+                         RICH TEXT A2 – Fully Dynamic (Same Classes as A1)
+                    =========================================================== -->
     <section class="gls-a1-rich-section reveal delay-1">
 
         <div class="gls-a1-rich-container reveal delay-2">
@@ -225,8 +225,8 @@
 
 
     <!-- ===========================================================
-         PATH
-    =========================================================== -->
+                         PATH
+                    =========================================================== -->
 
     <section class="gls-path-section">
 
@@ -281,9 +281,8 @@
 
 
     <!-- ===========================================================
-         CTA
-    =========================================================== -->
-
+                         CTA
+                    =========================================================== -->
     <section class="inline-cta-section section">
         <div class="inline-cta-block">
 
@@ -293,17 +292,18 @@
                 {{ __('niveaux/a1.cta_text') }}
             </p>
 
-            <a href="/online-registration" class="cta-btn">
+            <a href="{{ LaravelLocalization::localizeUrl(route('front.contact')) }}" class="cta-btn" data-bs-toggle="modal"
+                    data-bs-target="#consultationModal"
+                data-open-consultation>
                 {{ __('niveaux/a1.cta_btn') }}
             </a>
         </div>
     </section>
 
 
-
     <!-- ===========================================================
-         DYNAMIC SCRIPT – USING TRANSLATIONS
-    =========================================================== -->
+                         DYNAMIC SCRIPT – USING TRANSLATIONS
+                    =========================================================== -->
     <script>
         const data = {
             A1: {

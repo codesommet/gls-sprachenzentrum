@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'about' => 'À propos',
-    'our_school' => 'Notre école',
+    'about' => 'Notre école',
+    'our_school' => 'À propos',
     'our_centers' => 'Nos Centres',
     'levels' => 'Niveaux',
     'faq' => 'FAQ',
@@ -12,6 +12,8 @@ return [
     'intensive_courses' => 'Cours intensifs',
     'online_courses' => 'Cours en ligne',
     'pricing' => 'Tarifs',
+
+    'discover_your_level' => 'Découvrez votre niveau',
 
     'exams' => 'Examens',
     'gls_exams' => 'Examens GLS',

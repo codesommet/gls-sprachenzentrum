@@ -7,7 +7,7 @@
 =========================== --}}
         <section class="hero reveal delay-1" aria-label="Intro">
             <div class="hero__bg reveal delay-2"
-                style="background-image: url('{{ asset('assets/images/home/Centre-GLS-de-langue-Allemande.jpg') }}');"></div>
+                style="background-image: url('{{ asset('assets/images/IMG_4462.JPEG') }}');"></div>
 
             {{-- Badges --}}
             <div class="badge b-blue b1 reveal delay-3">{{ __('home.hero.badge1') }}</div>
@@ -363,150 +363,222 @@
         </script>
 
 
-        <section class="home-courses-section section {{ app()->getLocale() == 'ar' ? 'rtl' : '' }} reveal delay-1">
+        <section class="home-courses-section section">
 
             {{-- 1. Banner Photo Block --}}
-            <div class="container is-home-courses-photo reveal delay-2">
-                <h2 class="h-section-title reveal fade-blur-title delay-1">
-                    {{ __('home.courses.title') }}
-                </h2>
+            <div class="container is-home-courses-photo">
+                <h2 class="h-section-title">{{ __('home.courses.title') }}</h2>
             </div>
 
-            {{-- 2. German Intensive Courses --}}
-            <div class="container is-h-courses reveal delay-3">
+            {{-- 2. German Intensive Courses (A1-B2) --}}
+            <div class="container is-h-courses">
+                <h2 class="h-section-subtitle-courses">{{ __('home.courses.intensive.title') }}</h2>
+                <div class="subtitle">{{ __('home.courses.intensive.subtitle') }}</div>
+                <p class="paragraph-2">{{ __('home.courses.intensive.description') }}</p>
 
-                <h2 class="h-section-subtitle-courses reveal fade-blur-title delay-1">
-                    {{ __('home.courses.intensive.title') }}
-                </h2>
+                <div class="courses-cards">
 
-                <div class="subtitle reveal delay-2">
-                    {{ __('home.courses.intensive.subtitle') }}
-                </div>
-
-                <p class="paragraph-2 reveal delay-3">
-                    {{ __('home.courses.intensive.description') }}
-                </p>
-
-                <div class="courses-cards reveal delay-1">
-
-                    @foreach (__('home.courses.intensive.levels') as $lvl)
-                        <div class="course-card {{ $lvl['color'] }} reveal delay-2">
-
-                            <div class="couse-card_level reveal delay-3">
-                                <div class="course-card_level-circle reveal delay-1">{{ $lvl['letter'] }}</div>
-                                <div class="course-card_level-circle reveal delay-2">{{ $lvl['number'] }}</div>
-                            </div>
-
-                            <h3 class="course-card_title reveal fade-blur-title delay-1">
-                                {!! $lvl['title'] !!}
-                            </h3>
-
-                            <div class="course-card_text reveal delay-2">
-                                {{ $lvl['text'] }}
-                            </div>
-
-                            <a href="#" class="button is-course-card w-button reveal delay-3">
-                                {{ __('home.courses.buttons.learn_more') }}
-                            </a>
-
+                    {{-- A1 --}}
+                    <div class="course-card">
+                        <div class="couse-card_level">
+                            <div class="course-card_level-circle">{{ __('home.courses.intensive.cards.a1.letter') }}</div>
+                            <div class="course-card_level-circle">{{ __('home.courses.intensive.cards.a1.number') }}</div>
                         </div>
-                    @endforeach
+                        <h3 class="course-card_title">{!! __('home.courses.intensive.cards.a1.title') !!}</h3>
+                        <div class="course-card_text">{!! __('home.courses.intensive.cards.a1.text') !!}</div>
+                        <a href="{{ LaravelLocalization::localizeUrl(route(__('home.courses.intensive.cards.a1.route'))) }}"
+                            class="button is-course-card w-button">
+                            {{ __('home.courses.intensive.cards.a1.button') }}
+                        </a>
+                    </div>
+
+                    {{-- A2 --}}
+                    <div class="course-card is-green">
+                        <div class="couse-card_level">
+                            <div class="course-card_level-circle">{{ __('home.courses.intensive.cards.a2.letter') }}</div>
+                            <div class="course-card_level-circle">{{ __('home.courses.intensive.cards.a2.number') }}</div>
+                        </div>
+                        <h3 class="course-card_title">{!! __('home.courses.intensive.cards.a2.title') !!}</h3>
+                        <div class="course-card_text">{!! __('home.courses.intensive.cards.a2.text') !!}</div>
+                        <a href="{{ LaravelLocalization::localizeUrl(route(__('home.courses.intensive.cards.a2.route'))) }}"
+                            class="button is-course-card w-button">
+                            {{ __('home.courses.intensive.cards.a2.button') }}
+                        </a>
+                    </div>
+
+                    {{-- B1 --}}
+                    <div class="course-card is-purple">
+                        <div class="couse-card_level">
+                            <div class="course-card_level-circle">{{ __('home.courses.intensive.cards.b1.letter') }}</div>
+                            <div class="course-card_level-circle">{{ __('home.courses.intensive.cards.b1.number') }}</div>
+                        </div>
+                        <h3 class="course-card_title">{!! __('home.courses.intensive.cards.b1.title') !!}</h3>
+                        <div class="course-card_text">{!! __('home.courses.intensive.cards.b1.text') !!}</div>
+                        <a href="{{ LaravelLocalization::localizeUrl(route(__('home.courses.intensive.cards.b1.route'))) }}"
+                            class="button is-course-card w-button">
+                            {{ __('home.courses.intensive.cards.b1.button') }}
+                        </a>
+                    </div>
+
+                    {{-- B2 --}}
+                    <div class="course-card is-yellow">
+                        <div class="couse-card_level">
+                            <div class="course-card_level-circle">{{ __('home.courses.intensive.cards.b2.letter') }}</div>
+                            <div class="course-card_level-circle">{{ __('home.courses.intensive.cards.b2.number') }}</div>
+                        </div>
+                        <h3 class="course-card_title">{!! __('home.courses.intensive.cards.b2.title') !!}</h3>
+                        <div class="course-card_text">{!! __('home.courses.intensive.cards.b2.text') !!}</div>
+                        <a href="{{ LaravelLocalization::localizeUrl(route(__('home.courses.intensive.cards.b2.route'))) }}"
+                            class="button is-course-card w-button">
+                            {{ __('home.courses.intensive.cards.b2.button') }}
+                        </a>
+                    </div>
 
                 </div>
             </div>
 
-            {{-- 3. Online Courses + Exams --}}
-            <div class="container is-h-courses reveal delay-2">
+            {{-- 3. Online courses & exams --}}
+            <div class="container is-h-courses">
+                <h2 class="h-section-subtitle-courses">{{ __('home.courses.online.title') }}</h2>
+                <div class="subtitle">{{ __('home.courses.online.subtitle') }}</div>
 
-                <h2 class="h-section-subtitle-courses reveal fade-blur-title delay-1">
-                    {{ __('home.courses.online.title') }}
-                </h2>
+                <div class="courses-cards is-home-other-german-courses">
 
-                <div class="subtitle reveal delay-2">
-                    {{ __('home.courses.online.subtitle') }}
-                </div>
+                    {{-- Online Courses --}}
+                    <div class="course-card is-orange">
+                        <h3 class="course-card_title is-others">{!! __('home.courses.online.cards.online.title') !!}</h3>
+                        <div class="course-card_text">{!! __('home.courses.online.cards.online.text') !!}</div>
+                        <a href="{{ LaravelLocalization::localizeUrl(route(__('home.courses.online.cards.online.route'))) }}"
+                            class="button is-course-card w-button">
+                            {{ __('home.courses.online.cards.online.button') }}
+                        </a>
+                    </div>
 
-                <div class="courses-cards is-home-other-german-courses reveal delay-3">
+                    {{-- GLS Exam Preparation --}}
+                    <div class="course-card is-green">
+                        <h3 class="course-card_title is-others">{!! __('home.courses.online.cards.gls.title') !!}</h3>
+                        <div class="course-card_text">{!! __('home.courses.online.cards.gls.text') !!}</div>
+                        <a href="{{ LaravelLocalization::localizeUrl(route(__('home.courses.online.cards.gls.route'))) }}"
+                            class="button is-course-card w-button">
+                            {{ __('home.courses.online.cards.gls.button') }}
+                        </a>
+                    </div>
 
-                    @foreach (__('home.courses.online.items') as $item)
-                        <div class="course-card {{ $item['color'] }} reveal delay-1">
-
-                            <h3 class="course-card_title is-others reveal fade-blur-title delay-1">
-                                {!! $item['title'] !!}
-                            </h3>
-
-                            <div class="course-card_text reveal delay-2">
-                                {{ $item['text'] }}
-                            </div>
-
-                            <a href="#" class="button is-course-card w-button reveal delay-3">
-                                {{ $item['button'] }}
-                            </a>
-
-                        </div>
-                    @endforeach
+                    {{-- Goethe Exam Preparation --}}
+                    <div class="course-card is-purple">
+                        <h3 class="course-card_title is-others">{!! __('home.courses.online.cards.goethe.title') !!}</h3>
+                        <div class="course-card_text">{!! __('home.courses.online.cards.goethe.text') !!}</div>
+                        <a href="{{ LaravelLocalization::localizeUrl(route(__('home.courses.online.cards.goethe.route'))) }}"
+                            class="button is-course-card w-button">
+                            {{ __('home.courses.online.cards.goethe.button') }}
+                        </a>
+                    </div>
 
                 </div>
             </div>
 
         </section>
+
 
         {{-- ===========================
  LEARN MORE SECTION
 =========================== --}}
-        <section class="learn-more-section py-5 text-light {{ app()->getLocale() == 'ar' ? 'rtl' : '' }} reveal delay-1"
-            style="background-color: var(--off-black);">
+        <section class="learn-more-section py-5 text-light" style="background-color: var(--off-black);">
+            <div class="container py-5">
+        <div class="row align-items-center g-5">
 
-            <div class="container py-5 reveal delay-2">
-                <div class="row align-items-center g-5 reveal delay-3">
+            {{-- Left Text Column --}}
+            <div class="col-lg-6">
+                <h2 class="fw-bold mb-4 learn-more-title">
+                    {!! __('home.learn_more.title') !!}
+                </h2>
 
-                    {{-- LEFT TEXT --}}
-                    <div class="col-lg-6 reveal delay-1">
-                        <h2 class="fw-bold mb-4 learn-more-title reveal fade-blur-title delay-1">
-                            {!! __('home.learn_more.title') !!}
-                        </h2>
+                <p class="lead opacity-75 mb-0">
+                    {!! __('home.learn_more.description') !!}
+                </p>
+            </div>
 
-                        <p class="lead opacity-75 mb-0 reveal delay-2">
-                            {{ __('home.learn_more.description') }}
-                        </p>
-                    </div>
-
-                    {{-- RIGHT CARDS --}}
-                    <div class="col-lg-6 reveal delay-3">
-                        <div class="row g-4 reveal delay-1">
-
-                            @foreach (__('home.learn_more.cards') as $card)
-                                <div class="col-md-6 reveal delay-2">
-                                    <a href="{{ $card['link'] }}" class="h-learn-more-card reveal delay-3">
-
-                                        <div class="h-learn-more-card_icon reveal delay-1">
-                                            {!! $card['icon'] !!}
-                                        </div>
-
-                                        <div
-                                            class="learn-card-bottom d-flex align-items-center justify-content-between w-100 reveal delay-2">
-                                            <h3 class="fw-bold fs-4 mb-0 reveal fade-blur-title delay-1">
-                                                {!! $card['title'] !!}</h3>
-
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
-                                                fill="currentColor" viewBox="0 0 20 20" class="reveal delay-3">
-                                                <path
-                                                    d="M9.84451 20L7.33722 17.5502L13.1778 11.799H0V8.20096H13.1778L7.33722 2.45933L9.84451 0L20 10L9.84451 20Z" />
-                                            </svg>
-                                        </div>
-
-                                    </a>
+            {{-- Right Cards Column --}}
+            <div class="col-lg-6">
+                <div class="row g-4">
+                    @foreach (__('home.learn_more.cards') as $card)
+                        <div class="col-md-6">
+                            <a
+                                href="{{ !empty($card['route']) ? route($card['route']) : ($card['link'] ?? '#') }}"
+                                class="h-learn-more-card"
+                                @if (!empty($card['action']))
+                                    data-action="{{ $card['action'] }}"
+                                    role="button"
+                                    aria-haspopup="dialog"
+                                @endif
+                            >
+                                <div class="h-learn-more-card_icon">
+                                    {!! $card['icon'] !!}
                                 </div>
-                            @endforeach
 
+                                <div class="learn-card-bottom d-flex align-items-center justify-content-between w-100">
+                                    <h3 class="fw-bold fs-4 mb-0">{!! $card['title'] !!}</h3>
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+                                        fill="currentColor" viewBox="0 0 20 20">
+                                        <path
+                                            d="M9.84451 20L7.33722 17.5502L13.1778 11.799H0V8.20096H13.1778L7.33722 2.45933L9.84451 0L20 10L9.84451 20Z" />
+                                    </svg>
+                                </div>
+                            </a>
                         </div>
-                    </div>
-
+                    @endforeach
                 </div>
             </div>
 
+        </div>
+    </div>
+
+            {{-- Site Selector Modal --}}
+
+            <div class="modal fade gls-site-modal" id="groupsSiteModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered gls-site-modal__dialog">
+                    <div class="modal-content gls-site-modal__content">
+
+                        <div class="gls-site-modal__header">
+                            <div>
+                                <div class="gls-site-modal__kicker">Nos centres</div>
+                                <h5 class="gls-site-modal__title">Choisissez votre site</h5>
+                            </div>
+
+                            <button type="button" class="gls-site-modal__close" data-bs-dismiss="modal"
+                                aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+
+                        <div class="gls-site-modal__body">
+                            <div class="gls-site-grid">
+                                <a class="gls-site-pill"
+                                    href="{{ route('front.sites.show', 'gls-marrakech') }}">Marrakech</a>
+
+                                <a class="gls-site-pill"
+                                    href="{{ route('front.sites.show', 'gls-casablanca') }}">Casablanca</a>
+
+                                <a class="gls-site-pill" href="{{ route('front.sites.show', 'gls-rabat') }}">Rabat</a>
+
+                                <a class="gls-site-pill"
+                                    href="{{ route('front.sites.show', 'gls-kenitra') }}">Kénitra</a>
+
+                                <a class="gls-site-pill" href="{{ route('front.sites.show', 'gls-sale') }}">Salé</a>
+
+                                <a class="gls-site-pill" href="{{ route('front.sites.show', 'gls-agadir') }}">Agadir</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
         </section>
 
+        
         {{-- ===========================
  ABOUT GLS MOROCCO – 9onsol’s Talks
 =========================== --}}
@@ -643,14 +715,27 @@
                         </div>
 
                         <div class="div-block-20 reveal delay-1">
-                            <a href="#" class="footer-social-link ig reveal delay-2"><i
-                                    class="bi bi-instagram"></i></a>
-                            <a href="#" class="footer-social-link fb reveal delay-3"><i
-                                    class="bi bi-facebook"></i></a>
-                            <a href="#" class="footer-social-link yt reveal delay-1"><i
-                                    class="bi bi-youtube"></i></a>
-                            <a href="#" class="footer-social-link wa reveal delay-2"><i
-                                    class="bi bi-whatsapp"></i></a>
+                            <a href="https://www.instagram.com/gls.sprachenzentrum/" class="footer-social-link ig"
+                                target="_blank" rel="noopener noreferrer" aria-label="GLS Sprachenzentrum sur Instagram">
+                                <i class="bi bi-instagram"></i>
+                            </a>
+
+                            <a href="https://www.facebook.com/gls.sale/" class="footer-social-link fb" target="_blank"
+                                rel="noopener noreferrer" aria-label="GLS Sprachenzentrum sur Facebook">
+                                <i class="bi bi-facebook"></i>
+                            </a>
+
+                            <a href="https://www.youtube.com/@9onsolsTalks" class="footer-social-link yt" target="_blank"
+                                rel="noopener noreferrer" aria-label="GLS Sprachenzentrum sur YouTube">
+                                <i class="bi bi-youtube"></i>
+                            </a>
+
+                            <a href="https://api.whatsapp.com/send/?phone=0669515019&text&type=phone_number&app_absent=0"
+                                class="footer-social-link wa" target="_blank" rel="noopener noreferrer"
+                                aria-label="Contacter GLS Sprachenzentrum sur WhatsApp">
+                                <i class="bi bi-whatsapp"></i>
+                            </a>
+
                         </div>
 
                     </div>

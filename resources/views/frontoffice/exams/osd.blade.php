@@ -7,8 +7,8 @@
 @section('content')
 
     <!-- ============================
-             HERO
-        ============================= -->
+                     HERO
+                ============================= -->
     <section class="hero-section section about-hero reveal delay-1">
         <div class="container is-hero reveal delay-2">
             <div class="hero_subtitle reveal delay-1">{{ __('osd.hero.subtitle') }}</div>
@@ -25,8 +25,8 @@
     </section>
 
     <!-- ============================
-             INTRO
-        ============================= -->
+                     INTRO
+                ============================= -->
     <div class="rich-text-section section reveal delay-1">
         <div class="container reveal delay-2">
             <div class="rich-text w-richtext reveal delay-3">
@@ -39,8 +39,8 @@
     </div>
 
     <!-- ============================
-             4 STEPS
-        ============================= -->
+                     4 STEPS
+                ============================= -->
     <section class="gls-more-info section reveal delay-1">
         <div class="container gls-more-info-container reveal delay-2">
 
@@ -56,7 +56,7 @@
                     <h3 class="gls-info-title">{!! __('osd.path.card1.title') !!}</h3>
                     <div class="gls-info-text">{!! __('osd.path.card1.text') !!}</div>
                     <div class="gls-info-spacer"></div>
-                    <a href="/courses" class="gls-info-button w-button">{{ __('osd.path.card1.button') }}</a>
+                    <a href="#" class="gls-info-button w-button">{{ __('osd.path.card1.button') }}</a>
                 </div>
 
                 <!-- CARD 2 -->
@@ -65,7 +65,7 @@
                     <h3 class="gls-info-title">{!! __('osd.path.card2.title') !!}</h3>
                     <div class="gls-info-text">{!! __('osd.path.card2.text') !!}</div>
                     <div class="gls-info-spacer"></div>
-                    <a href="/exams/osd" class="gls-info-button w-button">{{ __('osd.path.card2.button') }}</a>
+                    <a href="#" class="gls-info-button w-button">{{ __('osd.path.card2.button') }}</a>
                 </div>
 
                 <!-- CARD 3 -->
@@ -74,7 +74,7 @@
                     <h3 class="gls-info-title">{!! __('osd.path.card3.title') !!}</h3>
                     <div class="gls-info-text">{!! __('osd.path.card3.text') !!}</div>
                     <div class="gls-info-spacer"></div>
-                    <a href="/exams/osd#dates" class="gls-info-button w-button">{{ __('osd.path.card3.button') }}</a>
+                    <a href="#" class="gls-info-button w-button">{{ __('osd.path.card3.button') }}</a>
                 </div>
 
                 <!-- CARD 4 -->
@@ -83,7 +83,7 @@
                     <h3 class="gls-info-title">{!! __('osd.path.card4.title') !!}</h3>
                     <div class="gls-info-text">{!! __('osd.path.card4.text') !!}</div>
                     <div class="gls-info-spacer"></div>
-                    <a href="/exams/osd" class="gls-info-button w-button">{{ __('osd.path.card4.button') }}</a>
+                    <a href="#" class="gls-info-button w-button">{{ __('osd.path.card4.button') }}</a>
                 </div>
 
             </div>
@@ -91,8 +91,8 @@
     </section>
 
     <!-- ============================
-             LEVEL DETAILS
-        ============================= -->
+                     LEVEL DETAILS
+                ============================= -->
     <div class="rich-text-section section reveal delay-1">
         <div class="container reveal delay-2">
             <div class="rich-text w-richtext reveal delay-3">
@@ -126,34 +126,52 @@
     </div>
 
     <!-- ============================
-             EXAM CARDS
-        ============================= -->
+                     EXAM CARDS
+                ============================= -->
     <div class="courses-section section reveal delay-1">
         <div class="container is-h-courses reveal delay-2">
 
             <h2 class="h-section-subtitle fade-blur-title reveal delay-1">
                 {{ __('osd.exams.title') }}
             </h2>
-            <div class="subtitle reveal delay-2">{{ __('osd.exams.subtitle') }}</div>
+
+            <div class="subtitle reveal delay-2">
+                {{ __('osd.exams.subtitle') }}
+            </div>
 
             <div class="exam-cards">
 
+                {{-- CARD 1 --}}
                 <div class="exam-card reveal delay-1">
                     <h3 class="course-card_title">{{ __('osd.exams.card1.title') }}</h3>
                     <div class="course-card_text">{!! __('osd.exams.card1.text') !!}</div>
-                    <a href="/exams/osd" class="button is-course-card w-button">{{ __('osd.exams.card1.button') }}</a>
+
+                    <a href="{{ LaravelLocalization::localizeUrl(route(__('osd.exams.card1.route'))) }}"
+                        class="button is-course-card w-button">
+                        {{ __('osd.exams.card1.button') }}
+                    </a>
                 </div>
 
+                {{-- CARD 2 --}}
                 <div class="exam-card is-orange reveal delay-2">
                     <h3 class="course-card_title">{{ __('osd.exams.card2.title') }}</h3>
                     <div class="course-card_text">{!! __('osd.exams.card2.text') !!}</div>
-                    <a href="#" class="button is-course-card w-button">{{ __('osd.exams.card2.button') }}</a>
+
+                    <a href="{{ LaravelLocalization::localizeUrl(route(__('osd.exams.card2.route'))) }}"
+                        class="button is-course-card w-button">
+                        {{ __('osd.exams.card2.button') }}
+                    </a>
                 </div>
 
+                {{-- CARD 3 --}}
                 <div class="exam-card is-yellow reveal delay-3">
                     <h3 class="course-card_title">{{ __('osd.exams.card3.title') }}</h3>
                     <div class="course-card_text">{!! __('osd.exams.card3.text') !!}</div>
-                    <a href="/placement-test" class="button is-course-card w-button">{{ __('osd.exams.card3.button') }}</a>
+
+                    <a href="{{ LaravelLocalization::localizeUrl(route(__('osd.exams.card3.route'))) }}"
+                        class="button is-course-card w-button">
+                        {{ __('osd.exams.card3.button') }}
+                    </a>
                 </div>
 
             </div>
@@ -162,8 +180,8 @@
     </div>
 
     <!-- ============================
-             CONTACT SECTION
-        ============================= -->
+                     CONTACT SECTION
+                ============================= -->
     <section class="contact-section section reveal delay-1">
         <div class="container is-2-col-grid reveal delay-2">
 
@@ -196,10 +214,27 @@
                 <div class="footer-socials-block reveal delay-1">
                     <div class="text-block-3"><span class="text-span">{{ __('osd.contact.follow') }}</span></div>
                     <div class="div-block-20">
-                        <a href="#" class="footer-social-link ig"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="footer-social-link fb"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="footer-social-link yt"><i class="bi bi-youtube"></i></a>
-                        <a href="#" class="footer-social-link wa"><i class="bi bi-whatsapp"></i></a>
+                        <a href="https://www.instagram.com/gls.sprachenzentrum/" class="footer-social-link ig"
+                            target="_blank" rel="noopener noreferrer" aria-label="GLS Sprachenzentrum sur Instagram">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+
+                        <a href="https://www.facebook.com/gls.sale/" class="footer-social-link fb" target="_blank"
+                            rel="noopener noreferrer" aria-label="GLS Sprachenzentrum sur Facebook">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+
+                        <a href="https://www.youtube.com/@9onsolsTalks" class="footer-social-link yt" target="_blank"
+                            rel="noopener noreferrer" aria-label="GLS Sprachenzentrum sur YouTube">
+                            <i class="bi bi-youtube"></i>
+                        </a>
+
+                        <a href="https://api.whatsapp.com/send/?phone=0669515019&text&type=phone_number&app_absent=0"
+                            class="footer-social-link wa" target="_blank" rel="noopener noreferrer"
+                            aria-label="Contacter GLS Sprachenzentrum sur WhatsApp">
+                            <i class="bi bi-whatsapp"></i>
+                        </a>
+
                     </div>
                 </div>
             </div>

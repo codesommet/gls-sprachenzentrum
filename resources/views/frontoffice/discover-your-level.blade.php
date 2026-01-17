@@ -209,86 +209,91 @@
    🟦 SPECIAL GERMAN COURSES (like screenshot)
 ========================= --}}
     <section class="special-courses-section section reveal delay-1">
-    <div class="container is-special-courses reveal delay-2">
+        <div class="container is-special-courses reveal delay-2">
 
-        <h2 class="special-courses-title fade-blur-title reveal delay-1">
-            {{ __('quiz/level_test.special.title') }}
-        </h2>
+            <h2 class="special-courses-title fade-blur-title reveal delay-1">
+                {{ __('quiz/level_test.special.title') }}
+            </h2>
 
-        <div class="special-courses-subtitle reveal delay-2">
-            {{ __('quiz/level_test.special.subtitle') }}
+            <div class="special-courses-subtitle reveal delay-2">
+                {{ __('quiz/level_test.special.subtitle') }}
+            </div>
+
+            <div class="special-courses-grid reveal delay-3">
+
+                {{-- Card 1: Online --}}
+                <div class="special-course-card is-orange reveal delay-1">
+                    <h3 class="special-course-card-title fade-blur-title reveal delay-1">
+                        {!! __('quiz/level_test.special.cards.online.title') !!}
+                    </h3>
+                    <p class="special-course-card-text reveal delay-2">
+                        {{ __('quiz/level_test.special.cards.online.text') }}
+                    </p>
+                    <a href="{{ route('front.online-courses') }}"
+                        class="button is-special-course-btn w-button reveal delay-3">
+                        {{ __('quiz/level_test.special.cards.cta') }}
+                    </a>
+                </div>
+
+                {{-- Card 2: Intensive Courses --}}
+                <div class="special-course-card is-blue reveal delay-2">
+                    <h3 class="special-course-card-title fade-blur-title reveal delay-1">
+                        {!! __('quiz/level_test.special.cards.intensive.title') !!}
+                    </h3>
+                    <p class="special-course-card-text reveal delay-2">
+                        {{ __('quiz/level_test.special.cards.intensive.text') }}
+                    </p>
+                    <a href="{{ route('front.intensive-courses') }}"
+                        class="button is-special-course-btn w-button reveal delay-3">
+                        {{ __('quiz/level_test.special.cards.cta') }}
+                    </a>
+                </div>
+
+                {{-- Card 3: GLS Exam --}}
+                <div class="special-course-card is-yellow reveal delay-3">
+                    <h3 class="special-course-card-title fade-blur-title reveal delay-1">
+                        {!! __('quiz/level_test.special.cards.gls_exam.title') !!}
+                    </h3>
+                    <p class="special-course-card-text reveal delay-2">
+                        {{ __('quiz/level_test.special.cards.gls_exam.text') }}
+                    </p>
+                    <a href="{{ route('front.exams.gls') }}"
+                        class="button is-special-course-btn w-button reveal delay-3">
+                        {{ __('quiz/level_test.special.cards.cta') }}
+                    </a>
+                </div>
+
+                {{-- Card 4: ÖSD Exam --}}
+                <div class="special-course-card is-green reveal delay-1">
+                    <h3 class="special-course-card-title fade-blur-title reveal delay-1">
+                        {!! __('quiz/level_test.special.cards.osd_exam.title') !!}
+                    </h3>
+                    <p class="special-course-card-text reveal delay-2">
+                        {{ __('quiz/level_test.special.cards.osd_exam.text') }}
+                    </p>
+                    <a href="{{ route('front.exams.osd') }}"
+                        class="button is-special-course-btn w-button reveal delay-3">
+                        {{ __('quiz/level_test.special.cards.cta') }}
+                    </a>
+                </div>
+
+                {{-- Card 5: Goethe Exam --}}
+                <div class="special-course-card is-gray reveal delay-2">
+                    <h3 class="special-course-card-title fade-blur-title reveal delay-1">
+                        {!! __('quiz/level_test.special.cards.goethe_exam.title') !!}
+                    </h3>
+                    <p class="special-course-card-text reveal delay-2">
+                        {{ __('quiz/level_test.special.cards.goethe_exam.text') }}
+                    </p>
+                    <a href="{{ route('front.exams.goethe') }}"
+                        class="button is-special-course-btn w-button reveal delay-3">
+                        {{ __('quiz/level_test.special.cards.cta') }}
+                    </a>
+                </div>
+
+            </div>
         </div>
-
-        <div class="special-courses-grid reveal delay-3">
-
-            {{-- Card 1: Online --}}
-            <div class="special-course-card is-orange reveal delay-1">
-                <h3 class="special-course-card-title fade-blur-title reveal delay-1">
-                    {!! __('quiz/level_test.special.cards.online.title') !!}
-                </h3>
-                <p class="special-course-card-text reveal delay-2">
-                    {{ __('quiz/level_test.special.cards.online.text') }}
-                </p>
-                <a href="{{ route('front.online-courses') }}" class="button is-special-course-btn w-button reveal delay-3">
-                    {{ __('quiz/level_test.special.cards.cta') }}
-                </a>
-            </div>
-
-            {{-- Card 2: Intensive Courses --}}
-            <div class="special-course-card is-blue reveal delay-2">
-                <h3 class="special-course-card-title fade-blur-title reveal delay-1">
-                    {!! __('quiz/level_test.special.cards.intensive.title') !!}
-                </h3>
-                <p class="special-course-card-text reveal delay-2">
-                    {{ __('quiz/level_test.special.cards.intensive.text') }}
-                </p>
-                <a href="{{ route('front.intensive-courses') }}" class="button is-special-course-btn w-button reveal delay-3">
-                    {{ __('quiz/level_test.special.cards.cta') }}
-                </a>
-            </div>
-
-            {{-- Card 3: GLS Exam --}}
-            <div class="special-course-card is-yellow reveal delay-3">
-                <h3 class="special-course-card-title fade-blur-title reveal delay-1">
-                    {!! __('quiz/level_test.special.cards.gls_exam.title') !!}
-                </h3>
-                <p class="special-course-card-text reveal delay-2">
-                    {{ __('quiz/level_test.special.cards.gls_exam.text') }}
-                </p>
-                <a href="{{ route('front.exams.gls') }}" class="button is-special-course-btn w-button reveal delay-3">
-                    {{ __('quiz/level_test.special.cards.cta') }}
-                </a>
-            </div>
-
-            {{-- Card 4: ÖSD Exam --}}
-            <div class="special-course-card is-green reveal delay-1">
-                <h3 class="special-course-card-title fade-blur-title reveal delay-1">
-                    {!! __('quiz/level_test.special.cards.osd_exam.title') !!}
-                </h3>
-                <p class="special-course-card-text reveal delay-2">
-                    {{ __('quiz/level_test.special.cards.osd_exam.text') }}
-                </p>
-                <a href="{{ route('front.exams.osd') }}" class="button is-special-course-btn w-button reveal delay-3">
-                    {{ __('quiz/level_test.special.cards.cta') }}
-                </a>
-            </div>
-
-            {{-- Card 5: Goethe Exam --}}
-            <div class="special-course-card is-gray reveal delay-2">
-                <h3 class="special-course-card-title fade-blur-title reveal delay-1">
-                    {!! __('quiz/level_test.special.cards.goethe_exam.title') !!}
-                </h3>
-                <p class="special-course-card-text reveal delay-2">
-                    {{ __('quiz/level_test.special.cards.goethe_exam.text') }}
-                </p>
-                <a href="{{ route('front.exams.goethe') }}" class="button is-special-course-btn w-button reveal delay-3">
-                    {{ __('quiz/level_test.special.cards.cta') }}
-                </a>
-            </div>
-
-        </div>
-    </div>
-</section>
+    </section>
 
 
     {{-- =========================
@@ -329,8 +334,8 @@
     </section>
 
     <!-- ============================
-                     CONTACT SECTION
-                ============================= -->
+                         CONTACT SECTION
+                    ============================= -->
     <section class="contact-section section reveal delay-1">
         <div class="container is-2-col-grid reveal delay-2">
 
@@ -366,10 +371,27 @@
                         <span class="text-span">{{ __('quiz/level_test.contact.follow') }}</span>
                     </div>
                     <div class="div-block-20">
-                        <a href="#" class="footer-social-link ig"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="footer-social-link fb"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="footer-social-link yt"><i class="bi bi-youtube"></i></a>
-                        <a href="#" class="footer-social-link wa"><i class="bi bi-whatsapp"></i></a>
+                        <a href="https://www.instagram.com/gls.sprachenzentrum/" class="footer-social-link ig"
+                            target="_blank" rel="noopener noreferrer" aria-label="GLS Sprachenzentrum sur Instagram">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+
+                        <a href="https://www.facebook.com/gls.sale/" class="footer-social-link fb" target="_blank"
+                            rel="noopener noreferrer" aria-label="GLS Sprachenzentrum sur Facebook">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+
+                        <a href="https://www.youtube.com/@9onsolsTalks" class="footer-social-link yt" target="_blank"
+                            rel="noopener noreferrer" aria-label="GLS Sprachenzentrum sur YouTube">
+                            <i class="bi bi-youtube"></i>
+                        </a>
+
+                        <a href="https://api.whatsapp.com/send/?phone=0669515019&text&type=phone_number&app_absent=0"
+                            class="footer-social-link wa" target="_blank" rel="noopener noreferrer"
+                            aria-label="Contacter GLS Sprachenzentrum sur WhatsApp">
+                            <i class="bi bi-whatsapp"></i>
+                        </a>
+
                     </div>
                 </div>
             </div>

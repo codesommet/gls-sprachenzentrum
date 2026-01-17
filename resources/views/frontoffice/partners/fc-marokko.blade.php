@@ -202,27 +202,31 @@
     </section>
 
     <section class="section reveal delay-1">
-        <div class="container reveal delay-2">
+    <div class="container reveal delay-2">
 
-            <div class="card p-4 p-md-5 border-0 shadow-sm fc-cta">
-                <div class="row align-items-center g-4">
-                    <div class="col-12 col-lg-8 reveal delay-1">
-                        <div class="fc-cta-content">
-                            <h2 class="fc-cta-title mb-2">{{ __('partners/fc_marokko.cta.title') }}</h2>
-                            <p class="fc-cta-text mb-0">{!! __('partners/fc_marokko.cta.text') !!}</p>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-4 reveal delay-2">
-                        <div class="fc-cta-action">
-                            <a href="{{ route('front.contact') }}" class="btn btn-dark fc-cta-btn">
-                                {{ __('partners/fc_marokko.cta.button') }}
-                            </a>
-                        </div>
-                    </div>
+        <div class="card p-4 p-md-5 border-0 shadow-sm fc-cta">
+            <div class="fc-cta-content text-center mx-auto">
+
+                <h2 class="fc-cta-title mb-3">
+                    {{ __('partners/fc_marokko.cta.title') }}
+                </h2>
+
+                <p class="fc-cta-text mb-4">
+                    {!! __('partners/fc_marokko.cta.text') !!}
+                </p>
+
+                <div class="fc-cta-action justify-content-center">
+                    <a href="{{ LaravelLocalization::localizeUrl(route('front.contact')) }}"
+                       class="btn btn-dark fc-cta-btn">
+                        {{ __('partners/fc_marokko.cta.button') }}
+                    </a>
                 </div>
-            </div>
 
+            </div>
         </div>
-    </section>
+
+    </div>
+</section>
+
 
 @endsection

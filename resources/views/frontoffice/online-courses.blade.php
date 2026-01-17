@@ -27,10 +27,12 @@
                 {!! __('online.hero.hidden.text') !!}
             </p>
 
-            <a href="{{ LaravelLocalization::localizeURL('/online-registration') }}"
-                class="button is-big is-white w-button reveal delay-1">
+            <a href="#" class="button is-big w-button reveal delay-1 gls-enroll-btn" data-bs-toggle="modal"
+                data-bs-target="#glsEnrollModal">
                 {{ __('online.buttons.enroll') }}
             </a>
+
+
         </div>
 
         <!-- MAIN HERO -->
@@ -57,8 +59,8 @@
                     {!! __('online.hero.description') !!}
                 </p>
 
-                <a href="{{ LaravelLocalization::localizeURL('/online-registration') }}"
-                    class="button is-big w-button reveal delay-1">
+                <a href="#" class="button is-big w-button reveal delay-1 gls-enroll-btn" data-bs-toggle="modal"
+                    data-bs-target="#glsEnrollModal">
                     {{ __('online.buttons.enroll') }}
                 </a>
             </div>
@@ -148,10 +150,11 @@
 
                 </div>
 
-                <a href="{{ LaravelLocalization::localizeURL('/online-registration') }}"
-                    class="button is-big is-white w-button reveal delay-3">
+                <a href="#" class="button is-big w-button reveal delay-1 gls-enroll-btn" data-bs-toggle="modal"
+                    data-bs-target="#glsEnrollModal">
                     {{ __('online.buttons.enroll') }}
                 </a>
+
 
             </div>
 
@@ -186,10 +189,11 @@
                     <p class="reveal delay-1">{!! __('online.block1.text2') !!}</p>
                 </div>
 
-                <a href="{{ LaravelLocalization::localizeURL('/online-registration') }}"
-                    class="gls-button-big w-button reveal delay-2">
+                <a href="#" class="button is-big w-button reveal delay-1 gls-enroll-btn" data-bs-toggle="modal"
+                    data-bs-target="#glsEnrollModal">
                     {{ __('online.buttons.enroll') }}
                 </a>
+
             </div>
 
             <div class="gls-online-info-image reveal delay-3">
@@ -247,10 +251,11 @@
                     <h3 class="gls-info-title reveal fade-blur-title delay-3">{!! __('online.more.card4.title') !!}</h3>
                     <div class="gls-info-text reveal delay-1">{{ __('online.more.card4.text') }}</div>
                     <div class="gls-info-spacer"></div>
-                    <a href="{{ LaravelLocalization::localizeURL('/online-registration') }}"
-                        class="gls-info-button w-button reveal delay-2">
-                        {{ __('online.more.card4.button') }}
+                    <a href="#" class="gls-info-button w-button reveal delay-4" data-bs-toggle="modal"
+                        data-bs-target="#glsEnrollModal">
+                        {{ __('online.buttons.enroll') }}
                     </a>
+
                 </div>
 
             </div>
@@ -292,9 +297,11 @@
                 {{ __('online.cta.text') }}
             </p>
 
-            <a href="{{ LaravelLocalization::localizeURL('/online-registration') }}" class="cta-btn reveal delay-3">
+            <a href="#" class="button is-big w-button reveal delay-1 gls-enroll-btn" data-bs-toggle="modal"
+                data-bs-target="#glsEnrollModal">
                 {{ __('online.buttons.enroll') }}
             </a>
+
 
         </div>
     </section>
@@ -329,4 +336,12 @@
 
         });
     </script>
+    <script>
+        document.addEventListener('click', function(e) {
+            const btn = e.target.closest('a.gls-enroll-btn');
+            if (!btn) return;
+            e.preventDefault();
+        });
+    </script>
+
 @endsection

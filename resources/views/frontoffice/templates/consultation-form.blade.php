@@ -13,9 +13,9 @@
                     <div class="form-content">
 
                         <div class="form-header" id="consultationFormHeader">
-                            <h1 class="form-title">Consultation gratuite</h1>
+                            <h1 class="form-title">{{ __('templates/consultation-form.header.title') }}</h1>
                             <p class="form-subtitle">
-                                Laissez-nous vos informations et nous vous contacterons rapidement
+                                {{ __('templates/consultation-form.header.subtitle') }}
                             </p>
                         </div>
 
@@ -27,34 +27,46 @@
                             <div class="form-step active" data-step="1">
 
                                 <div class="form-group">
-                                    <label for="consultationName">Nom complet <span class="required">*</span></label>
+                                    <label
+                                        for="consultationName">{{ __('templates/consultation-form.fields.name.label') }}
+                                        <span class="required">*</span></label>
                                     <input type="text" id="consultationName" name="name"
-                                        placeholder="Votre nom complet" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="consultationCity">Ville <span class="required">*</span></label>
-                                    <input type="text" id="consultationCity" name="city" placeholder="Votre ville"
+                                        placeholder="{{ __('templates/consultation-form.fields.name.placeholder') }}"
                                         required>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="consultationPhone">Téléphone <span class="required">*</span></label>
-                                    <input type="tel" id="consultationPhone" name="phone"
-                                        placeholder="+212 6XX XXX XXX" required>
+                                    <label
+                                        for="consultationCity">{{ __('templates/consultation-form.fields.city.label') }}
+                                        <span class="required">*</span></label>
+                                    <input type="text" id="consultationCity" name="city"
+                                        placeholder="{{ __('templates/consultation-form.fields.city.placeholder') }}"
+                                        required>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="consultationEmail">Email <span class="required">*</span></label>
+                                    <label
+                                        for="consultationPhone">{{ __('templates/consultation-form.fields.phone.label') }}
+                                        <span class="required">*</span></label>
+                                    <input type="tel" id="consultationPhone" name="phone"
+                                        placeholder="{{ __('templates/consultation-form.fields.phone.placeholder') }}"
+                                        required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label
+                                        for="consultationEmail">{{ __('templates/consultation-form.fields.email.label') }}
+                                        <span class="required">*</span></label>
                                     <input type="email" id="consultationEmail" name="email"
-                                        placeholder="email@example.com" required>
+                                        placeholder="{{ __('templates/consultation-form.fields.email.placeholder') }}"
+                                        required>
                                 </div>
 
                             </div>
 
                             <div class="button-group">
                                 <button type="submit" class="button" id="consultationSubmitBtn">
-                                    Envoyer la demande
+                                    {{ __('templates/consultation-form.buttons.submit') }}
                                 </button>
                             </div>
                         </form>
@@ -62,10 +74,9 @@
                         <!-- SUCCESS -->
                         <div class="success-message" id="consultationSuccessMessage">
                             <div class="success-icon"></div>
-                            <h3>Merci !</h3>
+                            <h3>{{ __('templates/consultation-form.messages.success_title') }}</h3>
                             <p>
-                                Votre demande de consultation a bien été envoyée.
-                                Nous vous contacterons très bientôt.
+                                {{ __('templates/consultation-form.messages.success_text') }}
                             </p>
                         </div>
 

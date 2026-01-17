@@ -57,22 +57,6 @@
     <!-- Bootstrap Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Header scroll -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const header = document.querySelector('.site-header');
-            const stickyOffset = header.offsetTop;
-
-            window.addEventListener('scroll', function() {
-                if (window.pageYOffset > stickyOffset) {
-                    header.classList.add('is-fixed');
-                } else {
-                    header.classList.remove('is-fixed');
-                }
-            });
-        });
-    </script>
-
     <script src="{{ asset('assets/js/header.js') }}"></script>
     <script src="{{ asset('assets/js/reveal.js') }}"></script>
 
@@ -96,46 +80,15 @@
         </svg>
     </button>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const btn = document.getElementById('backToTop');
-            if (!btn) return;
-
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 300) {
-                    btn.classList.add('show');
-                } else {
-                    btn.classList.remove('show');
-                }
-            });
-
-            btn.addEventListener('click', () => {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
-        });
-    </script>
+    
     @include('frontoffice.templates.group-apply-modals', [
         'applyGroups' => $applyGroups ?? collect(),
     ])
     @include('frontoffice.legal.cookies')
-    <!--Start of Tawk.to Script-->
-    <script type="text/javascript">
-        var Tawk_API = Tawk_API || {},
-            Tawk_LoadStart = new Date();
-        (function() {
-            var s1 = document.createElement("script"),
-                s0 = document.getElementsByTagName("script")[0];
-            s1.async = true;
-            s1.src = 'https://embed.tawk.to/69666fd7d7f0511983c59b92/1jes29osr';
-            s1.charset = 'UTF-8';
-            s1.setAttribute('crossorigin', '*');
-            s0.parentNode.insertBefore(s1, s0);
-        })();
-    </script>
-    <!--End of Tawk.to Script-->
+    
+
+    @include('frontoffice.templates.consultation-form')
+    @include('frontoffice.templates.group-apply-modals')
 </body>
 
 </html>

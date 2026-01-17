@@ -49,7 +49,7 @@
 
                                         <img src="{{ $media
                                             ? route('media.custom', ['id' => $media->id, 'filename' => $media->file_name])
-                                            : asset('assets/images/placeholder.webp') }}"
+                                            : asset('assets/images/poster.png') }}"
                                             alt="{{ $featured->title }}" class="blog-card-image reveal delay-2">
 
                                     </a>
@@ -227,24 +227,36 @@
         </section>
 
         {{-- CTA --}}
-        <section class="section blog-cta-section reveal delay-1">
-            <div class="container reveal delay-2">
-                <div class="blog-cta-block reveal delay-3">
+       <section class="section blog-cta-section reveal delay-1">
+    <div class="container reveal delay-2">
+        <div class="blog-cta-block reveal delay-3">
 
-                    <div class="blog-cta-text reveal delay-1">
-                        <h2 class="fade-blur-title reveal delay-1">{{ __('blog.cta.title') }}</h2>
-                        <p class="reveal delay-2">{{ __('blog.cta.subtitle') }}</p>
-                    </div>
-
-                    <div class="blog-cta-actions reveal delay-3">
-                        <a href="/courses" class="btn btn-primary gls-btn-main">{{ __('blog.cta.btn_courses') }}</a>
-                        <a href="/contact"
-                            class="btn btn-outline-light gls-btn-outline">{{ __('blog.cta.btn_contact') }}</a>
-                    </div>
-
-                </div>
+            <div class="blog-cta-text reveal delay-1">
+                <h2 class="fade-blur-title reveal delay-1">
+                    {{ __('blog.cta.title') }}
+                </h2>
+                <p class="reveal delay-2">
+                    {{ __('blog.cta.subtitle') }}
+                </p>
             </div>
-        </section>
+
+            <div class="blog-cta-actions reveal delay-3">
+                <a href="{{ LaravelLocalization::localizeUrl(route('front.intensive-courses')) }}"
+                   class="btn btn-primary gls-btn-main">
+                    {{ __('blog.cta.btn_courses') }}
+                </a>
+
+                <a href="#" data-bs-toggle="modal"
+                    data-bs-target="#consultationModal"
+                   class="btn btn-outline-light gls-btn-outline">
+                    {{ __('blog.cta.btn_contact') }}
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
 
     </main>
 @endsection

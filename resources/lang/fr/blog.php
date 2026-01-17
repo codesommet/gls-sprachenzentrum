@@ -21,14 +21,34 @@ return [
     ],
 
     // =============================
+    // BREADCRUMB
+    // =============================
+    'breadcrumb' => [
+        'home' => 'Accueil',
+        'blog' => 'Blog',
+    ],
+
+    // =============================
     // FEATURED ARTICLE
     // =============================
     'featured' => [
         'category' => 'Examens',
         'title' => 'Votre parcours du GLS aux examens ÖSD',
         'excerpt' => 'Découvrez comment notre programme structuré A1–B2 vous prépare étape par étape à l’examen officiel ÖSD, de la première séance jusqu’au jour de l’examen.',
-        'meta_read' => '⏱ 6 min de lecture',
+        'meta_read' => 'min de lecture',
         'meta_updated' => 'Mis à jour Nov 2025',
+
+        // optional: used if you want a static translated category label
+        'category_studies_germany' => 'Études en Allemagne',
+    ],
+
+    // =============================
+    // BLOG DETAILS
+    // =============================
+    'details' => [
+        'share' => 'Partager l’article',
+        'related' => 'Articles similaires',
+        'excerpt_b2' => 'Conseils pratiques pour réussir le niveau B2.',
     ],
 
     // =============================
@@ -75,42 +95,42 @@ return [
             'category' => 'Cours d’Allemand',
             'title' => 'Combien de temps faut-il pour atteindre le niveau B1 ?',
             'excerpt' => 'Un aperçu clair des heures, du rythme des cours et des attentes réalistes pour atteindre le niveau B1 avec GLS.',
-            'meta_read' => '⏱ 4 min de lecture',
+            'meta_read' => '4',
             'meta_cat' => 'Cours',
         ],
         [
             'category' => 'En ligne',
             'title' => 'L’apprentissage de l’allemand en ligne avec GLS est-il fait pour vous ?',
             'excerpt' => 'Comparez les formats en présentiel et en ligne et trouvez celui qui correspond le mieux à votre rythme.',
-            'meta_read' => '⏱ 5 min de lecture',
+            'meta_read' => '5',
             'meta_cat' => 'En ligne',
         ],
         [
             'category' => 'Études en Allemagne',
             'title' => 'Du Maroc à l’université allemande : Les premières étapes',
             'excerpt' => 'Découvrez comment GLS vous accompagne dans la préparation linguistique, la vérification des documents et les candidatures universitaires.',
-            'meta_read' => '⏱ 7 min de lecture',
+            'meta_read' => '7',
             'meta_cat' => 'Études',
         ],
         [
             'category' => 'Ausbildung',
             'title' => 'Qu’est-ce que l’Ausbildung et comment GLS peut vous aider ?',
             'excerpt' => 'Comprenez le système Ausbildung en Allemagne et le niveau d’allemand requis pour commencer.',
-            'meta_read' => '⏱ 5 min de lecture',
+            'meta_read' => '5',
             'meta_cat' => 'Carrière',
         ],
         [
             'category' => 'Visa & Administration',
             'title' => 'Visa, compte bloqué, preuve de langue : Tout ce qu’il faut savoir',
             'excerpt' => 'Un aperçu des documents, certificats de langue et de l’accompagnement GLS dans votre dossier de visa.',
-            'meta_read' => '⏱ 8 min de lecture',
+            'meta_read' => '8',
             'meta_cat' => 'Visa',
         ],
         [
             'category' => 'Vie Étudiante',
             'title' => 'Votre première semaine au GLS : Ce qui vous attend',
             'excerpt' => 'De votre test de niveau aux premiers exercices oraux – découvrez votre intégration au GLS.',
-            'meta_read' => '⏱ 3 min de lecture',
+            'meta_read' => '3',
             'meta_cat' => 'Étudiant',
         ],
     ],
