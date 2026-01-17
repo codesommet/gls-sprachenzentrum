@@ -446,13 +446,7 @@ html[dir="rtl"] #mobile-drawer {
     left: auto !important;
 }
 
-/* =========================================================
-   MOBILE SAFETY FIX: Restore padding on .container
-   Ensures all sections have reasonable side padding on mobile
-   unless explicitly marked as full-bleed (e.g., hero, map)
-========================================================= */
-@media screen and (max-width: 767px) {
-    /* Default safety rule: restore padding on all containers */
+/* @media screen and (max-width: 767px) {
     .container,
     .container-fluid {
         padding-left: 1rem !important;
@@ -460,7 +454,6 @@ html[dir="rtl"] #mobile-drawer {
         --bs-gutter-x: 1.5rem !important;
     }
     
-    /* Exception: Hero sections can be full-bleed */
     .hero-section .container,
     .hero-section .container-fluid,
     .hero-section .row {
@@ -469,11 +462,37 @@ html[dir="rtl"] #mobile-drawer {
         --bs-gutter-x: 0 !important;
     }
     
-    /* Exception: Map sections full-bleed */
+    .map-section .container,
+    .map-section .container-fluid {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+} */
+ @media screen and (max-width: 767px) {
+
+    /* Default safety rule */
+    .container,
+    .container-fluid {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        --bs-gutter-x: 1.5rem !important;
+    }
+
+    /* Hero sections: almost full-bleed, but not edge-to-edge */
+    .hero-section .container,
+    .hero-section .container-fluid,
+    .hero-section .row {
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
+        --bs-gutter-x: 0.75rem !important;
+    }
+
+    /* Map sections: truly full-bleed */
     .map-section .container,
     .map-section .container-fluid {
         padding-left: 0 !important;
         padding-right: 0 !important;
     }
 }
+
 

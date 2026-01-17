@@ -2,8 +2,89 @@ body{
     background-color: var(--light--off-white) !important;
 }
 /* ===============================
-   FAQ HERO SECTION – die deutSCHule inspired
+   FAQ HERO – ISOLATED
 ================================ */
+
+.faq-hero {
+  margin-top: -40px;
+  padding: 80px 4rem 48px;
+  background-image: linear-gradient(45deg, #00a06e, #00d98a 100%);
+  border-bottom-left-radius: var(--radius-big);
+  border-bottom-right-radius: var(--radius-big);
+  display: flex;
+  justify-content: center;
+}
+
+.faq-hero-container {
+  max-width: 1440px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.faq-hero-title {
+  color: var(--off-white);
+  font-size: clamp(3rem, 6vw, 5rem);
+  line-height: 1;
+  margin: 0;
+}
+
+.faq-hero-subtitle {
+  color: rgba(255, 255, 255, 0.95);
+  max-width: 720px;
+  margin-top: 1rem;
+  line-height: 1.6;
+  font-size: 1.05rem;
+}
+
+.faq-hero-search {
+  width: 800px;
+  margin-top: 2rem;
+}
+
+/* Input */
+.faq-search-field {
+  width: 100%;
+  border-radius: 50px;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  outline: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.faq-search-field:focus {
+  box-shadow: 0 0 0 3px rgba(0, 160, 110, 0.35);
+}
+
+/* ===============================
+   MOBILE
+================================ */
+
+@media (max-width: 991px) {
+  .faq-hero-search {
+    width: 90%;
+  }
+}
+
+@media (max-width: 767px) {
+  .faq-hero {
+    margin-top: -25px;
+    padding: 64px 1.25rem 36px;
+  }
+
+  .faq-hero-title {
+    font-size: 2rem;
+  }
+
+  .faq-search-field {
+    font-size: 0.95rem;
+    padding: 0.9rem 1.5rem;
+  }
+}
+
 .hero-section.section.is-no-image.is-faq {
   padding-bottom: 40px;
   margin-top: -40px; /* 🔹 move closer under the header */
@@ -587,3 +668,5 @@ a:hover {
       padding-right: 1.5rem;
     }
   }
+
+  

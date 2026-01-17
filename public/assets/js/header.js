@@ -84,3 +84,16 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
 });
+// Sticky Header
+document.addEventListener("DOMContentLoaded", function() {
+            const header = document.querySelector('.site-header');
+            const stickyOffset = header.offsetTop;
+
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > stickyOffset) {
+                    header.classList.add('is-fixed');
+                } else {
+                    header.classList.remove('is-fixed');
+                }
+            });
+        });

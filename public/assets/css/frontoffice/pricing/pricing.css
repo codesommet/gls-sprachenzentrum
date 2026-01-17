@@ -318,9 +318,7 @@ body{
    GET STARTED SECTION – Gradient Background Version
    =============================== */
 .get-started-section.section {
-  background-image:
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.20)),
-    linear-gradient(225deg, #00a06e 0%, #00d98a 28%, #1fb6ff 65%, #0752c5 100%);
+  background-image: linear-gradient(45deg, #000000, #3577f4 100%);
   padding: 4rem 3rem; /* reduced from 6rem 4rem */
   display: flex;
   justify-content: center;
@@ -385,7 +383,7 @@ body{
 
 .box-rich-text h3 {
   font-size: 1.5rem;
-  color: #06C39F;
+  color: #3577f4;
   margin-bottom: 1em;
   font-weight: 700;
 }

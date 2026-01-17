@@ -15,7 +15,7 @@ overflow: hidden;
 /* Background image + improved dark overlay */
 background-image:
 linear-gradient(rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.62)),
-url("/assets/images/about/Centre-GLS-de-langue-Allemande.jpg");
+url("/assets/images/poster.png");
 
 background-size: cover;
 background-position: center;

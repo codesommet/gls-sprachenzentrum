@@ -12,3 +12,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
     elements.forEach(el => observer.observe(el));
 });
+
+// ===============================
+document.addEventListener('DOMContentLoaded', () => {
+
+  // Safety check: Bootstrap available
+  if (typeof bootstrap === 'undefined' || !bootstrap.Modal) {
+    console.error('Bootstrap Modal not loaded. Make sure bootstrap.bundle.js is included.');
+    return;
+  }
+
+  const modalEl = document.getElementById('groupsSiteModal');
+  if (!modalEl) return;
+
+  const modalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
+
+  // Open modal from cards
+  document.querySelectorAll('[data-action="open-groups-site-modal"]').forEach(trigger => {
+    trigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      modalInstance.show();
+    });
+  });
+
+  // Close modal when a site is selected (navigation continues)
+  modalEl.querySelectorAll('.gls-site-pill').forEach(link => {
+    link.addEventListener('click', () => {
+      modalInstance.hide();
+    });
+  });
+
+});

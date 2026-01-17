@@ -3,14 +3,14 @@ CONTACT HERO SECTION
 ========================================================= */
 
 /* Mobile: hero section specific full-bleed, not global */
-@media screen and (max-width: 767px) {
+/* @media screen and (max-width: 767px) {
   .hero-section.is-no-image .container,
   .hero-section.is-no-image .container-fluid {
     --bs-gutter-x: 0 !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
-}
+} */
 
 .hero-section.section.is-no-image {
   border-bottom-left-radius: 60px;
@@ -805,7 +805,7 @@ SPECIAL GERMAN COURSES (like screenshot – compact version)
 .button.is-special-course-btn {
   margin-top: auto;
   background: #111;
-  color: #fff;
+  color: var(--color-surface);
   border-radius: 999px;
   padding: 0.6rem 1.4rem; /* ⬅️ smaller pill */
   font-weight: 800;

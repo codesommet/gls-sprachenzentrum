@@ -3,14 +3,14 @@ CONTACT HERO SECTION
 ========================================================= */
 
 /* Mobile: hero section specific full-bleed, not global */
-@media screen and (max-width: 767px) {
+/* @media screen and (max-width: 767px) {
   .hero-section.is-no-image .container,
   .hero-section.is-no-image .container-fluid {
     --bs-gutter-x: 0 !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
-}
+} */
 
 /* ===============================
 CONTACT HERO SECTION
