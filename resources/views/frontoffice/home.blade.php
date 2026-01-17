@@ -386,10 +386,11 @@
                         </div>
                         <h3 class="course-card_title">{!! __('home.courses.intensive.cards.a1.title') !!}</h3>
                         <div class="course-card_text">{!! __('home.courses.intensive.cards.a1.text') !!}</div>
-                        <a href="{{ LaravelLocalization::localizeUrl(route(__('home.courses.intensive.cards.a1.route'))) }}"
-                            class="button is-course-card w-button">
-                            {{ __('home.courses.intensive.cards.a1.button') }}
-                        </a>
+                        <a href="{{ LaravelLocalization::localizeUrl(route('front.niveaux.a1')) }}"
+   class="button is-course-card w-button">
+  {{ __('home.courses.intensive.cards.a1.button') }}
+</a>
+
                     </div>
 
                     {{-- A2 --}}
@@ -400,10 +401,11 @@
                         </div>
                         <h3 class="course-card_title">{!! __('home.courses.intensive.cards.a2.title') !!}</h3>
                         <div class="course-card_text">{!! __('home.courses.intensive.cards.a2.text') !!}</div>
-                        <a href="{{ LaravelLocalization::localizeUrl(route(__('home.courses.intensive.cards.a2.route'))) }}"
-                            class="button is-course-card w-button">
-                            {{ __('home.courses.intensive.cards.a2.button') }}
-                        </a>
+                        <a href="{{ LaravelLocalization::localizeUrl(route('front.niveaux.a2')) }}"
+   class="button is-course-card w-button">
+  {{ __('home.courses.intensive.cards.a2.button') }}
+</a>
+
                     </div>
 
                     {{-- B1 --}}
@@ -414,10 +416,10 @@
                         </div>
                         <h3 class="course-card_title">{!! __('home.courses.intensive.cards.b1.title') !!}</h3>
                         <div class="course-card_text">{!! __('home.courses.intensive.cards.b1.text') !!}</div>
-                        <a href="{{ LaravelLocalization::localizeUrl(route(__('home.courses.intensive.cards.b1.route'))) }}"
-                            class="button is-course-card w-button">
-                            {{ __('home.courses.intensive.cards.b1.button') }}
-                        </a>
+                        <a href="{{ LaravelLocalization::localizeUrl(route('front.niveaux.b1')) }}"
+   class="button is-course-card w-button">
+  {{ __('home.courses.intensive.cards.b1.button') }}
+</a>
                     </div>
 
                     {{-- B2 --}}
@@ -428,10 +430,10 @@
                         </div>
                         <h3 class="course-card_title">{!! __('home.courses.intensive.cards.b2.title') !!}</h3>
                         <div class="course-card_text">{!! __('home.courses.intensive.cards.b2.text') !!}</div>
-                        <a href="{{ LaravelLocalization::localizeUrl(route(__('home.courses.intensive.cards.b2.route'))) }}"
-                            class="button is-course-card w-button">
-                            {{ __('home.courses.intensive.cards.b2.button') }}
-                        </a>
+                       <a href="{{ LaravelLocalization::localizeUrl(route('front.niveaux.b2')) }}"
+   class="button is-course-card w-button">
+  {{ __('home.courses.intensive.cards.b2.button') }}
+</a>
                     </div>
 
                 </div>
