@@ -15,7 +15,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             // SitesTableSeeder::class,
             // StudienkollegsTableSeeder::class,
-            DemoDataSeeder::class
+            DemoDataSeeder::class,
+            AdminUserSeeder::class,
         ]);
     }
 }
