@@ -90,7 +90,7 @@
 
             <!-- IMAGE -->
             <div class="image-block reveal delay-2">
-                <img src="https://cdn.prod.website-files.com/66d00cd15406f5f0f85bbb6e/6834a3cf09366a8ab6cbb60d_die-deutschule-13.avif"
+                <img src="{{ asset('assets/images/niveaux/affiche.webp') }}"
                     alt="{{ __('niveaux/b2.class_alt') }}" class="full-image reveal delay-3">
             </div>
 
