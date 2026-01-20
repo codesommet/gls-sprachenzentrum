@@ -81,8 +81,8 @@
 
 /* Button */
 .intro-section .btn-success {
-  background-color: #007342;
-  color: var(--light--green);
+  background-color: #211e1d;
+  color: var(--color-surface);
   border: none;
   transition: all 0.3s ease;
   padding: 0.6rem 1.6rem;
@@ -92,7 +92,7 @@
 }
 
 .intro-section .btn-success:hover {
-  background-color: #005d32;
+  background-color: #211e1d;
   transform: translateY(-2px);
 }
 

@@ -24,8 +24,8 @@ z-index: 1;
 .hero__bg {
 position: absolute;
 inset: 0;
-background-size: 130%; /* zoom effect like their 130% */
-background-position: 50% 2%; /* focus top-center */
+background-size: 110%; 
+background-position: 50% 2%;
 background-repeat: no-repeat;
 z-index: 0;
 filter: brightness(0.9);
