@@ -15,8 +15,9 @@ use App\Http\Controllers\Backoffice\SiteController;
 use App\Http\Controllers\Backoffice\TeacherController;
 use App\Http\Controllers\Backoffice\GroupController;
 use App\Http\Controllers\Backoffice\CertificateController;
+use App\Http\Controllers\Backoffice\QuizController;
+use App\Http\Controllers\Backoffice\QuizQuestionController;
 
-/* ✅ NEW */
 use App\Http\Controllers\Frontoffice\GroupApplicationController as GroupApplicationController;
 
 /*
@@ -32,8 +33,7 @@ use App\Http\Controllers\Frontoffice\GroupApplicationController as GroupApplicat
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 /* Optional dynamic pages (avoid profile conflict) */
-Route::get('/dashboard/{routeName}/{name?}', [DashboardController::class, 'pageView'])
-    ->where('routeName', '^(?!profile).*$');
+Route::get('/dashboard/{routeName}/{name?}', [DashboardController::class, 'pageView'])->where('routeName', '^(?!profile).*$');
 
 /*
 |--------------------------------------------------------------------------
@@ -43,7 +43,6 @@ Route::get('/dashboard/{routeName}/{name?}', [DashboardController::class, 'pageV
 Route::prefix('backoffice')
     ->name('backoffice.')
     ->group(function () {
-
         /*
         |----------------------------------------------------------------------
         | BLOG → Catégories
@@ -127,11 +126,9 @@ Route::prefix('backoffice')
                 Route::get('/{group}/applications', [GroupController::class, 'applications'])->name('applications');
 
                 // ✅ Approve / Disapprove
-                Route::patch('/{group}/applications/{application}/approve', [GroupApplicationController::class, 'approve'])
-                    ->name('applications.approve');
+                Route::patch('/{group}/applications/{application}/approve', [GroupApplicationController::class, 'approve'])->name('applications.approve');
 
-                Route::patch('/{group}/applications/{application}/reject', [GroupApplicationController::class, 'reject'])
-                    ->name('applications.reject');
+                Route::patch('/{group}/applications/{application}/reject', [GroupApplicationController::class, 'reject'])->name('applications.reject');
             });
 
         /*
@@ -168,6 +165,25 @@ Route::prefix('backoffice')
                 Route::get('/{studienkolleg}/edit', [\App\Http\Controllers\Backoffice\StudienkollegController::class, 'edit'])->name('edit');
                 Route::put('/{studienkolleg}', [\App\Http\Controllers\Backoffice\StudienkollegController::class, 'update'])->name('update');
                 Route::delete('/{studienkolleg}', [\App\Http\Controllers\Backoffice\StudienkollegController::class, 'destroy'])->name('destroy');
+            });
+
+        Route::prefix('quizzes')
+            ->name('quizzes.')
+            ->group(function () {
+                Route::get('/', [QuizController::class, 'index'])->name('index');
+                Route::get('/create', [QuizController::class, 'create'])->name('create');
+                Route::post('/', [QuizController::class, 'store'])->name('store');
+                Route::get('/{quiz}/edit', [QuizController::class, 'edit'])->name('edit');
+                Route::put('/{quiz}', [QuizController::class, 'update'])->name('update');
+                Route::delete('/{quiz}', [QuizController::class, 'destroy'])->name('destroy');
+
+                // Questions (nested)
+                Route::get('/{quiz}/questions', [QuizQuestionController::class, 'index'])->name('questions.index');
+                Route::get('/{quiz}/questions/create', [QuizQuestionController::class, 'create'])->name('questions.create');
+                Route::post('/{quiz}/questions', [QuizQuestionController::class, 'store'])->name('questions.store');
+                Route::get('/{quiz}/questions/{question}/edit', [QuizQuestionController::class, 'edit'])->name('questions.edit');
+                Route::put('/{quiz}/questions/{question}', [QuizQuestionController::class, 'update'])->name('questions.update');
+                Route::delete('/{quiz}/questions/{question}', [QuizQuestionController::class, 'destroy'])->name('questions.destroy');
             });
     });
 
