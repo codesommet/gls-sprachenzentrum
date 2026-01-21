@@ -24,7 +24,9 @@
     background-color: var(--off-black);
     color: var(--off-white);
     /* IMPORTANT: Replicating the exact background style used in the original CSS */
-    background-image: linear-gradient(#0000 65%, #000), url(https://www.glssprachenzentrum.ma/wp-content/uploads/2023/08/Centre-GLS-de-langue-Allemande.jpg);
+    background-image:
+  linear-gradient(#0000 65%, #000),
+  url("/assets/images/home/nos-cours.avif");
     background-position: 0 0, 50%;
     background-size: auto, cover;
     justify-content: flex-start;
@@ -316,4 +318,34 @@
 /* Hide class if present in your main stylesheet */
 .course-card.is-purple.hide {
     display: none;
+}
+/* ===============================
+   COURSE CARD – OTHERS VARIANT
+================================ */
+
+.course-card.is-others {
+  background-color: var(--dark--off-white);
+  color: var(--off-black);
+  border-radius: 22px;
+}
+
+/* Title */
+.course-card_title.is-others {
+  color: var(--off-black);
+}
+
+/* Text */
+.course-card.is-others .course-card_text {
+  color: rgba(33, 30, 29, 0.85);
+}
+
+/* Button */
+.course-card.is-others .button.is-course-card {
+  background-color: var(--off-black);
+  color: var(--color-surface);
+}
+
+.course-card.is-others .button.is-course-card:hover {
+  background-color: var(--off-black);
+  transform: translateY(-2px);
 }
