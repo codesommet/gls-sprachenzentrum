@@ -1,6 +1,6 @@
 <header class="site-header">
     <div class="nav-wrap container-xxl d-flex justify-content-between align-items-center py-3 px-3">
-        <a href="#" class="brand" style="display: inline-flex; align-items: center;">
+        <a href="{{ route('front.home') }}" class="brand" style="display:inline-flex;align-items:center;">
 
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="250" height="50"
                 zoomAndPan="magnify" viewBox="0 0 900 149.999998" height="200" preserveAspectRatio="xMidYMid meet"

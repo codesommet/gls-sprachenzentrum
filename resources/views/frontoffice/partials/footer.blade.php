@@ -13,7 +13,7 @@
         <div class="col align-items-center mb-4">
             <div class="col-12 col-md-6 {{ app()->getLocale() == 'ar' ? 'text-end' : '' }}">
                 <h6 class="footer-title mb-2">{{ __('footer.newsletter.title') }}</h6>
-                <p class="mb-0 small">{{ __('footer.newsletter.text') }}</p>
+                <p class="mb-0 mb-4 mt-4 small">{{ __('footer.newsletter.text') }}</p>
             </div>
 
             <div class="col-12 col-md-6 mt-3 mt-md-0">
