@@ -7,7 +7,7 @@
 =========================== --}}
         <section class="hero reveal delay-1" aria-label="Intro">
             <div class="hero__bg reveal delay-2"
-                style="background-image: url('{{ asset('assets/images/IMG_4462.JPEG') }}');"></div>
+                style="background-image: url('{{ asset('assets/images/home/IMG_4462.webp') }}');"></div>
 
             {{-- Badges --}}
             <div class="badge b-blue b1 reveal delay-3">{{ __('home.hero.badge1') }}</div>
@@ -387,9 +387,9 @@
                         <h3 class="course-card_title">{!! __('home.courses.intensive.cards.a1.title') !!}</h3>
                         <div class="course-card_text">{!! __('home.courses.intensive.cards.a1.text') !!}</div>
                         <a href="{{ LaravelLocalization::localizeUrl(route('front.niveaux.a1')) }}"
-   class="button is-course-card w-button">
-  {{ __('home.courses.intensive.cards.a1.button') }}
-</a>
+                            class="button is-course-card w-button">
+                            {{ __('home.courses.intensive.cards.a1.button') }}
+                        </a>
 
                     </div>
 
@@ -402,9 +402,9 @@
                         <h3 class="course-card_title">{!! __('home.courses.intensive.cards.a2.title') !!}</h3>
                         <div class="course-card_text">{!! __('home.courses.intensive.cards.a2.text') !!}</div>
                         <a href="{{ LaravelLocalization::localizeUrl(route('front.niveaux.a2')) }}"
-   class="button is-course-card w-button">
-  {{ __('home.courses.intensive.cards.a2.button') }}
-</a>
+                            class="button is-course-card w-button">
+                            {{ __('home.courses.intensive.cards.a2.button') }}
+                        </a>
 
                     </div>
 
@@ -417,9 +417,9 @@
                         <h3 class="course-card_title">{!! __('home.courses.intensive.cards.b1.title') !!}</h3>
                         <div class="course-card_text">{!! __('home.courses.intensive.cards.b1.text') !!}</div>
                         <a href="{{ LaravelLocalization::localizeUrl(route('front.niveaux.b1')) }}"
-   class="button is-course-card w-button">
-  {{ __('home.courses.intensive.cards.b1.button') }}
-</a>
+                            class="button is-course-card w-button">
+                            {{ __('home.courses.intensive.cards.b1.button') }}
+                        </a>
                     </div>
 
                     {{-- B2 --}}
@@ -430,10 +430,10 @@
                         </div>
                         <h3 class="course-card_title">{!! __('home.courses.intensive.cards.b2.title') !!}</h3>
                         <div class="course-card_text">{!! __('home.courses.intensive.cards.b2.text') !!}</div>
-                       <a href="{{ LaravelLocalization::localizeUrl(route('front.niveaux.b2')) }}"
-   class="button is-course-card w-button">
-  {{ __('home.courses.intensive.cards.b2.button') }}
-</a>
+                        <a href="{{ LaravelLocalization::localizeUrl(route('front.niveaux.b2')) }}"
+                            class="button is-course-card w-button">
+                            {{ __('home.courses.intensive.cards.b2.button') }}
+                        </a>
                     </div>
 
                 </div>
@@ -476,6 +476,21 @@
                         </a>
                     </div>
 
+                    <div class="course-card is-purple is-others">
+                        <h3 class="course-card_title is-others">
+                            {!! __('home.courses.online.cards.goethe.title') !!}
+                        </h3>
+
+                        <div class="course-card_text">
+                            {!! __('home.courses.online.cards.goethe.text') !!}
+                        </div>
+
+                        <a href="{{ LaravelLocalization::localizeUrl(route(__('home.courses.online.cards.goethe.route'))) }}"
+                            class="button is-course-card w-button">
+                            {{ __('home.courses.online.cards.goethe.button') }}
+                        </a>
+                    </div>
+
                 </div>
             </div>
 
@@ -487,54 +502,51 @@
 =========================== --}}
         <section class="learn-more-section py-5 text-light" style="background-color: var(--off-black);">
             <div class="container py-5">
-        <div class="row align-items-center g-5">
+                <div class="row align-items-center g-5">
 
-            {{-- Left Text Column --}}
-            <div class="col-lg-6">
-                <h2 class="fw-bold mb-4 learn-more-title">
-                    {!! __('home.learn_more.title') !!}
-                </h2>
+                    {{-- Left Text Column --}}
+                    <div class="col-lg-6">
+                        <h2 class="fw-bold mb-4 learn-more-title">
+                            {!! __('home.learn_more.title') !!}
+                        </h2>
 
-                <p class="lead opacity-75 mb-0">
-                    {!! __('home.learn_more.description') !!}
-                </p>
-            </div>
+                        <p class="lead opacity-75 mb-0">
+                            {!! __('home.learn_more.description') !!}
+                        </p>
+                    </div>
 
-            {{-- Right Cards Column --}}
-            <div class="col-lg-6">
-                <div class="row g-4">
-                    @foreach (__('home.learn_more.cards') as $card)
-                        <div class="col-md-6">
-                            <a
-                                href="{{ !empty($card['route']) ? route($card['route']) : ($card['link'] ?? '#') }}"
-                                class="h-learn-more-card"
-                                @if (!empty($card['action']))
-                                    data-action="{{ $card['action'] }}"
+                    {{-- Right Cards Column --}}
+                    <div class="col-lg-6">
+                        <div class="row g-4">
+                            @foreach (__('home.learn_more.cards') as $card)
+                                <div class="col-md-6">
+                                    <a href="{{ !empty($card['route']) ? route($card['route']) : $card['link'] ?? '#' }}"
+                                        class="h-learn-more-card"
+                                        @if (!empty($card['action'])) data-action="{{ $card['action'] }}"
                                     role="button"
-                                    aria-haspopup="dialog"
-                                @endif
-                            >
-                                <div class="h-learn-more-card_icon">
-                                    {!! $card['icon'] !!}
-                                </div>
+                                    aria-haspopup="dialog" @endif>
+                                        <div class="h-learn-more-card_icon">
+                                            {!! $card['icon'] !!}
+                                        </div>
 
-                                <div class="learn-card-bottom d-flex align-items-center justify-content-between w-100">
-                                    <h3 class="fw-bold fs-4 mb-0">{!! $card['title'] !!}</h3>
+                                        <div
+                                            class="learn-card-bottom d-flex align-items-center justify-content-between w-100">
+                                            <h3 class="fw-bold fs-4 mb-0">{!! $card['title'] !!}</h3>
 
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
-                                        fill="currentColor" viewBox="0 0 20 20">
-                                        <path
-                                            d="M9.84451 20L7.33722 17.5502L13.1778 11.799H0V8.20096H13.1778L7.33722 2.45933L9.84451 0L20 10L9.84451 20Z" />
-                                    </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+                                                fill="currentColor" viewBox="0 0 20 20">
+                                                <path
+                                                    d="M9.84451 20L7.33722 17.5502L13.1778 11.799H0V8.20096H13.1778L7.33722 2.45933L9.84451 0L20 10L9.84451 20Z" />
+                                            </svg>
+                                        </div>
+                                    </a>
                                 </div>
-                            </a>
+                            @endforeach
                         </div>
-                    @endforeach
+                    </div>
+
                 </div>
             </div>
-
-        </div>
-    </div>
 
             {{-- Site Selector Modal --}}
 
@@ -580,7 +592,7 @@
 
         </section>
 
-        
+
         {{-- ===========================
  ABOUT GLS MOROCCO – 9onsol’s Talks
 =========================== --}}

@@ -16,9 +16,9 @@
     </section>
 
     @php
-        $level = strtoupper(request('level', ''));
+        $level = $quizLevel ?? strtoupper(request('quiz', '')); // quiz param
         $allowed = ['A1', 'A2', 'B1', 'B2'];
-        $level = in_array($level, $allowed) ? $level : '';
+        $level = in_array($level, $allowed, true) ? $level : '';
     @endphp
 
     <section class="home-courses-section section reveal delay-1">
@@ -38,6 +38,7 @@
 
             <div class="courses-cards reveal delay-1">
 
+                {{-- A1 --}}
                 <div class="course-card reveal delay-2">
                     <div class="couse-card_level reveal delay-3">
                         <div class="course-card_level-circle reveal delay-1">A</div>
@@ -49,12 +50,13 @@
                     <div class="course-card_text reveal delay-2">
                         {{ __('quiz/level_test.quizzes.a1.text') }}
                     </div>
-                    <a href="{{ route('front.discover-your-level') }}?quiz=A1"
+                    <a href="{{ LaravelLocalization::localizeUrl(route('front.discover-your-level.quiz', ['quiz' => 'A1'])) }}"
                         class="button is-course-card w-button reveal delay-3">
                         {{ __('quiz/level_test.quizzes.cta') }}
                     </a>
                 </div>
 
+                {{-- A2 --}}
                 <div class="course-card is-green reveal delay-3">
                     <div class="couse-card_level reveal delay-1">
                         <div class="course-card_level-circle reveal delay-2">A</div>
@@ -66,12 +68,13 @@
                     <div class="course-card_text reveal delay-2">
                         {{ __('quiz/level_test.quizzes.a2.text') }}
                     </div>
-                    <a href="{{ route('front.discover-your-level') }}?quiz=A2"
+                    <a href="{{ LaravelLocalization::localizeUrl(route('front.discover-your-level.quiz', ['quiz' => 'A2'])) }}"
                         class="button is-course-card w-button reveal delay-3">
                         {{ __('quiz/level_test.quizzes.cta') }}
                     </a>
                 </div>
 
+                {{-- B1 --}}
                 <div class="course-card is-purple reveal delay-1">
                     <div class="couse-card_level reveal delay-2">
                         <div class="course-card_level-circle reveal delay-3">B</div>
@@ -83,12 +86,13 @@
                     <div class="course-card_text reveal delay-3">
                         {{ __('quiz/level_test.quizzes.b1.text') }}
                     </div>
-                    <a href="{{ route('front.discover-your-level') }}?quiz=B1"
+                    <a href="{{ LaravelLocalization::localizeUrl(route('front.discover-your-level.quiz', ['quiz' => 'B1'])) }}"
                         class="button is-course-card w-button reveal delay-1">
                         {{ __('quiz/level_test.quizzes.cta') }}
                     </a>
                 </div>
 
+                {{-- B2 --}}
                 <div class="course-card is-yellow reveal delay-2">
                     <div class="couse-card_level reveal delay-3">
                         <div class="course-card_level-circle reveal delay-1">B</div>
@@ -100,7 +104,7 @@
                     <div class="course-card_text reveal delay-2">
                         {{ __('quiz/level_test.quizzes.b2.text') }}
                     </div>
-                    <a href="{{ route('front.discover-your-level') }}?quiz=B2"
+                    <a href="{{ LaravelLocalization::localizeUrl(route('front.discover-your-level.quiz', ['quiz' => 'B2'])) }}"
                         class="button is-course-card w-button reveal delay-3">
                         {{ __('quiz/level_test.quizzes.cta') }}
                     </a>
@@ -110,6 +114,7 @@
 
         </div>
     </section>
+
 
     <section class="gls-level-section section reveal delay-1">
         <div class="container is-gls-level reveal delay-2">
@@ -334,8 +339,8 @@
     </section>
 
     <!-- ============================
-                         CONTACT SECTION
-                    ============================= -->
+                             CONTACT SECTION
+                        ============================= -->
     <section class="contact-section section reveal delay-1">
         <div class="container is-2-col-grid reveal delay-2">
 

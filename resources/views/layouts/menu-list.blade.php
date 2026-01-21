@@ -69,3 +69,10 @@
         <span class="pc-mtext">Studienkollegs</span>
     </a>
 </li>
+
+<li class="pc-item">
+    <a href="{{ route('backoffice.quizzes.index') }}" class="pc-link">
+        <span class="pc-micon"><i class="ph-duotone ph-question"></i></span>
+        <span class="pc-mtext">Quizzes (QCM)</span>
+    </a>
+</li>
