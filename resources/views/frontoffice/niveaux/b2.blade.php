@@ -60,8 +60,8 @@
 
 
     <!-- ===========================================================
-                     AVANTAGES B2
-                =========================================================== -->
+                         AVANTAGES B2
+                    =========================================================== -->
     <div class="section is-off-white reveal delay-1">
         <div class="container is-2-col-grid is-flipped reveal delay-2">
 
@@ -90,8 +90,8 @@
 
             <!-- IMAGE -->
             <div class="image-block reveal delay-2">
-                <img src="{{ asset('assets/images/niveaux/affiche.webp') }}"
-                    alt="{{ __('niveaux/b2.class_alt') }}" class="full-image reveal delay-3">
+                <img src="{{ asset('assets/images/niveaux/affiche.webp') }}" alt="{{ __('niveaux/b2.class_alt') }}"
+                    class="full-image reveal delay-3">
             </div>
 
         </div>
@@ -100,8 +100,8 @@
 
 
     <!-- ===========================================================
-                     INFO CARDS
-                =========================================================== -->
+                         INFO CARDS
+                    =========================================================== -->
     <section class="gls-info-section gls-section reveal delay-1">
         <div class="gls-container reveal delay-2">
 
@@ -159,8 +159,8 @@
 
 
     <!-- ===========================================================
-                     PATH SECTION
-                =========================================================== -->
+                         PATH SECTION
+                    =========================================================== -->
     <section class="gls-path-section reveal delay-1">
 
         <div class="gls-path-container reveal delay-2">
@@ -224,8 +224,8 @@
 
 
     <!-- ===========================================================
-                     RICH TEXT B2
-                =========================================================== -->
+                         RICH TEXT B2
+                    =========================================================== -->
     <section class="gls-a1-rich-section reveal delay-1">
 
         <div class="gls-a1-rich-container reveal delay-2">
@@ -308,7 +308,7 @@
             <p class="cta-box-subtext reveal delay-1">{!! __('niveaux/b2.cta_text') !!}</p>
 
             <a href="/online-registration" class="cta-btn reveal delay-2" data-bs-toggle="modal"
-                    data-bs-target="#consultationModal">
+                data-bs-target="#consultationModal">
                 {{ __('niveaux/b2.cta_btn') }}
             </a>
 
@@ -317,33 +317,39 @@
 
 
     <!-- ===========================================================
-                     DYNAMIC JS – TRANSLATION SAFE
-                =========================================================== -->
+                         DYNAMIC JS – TRANSLATION SAFE
+                    =========================================================== -->
     <script>
+        const pricingUrl = `{{ route('front.pricing') }}`;
+
         const data = {
             A1: {
                 graduation: @json(__('niveaux/a1.data_graduation')),
                 duration: @json(__('niveaux/a1.data_duration')),
                 times: @json(__('niveaux/a1.data_times')),
                 price: @json(__('niveaux/a1.data_price')),
+                priceLink: @json(__('niveaux/a1.data_price_link_text')),
             },
             A2: {
                 graduation: @json(__('niveaux/b2.data_graduation')),
                 duration: @json(__('niveaux/b2.data_duration')),
                 times: @json(__('niveaux/b2.data_times')),
                 price: @json(__('niveaux/b2.data_price')),
+                priceLink: @json(__('niveaux/b2.data_price_link_text')),
             },
             B1: {
                 graduation: @json(__('niveaux/b1.data_graduation')),
                 duration: @json(__('niveaux/b1.data_duration')),
                 times: @json(__('niveaux/b1.data_times')),
                 price: @json(__('niveaux/b1.data_price')),
+                priceLink: @json(__('niveaux/b1.data_price_link_text')),
             },
             B2: {
                 graduation: @json(__('niveaux/b2.data_graduation')),
                 duration: @json(__('niveaux/b2.data_duration')),
                 times: @json(__('niveaux/b2.data_times')),
                 price: @json(__('niveaux/b2.data_price')),
+                priceLink: @json(__('niveaux/b2.data_price_link_text')),
             },
         };
 
@@ -351,7 +357,10 @@
             document.getElementById("graduation-text").innerHTML = data[level].graduation;
             document.getElementById("duration-text").innerHTML = data[level].duration;
             document.getElementById("times-text").innerHTML = data[level].times;
-            document.getElementById("price-text").innerHTML = data[level].price;
+
+            // Build price with link
+            const priceHtml = `${data[level].price}<br><a href="${pricingUrl}" class="link">${data[level].priceLink}</a>`;
+            document.getElementById("price-text").innerHTML = priceHtml;
         }
 
         document.querySelectorAll(".gls-niveau-btn").forEach(btn => {
