@@ -293,7 +293,87 @@
         </div>
     </section>
 
+{{-- ===============================
+ CONTACT SECTION
+================================ --}}
+        <section class="contact-section section {{ app()->getLocale() == 'ar' ? 'rtl' : '' }} reveal delay-1">
+            <div class="container is-2-col-grid reveal delay-2">
 
+                {{-- LEFT SIDE --}}
+                <div class="div-block-5-copy reveal delay-3">
+
+                    <h2 class="contact-section-subtitle reveal fade-blur-title delay-1">
+                        {!! __('home.contact.title') !!}
+                    </h2>
+
+
+                    <div class="div-block-21 reveal delay-2">
+
+                        <a href="tel:+212669515019" class="link-block reveal delay-1">
+                            <div class="text-block-3 reveal delay-2">
+                                <span class="text-span reveal delay-3">{!! __('home.contact.call_label') !!}<br></span>
+                                +212 6 69 51 50 19
+                            </div>
+                        </a>
+
+                        <a href="mailto:info@glssprachenzentrum.ma" class="link-block-2 reveal delay-3">
+                            <div class="text-block-3 reveal delay-1">
+                                <span class="text-span reveal delay-2">{!! __('home.contact.email_label') !!}<br></span>
+                                info@glssprachenzentrum.ma
+                            </div>
+                        </a>
+
+                    </div>
+
+                    <div class="text-block-3 visit-block reveal delay-3">
+                        <span class="text-span reveal delay-1">{!! __('home.contact.visit_label') !!}</span><br>
+                        {!! __('home.contact.addresses') !!}
+                    </div>
+
+                    <div class="footer-socials-block reveal delay-1">
+
+                        <div class="text-block-3 reveal delay-2">
+                            <span class="text-span reveal delay-3">{!! __('home.contact.follow_label') !!}</span>
+                        </div>
+
+                        <div class="div-block-20 reveal delay-1">
+                            <a href="https://www.instagram.com/gls.sprachenzentrum/" class="footer-social-link ig"
+                                target="_blank" rel="noopener noreferrer" aria-label="GLS Sprachenzentrum sur Instagram">
+                                <i class="bi bi-instagram"></i>
+                            </a>
+
+                            <a href="https://www.facebook.com/gls.sale/" class="footer-social-link fb" target="_blank"
+                                rel="noopener noreferrer" aria-label="GLS Sprachenzentrum sur Facebook">
+                                <i class="bi bi-facebook"></i>
+                            </a>
+
+                            <a href="https://www.youtube.com/@9onsolsTalks" class="footer-social-link yt" target="_blank"
+                                rel="noopener noreferrer" aria-label="GLS Sprachenzentrum sur YouTube">
+                                <i class="bi bi-youtube"></i>
+                            </a>
+
+                            <a href="https://api.whatsapp.com/send/?phone=0669515019&text&type=phone_number&app_absent=0"
+                                class="footer-social-link wa" target="_blank" rel="noopener noreferrer"
+                                aria-label="Contacter GLS Sprachenzentrum sur WhatsApp">
+                                <i class="bi bi-whatsapp"></i>
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {{-- RIGHT SIDE: MAP --}}
+                <a href="https://maps.app.goo.gl/g4PjrPB7wHQAqrSZA" target="_blank" class="div-block-7 reveal delay-3">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3331.744621379457!2d-6.836039!3d33.978558!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda76b6d63b66b1d%3A0x3c6ee0a64f273aa2!2sAgdal%2C%20Rabat!5e0!3m2!1sen!2sma!4v1700000000000"
+                        allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                        class="reveal delay-1"></iframe>
+                </a>
+
+            </div>
+        </section>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
