@@ -95,10 +95,28 @@ return [
         'title' => 'Prêt à commencer votre parcours en allemand<br>à Rabat ?',
 
         'text' => "Réservez votre consultation gratuite au GLS Rabat et obtenez
-                   un accompagnement expert pour vos projets d’études ou de travail en Allemagne.<br>
+                   un accompagnement expert pour vos projets d'études ou de travail en Allemagne.<br>
                    Notre équipe administrative vous expliquera les programmes, les étapes du visa
-                   et vous aidera à choisir le cours d’allemand le plus adapté à vos objectifs.",
+                   et vous aidera à choisir le cours d'allemand le plus adapté à vos objectifs.",
 
         'button' => 'Réserver une consultation',
+    ],
+
+    // -------------------------
+    // CONTACT SECTION
+    // -------------------------
+    'contact' => [
+        'title' => 'Nous contacter',
+        'call_label' => 'Appelez-nous',
+        'email_label' => 'Écrivez-nous',
+        'visit_label' => 'Visitez notre centre',
+        'addresses' => 'Avenue Fal Ould Oumeir, Building 77, 1st floor N°1, Agdal, Rabat',
+        'follow_label' => 'Suivez-nous',
+        'phone_link' => '+212669515019',
+        'phone_display' => '+212 6 69 51 50 19',
+        'email' => 'info@glssprachenzentrum.ma',
+        'whatsapp_url' => 'https://api.whatsapp.com/send/?phone=0669515019&text&type=phone_number&app_absent=0',
+        'map_url' => 'https://maps.app.goo.gl/g4PjrPB7wHQAqrSZA',
+        'map_iframe_src' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3331.744621379457!2d-6.836039!3d33.978558!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda76b6d63b66b1d%3A0x3c6ee0a64f273aa2!2sAgdal%2C%20Rabat!5e0!3m2!1sen!2sma!4v1700000000000',
     ],
 ];
