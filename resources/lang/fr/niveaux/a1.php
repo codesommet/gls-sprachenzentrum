@@ -3,7 +3,7 @@
 return [
     /*
     |--------------------------------------------------------------------------
-    | PAGE A1 – GLS Sprachenzentrum
+    | PAGE A1 – GLS Sprachenzentrum (FR)
     |--------------------------------------------------------------------------
     */
 
@@ -32,7 +32,7 @@ return [
 
     'adv_1' => '✅ <strong>Parfait pour débutants</strong> — aucune connaissance préalable n’est requise.',
     'adv_2' => '👥 <strong>Groupes réduits</strong> — maximum 25 apprenants pour un meilleur suivi.',
-    'adv_3' => '📚 <strong>Format intensif</strong> — 16 sessions/semaine + devoirs.',
+    'adv_3' => '📚 <strong>Format intensif</strong> — du lundi au vendredi (5 séances / semaine).',
     'adv_4' => '🗣️ <strong>Accent sur l’expression orale</strong> — exercices en binôme et en groupe.',
     'adv_5' => '🧠 <strong>Méthode équilibrée</strong> — communication pratique + grammaire essentielle.',
     'adv_6' => '🎓 <strong>Certificat de niveau A1</strong> — délivré après l’examen final.',
@@ -53,11 +53,16 @@ return [
     // ------------------------------
     // DATA A1 (USED IN JS)
     // ------------------------------
+    // NOTE: mêmes contenus "cartes" pour tous les niveaux (A1–B2) comme demandé
     'data_graduation' => 'Certificat A1 – Niveau Débutant',
-    'data_duration' => '5 semaines<br>18 leçons / semaine',
-    'data_times' => 'Lun–Ven<br>13:15–16:30',
-    'data_price' => '998 DH',
+    'data_duration'   => '5 semaines<br>5 séances / semaine',
+    'data_times'      => 'Lun–Ven',
+    'data_price'      => 'Selon le centre',
+    'data_price_link_text' => '<strong>Voir les tarifs</strong>',
 
+    // ------------------------------
+    // RICH TEXT
+    // ------------------------------
     'rich_1_title' => 'Allemand A1 – Commencez Votre Parcours Linguistique',
     'rich_1_sub' => 'Vos Premiers Pas en Allemand chez GLS',
 
@@ -79,9 +84,8 @@ return [
     'rich_2_sub' => 'Progression Naturelle pour les Débutants',
 
     'rich_2_p1' => '
-        Le niveau A1 comprend <strong>18 leçons intensives par semaine</strong>,
-        du lundi au vendredi. Après environ 5 semaines, les apprenants sont prêts
-        pour l’examen A1.
+        Le niveau A1 se déroule <strong>du lundi au vendredi (5 séances par semaine)</strong>.
+        Après environ <strong>5 semaines</strong>, les apprenants sont prêts pour l’examen A1.
     ',
 
     'rich_2_p2' => '

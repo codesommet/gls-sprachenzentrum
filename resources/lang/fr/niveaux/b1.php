@@ -58,7 +58,8 @@ return [
     'data_graduation' => 'Certificat B1 – Niveau Intermédiaire',
     'data_duration' => '6 semaines<br>18 leçons / semaine',
     'data_times' => 'Lun–Ven<br>13:15–16:30',
-    'data_price' => '1300 DH',
+    'data_price' => 'Selon le centre',
+    'data_price_link_text' => '<strong>Voir les tarifs</strong>',
 
     'rich_1_title' => 'Allemand B1 – Parlez Avec Plus d’Autonomie',
     'rich_1_sub' => 'Développez Votre Confiance en Allemand',

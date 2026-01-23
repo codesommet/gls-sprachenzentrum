@@ -58,7 +58,8 @@ return [
     'data_graduation' => 'Certificat B2 – Niveau Avancé',
     'data_duration' => '6 semaines<br>20 leçons / semaine',
     'data_times' => 'Lun–Ven<br>13:15–16:30',
-    'data_price' => '1500 DH',
+    'data_price' => 'Selon le centre',
+    'data_price_link_text' => '<strong>Voir les tarifs</strong>',
 
     'rich_1_title' => 'Allemand B2 – Maîtrise et Communication Avancée',
     'rich_1_sub' => 'Atteignez un Niveau d’Aisance Supérieur',
