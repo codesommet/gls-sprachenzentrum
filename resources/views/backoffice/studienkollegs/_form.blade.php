@@ -21,54 +21,91 @@
         'SW' => 'SW Course',
     ];
 
-    // ===== Safe arrays/JSON =====
+    // ===== Safe arrays/JSON & Deadlines Normalization =====
+    // DB stores deadlines as LIST format:
+    // [{semester: "Winter Semester (WS)", range: "15.03 – 15.04", note: "..."}, ...]
+    // But form uses MAP format: deadlines[Winter Semester][range], etc.
+    // This block normalizes both formats for edit display.
     $deadlines = old('deadlines', $item->deadlines ?? []);
-    $winter = $deadlines['Winter Semester'] ?? [];
 
-    // ✅ FIX: make sure courses is always an array and contains only keys
-    $selectedCourses = old('courses');
-    if ($selectedCourses === null) {
-        $raw = $item->courses ?? [];
+    // If it's a JSON string, decode it
+if (is_string($deadlines)) {
+    $deadlines = json_decode($deadlines, true) ?? [];
+}
 
-        if (is_array($raw)) {
-            $selectedCourses = $raw;
-        } elseif (is_string($raw)) {
-            $decoded = json_decode($raw, true);
-            $selectedCourses = is_array($decoded) ? $decoded : [];
-        } else {
-            $selectedCourses = [];
+// Initialize winter and summer as empty arrays with safe defaults
+$winter = ['range' => '', 'note' => ''];
+$summer = ['range' => '', 'note' => ''];
+
+// If deadlines is a list format (from DB/seeder), extract winter/summer rows
+if (is_array($deadlines) && !empty($deadlines)) {
+    if (isset($deadlines[0]) && is_array($deadlines[0]) && isset($deadlines[0]['semester'])) {
+        // LIST format detected: [{semester: "...", range: "...", ...}, ...]
+        foreach ($deadlines as $row) {
+            $semester = $row['semester'] ?? '';
+            if (stripos($semester, 'Winter') !== false || stripos($semester, 'WS') !== false) {
+                $winter = [
+                    'range' => $row['range'] ?? '',
+                    'note' => $row['note'] ?? '',
+                ];
+            } elseif (stripos($semester, 'Summer') !== false || stripos($semester, 'SS') !== false) {
+                $summer = [
+                    'range' => $row['range'] ?? '',
+                    'note' => $row['note'] ?? '',
+                ];
+            }
         }
-    } elseif (!is_array($selectedCourses)) {
+    } else {
+        // MAP format detected: {"Winter Semester": {...}, "Summer Semester": {...}}
+        $winter = $deadlines['Winter Semester'] ?? ['range' => '', 'note' => ''];
+        $summer = $deadlines['Summer Semester'] ?? ['range' => '', 'note' => ''];
+    }
+}
+
+// ✅ FIX: make sure courses is always an array and contains only keys
+$selectedCourses = old('courses');
+if ($selectedCourses === null) {
+    $raw = $item->courses ?? [];
+
+    if (is_array($raw)) {
+        $selectedCourses = $raw;
+    } elseif (is_string($raw)) {
+        $decoded = json_decode($raw, true);
+        $selectedCourses = is_array($decoded) ? $decoded : [];
+    } else {
         $selectedCourses = [];
     }
+} elseif (!is_array($selectedCourses)) {
+    $selectedCourses = [];
+}
 
-    // Normalize courses: if DB contains labels (e.g., "TI Course"), extract the keys
-    $reverseMap = array_flip($courseMap); // Create "TI Course" => "TI" mapping
-    $selectedCourses = array_map(function ($item) use ($reverseMap, $courseMap) {
-        // If it's already a key (T, W, TI, etc.), return as is
-    if (isset($courseMap[$item])) {
-        return $item;
-    }
-    // If it's a label (T Course, TI Course, etc.), map back to key
-        return $reverseMap[$item] ?? $item;
-    }, $selectedCourses);
-    $selectedCourses = array_filter($selectedCourses, function ($v) use ($courseMap) {
-        return isset($courseMap[$v]);
-    });
+// Normalize courses: if DB contains labels (e.g., "TI Course"), extract the keys
+$reverseMap = array_flip($courseMap); // Create "TI Course" => "TI" mapping
+$selectedCourses = array_map(function ($item) use ($reverseMap, $courseMap) {
+    // If it's already a key (T, W, TI, etc.), return as is
+        if (isset($courseMap[$item])) {
+            return $item;
+        }
+        // If it's a label (T Course, TI Course, etc.), map back to key
+    return $reverseMap[$item] ?? $item;
+}, $selectedCourses);
+$selectedCourses = array_filter($selectedCourses, function ($v) use ($courseMap) {
+    return isset($courseMap[$v]);
+});
 
-    // Languages & documents textarea
-    $languagesText = old('languages');
-    if ($languagesText === null) {
-        $languagesText = implode("\n", $item->languages ?? []);
-    }
+// Languages & documents textarea
+$languagesText = old('languages');
+if ($languagesText === null) {
+    $languagesText = implode("\n", $item->languages ?? []);
+}
 
-    $documentsText = old('documents');
-    if ($documentsText === null) {
-        $documentsText = implode("\n", $item->documents ?? []);
-    }
+$documentsText = old('documents');
+if ($documentsText === null) {
+    $documentsText = implode("\n", $item->documents ?? []);
+}
 
-    // Requirements textarea - display as lines, not JSON
-    $requirementsValue = old('requirements');
+// Requirements textarea - display as lines, not JSON
+$requirementsValue = old('requirements');
     if ($requirementsValue === null) {
         $requirementsValue = implode("\n", $item->requirements ?? []);
     }
@@ -275,22 +312,31 @@
     </div>
     <div class="card-body row">
 
-        <div class="col-md-4 mb-3">
-            <label class="form-label">Winter Semester – Start</label>
-            <input type="text" name="deadlines[Winter Semester][start]" class="form-control"
-                value="{{ old('deadlines.Winter Semester.start', $winter['start'] ?? '') }}">
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Winter Semester – Range</label>
+            <input type="text" name="deadlines[Winter Semester][range]" class="form-control"
+                placeholder="15.03 – 15.04"
+                value="{{ old('deadlines.Winter Semester.range', $winter['range'] ?? '') }}">
         </div>
 
-        <div class="col-md-4 mb-3">
-            <label class="form-label">Winter Semester – End</label>
-            <input type="text" name="deadlines[Winter Semester][end]" class="form-control"
-                value="{{ old('deadlines.Winter Semester.end', $winter['end'] ?? '') }}">
-        </div>
-
-        <div class="col-md-4 mb-3">
-            <label class="form-label">Note</label>
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Winter Semester – Note</label>
             <input type="text" name="deadlines[Winter Semester][note]" class="form-control"
                 value="{{ old('deadlines.Winter Semester.note', $winter['note'] ?? '') }}">
+        </div>
+
+        {{-- Summer Semester --}}
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Summer Semester – Range</label>
+            <input type="text" name="deadlines[Summer Semester][range]" class="form-control"
+                placeholder="15.09 – 15.10"
+                value="{{ old('deadlines.Summer Semester.range', $summer['range'] ?? '') }}">
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Summer Semester – Note</label>
+            <input type="text" name="deadlines[Summer Semester][note]" class="form-control"
+                value="{{ old('deadlines.Summer Semester.note', $summer['note'] ?? '') }}">
         </div>
 
     </div>

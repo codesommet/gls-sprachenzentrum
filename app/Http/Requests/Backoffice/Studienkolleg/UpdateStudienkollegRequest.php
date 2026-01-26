@@ -45,9 +45,11 @@ class UpdateStudienkollegRequest extends FormRequest
 
             'deadlines' => ['nullable', 'array'],
             'deadlines.Winter Semester' => ['nullable', 'array'],
-            'deadlines.Winter Semester.start' => ['nullable', 'string'],
-            'deadlines.Winter Semester.end' => ['nullable', 'string'],
+            'deadlines.Winter Semester.range' => ['nullable', 'string', 'max:100'],
             'deadlines.Winter Semester.note' => ['nullable', 'string'],
+            'deadlines.Summer Semester' => ['nullable', 'array'],
+            'deadlines.Summer Semester.range' => ['nullable', 'string', 'max:100'],
+            'deadlines.Summer Semester.note' => ['nullable', 'string'],
 
             'application_method' => ['nullable', 'string', 'max:255'],
             'application_portal_note' => ['nullable', 'string', 'max:255'],

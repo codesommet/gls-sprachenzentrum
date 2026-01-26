@@ -12,7 +12,9 @@
 
         // ---------- SAFE NORMALIZERS ----------
         $normalizeToArray = function ($value) {
-            if (is_array($value)) return $value;
+            if (is_array($value)) {
+                return $value;
+            }
 
             if (is_string($value)) {
                 $trim = trim($value);
@@ -55,10 +57,12 @@
         }
 
         // Requirements: if DB contains newline text, create 1 item
-        if (empty($requirements) && is_string($studienkolleg->requirements ?? null) && trim($studienkolleg->requirements) !== '') {
-            $requirements = [
-                ['title' => 'Requirements', 'content' => $studienkolleg->requirements],
-            ];
+        if (
+            empty($requirements) &&
+            is_string($studienkolleg->requirements ?? null) &&
+            trim($studienkolleg->requirements) !== ''
+        ) {
+            $requirements = [['title' => 'Requirements', 'content' => $studienkolleg->requirements]];
         }
     @endphp
 
@@ -169,30 +173,30 @@ CONTENT
                             <thead>
                                 <tr>
                                     <th>Semester</th>
-                                    <th>Start</th>
-                                    <th>End</th>
+                                    <th>Deadline Range</th>
                                     <th>Notes</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($deadlines as $semester => $d)
+                                @forelse($deadlines as $d)
                                     @php
-                                        // if each $d accidentally comes as string, normalize
+                                        // if $d accidentally comes as string, normalize
                                         if (is_string($d)) {
                                             $decoded = json_decode($d, true);
                                             $d = is_array($decoded) ? $decoded : [];
                                         }
-                                        if (!is_array($d)) $d = [];
+                                        if (!is_array($d)) {
+                                            $d = [];
+                                        }
                                     @endphp
                                     <tr>
-                                        <td>{{ $semester }}</td>
-                                        <td>{{ $d['start'] ?? '—' }}</td>
-                                        <td>{{ $d['end'] ?? '—' }}</td>
-                                        <td>{{ $d['note'] ?? '—' }}</td>
+                                        <td>{{ $d['semester'] ?? '—' }}</td>
+                                        <td>{{ !empty($d['range']) ? $d['range'] : '—' }}</td>
+                                        <td>{{ !empty($d['note']) ? $d['note'] : '—' }}</td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="4">No deadlines available</td>
+                                        <td colspan="3">No deadlines available</td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -215,7 +219,9 @@ CONTENT
                                             $req = ['title' => '', 'content' => $req];
                                         }
                                     }
-                                    if (!is_array($req)) $req = [];
+                                    if (!is_array($req)) {
+                                        $req = [];
+                                    }
 
                                     // Ensure keys exist
                                     $reqTitle = $req['title'] ?? '';

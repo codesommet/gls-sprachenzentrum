@@ -55,6 +55,7 @@ class StudienkollegController extends Controller
             'languages' => $this->linesToArray($request->languages),
             'documents' => $this->linesToArray($request->documents),
             'requirements' => $this->linesToArray($request->input('requirements')),
+            'deadlines' => $this->convertDeadlinesMapToList($request->input('deadlines')),
 
             'application_method' => $request->application_method,
             'application_portal_note' => $request->application_portal_note,
@@ -149,7 +150,7 @@ class StudienkollegController extends Controller
         $data['languages'] = $this->linesToArray($request->input('languages'));
         $data['documents'] = $this->linesToArray($request->input('documents'));
         $data['requirements'] = $this->linesToArray($request->input('requirements'));
-        $data['deadlines'] = $request->input('deadlines');
+        $data['deadlines'] = $this->convertDeadlinesMapToList($request->input('deadlines'));
 
         return $data;
     }
@@ -189,5 +190,47 @@ class StudienkollegController extends Controller
         }
 
         return null;
+    }
+
+    /* =====================================================
+     * DEADLINES CONVERSION: MAP format (form) → LIST format (DB)
+     * =====================================================
+     * Form submits deadlines as MAP with 'range':
+     *   deadlines[Winter Semester][range], etc.
+     * DB stores deadlines as LIST with 'range':
+     *   [{semester: "Winter Semester (WS)", range: "15.03 – 15.04", note: "..."}, ...]
+     */
+    private function convertDeadlinesMapToList(?array $mapDeadlines): ?array
+    {
+        if (!is_array($mapDeadlines) || empty($mapDeadlines)) {
+            return null;
+        }
+
+        $list = [];
+
+        // Map form keys to list format with semester labels
+        $mapping = [
+            'Winter Semester' => 'Winter Semester (WS)',
+            'Summer Semester' => 'Summer Semester (SS)',
+        ];
+
+        foreach ($mapping as $formKey => $semesterLabel) {
+            if (isset($mapDeadlines[$formKey]) && is_array($mapDeadlines[$formKey])) {
+                $row = $mapDeadlines[$formKey];
+                $range = trim($row['range'] ?? '');
+                $note = trim($row['note'] ?? '');
+
+                // Only add if at least one field is not empty
+                if (!empty($range) || !empty($note)) {
+                    $list[] = [
+                        'semester' => $semesterLabel,
+                        'range' => $range,
+                        'note' => $note,
+                    ];
+                }
+            }
+        }
+
+        return !empty($list) ? $list : null;
     }
 }

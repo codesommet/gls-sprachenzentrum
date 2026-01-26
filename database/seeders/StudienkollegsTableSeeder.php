@@ -35,6 +35,56 @@ class StudienkollegsTableSeeder extends Seeder
         };
 
         /**
+         * Helper: Convert deadlines from MAP format (start/end) to LIST format (range).
+         * Intelligently handles null values:
+         *   - start=null, end='30.06' => 'bis 30.06'
+         *   - start='15.04', end=null => 'ab 15.04'
+         *   - start=null, end=null => '' (empty range)
+         */
+        $convertDeadlinesToRange = function (?array $mapDeadlines): ?array {
+            if (!is_array($mapDeadlines) || empty($mapDeadlines)) {
+                return null;
+            }
+
+            $list = [];
+            $mapping = [
+                'Winter Semester' => 'Winter Semester (WS)',
+                'Summer Semester' => 'Summer Semester (SS)',
+            ];
+
+            foreach ($mapping as $formKey => $semesterLabel) {
+                if (isset($mapDeadlines[$formKey]) && is_array($mapDeadlines[$formKey])) {
+                    $row = $mapDeadlines[$formKey];
+                    $start = isset($row['start']) ? trim($row['start']) : null;
+                    $end = isset($row['end']) ? trim($row['end']) : null;
+                    $note = isset($row['note']) ? trim($row['note']) : '';
+
+                    // Build range intelligently
+                    $range = '';
+                    if (!empty($start) && !empty($end)) {
+                        $range = "$start – $end";
+                    } elseif (empty($start) && !empty($end)) {
+                        $range = "bis $end";
+                    } elseif (!empty($start) && empty($end)) {
+                        $range = "ab $start";
+                    }
+                    // else: both null => range stays empty
+
+                    // Only add row if range or note exists
+                    if (!empty($range) || !empty($note)) {
+                        $list[] = [
+                            'semester' => $semesterLabel,
+                            'range' => $range,
+                            'note' => $note,
+                        ];
+                    }
+                }
+            }
+
+            return !empty($list) ? $list : null;
+        };
+
+        /**
          * Helper: Apply default values for NOT NULL fields to prevent constraint violations.
          * This ensures every required field has a safe value (never null).
          * 
@@ -66,8 +116,15 @@ class StudienkollegsTableSeeder extends Seeder
             ], $data);
         };
 
-        $seed = function (array $data) use ($applyDefaults) {
+        $seed = function (array $data) use ($applyDefaults, $convertDeadlinesToRange) {
             $data = $applyDefaults($data);
+            // Convert deadlines from MAP format (start/end) to LIST format (range)
+            if (!empty($data['deadlines']) && is_array($data['deadlines'])) {
+                // Check if it's MAP format (has 'Winter Semester' or 'Summer Semester' keys)
+                if (isset($data['deadlines']['Winter Semester']) || isset($data['deadlines']['Summer Semester'])) {
+                    $data['deadlines'] = $convertDeadlinesToRange($data['deadlines']);
+                }
+            }
             $data['slug'] = $data['slug'] ?? Str::slug($data['name']);
             Studienkolleg::create($data);
         };
@@ -105,8 +162,8 @@ class StudienkollegsTableSeeder extends Seeder
                 'Passport copy',
             ],
             'deadlines' => [
-                ['semester' => 'Winter Semester (WS)', 'start' => '01.11', 'end' => '31.03'],
-                ['semester' => 'Summer Semester (SS)', 'start' => '01.05', 'end' => '30.09'],
+                'Winter Semester' => ['start' => '01.11', 'end' => '31.03', 'note' => ''],
+                'Summer Semester' => ['start' => '01.05', 'end' => '30.09', 'note' => ''],
             ],
             'requirements' => [
                 'German level: B1',
@@ -158,8 +215,8 @@ class StudienkollegsTableSeeder extends Seeder
                 'Passport copy',
             ],
             'deadlines' => [
-                ['semester' => 'Winter Semester (WS)', 'start' => '15.03', 'end' => '15.04'],
-                ['semester' => 'Summer Semester (SS)', 'start' => '15.09', 'end' => '15.10'],
+                'Winter Semester' => ['start' => '15.03', 'end' => '15.04', 'note' => ''],
+                'Summer Semester' => ['start' => '15.09', 'end' => '15.10', 'note' => ''],
             ],
             'requirements' => [
                 'German level: B1',
@@ -211,8 +268,8 @@ class StudienkollegsTableSeeder extends Seeder
                 'Passport copy',
             ],
             'deadlines' => [
-                ['semester' => 'Winter Semester (WS)', 'start' => '01.05', 'end' => '15.07'],
-                ['semester' => 'Summer Semester (SS)', 'start' => '01.11', 'end' => '15.01'],
+                'Winter Semester' => ['start' => '01.05', 'end' => '15.07', 'note' => ''],
+                'Summer Semester' => ['start' => '01.11', 'end' => '15.01', 'note' => ''],
             ],
             'requirements' => [
                 'German level: B1',
@@ -265,8 +322,8 @@ class StudienkollegsTableSeeder extends Seeder
                 'Passport copy',
             ],
             'deadlines' => [
-                ['semester' => 'Winter Semester (WS)', 'start' => '15.02', 'end' => '15.05'],
-                ['semester' => 'Summer Semester (SS)', 'start' => '15.08', 'end' => '15.10'],
+                'Winter Semester' => ['start' => '15.02', 'end' => '15.05', 'note' => ''],
+                'Summer Semester' => ['start' => '15.08', 'end' => '15.10', 'note' => ''],
             ],
             'requirements' => [
                 'German level: B2',
@@ -321,8 +378,8 @@ class StudienkollegsTableSeeder extends Seeder
                 'VPD (uni-assist) if required',
             ],
             'deadlines' => [
-                ['semester' => 'Winter Semester (WS)', 'start' => '15.02', 'end' => '15.07'],
-                ['semester' => 'Summer Semester (SS)', 'start' => null, 'end' => '15.01', 'note' => 'as provided: "bis 15.01"'],
+                'Winter Semester' => ['start' => '15.02', 'end' => '15.07', 'note' => ''],
+                'Summer Semester' => ['start' => null, 'end' => '15.01', 'note' => 'as provided: "bis 15.01"'],
             ],
             'requirements' => [
                 'German level: B1+/B2',
@@ -375,8 +432,8 @@ class StudienkollegsTableSeeder extends Seeder
                 'Passport copy',
             ],
             'deadlines' => [
-                ['semester' => 'Winter Semester (WS)', 'start' => null, 'end' => '15.06', 'note' => 'as provided'],
-                ['semester' => 'Summer Semester (SS)', 'start' => null, 'end' => '15.11', 'note' => 'as provided'],
+                'Winter Semester' => ['start' => null, 'end' => '15.06', 'note' => 'as provided'],
+                'Summer Semester' => ['start' => null, 'end' => '15.11', 'note' => 'as provided'],
             ],
             'requirements' => [
                 'German level: B1',
@@ -431,8 +488,8 @@ class StudienkollegsTableSeeder extends Seeder
                 'Passport copy',
             ],
             'deadlines' => [
-                ['semester' => 'Winter Semester (WS)', 'start' => null, 'end' => '01.05', 'note' => 'as provided'],
-                ['semester' => 'Summer Semester (SS)', 'start' => null, 'end' => '01.11', 'note' => 'as provided'],
+                'Winter Semester' => ['start' => null, 'end' => '01.05', 'note' => 'as provided'],
+                'Summer Semester' => ['start' => null, 'end' => '01.11', 'note' => 'as provided'],
             ],
             'requirements' => [
                 'German level: B1 (online test) as provided',
@@ -540,8 +597,8 @@ class StudienkollegsTableSeeder extends Seeder
                 'Passport copy',
             ],
             'deadlines' => [
-                ['semester' => 'Winter Semester (WS)', 'start' => '01.05', 'end' => '30.06'],
-                ['semester' => 'Summer Semester (SS)', 'start' => '01.11', 'end' => '15.12'],
+                'Winter Semester' => ['start' => '01.05', 'end' => '30.06', 'note' => ''],
+                'Summer Semester' => ['start' => '01.11', 'end' => '15.12', 'note' => ''],
             ],
             'requirements' => [
                 'German level: B2',
@@ -595,8 +652,8 @@ class StudienkollegsTableSeeder extends Seeder
                 'Passport copy',
             ],
             'deadlines' => [
-                ['semester' => 'Winter Semester (WS)', 'start' => '15.03', 'end' => '30.06'],
-                ['semester' => 'Summer Semester (SS)', 'start' => '15.09', 'end' => '30.11'],
+                'Winter Semester' => ['start' => '15.03', 'end' => '30.06', 'note' => ''],
+                'Summer Semester' => ['start' => '15.09', 'end' => '30.11', 'note' => ''],
             ],
             'requirements' => [
                 'German level: B2',
@@ -651,8 +708,8 @@ class StudienkollegsTableSeeder extends Seeder
                 'Passport copy',
             ],
             'deadlines' => [
-                ['semester' => 'Winter Semester (WS)', 'start' => '01.06', 'end' => '15.07'],
-                ['semester' => 'Summer Semester (SS)', 'start' => '01.12', 'end' => '15.01'],
+                'Winter Semester' => ['start' => '01.06', 'end' => '15.07', 'note' => ''],
+                'Summer Semester' => ['start' => '01.12', 'end' => '15.01', 'note' => ''],
             ],
             'requirements' => [
                 'German level: B2',
@@ -709,8 +766,8 @@ class StudienkollegsTableSeeder extends Seeder
                 'Passport copy',
             ],
             'deadlines' => [
-                ['semester' => 'Winter Semester (WS)', 'start' => '01.01', 'end' => '01.03'],
-                ['semester' => 'Summer Semester (SS)', 'start' => '01.07', 'end' => '01.09'],
+                'Winter Semester' => ['start' => '01.01', 'end' => '01.03', 'note' => ''],
+                'Summer Semester' => ['start' => '01.07', 'end' => '01.09', 'note' => ''],
             ],
             'requirements' => [
                 'German level: B2',
@@ -764,8 +821,8 @@ class StudienkollegsTableSeeder extends Seeder
                 'Passport copy',
             ],
             'deadlines' => [
-                ['semester' => 'Winter Semester (WS)', 'start' => null, 'end' => '30.04'],
-                ['semester' => 'Summer Semester (SS)', 'start' => null, 'end' => null, 'note' => 'No application possible (as provided)'],
+                'Winter Semester' => ['start' => null, 'end' => '30.04', 'note' => ''],
+                'Summer Semester' => ['start' => null, 'end' => null, 'note' => 'No application possible (as provided)'],
             ],
             'requirements' => [
                 'German level: B1',
@@ -820,8 +877,8 @@ class StudienkollegsTableSeeder extends Seeder
                 'Passport copy',
             ],
             'deadlines' => [
-                ['semester' => 'Winter Semester (WS)', 'start' => '01.03', 'end' => '15.04'],
-                ['semester' => 'Summer Semester (SS)', 'start' => '01.09', 'end' => '15.10'],
+                'Winter Semester' => ['start' => '01.03', 'end' => '15.04', 'note' => ''],
+                'Summer Semester' => ['start' => '01.09', 'end' => '15.10', 'note' => ''],
             ],
             'requirements' => [
                 'German level: B1',
@@ -876,8 +933,8 @@ class StudienkollegsTableSeeder extends Seeder
                 'Passport copy',
             ],
             'deadlines' => [
-                ['semester' => 'Winter Semester (WS)', 'start' => null, 'end' => '30.06'],
-                ['semester' => 'Summer Semester (SS)', 'start' => null, 'end' => '30.11'],
+                'Winter Semester' => ['start' => null, 'end' => '30.06', 'note' => ''],
+                'Summer Semester' => ['start' => null, 'end' => '30.11', 'note' => ''],
             ],
             'requirements' => [
                 'German level: B2',
@@ -931,8 +988,8 @@ class StudienkollegsTableSeeder extends Seeder
                 'Passport copy',
             ],
             'deadlines' => [
-                ['semester' => 'Winter Semester (WS)', 'start' => '15.04', 'end' => '31.05'],
-                ['semester' => 'Summer Semester (SS)', 'start' => '01.12', 'end' => '15.01'],
+                'Winter Semester' => ['start' => '15.04', 'end' => '31.05', 'note' => ''],
+                'Summer Semester' => ['start' => '01.12', 'end' => '15.01', 'note' => ''],
             ],
             'requirements' => [
                 'German level: B1',
@@ -987,8 +1044,8 @@ class StudienkollegsTableSeeder extends Seeder
                 'Passport copy',
             ],
             'deadlines' => [
-                ['semester' => 'Winter Semester (WS)', 'start' => '15.03', 'end' => '15.05'],
-                ['semester' => 'Summer Semester (SS)', 'start' => '15.09', 'end' => '15.11'],
+                'Winter Semester' => ['start' => '15.03', 'end' => '15.05', 'note' => ''],
+                'Summer Semester' => ['start' => '15.09', 'end' => '15.11', 'note' => ''],
             ],
             'requirements' => [
                 'German level: B2',
@@ -1099,18 +1156,8 @@ class StudienkollegsTableSeeder extends Seeder
                 'Passport copy',
             ],
             'deadlines' => [
-                [
-                    'semester' => 'Winter Semester (WS)',
-                    'start' => null,
-                    'end' => '15.06',
-                    'note' => 'Uni Leipzig: 15.06 (as provided). Other partners have different dates.',
-                ],
-                [
-                    'semester' => 'Summer Semester (SS)',
-                    'start' => null,
-                    'end' => '15.12',
-                    'note' => 'Uni Leipzig: 15.12 (as provided). Other partners have different dates.',
-                ],
+                'Winter Semester' => ['start' => null, 'end' => '30.06', 'note' => 'Uni Leipzig: 15.06 (as provided). Other partners have different dates.'],
+                'Summer Semester' => ['start' => null, 'end' => '15.12', 'note' => 'Uni Leipzig: 15.12 (as provided). Other partners have different dates.'],
             ],
             'requirements' => [
                 'German level: B1',
@@ -1163,8 +1210,8 @@ class StudienkollegsTableSeeder extends Seeder
                 'Passport copy',
             ],
             'deadlines' => [
-                ['semester' => 'Winter Semester (WS)', 'start' => '01.03', 'end' => '30.04'],
-                ['semester' => 'Summer Semester (SS)', 'start' => '01.09', 'end' => '31.10'],
+                'Winter Semester' => ['start' => '01.03', 'end' => '30.04', 'note' => ''],
+                'Summer Semester' => ['start' => '01.09', 'end' => '31.10', 'note' => ''],
             ],
             'requirements' => [
                 'German level: B1',
@@ -1216,8 +1263,8 @@ class StudienkollegsTableSeeder extends Seeder
                 'Passport copy',
             ],
             'deadlines' => [
-                ['semester' => 'Winter Semester (WS)', 'start' => null, 'end' => '30.06'],
-                ['semester' => 'Summer Semester (SS)', 'start' => null, 'end' => '15.12'],
+                'Winter Semester' => ['start' => null, 'end' => '30.06', 'note' => ''],
+                'Summer Semester' => ['start' => null, 'end' => '15.12', 'note' => ''],
             ],
             'requirements' => [
                 'German level: B2',
@@ -1270,8 +1317,8 @@ class StudienkollegsTableSeeder extends Seeder
                 'Passport copy',
             ],
             'deadlines' => [
-                ['semester' => 'Winter Semester (WS)', 'start' => '15.04', 'end' => null, 'note' => 'as provided: "ab 15.04. bis ----"'],
-                ['semester' => 'Summer Semester (SS)', 'start' => '15.11', 'end' => '31.03'],
+                'Winter Semester' => ['start' => '15.04', 'end' => null, 'note' => 'as provided: "ab 15.04. bis ----"'],
+                'Summer Semester' => ['start' => '15.11', 'end' => '31.03', 'note' => ''],
             ],
             'requirements' => [
                 'German level: B1 (depends on Hochschule) as provided',
