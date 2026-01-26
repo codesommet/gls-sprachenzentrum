@@ -57,7 +57,7 @@ return [
     // ------------------------------
     'data_graduation' => 'Certificat A2 – Niveau Élémentaire',
     'data_duration' => '5 semaines<br>18 leçons / semaine',
-    'data_times' => 'Lun–Ven<br>13:15–16:30',
+    'data_times' => 'Lun–Ven',
     'data_price' => 'Selon le centre',
     'data_price_link_text' => 'Voir les tarifs',
     'rich_1_title' => 'Allemand A2 – Développez Votre Communication Réelle',

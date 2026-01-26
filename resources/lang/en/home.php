@@ -200,6 +200,16 @@ return [
         'email_label' => 'Email us',
         'visit_label' => 'Visit us',
         'follow_label' => 'Follow us',
+        'center_label' => 'Choose a center',
+
+        'centers' => [
+            'agadir' => 'Agadir',
+            'kenitra' => 'Kénitra',
+            'casablanca' => 'Casablanca',
+            'marrakech' => 'Marrakech',
+            'sale' => 'Salé',
+            'rabat' => 'Rabat',
+        ],
 
         'addresses' => "
             14 Bd de Paris, 1st floor N°8, Casablanca 20000<br>

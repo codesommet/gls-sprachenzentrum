@@ -57,7 +57,7 @@ return [
     // ------------------------------
     'data_graduation' => 'Certificate A2 – Elementary Level',
     'data_duration' => '5 weeks<br>18 lessons / week',
-    'data_times' => 'Mon–Fri<br>13:15–16:30',
+    'data_times' => 'Mon–Fri',
     'data_price' => 'Depends on the center',
     'data_price_link_text' => '<strong>See pricing</strong>',
     'rich_1_title' => 'German A2 – Develop Your Real Communication',

@@ -57,7 +57,7 @@ return [
     // ------------------------------
     'data_graduation' => 'Certificate B2 – Advanced Level',
     'data_duration' => '6 weeks<br>20 lessons / week',
-    'data_times' => 'Mon–Fri<br>13:15–16:30',
+    'data_times' => 'Mon–Fri',
     'data_price' => 'Depends on the center',
     'data_price_link_text' => '<strong>See pricing</strong>',
 

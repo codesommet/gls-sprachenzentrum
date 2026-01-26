@@ -57,7 +57,7 @@ return [
     // ------------------------------
     'data_graduation' => 'Certificat B2 – Niveau Avancé',
     'data_duration' => '6 semaines<br>20 leçons / semaine',
-    'data_times' => 'Lun–Ven<br>13:15–16:30',
+    'data_times' => 'Lun–Ven',
     'data_price' => 'Selon le centre',
     'data_price_link_text' => '<strong>Voir les tarifs</strong>',
 

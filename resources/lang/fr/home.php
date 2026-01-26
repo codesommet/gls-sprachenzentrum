@@ -202,6 +202,16 @@ return [
         'email_label' => 'Écrivez-nous',
         'visit_label' => 'Visitez-nous',
         'follow_label' => 'Suivez-nous',
+        'center_label' => 'Choisir un centre',
+
+        'centers' => [
+            'agadir' => 'Agadir',
+            'kenitra' => 'Kénitra',
+            'casablanca' => 'Casablanca',
+            'marrakech' => 'Marrakech',
+            'sale' => 'Salé',
+            'rabat' => 'Rabat',
+        ],
 
         'addresses' => "
             14 Bd de Paris, 1er étage N°8, Casablanca 20000<br>
