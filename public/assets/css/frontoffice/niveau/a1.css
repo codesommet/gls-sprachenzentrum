@@ -722,3 +722,8 @@ margin-top: .5rem;
     font-size: 1.1rem;
   }
 }
+button,
+a {
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
