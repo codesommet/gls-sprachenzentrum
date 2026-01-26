@@ -727,3 +727,16 @@ a {
   outline: none;
   -webkit-tap-highlight-color: transparent;
 }
+.gls-niveau-btn {
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Remove blue focus on tap (iOS) */
+.gls-niveau-btn:focus,
+.gls-niveau-btn:active {
+  outline: none;
+  box-shadow: none;
+}
