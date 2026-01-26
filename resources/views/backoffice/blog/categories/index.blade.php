@@ -1,8 +1,8 @@
 @extends('layouts.main')
 
-@section('title', 'Blog Categories Management')
+@section('title', 'Gestion des Catégories Blog')
 @section('breadcrumb-item', 'Blog')
-@section('breadcrumb-item-active', 'Categories')
+@section('breadcrumb-item-active', 'Catégories')
 
 @section('css')
     <link rel="stylesheet" href="{{ URL::asset('build/css/plugins/style.css') }}">
@@ -33,8 +33,9 @@
             <div class="card table-card">
                 <div class="card-header">
                     <div class="d-sm-flex align-items-center justify-content-between">
-                        <h5 class="mb-3 mb-sm-0">Blog Categories</h5>
-                        <a href="{{ route('backoffice.blog.categories.create') }}" class="btn btn-primary">Add Category</a>
+                        <h5 class="mb-3 mb-sm-0">Catégories Blog</h5>
+                        <a href="{{ route('backoffice.blog.categories.create') }}" class="btn btn-primary">Ajouter
+                            Catégorie</a>
                     </div>
                 </div>
 

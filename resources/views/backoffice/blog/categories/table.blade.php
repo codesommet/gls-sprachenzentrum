@@ -3,11 +3,11 @@
         <thead>
             <tr>
                 <th>#ID</th>
-                <th>Name</th>
+                <th>Nom</th>
                 <th>Slug</th>
-                <th>Status</th>
+                <th>Statut</th>
                 <th>Position</th>
-                <th>Created</th>
+                <th>Créé</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -20,10 +20,10 @@
                     <td>{{ $category->slug }}</td>
 
                     <td>
-                        @if($category->is_active)
-                            <span class="badge bg-light-success text-success">Active</span>
+                        @if ($category->is_active)
+                            <span class="badge bg-light-success text-success">Actif</span>
                         @else
-                            <span class="badge bg-light-danger text-danger">Disabled</span>
+                            <span class="badge bg-light-danger text-danger">Désactivé</span>
                         @endif
                     </td>
 
@@ -33,16 +33,16 @@
 
                     <td>
                         <a href="{{ route('backoffice.blog.categories.edit', $category) }}"
-                           class="avtar avtar-xs btn-link-secondary me-2" title="Edit">
+                            class="avtar avtar-xs btn-link-secondary me-2" title="Modifier">
                             <i class="ti ti-edit f-20"></i>
                         </a>
 
-                        <form action="{{ route('backoffice.blog.categories.destroy', $category) }}"
-                              method="POST" class="d-inline-block">
+                        <form action="{{ route('backoffice.blog.categories.destroy', $category) }}" method="POST"
+                            class="d-inline-block">
                             @csrf @method('DELETE')
 
                             <button class="avtar avtar-xs btn-link-secondary border-0 bg-transparent p-0"
-                                    onclick="return confirm('Delete this category?')" title="Delete">
+                                onclick="return confirm('Supprimer cette catégorie ?')" title="Supprimer">
                                 <i class="ti ti-trash f-20"></i>
                             </button>
                         </form>
@@ -51,7 +51,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="7" class="text-center text-muted">No categories found.</td>
+                    <td colspan="7" class="text-center text-muted">Aucune catégorie trouvée.</td>
                 </tr>
             @endforelse
         </tbody>

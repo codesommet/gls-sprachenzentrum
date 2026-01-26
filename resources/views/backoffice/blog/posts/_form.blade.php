@@ -9,9 +9,9 @@
 
     {{-- TITLE EN --}}
     <div class="col-md-6 mb-3">
-        <label class="form-label fw-bold">Title (English)</label>
+        <label class="form-label fw-bold">Titre (Anglais)</label>
         <input type="text" name="title_en" class="form-control" value="{{ old('title_en', $post->title_en ?? '') }}"
-            placeholder="English title">
+            placeholder="Titre en anglais">
     </div>
 
     {{-- CATEGORY --}}
@@ -83,7 +83,7 @@
 
     {{-- CONTENT EN --}}
     <div class="col-12 mb-3">
-        <label class="form-label fw-bold">Content (EN)</label>
+        <label class="form-label fw-bold">Contenu (EN)</label>
         <textarea name="content_en" id="editor-en" class="form-control" rows="10">{{ old('content_en', $post->content_en ?? '') }}</textarea>
     </div>
 

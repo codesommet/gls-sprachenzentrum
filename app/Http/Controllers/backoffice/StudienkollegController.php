@@ -54,6 +54,7 @@ class StudienkollegController extends Controller
             'courses' => $request->courses,
             'languages' => $this->linesToArray($request->languages),
             'documents' => $this->linesToArray($request->documents),
+            'requirements' => $this->linesToArray($request->input('requirements')),
 
             'application_method' => $request->application_method,
             'application_portal_note' => $request->application_portal_note,
@@ -107,7 +108,7 @@ class StudienkollegController extends Controller
         $studienkolleg->update($data);
 
         // ===== MEDIA (COMME BLOG) =====
-        $this->handleMedia($request, $studienkolleg, true);
+        $this->handleMedia($request, $studienkolleg);
 
         return redirect()->route('backoffice.studienkollegs.index')->with('success', 'Studienkolleg updated successfully.');
     }
@@ -119,7 +120,7 @@ class StudienkollegController extends Controller
     {
         $studienkolleg->clearMediaCollection('studienkolleg_hero');
         $studienkolleg->clearMediaCollection('studienkolleg_card');
-        $studienkolleg->clearMediaCollection('studienkolleg_logo');
+        $studienkolleg->clearMediaCollection('university_logo');
 
         $studienkolleg->delete();
 
@@ -135,17 +136,20 @@ class StudienkollegController extends Controller
 
         $data['slug'] = Str::slug($data['name']);
 
+        // ===== BOOLEAN FIELDS =====
         $data['featured'] = $request->boolean('featured');
         $data['public'] = $request->boolean('public');
         $data['uni_assist'] = $request->boolean('uni_assist');
         $data['entrance_exam'] = $request->boolean('entrance_exam');
+        $data['certification_required'] = $request->boolean('certification_required');
+        $data['translation_required'] = $request->boolean('translation_required');
 
+        // ===== ARRAY FIELDS =====
         $data['courses'] = $request->input('courses');
         $data['languages'] = $this->linesToArray($request->input('languages'));
         $data['documents'] = $this->linesToArray($request->input('documents'));
-
-        // ✅ FIX MAP EMBED
-        $data['map_embed'] = $request->input('map_embed');
+        $data['requirements'] = $this->linesToArray($request->input('requirements'));
+        $data['deadlines'] = $request->input('deadlines');
 
         return $data;
     }

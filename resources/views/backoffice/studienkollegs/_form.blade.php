@@ -2,20 +2,20 @@
     $item = $studienkolleg ?? null;
 
     // ===== Safe values for selects (avoid old() boolean inversion bugs) =====
-    $uniAssist = old('uni_assist', (int)($item->uni_assist ?? 1));
-    $entranceExam = old('entrance_exam', (int)($item->entrance_exam ?? 1));
-    $certRequired = old('certification_required', (int)($item->certification_required ?? 0));
-    $transRequired = old('translation_required', (int)($item->translation_required ?? 0));
-    $isPublic = old('public', (int)($item->public ?? 1));
-    $featured = old('featured', (int)($item->featured ?? 0));
+    $uniAssist = old('uni_assist', (int) ($item->uni_assist ?? 1));
+    $entranceExam = old('entrance_exam', (int) ($item->entrance_exam ?? 1));
+    $certRequired = old('certification_required', (int) ($item->certification_required ?? 0));
+    $transRequired = old('translation_required', (int) ($item->translation_required ?? 0));
+    $isPublic = old('public', (int) ($item->public ?? 1));
+    $featured = old('featured', (int) ($item->featured ?? 0));
 
     // ===== Course map (MUST be defined before the foreach) =====
     $courseMap = [
-        'T'  => 'T Course',
-        'W'  => 'W Course',
-        'M'  => 'M Course',
-        'G'  => 'G Course',
-        'S'  => 'S Course',
+        'T' => 'T Course',
+        'W' => 'W Course',
+        'M' => 'M Course',
+        'G' => 'G Course',
+        'S' => 'S Course',
         'TI' => 'TI Course',
         'WW' => 'WW Course',
         'SW' => 'SW Course',
@@ -25,7 +25,7 @@
     $deadlines = old('deadlines', $item->deadlines ?? []);
     $winter = $deadlines['Winter Semester'] ?? [];
 
-    // ✅ FIX: make sure courses is always an array
+    // ✅ FIX: make sure courses is always an array and contains only keys
     $selectedCourses = old('courses');
     if ($selectedCourses === null) {
         $raw = $item->courses ?? [];
@@ -38,7 +38,23 @@
         } else {
             $selectedCourses = [];
         }
+    } elseif (!is_array($selectedCourses)) {
+        $selectedCourses = [];
     }
+
+    // Normalize courses: if DB contains labels (e.g., "TI Course"), extract the keys
+    $reverseMap = array_flip($courseMap); // Create "TI Course" => "TI" mapping
+    $selectedCourses = array_map(function ($item) use ($reverseMap, $courseMap) {
+        // If it's already a key (T, W, TI, etc.), return as is
+    if (isset($courseMap[$item])) {
+        return $item;
+    }
+    // If it's a label (T Course, TI Course, etc.), map back to key
+        return $reverseMap[$item] ?? $item;
+    }, $selectedCourses);
+    $selectedCourses = array_filter($selectedCourses, function ($v) use ($courseMap) {
+        return isset($courseMap[$v]);
+    });
 
     // Languages & documents textarea
     $languagesText = old('languages');
@@ -51,15 +67,10 @@
         $documentsText = implode("\n", $item->documents ?? []);
     }
 
-    // Requirements textarea (works for array or string)
+    // Requirements textarea - display as lines, not JSON
     $requirementsValue = old('requirements');
     if ($requirementsValue === null) {
-        $req = $item->requirements ?? null;
-        if (is_array($req)) {
-            $requirementsValue = json_encode($req, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        } else {
-            $requirementsValue = (string) $req;
-        }
+        $requirementsValue = implode("\n", $item->requirements ?? []);
     }
 @endphp
 
@@ -77,12 +88,14 @@
 
         <div class="col-md-3 mb-3">
             <label class="form-label">Ville</label>
-            <input type="text" name="city" class="form-control" required value="{{ old('city', $item->city ?? '') }}">
+            <input type="text" name="city" class="form-control" required
+                value="{{ old('city', $item->city ?? '') }}">
         </div>
 
         <div class="col-md-3 mb-3">
             <label class="form-label">Pays</label>
-            <input type="text" name="country" class="form-control" value="{{ old('country', $item->country ?? 'Germany') }}">
+            <input type="text" name="country" class="form-control"
+                value="{{ old('country', $item->country ?? 'Germany') }}">
         </div>
 
         <div class="col-md-4 mb-3">
@@ -136,7 +149,8 @@
         {{-- VIDEO --}}
         <div class="col-md-12 mt-3">
             <label class="form-label">Vidéo YouTube (URL)</label>
-            <input type="url" name="video_url" class="form-control" value="{{ old('video_url', $item->video_url ?? '') }}">
+            <input type="url" name="video_url" class="form-control"
+                value="{{ old('video_url', $item->video_url ?? '') }}">
         </div>
 
         {{-- FEATURED --}}
@@ -148,7 +162,7 @@
 
             <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" name="featured" value="1" id="featuredSwitch"
-                    @checked((string)$featured === '1')>
+                    @checked((string) $featured === '1')>
                 <label class="form-check-label" for="featuredSwitch">
                     Featured (homepage / cards)
                 </label>
@@ -203,16 +217,16 @@
         <div class="col-md-3 mb-3">
             <label class="form-label">Uni-Assist</label>
             <select name="uni_assist" class="form-select">
-                <option value="1" @selected((string)$uniAssist === '1')>Oui</option>
-                <option value="0" @selected((string)$uniAssist === '0')>Non</option>
+                <option value="1" @selected((string) $uniAssist === '1')>Oui</option>
+                <option value="0" @selected((string) $uniAssist === '0')>Non</option>
             </select>
         </div>
 
         <div class="col-md-3 mb-3">
             <label class="form-label">Entrance Exam</label>
             <select name="entrance_exam" class="form-select">
-                <option value="1" @selected((string)$entranceExam === '1')>Oui</option>
-                <option value="0" @selected((string)$entranceExam === '0')>Non</option>
+                <option value="1" @selected((string) $entranceExam === '1')>Oui</option>
+                <option value="0" @selected((string) $entranceExam === '0')>Non</option>
             </select>
         </div>
 
@@ -231,24 +245,24 @@
         <div class="col-md-3 mb-3">
             <label class="form-label">Certification requise</label>
             <select name="certification_required" class="form-select">
-                <option value="1" @selected((string)$certRequired === '1')>Oui</option>
-                <option value="0" @selected((string)$certRequired === '0')>Non</option>
+                <option value="1" @selected((string) $certRequired === '1')>Oui</option>
+                <option value="0" @selected((string) $certRequired === '0')>Non</option>
             </select>
         </div>
 
         <div class="col-md-3 mb-3">
             <label class="form-label">Traduction requise</label>
             <select name="translation_required" class="form-select">
-                <option value="1" @selected((string)$transRequired === '1')>Oui</option>
-                <option value="0" @selected((string)$transRequired === '0')>Non</option>
+                <option value="1" @selected((string) $transRequired === '1')>Oui</option>
+                <option value="0" @selected((string) $transRequired === '0')>Non</option>
             </select>
         </div>
 
         <div class="col-md-3 mb-3">
             <label class="form-label">Statut</label>
             <select name="public" class="form-select">
-                <option value="1" @selected((string)$isPublic === '1')>Oui (Public)</option>
-                <option value="0" @selected((string)$isPublic === '0')>Non (Privé)</option>
+                <option value="1" @selected((string) $isPublic === '1')>Oui (Public)</option>
+                <option value="0" @selected((string) $isPublic === '0')>Non (Privé)</option>
             </select>
         </div>
 
@@ -346,8 +360,7 @@
     <div class="card-body">
         <select name="courses[]" class="form-select" multiple size="8">
             @foreach ($courseMap as $key => $label)
-                <option value="{{ $key }}"
-                    @selected(in_array($key, $selectedCourses, true))>
+                <option value="{{ $key }}" @selected(in_array($key, $selectedCourses, true))>
                     {{ $label }}
                 </option>
             @endforeach
@@ -358,4 +371,3 @@
         </small>
     </div>
 </div>
-

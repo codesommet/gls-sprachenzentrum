@@ -5,7 +5,7 @@
                 <th>Nom</th>
                 <th>Ville</th>
                 <th>Uni-Assist</th>
-                <th>Featured</th>
+                <th>À la une</th>
                 <th>Statut</th>
                 <th class="text-end">Actions</th>
             </tr>

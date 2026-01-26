@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
-@section('title', 'Sites Management')
-@section('breadcrumb-item', 'GLS Centres')
+@section('title', 'Gestion des Sites')
+@section('breadcrumb-item', 'Centres GLS')
 @section('breadcrumb-item-active', 'Sites')
 
 @section('css')
@@ -15,8 +15,8 @@
         <div class="position-fixed top-0 end-0 p-3" style="z-index: 99999">
             <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header">
-                    <img src="{{ asset('assets/images/favicon/favicon.svg') }}"
-                         class="img-fluid me-2" alt="favicon" style="width: 17px">
+                    <img src="{{ asset('assets/images/favicon/favicon.svg') }}" class="img-fluid me-2" alt="favicon"
+                        style="width: 17px">
 
                     <strong class="me-auto">GLS Backoffice</strong>
                     <small>Just now</small>
@@ -39,8 +39,8 @@
 
                 <div class="card-header">
                     <div class="d-sm-flex align-items-center justify-content-between">
-                        <h5 class="mb-3 mb-sm-0">GLS Sites</h5>
-                        <a href="{{ route('backoffice.sites.create') }}" class="btn btn-primary">Add Site</a>
+                        <h5 class="mb-3 mb-sm-0">Sites GLS</h5>
+                        <a href="{{ route('backoffice.sites.create') }}" class="btn btn-primary">Ajouter Site</a>
                     </div>
                 </div>
 
@@ -57,7 +57,9 @@
 
 @section('scripts')
     <script type="module">
-        import { DataTable } from "/build/js/plugins/module.js";
+        import {
+            DataTable
+        } from "/build/js/plugins/module.js";
         window.dt = new DataTable("#pc-dt-simple");
     </script>
 

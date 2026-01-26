@@ -44,6 +44,7 @@ class Studienkolleg extends Model implements HasMedia
 
         'exam_subjects',
         'exam_link',
+        'exam_url',
 
         'certification_required',
         'translation_required',

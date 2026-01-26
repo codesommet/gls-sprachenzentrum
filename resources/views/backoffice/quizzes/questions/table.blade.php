@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-body">
-        @if(session('success'))
+        @if (session('success'))
             <div class="alert alert-success mb-3">{{ session('success') }}</div>
         @endif
 
@@ -8,10 +8,10 @@
             <table class="table table-hover align-middle mb-0">
                 <thead>
                     <tr>
-                        <th style="width:80px;">Diff</th>
+                        <th style="width:80px;">Difficultés</th>
                         <th>Question</th>
                         <th style="width:90px;">Points</th>
-                        <th style="width:120px;">Active</th>
+                        <th style="width:120px;">Actif</th>
                         <th style="width:220px;" class="text-end">Actions</th>
                     </tr>
                 </thead>
@@ -20,33 +20,35 @@
                         <tr>
                             <td><span class="badge bg-info">{{ $q->difficulty }}</span></td>
                             <td>
-                                <div class="fw-semibold">{{ \Illuminate\Support\Str::limit($q->question_text, 120) }}</div>
+                                <div class="fw-semibold">{{ \Illuminate\Support\Str::limit($q->question_text, 120) }}
+                                </div>
                                 <div class="text-muted small">
                                     Options: {{ $q->options->count() }} |
-                                    Correct: {{ optional($q->options->firstWhere('is_correct', true))->option_text ?? '—' }}
+                                    Correct:
+                                    {{ optional($q->options->firstWhere('is_correct', true))->option_text ?? '—' }}
                                 </div>
                             </td>
                             <td>{{ $q->points }}</td>
                             <td>
-                                @if($q->is_active)
-                                    <span class="badge bg-success">Yes</span>
+                                @if ($q->is_active)
+                                    <span class="badge bg-success">Oui</span>
                                 @else
-                                    <span class="badge bg-secondary">No</span>
+                                    <span class="badge bg-secondary">Non</span>
                                 @endif
                             </td>
                             <td class="text-end">
-                                <a href="{{ route('backoffice.quizzes.questions.edit', [$quiz, $q]) }}" class="btn btn-sm btn-outline-primary">
-                                    Edit
+                                <a href="{{ route('backoffice.quizzes.questions.edit', [$quiz, $q]) }}"
+                                    class="btn btn-sm btn-outline-primary">
+                                    Modifier
                                 </a>
 
                                 <form action="{{ route('backoffice.quizzes.questions.destroy', [$quiz, $q]) }}"
-                                      method="POST"
-                                      class="d-inline"
-                                      onsubmit="return confirm('Delete this question?')">
+                                    method="POST" class="d-inline"
+                                    onsubmit="return confirm('Supprimer cette question ?')">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-outline-danger">
-                                        Delete
+                                        Supprimer
                                     </button>
                                 </form>
                             </td>
@@ -54,7 +56,7 @@
                     @empty
                         <tr>
                             <td colspan="5" class="text-center py-4 text-muted">
-                                No questions found.
+                                Aucune question trouvée.
                             </td>
                         </tr>
                     @endforelse

@@ -3,7 +3,7 @@
 @section('title', 'Home')
 @section('breadcrumb-item', 'Dashboard')
 
-@section('breadcrumb-item-active', 'Home')
+@section('breadcrumb-item-active', 'Accueil')
 
 @section('css')
     <!-- map-vector css -->

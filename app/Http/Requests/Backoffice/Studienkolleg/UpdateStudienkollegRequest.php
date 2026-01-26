@@ -18,6 +18,7 @@ class UpdateStudienkollegRequest extends FormRequest
             'city' => ['sometimes', 'string', 'max:255'],
             'country' => ['sometimes', 'string', 'max:255'],
             'state' => ['nullable', 'string', 'max:255'],
+            'university' => ['nullable', 'string', 'max:255'],
 
             'hero_image' => ['nullable', 'image', 'max:4096'],
             'card_image' => ['nullable', 'image', 'max:4096'],
@@ -28,6 +29,8 @@ class UpdateStudienkollegRequest extends FormRequest
             'public' => ['sometimes', 'boolean'],
             'uni_assist' => ['sometimes', 'boolean'],
             'entrance_exam' => ['sometimes', 'boolean'],
+            'certification_required' => ['sometimes', 'boolean'],
+            'translation_required' => ['sometimes', 'boolean'],
 
             'duration_semesters' => ['sometimes', 'integer', 'min:1'],
             'tuition' => ['sometimes', 'string', 'max:50'],
@@ -38,14 +41,26 @@ class UpdateStudienkollegRequest extends FormRequest
 
             'languages' => ['nullable', 'string'],
             'documents' => ['nullable', 'string'],
+            'requirements' => ['nullable', 'string'],
 
             'deadlines' => ['nullable', 'array'],
+            'deadlines.Winter Semester' => ['nullable', 'array'],
+            'deadlines.Winter Semester.start' => ['nullable', 'string'],
+            'deadlines.Winter Semester.end' => ['nullable', 'string'],
+            'deadlines.Winter Semester.note' => ['nullable', 'string'],
 
+            'application_method' => ['nullable', 'string', 'max:255'],
+            'application_portal_note' => ['nullable', 'string', 'max:255'],
             'application_url' => ['nullable', 'url'],
+            'exam_subjects' => ['nullable', 'string', 'max:255'],
+            'exam_link' => ['nullable', 'url'],
             'exam_url' => ['nullable', 'url'],
+            'translation_note' => ['nullable', 'string', 'max:255'],
+
             'official_website' => ['nullable', 'url'],
             'contact_email' => ['nullable', 'email'],
             'address' => ['nullable', 'string'],
+            'map_embed' => ['nullable', 'string'],
 
             'meta_title' => ['nullable', 'string', 'max:255'],
             'meta_description' => ['nullable', 'string'],
