@@ -34,16 +34,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Create default admin user
-        User::create([
-            'name'     => 'Admin',
-            'email'    => 'admin@glsteam.com',
-            'password' => Hash::make('12345678'),
-            'phone'    => null,
-            'address'  => null,
-            'location' => null,
-            'bio'      => null,
-        ]);
+       
     }
 
     /**

@@ -1,6 +1,68 @@
 @php
     $item = $studienkolleg ?? null;
+
+    // ===== Safe values for selects (avoid old() boolean inversion bugs) =====
+    $uniAssist = old('uni_assist', (int)($item->uni_assist ?? 1));
+    $entranceExam = old('entrance_exam', (int)($item->entrance_exam ?? 1));
+    $certRequired = old('certification_required', (int)($item->certification_required ?? 0));
+    $transRequired = old('translation_required', (int)($item->translation_required ?? 0));
+    $isPublic = old('public', (int)($item->public ?? 1));
+    $featured = old('featured', (int)($item->featured ?? 0));
+
+    // ===== Course map (MUST be defined before the foreach) =====
+    $courseMap = [
+        'T'  => 'T Course',
+        'W'  => 'W Course',
+        'M'  => 'M Course',
+        'G'  => 'G Course',
+        'S'  => 'S Course',
+        'TI' => 'TI Course',
+        'WW' => 'WW Course',
+        'SW' => 'SW Course',
+    ];
+
+    // ===== Safe arrays/JSON =====
+    $deadlines = old('deadlines', $item->deadlines ?? []);
+    $winter = $deadlines['Winter Semester'] ?? [];
+
+    // ✅ FIX: make sure courses is always an array
+    $selectedCourses = old('courses');
+    if ($selectedCourses === null) {
+        $raw = $item->courses ?? [];
+
+        if (is_array($raw)) {
+            $selectedCourses = $raw;
+        } elseif (is_string($raw)) {
+            $decoded = json_decode($raw, true);
+            $selectedCourses = is_array($decoded) ? $decoded : [];
+        } else {
+            $selectedCourses = [];
+        }
+    }
+
+    // Languages & documents textarea
+    $languagesText = old('languages');
+    if ($languagesText === null) {
+        $languagesText = implode("\n", $item->languages ?? []);
+    }
+
+    $documentsText = old('documents');
+    if ($documentsText === null) {
+        $documentsText = implode("\n", $item->documents ?? []);
+    }
+
+    // Requirements textarea (works for array or string)
+    $requirementsValue = old('requirements');
+    if ($requirementsValue === null) {
+        $req = $item->requirements ?? null;
+        if (is_array($req)) {
+            $requirementsValue = json_encode($req, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        } else {
+            $requirementsValue = (string) $req;
+        }
+    }
 @endphp
+
 
 <div class="card mb-4">
     <div class="card-header">
@@ -15,14 +77,12 @@
 
         <div class="col-md-3 mb-3">
             <label class="form-label">Ville</label>
-            <input type="text" name="city" class="form-control" required
-                value="{{ old('city', $item->city ?? '') }}">
+            <input type="text" name="city" class="form-control" required value="{{ old('city', $item->city ?? '') }}">
         </div>
 
         <div class="col-md-3 mb-3">
             <label class="form-label">Pays</label>
-            <input type="text" name="country" class="form-control"
-                value="{{ old('country', $item->country ?? 'Germany') }}">
+            <input type="text" name="country" class="form-control" value="{{ old('country', $item->country ?? 'Germany') }}">
         </div>
 
         <div class="col-md-4 mb-3">
@@ -45,10 +105,7 @@
             <label class="form-label">Hero Image</label>
             <input type="file" name="hero_image" class="form-control" accept="image/*">
 
-            @php
-                $hero = $item?->getFirstMediaUrl('studienkolleg_hero');
-            @endphp
-
+            @php $hero = $item?->getFirstMediaUrl('studienkolleg_hero'); @endphp
             @if ($hero)
                 <img src="{{ $hero }}" class="mt-2" style="max-height:120px;border-radius:8px;">
             @endif
@@ -59,10 +116,7 @@
             <label class="form-label">Card Image</label>
             <input type="file" name="card_image" class="form-control" accept="image/*">
 
-            @php
-                $card = $item?->getFirstMediaUrl('studienkolleg_card');
-            @endphp
-
+            @php $card = $item?->getFirstMediaUrl('studienkolleg_card'); @endphp
             @if ($card)
                 <img src="{{ $card }}" class="mt-2" style="max-height:120px;border-radius:8px;">
             @endif
@@ -73,10 +127,7 @@
             <label class="form-label">University Logo</label>
             <input type="file" name="university_logo" class="form-control" accept="image/*">
 
-            @php
-                $logo = $item?->getFirstMediaUrl('university_logo');
-            @endphp
-
+            @php $logo = $item?->getFirstMediaUrl('university_logo'); @endphp
             @if ($logo)
                 <img src="{{ $logo }}" class="mt-2" style="max-height:80px;border-radius:6px;">
             @endif
@@ -85,8 +136,7 @@
         {{-- VIDEO --}}
         <div class="col-md-12 mt-3">
             <label class="form-label">Vidéo YouTube (URL)</label>
-            <input type="url" name="video_url" class="form-control"
-                value="{{ old('video_url', $item->video_url ?? '') }}">
+            <input type="url" name="video_url" class="form-control" value="{{ old('video_url', $item->video_url ?? '') }}">
         </div>
 
         {{-- FEATURED --}}
@@ -98,18 +148,15 @@
 
             <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" name="featured" value="1" id="featuredSwitch"
-                    @checked(old('featured', $item->featured ?? false))>
-
+                    @checked((string)$featured === '1')>
                 <label class="form-check-label" for="featuredSwitch">
                     Featured (homepage / cards)
                 </label>
             </div>
         </div>
 
-
     </div>
 </div>
-
 
 <div class="card mb-4">
     <div class="card-header">
@@ -156,16 +203,16 @@
         <div class="col-md-3 mb-3">
             <label class="form-label">Uni-Assist</label>
             <select name="uni_assist" class="form-select">
-                <option value="1" @selected(old('uni_assist', $item->uni_assist ?? 1))>Oui</option>
-                <option value="0" @selected(!old('uni_assist', $item->uni_assist ?? 1))>Non</option>
+                <option value="1" @selected((string)$uniAssist === '1')>Oui</option>
+                <option value="0" @selected((string)$uniAssist === '0')>Non</option>
             </select>
         </div>
 
         <div class="col-md-3 mb-3">
             <label class="form-label">Entrance Exam</label>
             <select name="entrance_exam" class="form-select">
-                <option value="1" @selected(old('entrance_exam', $item->entrance_exam ?? 1))>Oui</option>
-                <option value="0" @selected(!old('entrance_exam', $item->entrance_exam ?? 1))>Non</option>
+                <option value="1" @selected((string)$entranceExam === '1')>Oui</option>
+                <option value="0" @selected((string)$entranceExam === '0')>Non</option>
             </select>
         </div>
 
@@ -184,27 +231,24 @@
         <div class="col-md-3 mb-3">
             <label class="form-label">Certification requise</label>
             <select name="certification_required" class="form-select">
-                <option value="1" @selected(old('certification_required', $item->certification_required ?? 0))>Oui</option>
-                <option value="0" @selected(!old('certification_required', $item->certification_required ?? 0))>Non</option>
+                <option value="1" @selected((string)$certRequired === '1')>Oui</option>
+                <option value="0" @selected((string)$certRequired === '0')>Non</option>
             </select>
         </div>
 
         <div class="col-md-3 mb-3">
             <label class="form-label">Traduction requise</label>
             <select name="translation_required" class="form-select">
-                <option value="1" @selected(old('translation_required', $item->translation_required ?? 0))>Oui</option>
-                <option value="0" @selected(!old('translation_required', $item->translation_required ?? 0))>Non</option>
+                <option value="1" @selected((string)$transRequired === '1')>Oui</option>
+                <option value="0" @selected((string)$transRequired === '0')>Non</option>
             </select>
         </div>
+
         <div class="col-md-3 mb-3">
             <label class="form-label">Statut</label>
             <select name="public" class="form-select">
-                <option value="1" @selected(old('public', $item->public ?? 1) == 1)>
-                    Oui (Public)
-                </option>
-                <option value="0" @selected(old('public', $item->public ?? 1) == 0)>
-                    Non (Privé)
-                </option>
+                <option value="1" @selected((string)$isPublic === '1')>Oui (Public)</option>
+                <option value="0" @selected((string)$isPublic === '0')>Non (Privé)</option>
             </select>
         </div>
 
@@ -220,19 +264,19 @@
         <div class="col-md-4 mb-3">
             <label class="form-label">Winter Semester – Start</label>
             <input type="text" name="deadlines[Winter Semester][start]" class="form-control"
-                value="{{ old('deadlines.Winter Semester.start', $item->deadlines['Winter Semester']['start'] ?? '') }}">
+                value="{{ old('deadlines.Winter Semester.start', $winter['start'] ?? '') }}">
         </div>
 
         <div class="col-md-4 mb-3">
             <label class="form-label">Winter Semester – End</label>
             <input type="text" name="deadlines[Winter Semester][end]" class="form-control"
-                value="{{ old('deadlines.Winter Semester.end', $item->deadlines['Winter Semester']['end'] ?? '') }}">
+                value="{{ old('deadlines.Winter Semester.end', $winter['end'] ?? '') }}">
         </div>
 
         <div class="col-md-4 mb-3">
             <label class="form-label">Note</label>
             <input type="text" name="deadlines[Winter Semester][note]" class="form-control"
-                value="{{ old('deadlines.Winter Semester.note', $item->deadlines['Winter Semester']['note'] ?? '') }}">
+                value="{{ old('deadlines.Winter Semester.note', $winter['note'] ?? '') }}">
         </div>
 
     </div>
@@ -243,7 +287,7 @@
         <h6>Admission Requirements</h6>
     </div>
     <div class="card-body">
-        <textarea name="requirements" class="form-control" rows="6">{{ old('requirements', isset($item) ? json_encode($item->requirements, JSON_PRETTY_PRINT) : '') }}</textarea>
+        <textarea name="requirements" class="form-control" rows="6">{{ $requirementsValue }}</textarea>
     </div>
 </div>
 
@@ -254,10 +298,10 @@
     <div class="card-body">
 
         <label class="form-label">Langues (une par ligne)</label>
-        <textarea name="languages" class="form-control mb-3" rows="3">{{ old('languages', isset($item) ? implode("\n", $item->languages ?? []) : '') }}</textarea>
+        <textarea name="languages" class="form-control mb-3" rows="3">{{ $languagesText }}</textarea>
 
         <label class="form-label">Documents requis (une par ligne)</label>
-        <textarea name="documents" class="form-control" rows="4">{{ old('documents', isset($item) ? implode("\n", $item->documents ?? []) : '') }}</textarea>
+        <textarea name="documents" class="form-control" rows="4">{{ $documentsText }}</textarea>
 
     </div>
 </div>
@@ -298,13 +342,20 @@
     <div class="card-header">
         <h6>Sidebar – Courses</h6>
     </div>
+
     <div class="card-body">
-        <select name="courses[]" class="form-select" multiple>
-            @foreach (['T', 'W', 'M', 'G'] as $course)
-                <option value="{{ $course }}" @selected(in_array($course, old('courses', $item->courses ?? [])))>
-                    {{ $course }} Course
+        <select name="courses[]" class="form-select" multiple size="8">
+            @foreach ($courseMap as $key => $label)
+                <option value="{{ $key }}"
+                    @selected(in_array($key, $selectedCourses, true))>
+                    {{ $label }}
                 </option>
             @endforeach
         </select>
+
+        <small class="text-muted d-block mt-2">
+            Hold <strong>CTRL</strong> (Windows) or <strong>CMD</strong> (Mac) to select multiple courses.
+        </small>
     </div>
 </div>
+

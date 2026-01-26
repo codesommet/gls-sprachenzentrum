@@ -14,7 +14,8 @@ class DatabaseSeeder extends Seeder
 {
     $this->call([
         // DemoDataSeeder::class,
-        QuizzesAndQuestionsSeeder::class,
+        // QuizzesAndQuestionsSeeder::class,
+        StudienkollegsTableSeeder::class,
     ]);
 }
 

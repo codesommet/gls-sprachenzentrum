@@ -734,7 +734,6 @@ a {
   appearance: none;
 }
 
-/* Remove blue focus on tap (iOS) */
 .gls-niveau-btn:focus,
 .gls-niveau-btn:active {
   outline: none;

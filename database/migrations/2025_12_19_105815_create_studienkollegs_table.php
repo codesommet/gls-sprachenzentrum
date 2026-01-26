@@ -27,7 +27,7 @@ return new class extends Migration {
             $table->string('hero_image')->nullable();
             $table->string('card_image')->nullable();
             $table->string('university_logo')->nullable();
-            $table->string('video_url')->nullable(); // ✅ FIX
+            $table->string('video_url')->nullable();
 
             /* =========================
              * FLAGS
@@ -42,7 +42,29 @@ return new class extends Migration {
              * ========================= */
             $table->unsignedTinyInteger('duration_semesters')->default(2);
             $table->string('tuition')->default('Free');
-            $table->string('language_of_instruction')->default('German'); // ✅ FIX
+            $table->string('language_of_instruction')->default('German');
+
+            /* =========================
+             * APPLICATION
+             * ========================= */
+            $table->string('application_method')->nullable();
+            $table->string('application_portal_note')->nullable();
+            $table->string('application_url')->nullable();
+
+            /* =========================
+             * REQUIREMENTS & CERTIFICATION
+             * ========================= */
+            $table->json('requirements')->nullable();
+            $table->boolean('certification_required')->default(false);
+            $table->boolean('translation_required')->default(false);
+            $table->string('translation_note')->nullable();
+
+            /* =========================
+             * EXAM
+             * ========================= */
+            $table->string('exam_subjects')->nullable();
+            $table->string('exam_link')->nullable();
+            $table->string('exam_url')->nullable();
 
             /* =========================
              * JSON DATA
@@ -53,13 +75,12 @@ return new class extends Migration {
             $table->json('deadlines')->nullable();
 
             /* =========================
-             * LINKS & CONTACT
+             * CONTACT & LOCATION
              * ========================= */
-            $table->string('application_url')->nullable();
-            $table->string('exam_url')->nullable();
             $table->string('official_website')->nullable();
             $table->string('contact_email')->nullable();
             $table->string('address')->nullable();
+            $table->text('map_embed')->nullable();
 
             /* =========================
              * SEO

@@ -7,13 +7,64 @@
 
 @section('content')
 
+    @php
+        $hero = $studienkolleg->getFirstMediaUrl('studienkolleg_hero');
+
+        // ---------- SAFE NORMALIZERS ----------
+        $normalizeToArray = function ($value) {
+            if (is_array($value)) return $value;
+
+            if (is_string($value)) {
+                $trim = trim($value);
+
+                // If JSON string -> decode
+                if ($trim !== '' && (str_starts_with($trim, '[') || str_starts_with($trim, '{'))) {
+                    $decoded = json_decode($trim, true);
+                    return is_array($decoded) ? $decoded : [];
+                }
+
+                // If plain string -> treat as empty (or single item for list fields)
+                return [];
+            }
+
+            // null / other types
+            return [];
+        };
+
+        // Deadlines: expected associative array: { "Winter": {"start":..., ...}, ... }
+        $deadlines = $normalizeToArray($studienkolleg->deadlines ?? []);
+
+        // Requirements: expected array of items. Each item can be array {title, content}
+        $requirements = $normalizeToArray($studienkolleg->requirements ?? []);
+
+        // Documents: expected array of strings
+        $documents = $normalizeToArray($studienkolleg->documents ?? []);
+
+        // Courses: expected array of strings
+        $courses = $normalizeToArray($studienkolleg->courses ?? []);
+
+        // Convert single string cases if DB contains newline-separated lists (optional safe)
+        if (empty($documents) && is_string($studienkolleg->documents ?? null)) {
+            $lines = preg_split("/\r\n|\n|\r/", trim($studienkolleg->documents));
+            $documents = array_values(array_filter(array_map('trim', $lines)));
+        }
+
+        if (empty($courses) && is_string($studienkolleg->courses ?? null)) {
+            $lines = preg_split("/\r\n|\n|\r/", trim($studienkolleg->courses));
+            $courses = array_values(array_filter(array_map('trim', $lines)));
+        }
+
+        // Requirements: if DB contains newline text, create 1 item
+        if (empty($requirements) && is_string($studienkolleg->requirements ?? null) && trim($studienkolleg->requirements) !== '') {
+            $requirements = [
+                ['title' => 'Requirements', 'content' => $studienkolleg->requirements],
+            ];
+        }
+    @endphp
+
     {{-- =========================
 HERO
 ========================= --}}
-    @php
-        $hero = $studienkolleg->getFirstMediaUrl('studienkolleg_hero');
-    @endphp
-
     <section class="studienkolleg-hero reveal">
         <img src="{{ $hero }}" alt="{{ $studienkolleg->name }}">
 
@@ -39,7 +90,6 @@ HERO
             </div>
         </div>
     </section>
-
 
     {{-- =========================
 HEADER
@@ -125,7 +175,15 @@ CONTENT
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($studienkolleg->deadlines ?? [] as $semester => $d)
+                                @forelse($deadlines as $semester => $d)
+                                    @php
+                                        // if each $d accidentally comes as string, normalize
+                                        if (is_string($d)) {
+                                            $decoded = json_decode($d, true);
+                                            $d = is_array($decoded) ? $decoded : [];
+                                        }
+                                        if (!is_array($d)) $d = [];
+                                    @endphp
                                     <tr>
                                         <td>{{ $semester }}</td>
                                         <td>{{ $d['start'] ?? '—' }}</td>
@@ -142,18 +200,35 @@ CONTENT
                     </div>
 
                     {{-- REQUIREMENTS --}}
-                    @if (!empty($studienkolleg->requirements))
+                    @if (!empty($requirements))
                         <div class="info-card reveal delay-3">
                             <h3><i class="ph ph-list-checks"></i> Admission Requirements</h3>
 
-                            @foreach ($studienkolleg->requirements as $req)
+                            @foreach ($requirements as $req)
+                                @php
+                                    // normalize each requirement item
+                                    if (is_string($req)) {
+                                        $decoded = json_decode($req, true);
+                                        if (is_array($decoded)) {
+                                            $req = $decoded;
+                                        } else {
+                                            $req = ['title' => '', 'content' => $req];
+                                        }
+                                    }
+                                    if (!is_array($req)) $req = [];
+
+                                    // Ensure keys exist
+                                    $reqTitle = $req['title'] ?? '';
+                                    $reqContent = $req['content'] ?? '';
+                                @endphp
+
                                 <div class="accordion-item">
                                     <button class="accordion-header">
-                                        <span>{{ $req['title'] }}</span>
+                                        <span>{{ $reqTitle }}</span>
                                         <i class="ph ph-caret-down"></i>
                                     </button>
                                     <div class="accordion-content">
-                                        {!! nl2br(e($req['content'])) !!}
+                                        {!! nl2br(e($reqContent)) !!}
                                     </div>
                                 </div>
                             @endforeach
@@ -161,12 +236,12 @@ CONTENT
                     @endif
 
                     {{-- DOCUMENTS --}}
-                    @if (!empty($studienkolleg->documents))
+                    @if (!empty($documents))
                         <div class="info-card reveal delay-4">
                             <h3><i class="ph ph-file-text"></i> Application Documents</h3>
                             <ul class="document-list">
-                                @foreach ($studienkolleg->documents as $doc)
-                                    <li>{{ $doc }}</li>
+                                @foreach ($documents as $doc)
+                                    <li>{{ is_string($doc) ? $doc : '' }}</li>
                                 @endforeach
                             </ul>
                         </div>
@@ -216,12 +291,12 @@ CONTENT
                 {{-- RIGHT SIDEBAR --}}
                 <aside class="content-sidebar">
 
-                    @if (!empty($studienkolleg->courses))
+                    @if (!empty($courses))
                         <div class="sidebar-card reveal delay-2">
                             <h4><i class="ph ph-books"></i> Course Types</h4>
                             <div class="course-grid">
-                                @foreach ($studienkolleg->courses as $course)
-                                    <div class="course-item">{{ $course }}</div>
+                                @foreach ($courses as $course)
+                                    <div class="course-item">{{ is_string($course) ? $course : '' }}</div>
                                 @endforeach
                             </div>
                         </div>

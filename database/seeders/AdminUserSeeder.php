@@ -10,14 +10,26 @@ class AdminUserSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('users')->updateOrInsert(
-            ['email' => 'admin@glssprachenzentrum.ma'],
-            [
-                'name' => 'GLS Admin',
-                'password' => Hash::make('Admin@12345'),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]
-        );
+        $admins = [
+            'rochdi.karouali@glszentrum.com' => 'Rochdi Karouali',
+            'amine.rafik@glszentrum.com' => 'Amine Rafik',
+            'rafik@glszentrum.com' => 'Rafik',
+            'abderrahimelmoulabbi@glszentrum.com' => 'Abderrahim Elmoulabbi',
+            'achraf.elyounani@glszentrum.com' => 'Achraf Elyounani',
+        ];
+
+        foreach ($admins as $email => $name) {
+            DB::table('users')->updateOrInsert(
+                ['email' => $email],
+                [
+                    'name' => $name,
+                    'password' => Hash::make('Admin@12345'),
+                    'is_admin' => true,
+                    'email_verified_at' => now(),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]
+            );
+        }
     }
 }

@@ -1,49 +1,50 @@
 <?php
 
-namespace App\Models;
+use App\Models\User;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Hash;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
-
-// Spatie Media Library
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
-
-class User extends Authenticatable implements HasMedia, MustVerifyEmail
+return new class extends Migration
 {
-    use HasApiTokens, HasFactory, Notifiable, InteractsWithMedia;
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('users', function (Blueprint $table) {
+
+            $table->id();
+
+            // Basic info
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+
+            // Admin access
+            $table->boolean('is_admin')->default(false);
+
+            // Profile fields
+            $table->string('phone')->nullable();
+            $table->string('location')->nullable();
+            $table->text('address')->nullable();
+            $table->text('bio')->nullable();
+
+            // Tokens
+            $table->rememberToken();
+            $table->timestamps();
+        });
+
+        
+    }
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * Add all profile fields so backoffice update works.
+     * Reverse the migrations.
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'phone',
-        'address',
-        'location',
-        'bio',
-    ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast.
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password'          => 'hashed',
-    ];
-}
+    public function down(): void
+    {
+        Schema::dropIfExists('users');
+    }
+};
