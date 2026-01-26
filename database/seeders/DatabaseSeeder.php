@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         // DemoDataSeeder::class,
         // QuizzesAndQuestionsSeeder::class,
         StudienkollegsTableSeeder::class,
+        AdminUserSeeder::class,
     ]);
 }
 
