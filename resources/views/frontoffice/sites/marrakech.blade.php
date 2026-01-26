@@ -7,8 +7,8 @@
 @section('content')
 
     <!-- ===========================
-             HERO SECTION – MARRAKECH
-        =========================== -->
+                         HERO SECTION – MARRAKECH
+                    =========================== -->
     <section class="hero-section section about-hero reveal delay-1">
         <div class="container is-hero reveal delay-2">
 
@@ -31,8 +31,8 @@
 
 
     <!-- ===========================
-             ABOUT MARRAKECH CENTER
-        =========================== -->
+                         ABOUT MARRAKECH CENTER
+                    =========================== -->
     <section class="gls-section gls-richtext-wrapper reveal delay-1">
         <div class="gls-container reveal delay-2">
             <div class="gls-richtext reveal delay-3">
@@ -65,8 +65,8 @@
 
 
     <!-- ===========================
-             PHOTO STRIP
-        =========================== -->
+                         PHOTO STRIP
+                    =========================== -->
     <section class="gls-photo-strip section reveal delay-1">
         <div class="gls-container gls-photo-grid reveal delay-2">
 
@@ -83,8 +83,8 @@
 
 
     <!-- ===========================
-             INFO CARDS
-        =========================== -->
+                         INFO CARDS
+                    =========================== -->
     <section class="gls-info-section gls-section reveal delay-1">
 
         <div class="gls-container reveal delay-2">
@@ -143,8 +143,8 @@
 
 
     <!-- ===========================
-             GROUPS – MARRAKECH
-        =========================== -->
+                         GROUPS – MARRAKECH
+                    =========================== -->
     <section class="gls-schedule-section reveal delay-1">
         <div class="gls-schedule-container reveal delay-2">
 
@@ -245,8 +245,8 @@
     </section>
 
     <!-- ===========================
-             9ONSOL – DEUTSHOW
-        =========================== -->
+                         9ONSOL – DEUTSHOW
+                    =========================== -->
     <section class="home-about-section section reveal delay-1">
         <div class="container about-grid reveal delay-2">
 
@@ -293,87 +293,86 @@
         </div>
     </section>
 
-{{-- ===============================
+    {{-- ===============================
  CONTACT SECTION
 ================================ --}}
-        <section class="contact-section section {{ app()->getLocale() == 'ar' ? 'rtl' : '' }} reveal delay-1">
-            <div class="container is-2-col-grid reveal delay-2">
+    <section class="contact-section section {{ app()->getLocale() == 'ar' ? 'rtl' : '' }} reveal delay-1">
+        <div class="container is-2-col-grid reveal delay-2">
 
-                {{-- LEFT SIDE --}}
-                <div class="div-block-5-copy reveal delay-3">
+            {{-- LEFT SIDE --}}
+            <div class="div-block-5-copy reveal delay-3">
 
-                    <h2 class="contact-section-subtitle reveal fade-blur-title delay-1">
-                        {!! __('home.contact.title') !!}
-                    </h2>
+                <h2 class="contact-section-subtitle reveal fade-blur-title delay-1">
+                    {!! __('sites/marrakech.contact.title') !!}
+                </h2>
 
 
-                    <div class="div-block-21 reveal delay-2">
+                <div class="div-block-21 reveal delay-2">
 
-                        <a href="tel:+212669515019" class="link-block reveal delay-1">
-                            <div class="text-block-3 reveal delay-2">
-                                <span class="text-span reveal delay-3">{!! __('home.contact.call_label') !!}<br></span>
-                                +212 6 69 51 50 19
-                            </div>
-                        </a>
-
-                        <a href="mailto:info@glssprachenzentrum.ma" class="link-block-2 reveal delay-3">
-                            <div class="text-block-3 reveal delay-1">
-                                <span class="text-span reveal delay-2">{!! __('home.contact.email_label') !!}<br></span>
-                                info@glssprachenzentrum.ma
-                            </div>
-                        </a>
-
-                    </div>
-
-                    <div class="text-block-3 visit-block reveal delay-3">
-                        <span class="text-span reveal delay-1">{!! __('home.contact.visit_label') !!}</span><br>
-                        {!! __('home.contact.addresses') !!}
-                    </div>
-
-                    <div class="footer-socials-block reveal delay-1">
-
+                    <a href="tel:{{ __('sites/marrakech.contact.phone_link') }}" class="link-block reveal delay-1">
                         <div class="text-block-3 reveal delay-2">
-                            <span class="text-span reveal delay-3">{!! __('home.contact.follow_label') !!}</span>
+                            <span class="text-span reveal delay-3">{!! __('sites/marrakech.contact.call_label') !!}<br></span>
+                            {{ __('sites/marrakech.contact.phone_display') }}
                         </div>
+                    </a>
 
-                        <div class="div-block-20 reveal delay-1">
-                            <a href="https://www.instagram.com/gls.sprachenzentrum/" class="footer-social-link ig"
-                                target="_blank" rel="noopener noreferrer" aria-label="GLS Sprachenzentrum sur Instagram">
-                                <i class="bi bi-instagram"></i>
-                            </a>
-
-                            <a href="https://www.facebook.com/gls.sale/" class="footer-social-link fb" target="_blank"
-                                rel="noopener noreferrer" aria-label="GLS Sprachenzentrum sur Facebook">
-                                <i class="bi bi-facebook"></i>
-                            </a>
-
-                            <a href="https://www.youtube.com/@9onsolsTalks" class="footer-social-link yt" target="_blank"
-                                rel="noopener noreferrer" aria-label="GLS Sprachenzentrum sur YouTube">
-                                <i class="bi bi-youtube"></i>
-                            </a>
-
-                            <a href="https://api.whatsapp.com/send/?phone=0669515019&text&type=phone_number&app_absent=0"
-                                class="footer-social-link wa" target="_blank" rel="noopener noreferrer"
-                                aria-label="Contacter GLS Sprachenzentrum sur WhatsApp">
-                                <i class="bi bi-whatsapp"></i>
-                            </a>
-
+                    <a href="mailto:{{ __('sites/marrakech.contact.email') }}" class="link-block-2 reveal delay-3">
+                        <div class="text-block-3 reveal delay-1">
+                            <span class="text-span reveal delay-2">{!! __('sites/marrakech.contact.email_label') !!}<br></span>
+                            {{ __('sites/marrakech.contact.email') }}
                         </div>
+                    </a>
+
+                </div>
+
+                <div class="text-block-3 visit-block reveal delay-3">
+                    <span class="text-span reveal delay-1">{!! __('sites/marrakech.contact.visit_label') !!}</span><br>
+                    {!! __('sites/marrakech.contact.addresses') !!}
+                </div>
+
+                <div class="footer-socials-block reveal delay-1">
+
+                    <div class="text-block-3 reveal delay-2">
+                        <span class="text-span reveal delay-3">{!! __('sites/marrakech.contact.follow_label') !!}</span>
+                    </div>
+
+                    <div class="div-block-20 reveal delay-1">
+                        <a href="https://www.instagram.com/gls.sprachenzentrum/" class="footer-social-link ig"
+                            target="_blank" rel="noopener noreferrer" aria-label="GLS Sprachenzentrum sur Instagram">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+
+                        <a href="https://www.facebook.com/gls.sale/" class="footer-social-link fb" target="_blank"
+                            rel="noopener noreferrer" aria-label="GLS Sprachenzentrum sur Facebook">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+
+                        <a href="https://www.youtube.com/@9onsolsTalks" class="footer-social-link yt" target="_blank"
+                            rel="noopener noreferrer" aria-label="GLS Sprachenzentrum sur YouTube">
+                            <i class="bi bi-youtube"></i>
+                        </a>
+
+                        <a href="{{ __('sites/marrakech.contact.whatsapp_url') }}" class="footer-social-link wa"
+                            target="_blank" rel="noopener noreferrer"
+                            aria-label="Contacter GLS Sprachenzentrum sur WhatsApp">
+                            <i class="bi bi-whatsapp"></i>
+                        </a>
 
                     </div>
 
                 </div>
 
-                {{-- RIGHT SIDE: MAP --}}
-                <a href="https://maps.app.goo.gl/g4PjrPB7wHQAqrSZA" target="_blank" class="div-block-7 reveal delay-3">
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3331.744621379457!2d-6.836039!3d33.978558!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda76b6d63b66b1d%3A0x3c6ee0a64f273aa2!2sAgdal%2C%20Rabat!5e0!3m2!1sen!2sma!4v1700000000000"
-                        allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-                        class="reveal delay-1"></iframe>
-                </a>
-
             </div>
-        </section>
+
+            {{-- RIGHT SIDE: MAP --}}
+            <a href="{{ __('sites/marrakech.contact.map_url') }}" target="_blank" class="div-block-7 reveal delay-3">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3396.851254286348!2d-8.009762!3d31.637922800000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xdafefd52ae80051%3A0xf05642e7c0fe1300!2sGLS%20Sprachenzentrum%20-%20Centre%20de%20langue%20Allemande%20Marrakech!5e0!3m2!1sen!2sma!4v1769193827051!5m2!1sen!2sma"
+                    allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                    class="reveal delay-1"></iframe>
+            </a>
+        </div>
+    </section>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -411,25 +410,25 @@
             A1: {
                 graduation: "A1 Certification (Basic German)",
                 duration: "5 weeks<br>18 lessons per week",
-                times: "Mon–Fri<br>13:15–16:30",
+                times: "Mon–Fri",
                 price: "998 DH"
             },
             A2: {
                 graduation: "A2 Certification (Elementary level)",
                 duration: "5 weeks<br>18 lessons per week",
-                times: "Mon–Fri<br>13:15–16:30",
+                times: "Mon–Fri",
                 price: "1100 DH"
             },
             B1: {
                 graduation: "B1 Certification (Intermediate)",
                 duration: "6 weeks<br>18 lessons per week",
-                times: "Mon–Fri<br>13:15–16:30",
+                times: "Mon–Fri",
                 price: "1300 DH"
             },
             B2: {
                 graduation: "B2 Certification (Upper-Intermediate)",
                 duration: "6 weeks<br>20 lessons per week",
-                times: "Mon–Fri<br>13:15–16:30",
+                times: "Mon–Fri",
                 price: "1500 DH"
             }
         };

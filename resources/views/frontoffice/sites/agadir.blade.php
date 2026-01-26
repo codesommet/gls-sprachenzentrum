@@ -7,8 +7,8 @@
 @section('content')
 
     <!-- ===========================
-             HERO SECTION – AGADIR
-        =========================== -->
+                         HERO SECTION – AGADIR
+                    =========================== -->
     <section class="hero-section section about-hero reveal delay-1">
         <div class="container is-hero reveal delay-2">
 
@@ -23,8 +23,8 @@
     </section>
 
     <!-- ===========================
-             ABOUT AGADIR CENTER
-        =========================== -->
+                         ABOUT AGADIR CENTER
+                    =========================== -->
     <section class="gls-section gls-richtext-wrapper reveal delay-1">
         <div class="gls-container reveal delay-2">
             <div class="gls-richtext reveal delay-3">
@@ -55,8 +55,8 @@
     </section>
 
     <!-- ===========================
-             PHOTO STRIP – AGADIR
-        =========================== -->
+                         PHOTO STRIP – AGADIR
+                    =========================== -->
     <section class="gls-photo-strip section reveal delay-1">
         <div class="gls-container gls-photo-grid reveal delay-2">
 
@@ -71,8 +71,8 @@
     </section>
 
     <!-- ===========================
-             INFO CARDS
-        =========================== -->
+                         INFO CARDS
+                    =========================== -->
     <section class="gls-info-section gls-section reveal delay-1">
 
         <div class="gls-container reveal delay-2">
@@ -120,8 +120,8 @@
     </section>
 
     <!-- ===========================
-             GROUPS — AGADIR
-        =========================== -->
+                         GROUPS — AGADIR
+                    =========================== -->
     <section class="gls-schedule-section reveal delay-1">
         <div class="gls-schedule-container reveal delay-2">
 
@@ -255,37 +255,37 @@
             <div class="div-block-5-copy reveal delay-3">
 
                 <h2 class="contact-section-subtitle reveal fade-blur-title delay-1">
-                    {!! __('home.contact.title') !!}
+                    {!! __('sites/agadir.contact.title') !!}
                 </h2>
 
 
                 <div class="div-block-21 reveal delay-2">
 
-                    <a href="tel:+212669515019" class="link-block reveal delay-1">
+                    <a href="tel:{{ __('sites/agadir.contact.phone_link') }}" class="link-block reveal delay-1">
                         <div class="text-block-3 reveal delay-2">
-                            <span class="text-span reveal delay-3">{!! __('home.contact.call_label') !!}<br></span>
-                            +212 6 69 51 50 19
+                            <span class="text-span reveal delay-3">{!! __('sites/agadir.contact.call_label') !!}<br></span>
+                            {{ __('sites/agadir.contact.phone_display') }}
                         </div>
                     </a>
 
-                    <a href="mailto:info@glssprachenzentrum.ma" class="link-block-2 reveal delay-3">
+                    <a href="mailto:{{ __('sites/agadir.contact.email') }}" class="link-block-2 reveal delay-3">
                         <div class="text-block-3 reveal delay-1">
-                            <span class="text-span reveal delay-2">{!! __('home.contact.email_label') !!}<br></span>
-                            info@glssprachenzentrum.ma
+                            <span class="text-span reveal delay-2">{!! __('sites/agadir.contact.email_label') !!}<br></span>
+                            {{ __('sites/agadir.contact.email') }}
                         </div>
                     </a>
 
                 </div>
 
                 <div class="text-block-3 visit-block reveal delay-3">
-                    <span class="text-span reveal delay-1">{!! __('home.contact.visit_label') !!}</span><br>
-                    {!! __('home.contact.addresses') !!}
+                    <span class="text-span reveal delay-1">{!! __('sites/agadir.contact.visit_label') !!}</span><br>
+                    {!! __('sites/agadir.contact.addresses') !!}
                 </div>
 
                 <div class="footer-socials-block reveal delay-1">
 
                     <div class="text-block-3 reveal delay-2">
-                        <span class="text-span reveal delay-3">{!! __('home.contact.follow_label') !!}</span>
+                        <span class="text-span reveal delay-3">{!! __('sites/agadir.contact.follow_label') !!}</span>
                     </div>
 
                     <div class="div-block-20 reveal delay-1">
@@ -304,8 +304,8 @@
                             <i class="bi bi-youtube"></i>
                         </a>
 
-                        <a href="https://api.whatsapp.com/send/?phone=0669515019&text&type=phone_number&app_absent=0"
-                            class="footer-social-link wa" target="_blank" rel="noopener noreferrer"
+                        <a href="{{ __('sites/agadir.contact.whatsapp_url') }}" class="footer-social-link wa"
+                            target="_blank" rel="noopener noreferrer"
                             aria-label="Contacter GLS Sprachenzentrum sur WhatsApp">
                             <i class="bi bi-whatsapp"></i>
                         </a>
@@ -317,9 +317,9 @@
             </div>
 
             {{-- RIGHT SIDE: MAP --}}
-            <a href="https://maps.app.goo.gl/g4PjrPB7wHQAqrSZA" target="_blank" class="div-block-7 reveal delay-3">
+            <a href="{{ __('sites/agadir.contact.map_url') }}" target="_blank" class="div-block-7 reveal delay-3">
                 <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3331.744621379457!2d-6.836039!3d33.978558!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda76b6d63b66b1d%3A0x3c6ee0a64f273aa2!2sAgdal%2C%20Rabat!5e0!3m2!1sen!2sma!4v1700000000000"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3441.2113225552594!2d-9.5471754!3d30.4017457!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xdb3b75d3674dc17%3A0x6d8f9adfd62e6d3d!2sGLS%20Sprachenzentrum%20-%20Centre%20GLS%20de%20langue%20Allemande%20Agadir.%20GLS%20Agadir!5e0!3m2!1sen!2sma!4v1769193780739!5m2!1sen!2sma"
                     allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
                     class="reveal delay-1"></iframe>
             </a>
@@ -329,8 +329,8 @@
 
 
     <!-- ===========================
-             DROPDOWN + INFO JS
-        =========================== -->
+                         DROPDOWN + INFO JS
+                    =========================== -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const dropdowns = document.querySelectorAll(".schedule-dropdown");
@@ -363,25 +363,25 @@
             A1: {
                 graduation: "A1 Certification (Basic German)",
                 duration: "5 weeks<br>18 lessons per week",
-                times: "Mon–Fri<br>13:15–16:30",
+                times: "Mon–Fri",
                 price: "998 DH"
             },
             A2: {
                 graduation: "A2 Certification (Elementary level)",
                 duration: "5 weeks<br>18 lessons per week",
-                times: "Mon–Fri<br>13:15–16:30",
+                times: "Mon–Fri",
                 price: "1100 DH"
             },
             B1: {
                 graduation: "B1 Certification (Intermediate)",
                 duration: "6 weeks<br>18 lessons per week",
-                times: "Mon–Fri<br>13:15–16:30",
+                times: "Mon–Fri",
                 price: "1300 DH"
             },
             B2: {
                 graduation: "B2 Certification (Upper-Intermediate)",
                 duration: "6 weeks<br>20 lessons per week",
-                times: "Mon–Fri<br>13:15–16:30",
+                times: "Mon–Fri",
                 price: "1500 DH"
             }
         };
