@@ -59,7 +59,7 @@
 
     <script src="{{ asset('assets/js/header.js') }}"></script>
     <script src="{{ asset('assets/js/reveal.js') }}"></script>
-
+    <script src="{{ asset('assets/js/autoscroller.js') }}"></script>
     <!-- GLS FORM JS (NEW) -->
     <script src="{{ asset('assets/js/gls-form.js') }}" defer></script>
 
@@ -80,12 +80,12 @@
         </svg>
     </button>
 
-    
+
     @include('frontoffice.templates.group-apply-modals', [
         'applyGroups' => $applyGroups ?? collect(),
     ])
     @include('frontoffice.legal.cookies')
-    
+
 
     @include('frontoffice.templates.consultation-form')
     @include('frontoffice.templates.group-apply-modals')

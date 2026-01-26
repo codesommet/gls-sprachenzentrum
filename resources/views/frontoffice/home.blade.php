@@ -754,15 +754,20 @@
 
                 </div>
 
-                {{-- RIGHT SIDE: MAP --}}
-                <a href="https://maps.app.goo.gl/g4PjrPB7wHQAqrSZA" target="_blank" class="div-block-7 reveal delay-3">
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3331.744621379457!2d-6.836039!3d33.978558!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda76b6d63b66b1d%3A0x3c6ee0a64f273aa2!2sAgdal%2C%20Rabat!5e0!3m2!1sen!2sma!4v1700000000000"
-                        allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-                        class="reveal delay-1"></iframe>
-                </a>
+                {{-- RIGHT SIDE: MAP CAROUSEL (AUTO-CYCLING) --}}
+                <div>
+                    {{-- Map Container with Auto-Carousel --}}
+                    <a id="mapLink" href="https://www.google.com/maps/search/?api=1&query=GLS+Sprachenzentrum+Rabat"
+                        target="_blank" class="div-block-7 reveal delay-3">
+                        <iframe id="mapFrame"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3307.8001465016737!2d-6.8485901!3d33.9976668!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda76dcf7a656da5%3A0xcaf46ae5e6e81d87!2sGLS%20Sprachenzentrum%20-%20Centre%20GLS%20de%20langue%20Allemande%20Rabat!5e0!3m2!1sen!2sma!4v1769193870895!5m2!1sen!2sma"
+                            allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                            class="reveal delay-1"></iframe>
+                    </a>
+                </div>
 
             </div>
         </section>
-    </main>
+
+      </main>
 @endsection
