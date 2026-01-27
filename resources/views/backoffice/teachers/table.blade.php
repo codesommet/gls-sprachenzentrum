@@ -25,12 +25,10 @@
                             $media = $teacher->getFirstMedia('teacher_image');
                         @endphp
 
-                        <img src="{{ $media
-                                    ? $media->getUrl()
-                                    : asset('assets/images/placeholder.webp') }}"
-                             alt="teacher-photo"
-                             class="rounded-circle"
-                             style="width: 45px; height: 45px; object-fit: cover;">
+                        <img src="{{ $media ? $media->getUrl() : asset('assets/images/user/avatar.webp') }}"
+                            alt="teacher-photo" class="rounded-circle"
+                            style="width: 45px; height: 45px; object-fit: cover;">
+
                     </td>
 
                     {{-- NAME --}}
@@ -65,8 +63,8 @@
                         </a>
 
                         {{-- DELETE --}}
-                        <form action="{{ route('backoffice.teachers.destroy', $teacher->id) }}"
-                              method="POST" class="d-inline-block">
+                        <form action="{{ route('backoffice.teachers.destroy', $teacher->id) }}" method="POST"
+                            class="d-inline-block">
                             @csrf @method('DELETE')
                             <button class="avtar avtar-xs btn-link-secondary border-0 bg-transparent p-0"
                                 onclick="return confirm('Supprimer cet enseignant ?')" title="Supprimer">
