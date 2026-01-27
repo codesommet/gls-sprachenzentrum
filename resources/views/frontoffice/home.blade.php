@@ -7,7 +7,7 @@
 =========================== --}}
         <section class="hero reveal delay-1" aria-label="Intro">
             <div class="hero__bg reveal delay-2"
-                style="background-image: url('{{ asset('assets/IMG_4399.webp') }}');"></div>
+                style="background-image: url('{{ asset('assets/images/IMG_4399.webp') }}');"></div>
 
             {{-- Badges --}}
             <div class="badge b-blue b1 reveal delay-3">{{ __('home.hero.badge1') }}</div>
