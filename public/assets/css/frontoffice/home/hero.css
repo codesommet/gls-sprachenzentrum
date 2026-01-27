@@ -1,38 +1,69 @@
 /* =========================================================
 HERO SECTION – Inspired by die Code sommet structure
+(Updated: add gradient overlay in CSS, keep same image path)
 ========================================================= */
 
-.hero {
+.hero{
 position: relative;
 display: flex;
-flex-direction: column; /* stack title + optional badges */
+flex-direction: column;
 justify-content: center;
 align-items: center;
 text-align: center;
-background: none; /* background handled by .hero__bg */
-height: auto; /* remove fixed viewport height */
-min-height: 1000px; /* match their 1000px minimum */
-margin-bottom: -64px; /* allow intro section to overlap naturally */
-padding-top: 4rem; /* top breathing space */
-padding-bottom: 12rem; /* long soft fade to intro */
+background: none;
+
+height: auto;
+min-height: 1000px;
+
+margin-bottom: -64px;
+padding-top: 4rem;
+padding-bottom: 12rem;
+
 overflow: hidden;
 margin-top: -28px;
 z-index: 1;
 }
 
-/* Background image inspired by .home-hero-section.section */
-.hero__bg {
+/* Background image (keep your inline url path) */
+.hero__bg{
 position: absolute;
 inset: 0;
-background-size: 110%; 
-background-position: 50% 2%;
+
+/* keep the url from inline style: background-image: url(...) */
 background-repeat: no-repeat;
+background-size: cover;
+background-position: 50% 12%;
+
 z-index: 0;
-filter: brightness(0.9);
+
+/* make it closer to reference */
+filter: brightness(0.94) contrast(1.04);
+transform: scale(1.02);
+}
+
+/* THIS is your "linear-gradient(...), url(...)" but in CSS */
+.hero__bg::before{
+content:"";
+position:absolute;
+inset:0;
+z-index:1;
+
+/* same spirit as:
+linear-gradient(#bebfc3 20%, #bebfc300 35%)
+*/
+background: linear-gradient(
+to bottom,
+rgba(190,191,195, 0.95) 0%,
+rgba(190,191,195, 0.95) 20%,
+rgba(190,191,195, 0.0) 35%,
+rgba(190,191,195, 0.0) 100%
+);
+
+pointer-events:none;
 }
 
 /* Inner wrapper for title */
-.hero__inner {
+.hero__inner{
 position: relative;
 z-index: 2;
 max-width: 1100px;
@@ -40,23 +71,22 @@ padding: 0 20px;
 }
 
 /* Title refinement */
-.hero-title {
+.hero-title{
 font-family: Now, sans-serif;
 color: var(--color-light, #f8fff8);
 font-weight: 500;
 line-height: .9;
 letter-spacing: -0.5px;
-text-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
+text-shadow: 0 2px 16px rgba(0,0,0,0.30);
 font-size: clamp(56px, 7vw, 120px);
 margin: 0 auto;
 filter: drop-shadow(0 2px 16px #0000004d);
-
 }
 
 /* =========================================================
 BADGES (Location bubbles)
 ========================================================= */
-.badge {
+.badge{
 position: absolute;
 border-radius: 10000px;
 padding: 0.6rem 1.5rem;
@@ -64,131 +94,139 @@ font-size: 1.6rem;
 line-height: 1;
 white-space: nowrap;
 transition: transform 0.25s ease;
-box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18),
-inset 0 -1px 0 rgba(255, 255, 255, 0.15);
+box-shadow: 0 10px 24px rgba(0,0,0,0.18),
+inset 0 -1px 0 rgba(255,255,255,0.15);
+z-index: 3;
 }
 
-.badge:hover {
-transform: scale(1.05);
-}
+.badge:hover{ transform: scale(1.05); }
 
-/* ===== Individual colors ===== */
-.b-blue {
+.b-blue{
 background-color: var(--color-primary, #2563eb);
 color: #85acf7;
-z-index: 4;
 left: 6%;
 top: 33%;
-
+z-index: 4;
 }
 
-.b-green {
+.b-green{
 background-color: var(--color-secondary, #00d98a);
 color: #9af3c5;
 left: 8%;
 bottom: 45%;
-z-index: 0;
+z-index: 3;
 }
 
-.b-orange {
+.b-orange{
 background-color: var(--color-tertiary, #fb923c);
 color: #ffd161;
-z-index: 2;
 right: 6%;
 top: 30%;
+z-index: 4;
 }
 
-.b-violet {
+.b-violet{
 background-color: var(--color-accent, #7c3aed);
 color: #e6c9ff;
-z-index: 5;
 right: 10%;
 bottom: 47%;
+z-index: 4;
 }
 
 /* =========================================================
-RESPONSIVE ADJUSTMENTS – Updated for badge scaling
+RESPONSIVE
 ========================================================= */
-@media (max-width: 992px) {
-.hero {
+@media (max-width: 992px){
+.hero{
 min-height: 700px;
 padding-top: 3rem;
 padding-bottom: 8rem;
 margin-bottom: -32px;
+margin-top: 0;
 }
 
-.hero__bg {
-background-size: 160%;
-background-position: 50% 35%;
+.hero__bg{
+background-size: cover;
+background-position: 50% 22%;
+transform: scale(1.03);
 }
 
-.hero-title {
+.hero__bg::before{
+/* a bit stronger on tablet */
+background: linear-gradient(
+to bottom,
+rgba(190,191,195, 0.98) 0%,
+rgba(190,191,195, 0.98) 22%,
+rgba(190,191,195, 0.0) 40%,
+rgba(190,191,195, 0.0) 100%
+);
+}
+
+.hero-title{
 font-size: clamp(2.4rem, 6vw, 5rem);
-/* margin: -170px auto; */
 }
 
-.badge {
+.badge{
 font-size: 1.2rem;
 padding: 0.45rem 1.2rem;
 transform: scale(0.9);
 }
 
-/* keep same coordinates as desktop */
-.b-blue {
-left: 6%;
-top: 33%;
-}
-.b-green {
-left: 8%;
-bottom: 45%;
-}
-.b-orange {
-right: 6%;
-top: 30%;
-}
-.b-violet {
-right: 10%;
-bottom: 47%;
-}
+.b-blue{ left: 6%; top: 33%; }
+.b-green{ left: 8%; bottom: 45%; }
+.b-orange{ right: 6%; top: 30%; }
+.b-violet{ right: 10%; bottom: 47%; }
 }
 
-@media (max-width: 600px) {
-.hero {
-min-height: 580px;
-padding-bottom: 6rem;
+@media (max-width: 600px){
+
+.hero{
+min-height: 100vh;
+padding-top: 1.2rem;
+padding-bottom: 6.5rem;
+margin: 0;
 }
 
-.hero__bg {
-background-size: 120%;
-background-position: 10% 1%;
+/* FORCE le background à se recentrer même si inline style */
+.hero__bg{
+background-position: 50% 50% !important; /* center center */
+background-size: cover !important;
+transform: scale(1.02) !important;
 }
 
-.hero-title {
-font-size: clamp(1.8rem, 8vw, 3rem);
-/* margin: -170px auto; */
+/* si jamais tu utilises un <img> à la place d’un background */
+.hero__bg img{
+width: 100%;
+height: 100%;
+object-fit: cover;
+object-position: 50% 50% !important;
 }
 
-.badge {
-font-size: 0.95rem;
-padding: 0.35rem 1rem;
-transform: scale(0.8);
+.hero__bg::before{
+background: linear-gradient(
+to bottom,
+rgba(190,191,195, 1) 0%,
+rgba(190,191,195, 1) 26%,
+rgba(190,191,195, 0.0) 48%,
+rgba(190,191,195, 0.0) 100%
+) !important;
 }
+.hero__bg{
+background-size: 170% !important;
+background-position: 50% 50% !important;
+transform: none !important;
+}
+.hero__bg img{ object-position: 90% 50% !important; }
+}
+@media (max-width: 767px){
 
-/* same desktop coordinates preserved */
-.b-blue {
-left: 6%;
-top: 33%;
-}
-.b-green {
-left: 8%;
-bottom: 45%;
-}
-.b-orange {
-right: 6%;
-top: 30%;
-}
-.b-violet {
-right: 10%;
-bottom: 47%;
-}
+  .hero .hero-title{
+    margin-top: -230px !important;  
+    margin-bottom: 160px !important;
+    position: relative;
+    z-index: 5;
+    display: block;
+    line-height: .95;
+  }
+
 }

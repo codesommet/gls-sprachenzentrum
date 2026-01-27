@@ -151,7 +151,7 @@
 
   .hero .b-violet {
       right: 15% !important;
-      bottom: 64% !important;
+      top: 20% !important;
       top: auto !important;
   }
 
@@ -203,22 +203,33 @@
   /* HERO – badges tighter */
   .hero .b-blue {
     left: 3% !important;
-    top: 13% !important;
+    top: 10% !important;
   }
 
   .hero .b-green {
-    left: 6% !important;
-    bottom: 70% !important;
+    left: 18% !important;
+    top: 19% !important;
             z-index: 0;
+            bottom: auto !important;
   }
 
   .hero .b-orange {
-    right: 6% !important;
-    top: 14% !important;
+    right: 20% !important;
+    top: 10% !important;
   }
 
   .hero .b-violet {
-    right: 13% !important;
-    bottom: 70% !important;
+    right: 1% !important;
+    top: 19% !important;
+    bottom: auto !important;
+    z-index: 0;
   }
+}
+@media (max-width: 479px){
+
+  .hero .badge{
+    font-size: 0.7rem !important;
+    padding: 0.25rem 0.65rem !important;
+  }
+
 }
