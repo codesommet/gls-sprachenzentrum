@@ -17,7 +17,7 @@ class StudienkollegController extends Controller
      * ========================= */
     public function index(): View
     {
-        $studienkollegs = Studienkolleg::latest()->paginate(20);
+        $studienkollegs = Studienkolleg::latest()->paginate(200);
         return view('backoffice.studienkollegs.index', compact('studienkollegs'));
     }
 
