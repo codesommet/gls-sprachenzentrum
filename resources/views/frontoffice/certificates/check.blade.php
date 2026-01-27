@@ -4,6 +4,12 @@
 
 @section('content')
 
+<style>
+    body{
+        background-color: var(--light--off-white) !important;
+    }
+</style>
+
     {{-- TOASTS (popups en haut à droite) --}}
     @if (session('certificate_error') || session('certificate_success'))
         <div class="position-fixed top-0 end-0 p-3" style="z-index: 1055;">

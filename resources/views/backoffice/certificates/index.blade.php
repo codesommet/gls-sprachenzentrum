@@ -42,8 +42,7 @@
                         <h5 class="mb-3 mb-sm-0">Certificats</h5>
                         <a href="{{ route('backoffice.certificates.create') }}" class="btn btn-primary">Ajouter
                             Certificat</a>
-                        Ajouter un certificat
-                        </a>
+                        
                     </div>
                 </div>
 
