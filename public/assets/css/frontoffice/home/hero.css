@@ -240,3 +240,39 @@ MOBILE TITLE FIX (NO NEGATIVE MARGIN)
     font-size: 30px;
   }
 }
+/* =========================================================
+MOBILE TITLE FIX – position stable sur tous les mobiles
+(remplace ton @media (max-width: 767px) actuel)
+========================================================= */
+@media (max-width: 767px){
+
+  /* On ne centre plus verticalement le contenu (ça bouge selon le wrap) */
+  .hero{
+    justify-content: flex-start;
+  }
+
+  /* On ancre le bloc titre à une position fixe en haut */
+  .hero__inner{
+    position: absolute;
+    left: 0;
+    right: 0;
+
+    top: calc(env(safe-area-inset-top, 0px) + 88px);
+
+    padding: 0 18px;
+    z-index: 5;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .hero .hero-title{
+    margin: 0;
+    line-height: 1.05;
+
+    /* ✅ taille responsive stable */
+    font-size: clamp(30px, 7.2vw, 44px);
+
+    /* évite des retours trop “bizarres” */
+    text-wrap: balance;
+  }
+}
