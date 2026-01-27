@@ -102,7 +102,7 @@ z-index: 3;
 .badge:hover{ transform: scale(1.05); }
 
 .b-blue{
-background-color: var(--color-primary, #2563eb);
+background-color: var(--blue);
 color: #85acf7;
 left: 6%;
 top: 33%;
@@ -110,7 +110,7 @@ z-index: 4;
 }
 
 .b-green{
-background-color: var(--color-secondary, #00d98a);
+background-color: var(--green);
 color: #9af3c5;
 left: 8%;
 bottom: 45%;
@@ -118,7 +118,7 @@ z-index: 3;
 }
 
 .b-orange{
-background-color: var(--color-tertiary, #fb923c);
+background-color: var(--orange);
 color: #ffd161;
 right: 6%;
 top: 30%;
@@ -126,7 +126,7 @@ z-index: 4;
 }
 
 .b-violet{
-background-color: var(--color-accent, #7c3aed);
+background-color: var(--purple);
 color: #e6c9ff;
 right: 10%;
 bottom: 47%;
@@ -221,12 +221,15 @@ transform: none !important;
 @media (max-width: 767px){
 
   .hero .hero-title{
-    margin-top: -230px !important;  
-    margin-bottom: 160px !important;
+    margin-top: -130px !important;  
+    /* margin-bottom: 160px !important; */
     position: relative;
     z-index: 5;
     display: block;
     line-height: .95;
+    max-width: 980px;      /* 🔑 THIS is the missing piece */
+    font-size: 30px;
+  margin: 0 auto;
   }
 
 }

@@ -5,7 +5,8 @@ return [
     // 🔵 HERO SECTION
     // ========================
     'hero' => [
-        'title' => 'Apprenez l’allemand au Maroc avec GLS',
+        'title' => 'Apprenez l’allemand au Maroc – GLS',
+
         'badge1' => 'Jawohl',
         'badge2' => 'Wunderbar',
         'badge3' => 'Guten Tag',

@@ -203,24 +203,24 @@
   /* HERO – badges tighter */
   .hero .b-blue {
     left: 3% !important;
-    top: 10% !important;
+    top: 7% !important;
   }
 
   .hero .b-green {
     left: 18% !important;
-    top: 19% !important;
+    top: 17% !important;
             z-index: 0;
             bottom: auto !important;
   }
 
   .hero .b-orange {
-    right: 20% !important;
-    top: 10% !important;
+    right: 1% !important;
+    top: 7% !important;
   }
 
   .hero .b-violet {
-    right: 1% !important;
-    top: 19% !important;
+    right: 7% !important;
+    top: 17% !important;
     bottom: auto !important;
     z-index: 0;
   }
