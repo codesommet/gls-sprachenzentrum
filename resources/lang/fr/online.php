@@ -23,7 +23,7 @@ return [
     'hero' => [
         'subtitle' => 'Depuis le confort de votre maison',
         'title' => 'Apprenez l’allemand en ligne',
-        'description' => "Du niveau A1 au niveau C1, des cours adaptés à tous les profils, partout dans le monde.<br>
+        'description' => "Du niveau A1 au niveau B2, des cours adaptés à tous les profils, partout dans le monde.<br>
                           Apprenez l’allemand en ligne avec des cours en direct, en petits groupes, animés par des professeurs qualifiés —
                           le tout depuis chez vous.",
 
@@ -36,35 +36,33 @@ return [
     ],
 
     /*
-    |--------------------------------------------------------------------------
-    | INFO SECTION
-    |--------------------------------------------------------------------------
-    */
-    'info' => [
-        'title' => "Informations sur les cours en ligne<br>",
+|--------------------------------------------------------------------------
+| INFO SECTION
+|--------------------------------------------------------------------------
+*/
+'info' => [
+    'title' => "Informations sur nos cours en ligne<br>",
 
-        'graduation' => [
-            'title' => 'Certification',
-            'text' => 'Certificat officiel d’allemand après examen (CECRL)',
-        ],
-
-        'duration' => [
-            'title' => 'Durée',
-            'text'  => "8 semaines<br>16 leçons par semaine (mardi–vendredi)",
-        ],
-
-        'times' => [
-            'title' => 'Horaires',
-            'text'  => "09h15 – 12h30<br>17h00 – 20h15",
-        ],
-
-        'cost' => [
-            'title' => 'Tarifs',
-            'text'  => "318€ (4 semaines)<br>636€ (8 semaines)<br><br>
-                        Examen interne : 118€<br>
-                        Examen externe : 149€",
-        ],
+    'graduation' => [
+        'title' => 'Certification',
+        'text' => "Certificat officiel d’allemand après l’examen (CECRL)",
     ],
+
+    'duration' => [
+        'title' => 'Durée',
+        'text'  => "Programme mensuel<br>16 cours par semaine (lundi–vendredi)",
+    ],
+
+    'times' => [
+        'title' => 'Horaires',
+        'text'  => "Les cours commencent à 20h",
+    ],
+
+    'cost' => [
+        'title' => 'Tarifs',
+        'text'  => "1000 DH / mois",
+    ],
+],
 
     /*
     |--------------------------------------------------------------------------
@@ -75,9 +73,9 @@ return [
         'title' => 'Points forts des cours en ligne',
         'items' => [
             'Cours en direct',
-            'Du mardi au vendredi',
+            'Du Lundi au vendredi',
             'Petits groupes',
-            'Tous niveaux de A1 à C1',
+            'Tous niveaux de A1 à B2',
             'Ressources pédagogiques en ligne',
             'Étudiants du monde entier',
             'Inscriptions ouvertes toute l’année',
@@ -95,7 +93,7 @@ return [
         'text1'    => "Apprendre l’allemand en ligne est très efficace — chez GLS, 
                        vous bénéficiez de la même qualité pédagogique que dans nos cours en présentiel.",
         'text2'    => "Que vous soyez débutant ou que vous prépariez un examen avancé,
-                       GLS propose des cours interactifs du niveau A1 au niveau C1,
+                       GLS propose des cours interactifs du niveau A1 au niveau B2,
                        en petits groupes et avec des enseignants expérimentés.",
     ],
 

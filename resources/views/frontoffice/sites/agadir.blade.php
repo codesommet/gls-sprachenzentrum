@@ -7,8 +7,8 @@
 @section('content')
 
     <!-- ===========================
-                         HERO SECTION – AGADIR
-                    =========================== -->
+                             HERO SECTION – AGADIR
+                        =========================== -->
     <section class="hero-section section about-hero reveal delay-1">
         <div class="container is-hero reveal delay-2">
 
@@ -23,8 +23,8 @@
     </section>
 
     <!-- ===========================
-                         ABOUT AGADIR CENTER
-                    =========================== -->
+                             ABOUT AGADIR CENTER
+                        =========================== -->
     <section class="gls-section gls-richtext-wrapper reveal delay-1">
         <div class="gls-container reveal delay-2">
             <div class="gls-richtext reveal delay-3">
@@ -55,8 +55,8 @@
     </section>
 
     <!-- ===========================
-                         PHOTO STRIP – AGADIR
-                    =========================== -->
+                             PHOTO STRIP – AGADIR
+                        =========================== -->
     <section class="gls-photo-strip section reveal delay-1">
         <div class="gls-container gls-photo-grid reveal delay-2">
 
@@ -71,8 +71,8 @@
     </section>
 
     <!-- ===========================
-                         INFO CARDS
-                    =========================== -->
+                             INFO CARDS
+                        =========================== -->
     <section class="gls-info-section gls-section reveal delay-1">
 
         <div class="gls-container reveal delay-2">
@@ -120,8 +120,8 @@
     </section>
 
     <!-- ===========================
-                         GROUPS — AGADIR
-                    =========================== -->
+                             GROUPS — AGADIR
+                        =========================== -->
     <section class="gls-schedule-section reveal delay-1">
         <div class="gls-schedule-container reveal delay-2">
 
@@ -329,8 +329,8 @@
 
 
     <!-- ===========================
-                         DROPDOWN + INFO JS
-                    =========================== -->
+                             DROPDOWN + INFO JS
+                        =========================== -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const dropdowns = document.querySelectorAll(".schedule-dropdown");
@@ -359,32 +359,7 @@
         });
 
         // COURSE DATA
-        const data = {
-            A1: {
-                graduation: "A1 Certification (Basic German)",
-                duration: "5 weeks<br>18 lessons per week",
-                times: "Mon–Fri",
-                price: "998 DH"
-            },
-            A2: {
-                graduation: "A2 Certification (Elementary level)",
-                duration: "5 weeks<br>18 lessons per week",
-                times: "Mon–Fri",
-                price: "1100 DH"
-            },
-            B1: {
-                graduation: "B1 Certification (Intermediate)",
-                duration: "6 weeks<br>18 lessons per week",
-                times: "Mon–Fri",
-                price: "1300 DH"
-            },
-            B2: {
-                graduation: "B2 Certification (Upper-Intermediate)",
-                duration: "6 weeks<br>20 lessons per week",
-                times: "Mon–Fri",
-                price: "1500 DH"
-            }
-        };
+        const data = @json(__('sites/agadir.info_cards.levels'));
 
         function updateCards(level) {
             document.getElementById("graduation-text").innerHTML = data[level].graduation;

@@ -131,4 +131,36 @@ return [
         'map_url' => 'https://maps.app.goo.gl/g4PjrPB7wHQAqrSZA',
         'map_iframe_src' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3331.744621379457!2d-6.836039!3d33.978558!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda76b6d63b66b1d%3A0x3c6ee0a64f273aa2!2sAgdal%2C%20Rabat!5e0!3m2!1sen!2sma!4v1700000000000',
     ],
+
+    // ===========================
+    // INFO CARDS
+    // ===========================
+    'info_cards' => [
+        'levels' => [
+            'A1' => [
+                'graduation' => 'A1 Certification (Basic German)',
+                'duration' => '5 weeks<br>18 lessons per week',
+                'times' => 'Mon–Fri',
+                'price' => '1400 DH / month',
+            ],
+            'A2' => [
+                'graduation' => 'A2 Certification (Elementary level)',
+                'duration' => '5 weeks<br>18 lessons per week',
+                'times' => 'Mon–Fri',
+                'price' => '1400 DH / month',
+            ],
+            'B1' => [
+                'graduation' => 'B1 Certification (Intermediate)',
+                'duration' => '6 weeks<br>18 lessons per week',
+                'times' => 'Mon–Fri',
+                'price' => '1400 DH / month',
+            ],
+            'B2' => [
+                'graduation' => 'B2 Certification (Upper-Intermediate)',
+                'duration' => '6 weeks<br>20 lessons per week',
+                'times' => 'Mon–Fri',
+                'price' => '1400 DH / month',
+            ],
+        ],
+    ],
 ];

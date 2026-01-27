@@ -23,7 +23,7 @@ return [
     'hero' => [
         'subtitle' => 'From the comfort of your home',
         'title' => 'Learn German online',
-        'description' => "From level A1 to C1, courses adapted to all profiles, anywhere in the world.<br>
+        'description' => "From level A1 to B2, courses adapted to all profiles, anywhere in the world.<br>
                           Learn German online with live classes, in small groups, taught by qualified teachers —
                           all from your home.",
 
@@ -35,36 +35,34 @@ return [
         ],
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | INFO SECTION
-    |--------------------------------------------------------------------------
-    */
-    'info' => [
-        'title' => "Information about our online courses<br>",
+   /*
+|--------------------------------------------------------------------------
+| INFO SECTION
+|--------------------------------------------------------------------------
+*/
+'info' => [
+    'title' => "Information about our online courses<br>",
 
-        'graduation' => [
-            'title' => 'Certification',
-            'text' => 'Official German certificate after exam (CEFR)',
-        ],
-
-        'duration' => [
-            'title' => 'Duration',
-            'text'  => "8 weeks<br>16 lessons per week (Tuesday–Friday)",
-        ],
-
-        'times' => [
-            'title' => 'Times',
-            'text'  => "09:15 – 12:30<br>17:00 – 20:15",
-        ],
-
-        'cost' => [
-            'title' => 'Rates',
-            'text'  => "318€ (4 weeks)<br>636€ (8 weeks)<br><br>
-                        Internal exam: 118€<br>
-                        External exam: 149€",
-        ],
+    'graduation' => [
+        'title' => 'Certification',
+        'text' => 'Official German certificate after the exam (CEFR)',
     ],
+
+    'duration' => [
+        'title' => 'Duration',
+        'text'  => "Monthly program<br>16 lessons per week (Monday–Friday)",
+    ],
+
+    'times' => [
+        'title' => 'Times',
+        'text'  => "Classes start at 20:00",
+    ],
+
+    'cost' => [
+        'title' => 'Rates',
+        'text'  => "1000 DH / month",
+    ],
+],
 
     /*
     |--------------------------------------------------------------------------
@@ -77,7 +75,7 @@ return [
             'Live classes',
             'Tuesday to Friday',
             'Small groups',
-            'All levels A1 to C1',
+            'All levels A1 to B2',
             'Online teaching resources',
             'Students from around the world',
             'Open enrollment year-round',
@@ -93,7 +91,7 @@ return [
         'title'    => 'GLS is also online!',
         'subtitle' => 'Find your online German course',
         'text1'    => "Learning German online is very effective — at GLS, you benefit from the same teaching quality as our in-person courses.",
-        'text2'    => "Whether you\'re a beginner or preparing for an advanced exam, GLS offers interactive courses from level A1 to C1, in small groups and with experienced teachers.",
+        'text2'    => "Whether you\'re a beginner or preparing for an advanced exam, GLS offers interactive courses from level A1 to B2, in small groups and with experienced teachers.",
     ],
 
     /*

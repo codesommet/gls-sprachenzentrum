@@ -7,8 +7,8 @@
 @section('content')
 
     <!-- ===========================
-                 HERO SECTION – CASABLANCA
-            =========================== -->
+                     HERO SECTION – CASABLANCA
+                =========================== -->
     <section class="hero-section section about-hero reveal delay-1">
         <div class="container is-hero reveal delay-2">
 
@@ -29,8 +29,8 @@
 
 
     <!-- ===========================
-                 ABOUT CASABLANCA CENTER
-            =========================== -->
+                     ABOUT CASABLANCA CENTER
+                =========================== -->
     <section class="gls-section gls-richtext-wrapper reveal delay-1">
         <div class="gls-container reveal delay-2">
             <div class="gls-richtext reveal delay-3">
@@ -63,8 +63,8 @@
 
 
     <!-- ===========================
-                 PHOTO STRIP
-            =========================== -->
+                     PHOTO STRIP
+                =========================== -->
     <section class="gls-photo-strip section reveal delay-1">
         <div class="gls-container gls-photo-grid reveal delay-2">
 
@@ -81,8 +81,8 @@
 
 
     <!-- ===========================
-                 INFO CARDS
-            =========================== -->
+                     INFO CARDS
+                =========================== -->
     <section class="gls-info-section gls-section reveal delay-1">
         <div class="gls-container reveal delay-2">
 
@@ -135,8 +135,8 @@
 
 
     <!-- ===========================
-                 GROUPS
-            =========================== -->
+                     GROUPS
+                =========================== -->
     <section class="gls-schedule-section reveal delay-1">
         <div class="gls-schedule-container reveal delay-2">
 
@@ -217,8 +217,8 @@
     </section>
 
     <!-- ===========================
-                 9ONSOL TALKS – CASABLANCA
-            =========================== -->
+                     9ONSOL TALKS – CASABLANCA
+                =========================== -->
     <section class="home-about-section section reveal delay-1">
         <div class="container about-grid reveal delay-2">
 
@@ -243,8 +243,8 @@
     </section>
 
     <!-- ===========================
-                 CTA
-            =========================== -->
+                     CTA
+                =========================== -->
 
     <section class="inline-cta-section section reveal delay-1">
         <div class="inline-cta-block reveal delay-2">
@@ -375,32 +375,7 @@
             });
         });
 
-        const data = {
-            A1: {
-                graduation: "Certification A1 (Allemand débutant)",
-                duration: "5 semaines<br>18 leçons par semaine",
-                times: "Lun–Ven<br>13h15–16h30",
-                price: "998 DH"
-            },
-            A2: {
-                graduation: "Certification A2 (Niveau élémentaire)",
-                duration: "5 semaines<br>18 leçons par semaine",
-                times: "Lun–Ven<br>13h15–16h30",
-                price: "1100 DH"
-            },
-            B1: {
-                graduation: "Certification B1 (Niveau intermédiaire)",
-                duration: "6 semaines<br>18 leçons par semaine",
-                times: "Lun–Ven<br>13h15–16h30",
-                price: "1300 DH"
-            },
-            B2: {
-                graduation: "Certification B2 (Niveau avancé)",
-                duration: "6 semaines<br>20 leçons par semaine",
-                times: "Lun–Ven<br>13h15–16h30",
-                price: "1500 DH"
-            }
-        };
+        const data = @json(__('sites/casablanca.info_cards.levels'));
 
         function updateCards(level) {
             document.getElementById("graduation-text").innerHTML = data[level].graduation;
