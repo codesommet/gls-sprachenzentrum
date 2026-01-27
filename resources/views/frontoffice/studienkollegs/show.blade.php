@@ -88,9 +88,7 @@ HERO
                     <i class="ph ph-heart"></i>
                     Add to Favorites
                 </button>
-                <a href="https://www.uni-assist.de/apply/" target="_blank" class="btn-primary">
-                    Apply now
-                </a>
+                
             </div>
         </div>
     </section>

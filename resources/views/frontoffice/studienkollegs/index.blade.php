@@ -59,7 +59,7 @@
             </div>
         </div>
 
-        @if ($featured)
+        @if ($featured && $featured->featured)
             <ul class="studienkollegs-featured-list">
                 <li class="featured-card reveal delay-2">
                     <div class="featured-card-inner">
@@ -97,10 +97,9 @@
                                 </a>
                             </h2>
 
-
                             <div class="featured-tag">
                                 <img src="{{ asset('assets/images/studienkollegs/germany.webp') }}" alt="Germany">
-                                <span>Studienkolleg · {{ $featured->public ? 'Public' : 'Private' }}</span>
+                                <span>Studienkolleg · Featured</span>
                             </div>
 
                             <hr class="featured-separator">
@@ -122,19 +121,17 @@
                                         <div class="featured-meta-value">
                                             {{ $featured->tuition ?? 'Free' }}
                                         </div>
-                                        <div class="featured-meta-label">Tuitions</div>
+                                        <div class="featured-meta-label">Tuition</div>
                                     </div>
                                 </div>
                             </div>
 
-                            @if ($featured->featured)
-                                <div class="featured-badge">
-                                    <span>
-                                        <i class="ph-duotone ph-star"></i>
-                                        Recommended by GLS
-                                    </span>
-                                </div>
-                            @endif
+                            <div class="featured-badge">
+                                <span>
+                                    <i class="ph-duotone ph-star"></i>
+                                    Recommended by GLS
+                                </span>
+                            </div>
 
                         </div>
 
@@ -145,15 +142,12 @@
 
                                 <button class="video-play-btn"
                                     onclick="this.parentElement.innerHTML = `
-                                    <iframe
-                                        width='100%'
-                                        height='100%'
-                                        src='https://www.youtube.com/embed/{{ $youtubeId }}?autoplay=1&rel=0'
-                                        frameborder='0'
-                                        allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-                                        allowfullscreen>
-                                    </iframe>
-                                `;">
+                                <iframe
+                                    src='https://www.youtube.com/embed/{{ $youtubeId }}?autoplay=1&rel=0'
+                                    allow='autoplay; encrypted-media'
+                                    allowfullscreen>
+                                </iframe>
+                            `;">
                                     <i class="ph-fill ph-play"></i>
                                 </button>
                             </div>
@@ -163,6 +157,7 @@
                 </li>
             </ul>
         @endif
+
 
         <ul class="studienkollegs-grid">
             @foreach ($studienkollegs as $item)
@@ -226,8 +221,14 @@
 
 
         <div class="studienkollegs-pagination reveal delay-2">
-            {{ $studienkollegs->links() }}
+            <div class="pagination-meta">
+                Showing {{ $studienkollegs->firstItem() ?? 0 }} to {{ $studienkollegs->lastItem() ?? 0 }} of
+                {{ $studienkollegs->total() }} results
+            </div>
+
+            {{ $studienkollegs->onEachSide(1)->links('frontoffice.studienkollegs.partials.pagination') }}
         </div>
+
 
     </div>
 
