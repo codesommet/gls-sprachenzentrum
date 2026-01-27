@@ -240,10 +240,7 @@ max-width: 980px;
 font-size: 30px;
 }
 }
-/* =========================================================
-MOBILE TITLE FIX – position stable sur tous les mobiles
-(remplace ton @media (max-width: 767px) actuel)
-========================================================= */
+
 @media (max-width: 767px){
 
 .hero{
