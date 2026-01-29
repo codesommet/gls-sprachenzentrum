@@ -17,6 +17,7 @@ use App\Http\Controllers\Backoffice\GroupController;
 use App\Http\Controllers\Backoffice\CertificateController;
 use App\Http\Controllers\Backoffice\QuizController;
 use App\Http\Controllers\Backoffice\QuizQuestionController;
+use App\Http\Controllers\Backoffice\HelpController;
 
 use App\Http\Controllers\Frontoffice\GroupApplicationController as GroupApplicationController;
 
@@ -30,6 +31,7 @@ use App\Http\Controllers\Frontoffice\GroupApplicationController as GroupApplicat
 */
 
 /* Dashboard */
+
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 /* Optional dynamic pages (avoid profile conflict) */
@@ -184,6 +186,17 @@ Route::prefix('backoffice')
                 Route::get('/{quiz}/questions/{question}/edit', [QuizQuestionController::class, 'edit'])->name('questions.edit');
                 Route::put('/{quiz}/questions/{question}', [QuizQuestionController::class, 'update'])->name('questions.update');
                 Route::delete('/{quiz}/questions/{question}', [QuizQuestionController::class, 'destroy'])->name('questions.destroy');
+            });
+
+        /*
+        |----------------------------------------------------------------------
+        | AIDE & DOCUMENTATION
+        |----------------------------------------------------------------------
+        */
+        Route::prefix('help')
+            ->name('help.')
+            ->group(function () {
+                Route::get('/documentation', [HelpController::class, 'documentation'])->name('documentation');
             });
     });
 
