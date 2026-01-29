@@ -39,10 +39,12 @@ return [
     'sale' => 'Salé',
     'agadir' => 'Agadir',
 
-    'gls-agadir'      => 'GLS Agadir',
-    'gls-casablanca'  => 'GLS Casablanca',
-    'gls-kenitra'     => 'GLS Kénitra',
-    'gls-marrakech'   => 'GLS Marrakech',
-    'gls-rabat'       => 'GLS Rabat',
-    'gls-sale'        => 'GLS Salé',
+    'gls-agadir' => 'GLS Agadir',
+    'gls-casablanca' => 'GLS Casablanca',
+    'gls-kenitra' => 'GLS Kénitra',
+    'gls-marrakech' => 'GLS Marrakech',
+    'gls-rabat' => 'GLS Rabat',
+    'gls-sale' => 'GLS Salé',
+    'visa' => 'Visa',
+    'studienkolleg' => 'Studienkolleg',
 ];
