@@ -32,7 +32,7 @@
                     </td>
                     <td class="text-end">
                         <a href="{{ route('backoffice.studienkollegs.edit', $item) }}"
-                            class="avtar avtar-xs btn-link-secondary me-2" title="Modifier">
+                            class="avtar avtar-xs btn-link-secondary me-2" title="Modifier" aria-label="Modifier">
                             <i class="ti ti-edit f-20"></i>
                         </a>
 
@@ -42,7 +42,8 @@
                             @method('DELETE')
 
                             <button type="submit" class="avtar avtar-xs btn-link-secondary border-0 bg-transparent p-0"
-                                onclick="return confirm('Supprimer ce Studienkolleg ?')" title="Supprimer">
+                                onclick="return confirm('Supprimer ce Studienkolleg ?')" title="Supprimer"
+                                aria-label="Supprimer">
                                 <i class="ti ti-trash f-20"></i>
                             </button>
                         </form>

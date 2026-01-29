@@ -37,25 +37,50 @@
     @endphp
 
     <div class="studienkollegs-page">
+        @php
+            // Helpers: savoir si filtre actif
+            $isActive = fn($key) => request()->boolean($key);
 
+        @endphp
         <div class="studienkollegs-filters reveal delay-1">
             <div class="filters-actions">
-                <button class="filter-btn filter-btn-primary">
+
+                {{-- ALL --}}
+                <button
+                    class="filter-btn {{ !request()->hasAny(['online', 'uni_assist', 'open_now', 'entrance_exam']) ? 'filter-btn-primary' : '' }}"
+                    type="button" data-filter="all">
                     <i class="ph-duotone ph-funnel"></i>
                     <span>All Filters</span>
                 </button>
-                <button class="filter-btn">
+
+                {{-- ONLINE --}}
+                <button class="filter-btn {{ $isActive('online') ? 'filter-btn-primary' : '' }}" type="button"
+                    data-filter="online">
                     <i class="ph-duotone ph-laptop"></i>
                     <span>Online</span>
                 </button>
-                <button class="filter-btn">
+
+                {{-- UNI ASSIST --}}
+                <button class="filter-btn {{ $isActive('uni_assist') ? 'filter-btn-primary' : '' }}" type="button"
+                    data-filter="uni_assist">
                     <i class="ph-duotone ph-graduation-cap"></i>
                     <span>Uni Assist</span>
                 </button>
-                <button class="filter-btn">
+
+                {{-- OPEN NOW --}}
+                <button class="filter-btn {{ $isActive('open_now') ? 'filter-btn-primary' : '' }}" type="button"
+                    data-filter="open_now">
                     <i class="ph-duotone ph-calendar-check"></i>
                     <span>Application Open Now</span>
                 </button>
+
+                {{-- ENTRANCE EXAM --}}
+                <button class="filter-btn {{ $isActive('entrance_exam') ? 'filter-btn-primary' : '' }}" type="button"
+                    data-filter="entrance_exam">
+                    <i class="ph-duotone ph-pen-nib"></i>
+                    <span>Entrance Exam</span>
+                </button>
+
             </div>
         </div>
 
@@ -234,5 +259,41 @@
 
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <script src="{{ asset('assets/js/favorites.js') }}"></script>
+    <script>
+        (function() {
+            const wrap = document.querySelector('.filters-actions');
+            if (!wrap) return;
+
+            const allowed = new Set(['online', 'uni_assist', 'open_now', 'entrance_exam']);
+
+            wrap.addEventListener('click', function(e) {
+                const btn = e.target.closest('.filter-btn');
+                if (!btn) return;
+
+                const key = btn.getAttribute('data-filter');
+                const url = new URL(window.location.href);
+
+                if (key === 'all') {
+                    // remove filter params only (keep other searches if you later add them)
+                    allowed.forEach(k => url.searchParams.delete(k));
+                    url.searchParams.delete('page');
+                    window.location.href = url.toString();
+                    return;
+                }
+
+                if (!allowed.has(key)) return;
+
+                // toggle filter
+                if (url.searchParams.get(key) === '1') {
+                    url.searchParams.delete(key);
+                } else {
+                    url.searchParams.set(key, '1');
+                }
+
+                url.searchParams.delete('page');
+                window.location.href = url.toString();
+            });
+        })();
+    </script>
 
 @endsection

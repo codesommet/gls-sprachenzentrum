@@ -35,16 +35,20 @@
                             </td>
                             <td class="text-end">
                                 <a href="{{ route('backoffice.quizzes.edit', $quiz) }}"
-                                    class="btn btn-sm btn-outline-primary">
-                                    Modifier
+                                    class="avtar avtar-xs btn-link-secondary me-2" title="Modifier"
+                                    aria-label="Modifier">
+                                    <i class="ti ti-edit f-20"></i>
                                 </a>
 
                                 <form action="{{ route('backoffice.quizzes.destroy', $quiz) }}" method="POST"
-                                    class="d-inline" onsubmit="return confirm('Supprimer ce quiz ?')">
+                                    class="d-inline-block">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger">
-                                        Supprimer
+                                    <button type="submit"
+                                        class="avtar avtar-xs btn-link-secondary border-0 bg-transparent p-0"
+                                        onclick="return confirm('Supprimer ce quiz ?')" title="Supprimer"
+                                        aria-label="Supprimer">
+                                        <i class="ti ti-trash f-20"></i>
                                     </button>
                                 </form>
                             </td>

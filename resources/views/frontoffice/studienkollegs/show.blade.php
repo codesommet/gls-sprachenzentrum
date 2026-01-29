@@ -7,6 +7,11 @@
 
 @section('content')
 
+    <style>
+        .favorite-btn.active i {
+            color: #ef4444;
+        }
+    </style>
     @php
         $hero = $studienkolleg->getFirstMediaUrl('studienkolleg_hero');
 
@@ -84,11 +89,15 @@ HERO
                     </a>
                 @endif
 
-                <button class="btn-outline favorite-btn" data-id="{{ $studienkolleg->id }}">
-                    <i class="ph ph-heart"></i>
-                    Add to Favorites
+                <button type="button" class="btn-outline favorite-btn" data-id="{{ $studienkolleg->id }}"
+                    aria-pressed="false">
+                    <i class="ph-duotone ph-heart"></i>
+                    <span data-fav-label data-text="Add to Favorites" data-active-text="Added">
+                        Add to Favorites
+                    </span>
                 </button>
-                
+
+
             </div>
         </div>
     </section>
@@ -341,7 +350,7 @@ CONTENT
     </section>
 
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-
+    <script src="{{ asset('assets/js/favorites.js') }}"></script>
     {{-- Accordion --}}
     <script>
         document.addEventListener('DOMContentLoaded', () => {

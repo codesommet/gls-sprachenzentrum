@@ -11,7 +11,7 @@
 @section('content')
 
     @php
-        // URL publique du certificat (scan => download)
+        // URL publique du certificat (utilisée uniquement pour le QR et le lien)
         $publicUrl = route('certificates.public.download', ['token' => $certificate->public_token]);
     @endphp
 
@@ -31,7 +31,7 @@
                             Retour
                         </a>
 
-                        {{-- OPTIONNEL : ouvrir le lien public --}}
+                        {{-- Lien public (optionnel, admin only) --}}
                         <a href="{{ $publicUrl }}" target="_blank" class="btn btn-outline-dark me-2">
                             Lien public
                         </a>
@@ -45,13 +45,12 @@
 
                 <div class="card-body">
 
-                    {{-- =============================== --}}
-                    {{--         PERSONAL INFO           --}}
-                    {{-- =============================== --}}
+                    {{-- ===============================
+                       PERSONAL INFO
+                    =============================== --}}
                     <h5 class="fw-bold mb-3">Informations personnelles</h5>
 
                     <div class="row mb-4">
-
                         <div class="col-md-4">
                             <p class="mb-1 fw-bold">Nom :</p>
                             <p>{{ $certificate->last_name }}</p>
@@ -71,25 +70,21 @@
                             <p class="mb-1 fw-bold">Lieu de naissance :</p>
                             <p>{{ $certificate->birth_place }}</p>
                         </div>
-
                     </div>
 
                     <hr>
 
-
-                    {{-- =============================== --}}
-                    {{--          EXAM META              --}}
-                    {{-- =============================== --}}
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="fw-bold mb-0">Détails de l'examen</h5>
-                    </div>
+                    {{-- ===============================
+                       EXAM META
+                    =============================== --}}
+                    <h5 class="fw-bold mb-3">Détails de l'examen</h5>
 
                     <div class="row mb-4 align-items-start">
 
-                        {{-- LEFT : meta infos --}}
+                        {{-- LEFT --}}
                         <div class="col-md-8">
-
                             <div class="row">
+
                                 <div class="col-md-4">
                                     <p class="mb-1 fw-bold">Niveau :</p>
                                     <span class="badge bg-light-primary text-primary fs-6 px-3">
@@ -112,37 +107,26 @@
                                     <p>{{ $certificate->certificate_number }}</p>
                                 </div>
 
-                                <div class="col-md-6">
-                                    <p class="mb-1 fw-bold">Token public :</p>
-
-                                    <div class="d-flex align-items-center gap-2">
-                                        <code id="public-token" data-token="{{ $certificate->public_token }}">
-                                            ••••••••••••••••••••••••••••••
-                                        </code>
-
-                                        <button type="button" class="btn btn-sm btn-outline-secondary"
-                                            onclick="toggleToken()" title="Afficher / masquer le token">
-                                            👁
-                                        </button>
-                                    </div>
-                                </div>
-
+                                {{-- ✅ TOKEN CACHÉ (BACKEND ONLY) --}}
+                                {{-- public_token is intentionally hidden --}}
                             </div>
-
                         </div>
 
                         {{-- RIGHT : QR --}}
                         <div class="col-md-4 text-center">
                             <div class="border rounded p-3">
                                 @if ($certificate->public_token)
-                                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data={{ urlencode($publicUrl) }}"
-                                        alt="QR Code Certificat" class="img-fluid">
+                                    <img
+                                        src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data={{ urlencode($publicUrl) }}"
+                                        alt="QR Code Certificat"
+                                        class="img-fluid"
+                                    >
                                     <div class="text-muted mt-2" style="font-size: 13px;">
                                         Scanner pour télécharger<br>le certificat
                                     </div>
                                 @else
                                     <div class="alert alert-warning mb-0">
-                                        QR code indisponible : public_token manquant.
+                                        QR code indisponible.
                                     </div>
                                 @endif
                             </div>
@@ -152,10 +136,9 @@
 
                     <hr>
 
-
-                    {{-- =============================== --}}
-                    {{--        WRITTEN EXAM (Écrit)     --}}
-                    {{-- =============================== --}}
+                    {{-- ===============================
+                       WRITTEN EXAM
+                    =============================== --}}
                     <h5 class="fw-bold mb-3">Schriftliche Prüfung (Écrit)</h5>
 
                     <table class="table table-bordered mb-4">
@@ -167,100 +150,71 @@
                             </tr>
                         </thead>
                         <tbody>
-
-                            {{-- Total Written --}}
                             <tr>
                                 <td><strong>Total Écrit</strong></td>
                                 <td>{{ $certificate->written_total }}</td>
                                 <td>{{ $certificate->written_max }}</td>
                             </tr>
-
-                            {{-- Reading --}}
                             <tr>
                                 <td>Leseverstehen</td>
                                 <td>{{ $certificate->reading_score }}</td>
                                 <td>{{ $certificate->reading_max }}</td>
                             </tr>
-
-                            {{-- Grammar --}}
                             <tr>
                                 <td>Sprachbausteine</td>
                                 <td>{{ $certificate->grammar_score }}</td>
                                 <td>{{ $certificate->grammar_max }}</td>
                             </tr>
-
-                            {{-- Listening --}}
                             <tr>
                                 <td>Hörverstehen</td>
                                 <td>{{ $certificate->listening_score }}</td>
                                 <td>{{ $certificate->listening_max }}</td>
                             </tr>
-
-                            {{-- Writing --}}
                             <tr>
                                 <td>Schriftlicher Ausdruck</td>
                                 <td>{{ $certificate->writing_score }}</td>
                                 <td>{{ $certificate->writing_max }}</td>
                             </tr>
-
                         </tbody>
                     </table>
 
                     <hr>
 
-
-                    {{-- =============================== --}}
-                    {{--        ORAL EXAM (Oral)         --}}
-                    {{-- =============================== --}}
+                    {{-- ===============================
+                       ORAL EXAM
+                    =============================== --}}
                     <h5 class="fw-bold mb-3">Mündliche Prüfung (Oral)</h5>
 
                     <table class="table table-bordered mb-4">
-                        <thead>
-                            <tr>
-                                <th>Section</th>
-                                <th>Score</th>
-                                <th>Max</th>
-                            </tr>
-                        </thead>
                         <tbody>
-
-                            {{-- Total Oral --}}
                             <tr>
                                 <td><strong>Total Oral</strong></td>
                                 <td>{{ $certificate->oral_total }}</td>
                                 <td>{{ $certificate->oral_max }}</td>
                             </tr>
-
-                            {{-- Presentation --}}
                             <tr>
                                 <td>Präsentation</td>
                                 <td>{{ $certificate->presentation_score }}</td>
                                 <td>{{ $certificate->presentation_max }}</td>
                             </tr>
-
-                            {{-- Discussion --}}
                             <tr>
                                 <td>Diskussion</td>
                                 <td>{{ $certificate->discussion_score }}</td>
                                 <td>{{ $certificate->discussion_max }}</td>
                             </tr>
-
-                            {{-- Problem Solving --}}
                             <tr>
                                 <td>Problemlösung</td>
                                 <td>{{ $certificate->problemsolving_score }}</td>
                                 <td>{{ $certificate->problemsolving_max }}</td>
                             </tr>
-
                         </tbody>
                     </table>
 
                     <hr>
 
-
-                    {{-- =============================== --}}
-                    {{--          FINAL RESULT           --}}
-                    {{-- =============================== --}}
+                    {{-- ===============================
+                       FINAL RESULT
+                    =============================== --}}
                     <h5 class="fw-bold mb-3">Résultat final</h5>
 
                     @php
@@ -271,15 +225,9 @@
                             str_contains(strtolower($certificate->final_result), 'befriedigend');
                     @endphp
 
-                    @if ($isSuccess)
-                        <span class="badge bg-success text-white p-2 fs-6">
-                            {{ $certificate->final_result }}
-                        </span>
-                    @else
-                        <span class="badge bg-danger text-white p-2 fs-6">
-                            {{ $certificate->final_result }}
-                        </span>
-                    @endif
+                    <span class="badge {{ $isSuccess ? 'bg-success' : 'bg-danger' }} text-white p-2 fs-6">
+                        {{ $certificate->final_result }}
+                    </span>
 
                 </div>
 
@@ -287,17 +235,5 @@
 
         </div>
     </div>
-    <script>
-        function toggleToken() {
-            const el = document.getElementById('public-token');
-            const realToken = el.dataset.token;
-
-            if (el.textContent.includes('•')) {
-                el.textContent = realToken;
-            } else {
-                el.textContent = '••••••••••••••••••••••••••••••';
-            }
-        }
-    </script>
 
 @endsection

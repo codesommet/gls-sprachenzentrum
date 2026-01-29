@@ -42,11 +42,11 @@
         </select>
     </div>
 
-    {{-- ENSEIGNANT --}}
+    {{-- ENSEIGNANT (OPTIONNEL) --}}
     <div class="col-md-6 mb-3">
         <label class="form-label fw-bold">Enseignant</label>
-        <select name="teacher_id" class="form-select" required>
-            <option value="">Sélectionner un enseignant</option>
+        <select name="teacher_id" class="form-select">
+            <option value="">(Non défini pour le moment)</option>
             @foreach($teachers as $teacher)
                 <option value="{{ $teacher->id }}"
                     {{ old('teacher_id', $group->teacher_id ?? '') == $teacher->id ? 'selected' : '' }}>
@@ -54,6 +54,7 @@
                 </option>
             @endforeach
         </select>
+        <small class="text-muted">Tu peux l’ajouter plus tard après validation.</small>
     </div>
 
     {{-- NIVEAU --}}
@@ -72,10 +73,11 @@
     {{-- STATUT --}}
     <div class="col-md-4 mb-3">
         <label class="form-label fw-bold">Statut</label>
-        <select name="status" class="form-select" required>
+        <select name="status" class="form-select" required id="group_status">
             <option value="active"   {{ old('status', $group->status ?? '') == 'active' ? 'selected' : '' }}>Actif</option>
             <option value="upcoming" {{ old('status', $group->status ?? '') == 'upcoming' ? 'selected' : '' }}>À venir</option>
         </select>
+        <small class="text-muted">Si “À venir”, le suivi (dates) sera désactivé.</small>
     </div>
 
     {{-- HORAIRE --}}
@@ -95,7 +97,7 @@
 {{-- ===============  SUIVI DU GROUPE (DATE) ================== --}}
 {{-- ========================================================== --}}
 
-<div class="row mt-4 pt-3 border-top">
+<div class="row mt-4 pt-3 border-top" id="suivi_block">
     <h5 class="fw-bold mb-3">📅 Suivi du groupe</h5>
 
     {{-- MODE CHOIX --}}
@@ -191,7 +193,10 @@
 </div>
 
 <script>
-    (function () {
+(function () {
+  const $status = document.getElementById('group_status');
+  const $suiviBlock = document.getElementById('suivi_block');
+
   const $modePicker = document.getElementById('mode_picker');
   const $modeManual = document.getElementById('mode_manual');
 
@@ -208,7 +213,7 @@
   const $dateFin = document.getElementById('date_fin_value');
   const $durationLabel = document.getElementById('duration_label');
 
-  if (!$modePicker || !$modeManual || !$dateDebut || !$dateFin || !$durationLabel) return;
+  if (!$status || !$suiviBlock || !$modePicker || !$modeManual || !$dateDebut || !$dateFin || !$durationLabel) return;
 
   const pad2 = (n) => String(n).padStart(2, '0');
   const toYMD = (d) => `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
@@ -222,7 +227,6 @@
 
   const lastDayOfMonth = (year, monthIndex) => new Date(year, monthIndex + 1, 0).getDate();
 
-  // Ajout de mois "safe" (évite les bugs type 31 Jan + 1 mois)
   const addMonthsSafe = (date, months) => {
     const y = date.getFullYear();
     const m = date.getMonth();
@@ -238,11 +242,9 @@
     return new Date(ty, tm, td);
   };
 
-  // Différence en mois (approx logique admin : mois calendaires)
   const diffMonths = (start, end) => {
     if (!start || !end) return null;
     let months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
-    // si le jour de fin < jour de début => on retire 1 mois
     if (end.getDate() < start.getDate()) months -= 1;
     return Math.max(0, months);
   };
@@ -263,7 +265,6 @@
     $pickerBlock.style.display = isPicker ? '' : 'none';
     $manualBlock.style.display = isPicker ? 'none' : '';
 
-    // Sync affichage manuel depuis hidden
     if (!isPicker) {
       if ($dateDebut.value) $manualStart.value = $dateDebut.value;
       if ($dateFin.value) $manualEnd.value = $dateFin.value;
@@ -272,27 +273,49 @@
     updateDurationLabel();
   };
 
+  const clearDates = () => {
+    $dateDebut.value = '';
+    $dateFin.value = '';
+    if ($rangeInput) $rangeInput.value = '';
+    if ($manualStart) $manualStart.value = '';
+    if ($manualEnd) $manualEnd.value = '';
+    $durationLabel.textContent = '—';
+  };
+
+  const toggleSuiviByStatus = () => {
+    const upcoming = ($status.value === 'upcoming');
+
+    if (upcoming) {
+      $suiviBlock.style.display = 'none';
+      clearDates();
+    } else {
+      $suiviBlock.style.display = '';
+      updateDurationLabel();
+    }
+  };
+
   // --- Events mode
   $modePicker.addEventListener('change', () => $modePicker.checked && setMode('picker'));
   $modeManual.addEventListener('change', () => $modeManual.checked && setMode('manual'));
 
+  $status.addEventListener('change', toggleSuiviByStatus);
+
   // --- Manual logic
   const recomputeEndFromMonths = () => {
     const start = parseYMD($manualStart.value);
-    const months = parseInt($manualMonths.value || '0', 10);
+    const months = parseInt(($manualMonths && $manualMonths.value) ? $manualMonths.value : '0', 10);
     if (!start || !months) return;
 
-    // fin = début + X mois (tu peux ajuster si tu veux -1 jour)
     const end = addMonthsSafe(start, months);
-    $manualEnd.value = toYMD(end);
+    if ($manualEnd) $manualEnd.value = toYMD(end);
 
-    $dateDebut.value = $manualStart.value;
-    $dateFin.value = $manualEnd.value;
+    $dateDebut.value = $manualStart.value || '';
+    $dateFin.value = ($manualEnd && $manualEnd.value) ? $manualEnd.value : '';
     updateDurationLabel();
   };
 
   $manualStart && $manualStart.addEventListener('change', () => {
-    $dateDebut.value = $manualStart.value;
+    $dateDebut.value = $manualStart.value || '';
     recomputeEndFromMonths();
   });
 
@@ -301,25 +324,29 @@
   });
 
   $manualEnd && $manualEnd.addEventListener('change', () => {
-    $dateDebut.value = $manualStart.value;
-    $dateFin.value = $manualEnd.value;
+    $dateDebut.value = $manualStart ? ($manualStart.value || '') : '';
+    $dateFin.value = $manualEnd.value || '';
     updateDurationLabel();
   });
 
   // --- Range picker hookup (tu gardes ton flatpickr existant)
-  // IMPORTANT: dans ton init flatpickr, quand tu reçois start/end => set hidden + updateDurationLabel()
   window.__syncGroupDatesFromRange = function (startYMD, endYMD) {
+    // si status upcoming => on ignore
+    if ($status.value === 'upcoming') return;
+
     $dateDebut.value = startYMD || '';
     $dateFin.value = endYMD || '';
     updateDurationLabel();
   };
 
-  // init mode au chargement
+  // init mode
   const initialMode = ($modeManual.checked ? 'manual' : 'picker');
   setMode(initialMode);
 
-  // init duration label if old/group already has values
+  // init toggle suivi
+  toggleSuiviByStatus();
+
+  // init duration label
   updateDurationLabel();
 })();
-
 </script>

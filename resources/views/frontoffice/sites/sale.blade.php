@@ -7,8 +7,8 @@
 @section('content')
 
     <!-- ===========================
-                             HERO SECTION – SALÉ
-                        =========================== -->
+                                 HERO SECTION – SALÉ
+                            =========================== -->
     <section class="hero-section section about-hero reveal delay-1">
         <div class="container is-hero reveal delay-2">
 
@@ -30,8 +30,8 @@
 
 
     <!-- ===========================
-                             ABOUT SALÉ CENTER
-                        =========================== -->
+                                 ABOUT SALÉ CENTER
+                            =========================== -->
     <section class="gls-section gls-richtext-wrapper reveal delay-1">
         <div class="gls-container reveal delay-2">
             <div class="gls-richtext reveal delay-3">
@@ -64,8 +64,8 @@
 
 
     <!-- ===========================
-                             PHOTO STRIP – SALÉ
-                        =========================== -->
+                                 PHOTO STRIP – SALÉ
+                            =========================== -->
     <section class="gls-photo-strip section reveal delay-1">
         <div class="gls-container gls-photo-grid reveal delay-2">
 
@@ -79,8 +79,8 @@
 
 
     <!-- ===========================
-                             INFO CARDS – NIVEAUX
-                        =========================== -->
+                                 INFO CARDS – NIVEAUX
+                            =========================== -->
     <section class="gls-info-section gls-section reveal delay-1">
         <div class="gls-container reveal delay-2">
 
@@ -137,8 +137,8 @@
 
 
     <!-- ===========================
-                             GROUP SCHEDULE – SALÉ
-                        =========================== -->
+                                 GROUP SCHEDULE – SALÉ
+                            =========================== -->
     <section class="gls-schedule-section reveal delay-1">
         <div class="gls-schedule-container reveal delay-2">
 
@@ -182,10 +182,20 @@
                                     <p><strong>{{ __('sites/sale.groups.active') }}</strong></p>
 
                                     @forelse ($collection->where('status', 'active') as $group)
-                                        <p class="reveal delay-1">
-                                            {{ data_get($group, $groupNameField) ?? $group->name }}
-                                            - {{ strtoupper($group->level) }}
-                                            - {{ $group->time_range }}
+                                        <p class="reveal delay-1 gls-group-row">
+                                            <span class="gls-group-text">
+                                                {{ data_get($group, $groupNameField) ?? $group->name }}
+                                                - {{ strtoupper($group->level) }}
+                                                - {{ $group->time_range }}
+                                            </span>
+
+                                            <a href="#" class="gls-apply-btn" data-bs-toggle="modal"
+                                                data-bs-target="#glsApplyGroupModal" data-group-id="{{ $group->id }}"
+                                                data-group-label="{{ $group->name_fr ?? ($group->name ?? 'Groupe #' . $group->id) }}"
+                                                data-group-level="{{ $group->level ?? ($group->niveau ?? '') }}"
+                                                data-group-schedule="{{ $group->period_label ?? ($group->period ?? '') }}">
+                                                Apply
+                                            </a>
                                         </p>
                                     @empty
                                         <p class="reveal delay-1">Aucun groupe actif</p>
@@ -197,10 +207,20 @@
                                     <p><strong>{{ __('sites/sale.groups.upcoming') }}</strong></p>
 
                                     @forelse ($collection->where('status', 'upcoming') as $group)
-                                        <p class="reveal delay-1">
-                                            {{ data_get($group, $groupNameField) ?? $group->name }}
-                                            - {{ strtoupper($group->level) }}
-                                            - {{ $group->time_range }}
+                                        <p class="reveal delay-1 gls-group-row">
+                                            <span class="gls-group-text">
+                                                {{ data_get($group, $groupNameField) ?? $group->name }}
+                                                - {{ strtoupper($group->level) }}
+                                                - {{ $group->time_range }}
+                                            </span>
+
+                                            <a href="#" class="gls-apply-btn" data-bs-toggle="modal"
+                                                data-bs-target="#glsApplyGroupModal" data-group-id="{{ $group->id }}"
+                                                data-group-label="{{ $group->name_fr ?? ($group->name ?? 'Groupe #' . $group->id) }}"
+                                                data-group-level="{{ $group->level ?? ($group->niveau ?? '') }}"
+                                                data-group-schedule="{{ $group->period_label ?? ($group->period ?? '') }}">
+                                                Apply
+                                            </a>
                                         </p>
                                     @empty
                                         <p class="reveal delay-1">Pas de nouveaux groupes prévus</p>
@@ -248,8 +268,8 @@
     </section>
 
     <!-- ===========================
-                             CTA – SALÉ
-                        =========================== -->
+                                 CTA – SALÉ
+                            =========================== -->
 
     <section class="inline-cta-section section reveal delay-1">
         <div class="inline-cta-block reveal delay-2">
@@ -353,8 +373,8 @@
     </section>
 
     <!-- ===========================
-                             JAVASCRIPT
-                        =========================== -->
+                                 JAVASCRIPT
+                            =========================== -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const dropdowns = document.querySelectorAll(".schedule-dropdown");

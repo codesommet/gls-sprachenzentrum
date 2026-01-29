@@ -18,8 +18,8 @@
             @forelse($certificates as $cert)
                 @php
                     // Totaux calculés (ton controller calcule déjà)
-                    $totalScore = $cert->written_total + $cert->oral_total; 
-                    $maxScore   = 225 + 75; // 300
+                    $totalScore = $cert->written_total + $cert->oral_total;
+                    $maxScore = 225 + 75; // 300
                 @endphp
 
                 <tr>
@@ -48,7 +48,7 @@
 
                     {{-- FINAL RESULT --}}
                     <td>
-                        @if(Str::contains(strtolower($cert->final_result), 'réussi'))
+                        @if (Str::contains(strtolower($cert->final_result), 'réussi'))
                             <span class="badge bg-light-success text-success">
                                 {{ $cert->final_result }}
                             </span>
@@ -67,27 +67,25 @@
 
                         {{-- VIEW --}}
                         <a href="{{ route('backoffice.certificates.show', $cert->id) }}"
-                           class="avtar avtar-xs btn-link-secondary me-2"
-                           title="Afficher">
+                            class="avtar avtar-xs btn-link-secondary me-2" title="Voir" aria-label="Voir">
                             <i class="ti ti-eye f-20"></i>
                         </a>
 
                         {{-- EDIT --}}
                         <a href="{{ route('backoffice.certificates.edit', $cert->id) }}"
-                           class="avtar avtar-xs btn-link-secondary me-2"
-                           title="Modifier">
+                            class="avtar avtar-xs btn-link-secondary me-2" title="Modifier" aria-label="Modifier">
                             <i class="ti ti-edit f-20"></i>
                         </a>
 
                         {{-- DELETE --}}
-                        <form action="{{ route('backoffice.certificates.destroy', $cert->id) }}"
-                              method="POST" class="d-inline-block">
-                            @csrf 
+                        <form action="{{ route('backoffice.certificates.destroy', $cert->id) }}" method="POST"
+                            class="d-inline-block">
+                            @csrf
                             @method('DELETE')
 
-                            <button class="avtar avtar-xs btn-link-secondary border-0 bg-transparent p-0"
-                                    onclick="return confirm('Supprimer ce certificat ?')"
-                                    title="Supprimer">
+                            <button type="submit" class="avtar avtar-xs btn-link-secondary border-0 bg-transparent p-0"
+                                onclick="return confirm('Supprimer ce certificat ?')" title="Supprimer"
+                                aria-label="Supprimer">
                                 <i class="ti ti-trash f-20"></i>
                             </button>
                         </form>

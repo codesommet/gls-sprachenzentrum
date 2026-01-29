@@ -426,10 +426,9 @@
                     href="{{ LaravelLocalization::localizeUrl(route('front.intensive-courses')) }}">{{ __('header.intensive_courses') }}</a>
                 <a
                     href="{{ LaravelLocalization::localizeUrl(route('front.online-courses')) }}">{{ __('header.online_courses') }}</a>
-                    <a 
-                            href="{{ LaravelLocalization::localizeUrl(route('front.discover-your-level')) }}">
-                            {{ __('header.discover_your_level') }}
-                        </a>
+                <a href="{{ LaravelLocalization::localizeUrl(route('front.discover-your-level')) }}">
+                    {{ __('header.discover_your_level') }}
+                </a>
                 <a
                     href="{{ LaravelLocalization::localizeUrl(route('front.pricing')) }}">{{ __('header.pricing') }}</a>
             </div>
@@ -472,6 +471,21 @@
             </div>
 
         </div>
+
+        <!-- VISA -->
+        <div class="menu-item">
+            <button class="menu-label">
+                {{ __('header.visa') }} <div class="nav-dropdown_icon"></div>
+            </button>
+
+            <div class="submenu">
+                <a href="{{ LaravelLocalization::localizeUrl(route('front.studienkollegs')) }}">
+                    {{ __('header.studienkolleg') }}
+                </a>
+            </div>
+        </div>
+
+
 
         <!-- INSCRIPTION -->
         <div class="mt-4">

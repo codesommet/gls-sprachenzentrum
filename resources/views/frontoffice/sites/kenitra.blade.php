@@ -7,8 +7,8 @@
 @section('content')
 
     <!-- ===========================
-                             HERO SECTION – KÉNITRA
-                        =========================== -->
+                                 HERO SECTION – KÉNITRA
+                            =========================== -->
     <section class="hero-section section about-hero reveal delay-1">
         <div class="container is-hero reveal delay-2">
 
@@ -28,8 +28,8 @@
 
 
     <!-- ===========================
-                             ABOUT KENITRA CENTER
-                        =========================== -->
+                                 ABOUT KENITRA CENTER
+                            =========================== -->
     <section class="gls-section gls-richtext-wrapper reveal delay-1">
         <div class="gls-container reveal delay-2">
             <div class="gls-richtext reveal delay-3">
@@ -62,8 +62,8 @@
 
 
     <!-- ===========================
-                             PHOTO STRIP – KENITRA
-                        =========================== -->
+                                 PHOTO STRIP – KENITRA
+                            =========================== -->
     <section class="gls-photo-strip section reveal delay-1">
         <div class="gls-container gls-photo-grid reveal delay-2">
 
@@ -80,8 +80,8 @@
 
 
     <!-- ===========================
-                             INFO CARDS
-                        =========================== -->
+                                 INFO CARDS
+                            =========================== -->
     <section class="gls-info-section gls-section reveal delay-1">
 
         <div class="gls-container reveal delay-2">
@@ -136,8 +136,8 @@
 
 
     <!-- ===========================
-                             GROUPS – KENITRA
-                        =========================== -->
+                                 GROUPS – KENITRA
+                            =========================== -->
     <section class="gls-schedule-section reveal delay-1">
         <div class="gls-schedule-container reveal delay-2">
 
@@ -180,10 +180,20 @@
                                     <p><strong>{{ __('sites/kenitra.groups.active') }}</strong></p>
 
                                     @forelse ($collection->where('status', 'active') as $group)
-                                        <p class="reveal delay-1">
-                                            {{ data_get($group, $groupNameField) ?? $group->name }}
-                                            - {{ strtoupper($group->level) }}
-                                            - {{ $group->time_range }}
+                                        <p class="reveal delay-1 gls-group-row">
+                                            <span class="gls-group-text">
+                                                {{ data_get($group, $groupNameField) ?? $group->name }}
+                                                - {{ strtoupper($group->level) }}
+                                                - {{ $group->time_range }}
+                                            </span>
+
+                                            <a href="#" class="gls-apply-btn" data-bs-toggle="modal"
+                                                data-bs-target="#glsApplyGroupModal" data-group-id="{{ $group->id }}"
+                                                data-group-label="{{ $group->name_fr ?? ($group->name ?? 'Groupe #' . $group->id) }}"
+                                                data-group-level="{{ $group->level ?? ($group->niveau ?? '') }}"
+                                                data-group-schedule="{{ $group->period_label ?? ($group->period ?? '') }}">
+                                                Apply
+                                            </a>
                                         </p>
                                     @empty
                                         <p class="reveal delay-1">Aucun groupe actif</p>
@@ -194,10 +204,20 @@
                                     <p><strong>{{ __('sites/kenitra.groups.upcoming') }}</strong></p>
 
                                     @forelse ($collection->where('status', 'upcoming') as $group)
-                                        <p class="reveal delay-1">
-                                            {{ data_get($group, $groupNameField) ?? $group->name }}
-                                            - {{ strtoupper($group->level) }}
-                                            - {{ $group->time_range }}
+                                        <p class="reveal delay-1 gls-group-row">
+                                            <span class="gls-group-text">
+                                                {{ data_get($group, $groupNameField) ?? $group->name }}
+                                                - {{ strtoupper($group->level) }}
+                                                - {{ $group->time_range }}
+                                            </span>
+
+                                            <a href="#" class="gls-apply-btn" data-bs-toggle="modal"
+                                                data-bs-target="#glsApplyGroupModal" data-group-id="{{ $group->id }}"
+                                                data-group-label="{{ $group->name_fr ?? ($group->name ?? 'Groupe #' . $group->id) }}"
+                                                data-group-level="{{ $group->level ?? ($group->niveau ?? '') }}"
+                                                data-group-schedule="{{ $group->period_label ?? ($group->period ?? '') }}">
+                                                Apply
+                                            </a>
                                         </p>
                                     @empty
                                         <p class="reveal delay-1">Pas de nouveaux groupes prévus</p>
@@ -218,8 +238,8 @@
 
 
     <!-- ===========================
-                             9ONSOL – KENITRA EPISODE
-                        =========================== -->
+                                 9ONSOL – KENITRA EPISODE
+                            =========================== -->
     <section class="home-about-section section reveal delay-1">
         <div class="container about-grid reveal delay-2">
 
@@ -246,8 +266,8 @@
 
 
     <!-- ===========================
-                             CTA
-                        =========================== -->
+                                 CTA
+                            =========================== -->
 
     <section class="inline-cta-section section reveal delay-1">
         <div class="inline-cta-block reveal delay-2">

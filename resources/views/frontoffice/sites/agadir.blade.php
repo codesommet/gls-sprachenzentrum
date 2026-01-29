@@ -7,8 +7,8 @@
 @section('content')
 
     <!-- ===========================
-                             HERO SECTION – AGADIR
-                        =========================== -->
+                                 HERO SECTION – AGADIR
+                            =========================== -->
     <section class="hero-section section about-hero reveal delay-1">
         <div class="container is-hero reveal delay-2">
 
@@ -23,8 +23,8 @@
     </section>
 
     <!-- ===========================
-                             ABOUT AGADIR CENTER
-                        =========================== -->
+                                 ABOUT AGADIR CENTER
+                            =========================== -->
     <section class="gls-section gls-richtext-wrapper reveal delay-1">
         <div class="gls-container reveal delay-2">
             <div class="gls-richtext reveal delay-3">
@@ -55,8 +55,8 @@
     </section>
 
     <!-- ===========================
-                             PHOTO STRIP – AGADIR
-                        =========================== -->
+                                 PHOTO STRIP – AGADIR
+                            =========================== -->
     <section class="gls-photo-strip section reveal delay-1">
         <div class="gls-container gls-photo-grid reveal delay-2">
 
@@ -71,8 +71,8 @@
     </section>
 
     <!-- ===========================
-                             INFO CARDS
-                        =========================== -->
+                                 INFO CARDS
+                            =========================== -->
     <section class="gls-info-section gls-section reveal delay-1">
 
         <div class="gls-container reveal delay-2">
@@ -120,8 +120,8 @@
     </section>
 
     <!-- ===========================
-                             GROUPS — AGADIR
-                        =========================== -->
+                                 GROUPS — AGADIR
+                            =========================== -->
     <section class="gls-schedule-section reveal delay-1">
         <div class="gls-schedule-container reveal delay-2">
 
@@ -164,10 +164,20 @@
                                     <p><strong>{{ __('sites/agadir.groups.active') }}</strong></p>
 
                                     @forelse ($collection->where('status', 'active') as $group)
-                                        <p class="reveal delay-1">
-                                            {{ data_get($group, $groupNameField) ?? $group->name }}
-                                            - {{ strtoupper($group->level) }}
-                                            - {{ $group->time_range }}
+                                        <p class="reveal delay-1 gls-group-row">
+                                            <span class="gls-group-text">
+                                                {{ data_get($group, $groupNameField) ?? $group->name }}
+                                                - {{ strtoupper($group->level) }}
+                                                - {{ $group->time_range }}
+                                            </span>
+
+                                            <a href="#" class="gls-apply-btn" data-bs-toggle="modal"
+                                                data-bs-target="#glsApplyGroupModal" data-group-id="{{ $group->id }}"
+                                                data-group-label="{{ $group->name_fr ?? ($group->name ?? 'Groupe #' . $group->id) }}"
+                                                data-group-level="{{ $group->level ?? ($group->niveau ?? '') }}"
+                                                data-group-schedule="{{ $group->period_label ?? ($group->period ?? '') }}">
+                                                Apply
+                                            </a>
                                         </p>
                                     @empty
                                         <p class="reveal delay-1">Aucun groupe actif</p>
@@ -178,10 +188,20 @@
                                     <p><strong>{{ __('sites/agadir.groups.upcoming') }}</strong></p>
 
                                     @forelse ($collection->where('status', 'upcoming') as $group)
-                                        <p class="reveal delay-1">
-                                            {{ data_get($group, $groupNameField) ?? $group->name }}
-                                            - {{ strtoupper($group->level) }}
-                                            - {{ $group->time_range }}
+                                        <p class="reveal delay-1 gls-group-row">
+                                            <span class="gls-group-text">
+                                                {{ data_get($group, $groupNameField) ?? $group->name }}
+                                                - {{ strtoupper($group->level) }}
+                                                - {{ $group->time_range }}
+                                            </span>
+
+                                            <a href="#" class="gls-apply-btn" data-bs-toggle="modal"
+                                                data-bs-target="#glsApplyGroupModal" data-group-id="{{ $group->id }}"
+                                                data-group-label="{{ $group->name_fr ?? ($group->name ?? 'Groupe #' . $group->id) }}"
+                                                data-group-level="{{ $group->level ?? ($group->niveau ?? '') }}"
+                                                data-group-schedule="{{ $group->period_label ?? ($group->period ?? '') }}">
+                                                Apply
+                                            </a>
                                         </p>
                                     @empty
                                         <p class="reveal delay-1">Pas de nouveaux groupes prévus</p>
@@ -329,8 +349,8 @@
 
 
     <!-- ===========================
-                             DROPDOWN + INFO JS
-                        =========================== -->
+                                 DROPDOWN + INFO JS
+                            =========================== -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const dropdowns = document.querySelectorAll(".schedule-dropdown");

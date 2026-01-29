@@ -15,7 +15,7 @@
                 <div class="card-body" style="background-image: url('/build/images/layout/nav-card-bg.svg')">
                     <h5 class="text-dark">Centre d'aide</h5>
                     <p class="text-dark text-opacity-75">Veuillez nous contacter pour toute question.</p>
-                    <a href="https://Gls Team.support-hub.io/" class="btn btn-primary" target="_blank">Accéder au Centre
+                    <a href="{{ route('backoffice.help.documentation') }}" class="btn btn-primary">Accéder au Centre
                         d'aide</a>
                 </div>
             </div>

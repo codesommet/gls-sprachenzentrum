@@ -62,15 +62,16 @@
 
                     <td>
                         <a href="{{ route('backoffice.blog.posts.edit', $post) }}"
-                            class="avtar avtar-xs btn-link-secondary me-2" title="Modifier">
+                            class="avtar avtar-xs btn-link-secondary me-2" title="Modifier" aria-label="Modifier">
                             <i class="ti ti-edit f-20"></i>
                         </a>
 
                         <form action="{{ route('backoffice.blog.posts.destroy', $post) }}" method="POST"
                             class="d-inline-block">
                             @csrf @method('DELETE')
-                            <button class="avtar avtar-xs btn-link-secondary border-0 bg-transparent p-0"
-                                onclick="return confirm('Supprimer cet article ?')" title="Supprimer">
+                            <button type="submit" class="avtar avtar-xs btn-link-secondary border-0 bg-transparent p-0"
+                                onclick="return confirm('Supprimer cet article ?')" title="Supprimer"
+                                aria-label="Supprimer">
                                 <i class="ti ti-trash f-20"></i>
                             </button>
                         </form>
