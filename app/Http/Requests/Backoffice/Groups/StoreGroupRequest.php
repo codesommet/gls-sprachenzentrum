@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Backoffice\Groups;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreGroupRequest extends FormRequest
 {
@@ -11,44 +12,55 @@ class StoreGroupRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation(): void
+    {
+        // If upcoming => no suivi dates
+        if ($this->input('status') === 'upcoming') {
+            $this->merge([
+                'date_debut' => null,
+                'date_fin'   => null,
+            ]);
+        }
+    }
+
     public function rules(): array
     {
         return [
-            'site_id'       => 'required|exists:sites,id',
-            'teacher_id'    => 'required|exists:teachers,id',
+            'site_id'       => ['required', 'exists:sites,id'],
 
-            'level'         => 'required|in:A1,A2,B1,B2',
+            // ✅ teacher optional
+            'teacher_id'    => ['nullable', 'exists:teachers,id'],
 
-            'name'          => 'required|string|max:255',
-            'name_fr'       => 'nullable|string|max:255',
-            'name_en'       => 'nullable|string|max:255',
+            'level'         => ['required', Rule::in(['A1', 'A2', 'B1', 'B2'])],
 
-            // Removed: period_label (auto generated)
-            'time_range'    => 'required|string|max:255',
+            'name'          => ['required', 'string', 'max:255'],
+            'name_fr'       => ['nullable', 'string', 'max:255'],
+            'name_en'       => ['nullable', 'string', 'max:255'],
 
-            'status'        => 'required|in:active,upcoming',
+            // period_label auto generated
+            'time_range'    => ['required', 'string', 'max:255'],
 
-            /*******************************************
-             * SUIVI DU GROUPE (REQUIRED DATES)
-             *******************************************/
-            'date_debut'    => 'required|date',
-            'date_fin'      => 'required|date|after_or_equal:date_debut',
+            'status'        => ['required', Rule::in(['active', 'upcoming'])],
+
+            // ✅ dates required only if active
+            'date_debut'    => ['nullable', 'date', 'required_if:status,active'],
+            'date_fin'      => ['nullable', 'date', 'required_if:status,active', 'after_or_equal:date_debut'],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'site_id.required'      => 'Veuillez sélectionner un centre GLS.',
-            'teacher_id.required'   => 'Veuillez sélectionner un enseignant.',
-            'level.required'        => 'Veuillez choisir un niveau.',
+            'site_id.required'        => 'Veuillez sélectionner un centre GLS.',
+            'teacher_id.exists'       => 'Enseignant invalide.',
+            'level.required'          => 'Veuillez choisir un niveau.',
 
-            'name.required'         => 'Le nom du groupe est obligatoire.',
-            'time_range.required'   => 'L’horaire du groupe est obligatoire.',
+            'name.required'           => 'Le nom du groupe est obligatoire.',
+            'time_range.required'     => 'L’horaire du groupe est obligatoire.',
 
-            // Suivi du groupe
-            'date_debut.required'   => 'La date de début est obligatoire.',
-            'date_fin.required'     => 'La date de fin est obligatoire.',
+            // Suivi du groupe (only when active)
+            'date_debut.required_if'  => 'La date de début est obligatoire (groupe actif).',
+            'date_fin.required_if'    => 'La date de fin est obligatoire (groupe actif).',
             'date_fin.after_or_equal' => 'La date de fin doit être postérieure ou égale à la date de début.',
         ];
     }

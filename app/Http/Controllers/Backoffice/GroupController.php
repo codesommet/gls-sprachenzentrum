@@ -10,6 +10,7 @@ use App\Models\Site;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 use App\Models\GroupApplication;
 
 class GroupController extends Controller
@@ -124,7 +125,7 @@ class GroupController extends Controller
         }
 
         // Minimal query on detected table
-        $applications = \DB::table($foundTable)->where('group_id', $group->id)->orderByDesc('id')->paginate(20);
+        $applications = DB::table($foundTable)->where('group_id', $group->id)->orderByDesc('id')->paginate(20);
 
         return view('backoffice.groups.applications', compact('group', 'applications'))->with('info', "Source: table `$foundTable` (fallback).");
     }
