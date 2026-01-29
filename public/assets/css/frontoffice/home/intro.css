@@ -208,7 +208,7 @@
 
   .hero .b-green {
     left: 18% !important;
-    top: 17% !important;
+    top: 24% !important;
             z-index: 0;
             bottom: auto !important;
   }
@@ -220,7 +220,7 @@
 
   .hero .b-violet {
     right: 7% !important;
-    top: 17% !important;
+    top: 24% !important;
     bottom: auto !important;
     z-index: 0;
   }

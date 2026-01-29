@@ -193,7 +193,7 @@ margin: 0;
 
 /* ✅ ONE single background rule (no conflicts) */
 .hero__bg{
-background-size: 170%;
+background-size: 250%;
 background-position: 50% 50%;
 transform: none;
 }

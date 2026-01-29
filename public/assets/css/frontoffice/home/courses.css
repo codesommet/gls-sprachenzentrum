@@ -349,3 +349,11 @@
   background-color: var(--off-black);
   transform: translateY(-2px);
 }
+@media screen and (max-width: 479px) {
+  .container.is-home-courses-photo{
+    border-radius: 0 !important;
+  }
+  .h-learn-more-card{
+    grid-row-gap: 2rem !important;
+  }
+}

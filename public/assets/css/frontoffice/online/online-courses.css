@@ -1307,3 +1307,34 @@ img {
         gap: 1.5rem;
     }
 }
+@media (max-width: 767px) {
+  .gls-online-info-image{
+    aspect-ratio: 16 / 10;   
+    height: auto;            
+  }
+
+  .gls-full-image{
+    display: block;         
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  #w-node-online-left.div-block-38,
+  #w-node-online-left {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    height: auto;
+    border-radius: 1.5rem;
+    overflow: hidden;
+  }
+
+  #w-node-online-left .full-image,
+  #w-node-online-left .full-image.rounded {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+}
