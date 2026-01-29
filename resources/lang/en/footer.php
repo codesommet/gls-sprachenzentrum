@@ -45,7 +45,7 @@ return [
     'imprint' => 'Legal Notice',
     'cookies' => 'Cookies',
 
-    'copyright' => 'GLS TEAM ©️ 2025. All rights reserved.',
+    'copyright' => 'GLS TEAM ©️ 2026. All rights reserved.',
 
     'newsletter' => [
         'title' => 'Newsletter',

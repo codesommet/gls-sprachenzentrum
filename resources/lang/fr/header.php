@@ -48,5 +48,7 @@ return [
     'gls-marrakech' => 'GLS Marrakech',
     'gls-rabat' => 'GLS Rabat',
     'gls-sale' => 'GLS Salé',
+    'visa' => 'Visa',
+    'studienkolleg' => 'Studienkolleg',
     
 ];
