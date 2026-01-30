@@ -1,99 +1,8 @@
 /* =========================================================
-   SITES PAGE – HERO SECTION (inspired by Format D)
+   UPDATED CSS — HERO SECTION REMOVED (as requested)
+   ✅ Suppression complète de la section "SITES PAGE – HERO SECTION"
+   ✅ Le reste est conservé identique (OUR CENTERS / LOCATIONS / CTA)
 ========================================================= */
-.hero-section.section {
-  border-bottom-left-radius: 60px;
-  border-bottom-right-radius: 60px;
-background-image: linear-gradient(45deg, #2b2b2b 0%, #ffd84d 100%);
-    margin-top: -60px;
-  margin-bottom: 300px;
-  padding-top: 80px;
-}
-
-.section {
-  flex-flow: column;
-  justify-content: center;
-  align-items: center;
-  padding: 6rem 4rem;
-  display: flex;
-}
-
-.container.is-hero {
-  text-align: center;
-  flex-flow: column;
-  justify-content: center;
-  align-items: center;
-  padding-top: 4rem;
-  display: flex;
-}
-
-.hero_subtitle {
-  color: var(--off-white);
-  mix-blend-mode: overlay;
-  margin-top: 0;
-  margin-bottom: 0;
-  font-size: 2rem;
-  font-weight: 600;
-  line-height: 1.2;
-}
-
-.hero_title {
-  color: var(--off-white);
-  text-wrap: balance;
-  margin-top: 0;
-  margin-bottom: 0;
-  font-size: clamp(2.5rem, 5vw, 5rem);
-  line-height: 1.1;
-  max-width: 900px;
-}
-
-.hero-image {
-  border-radius: 30px;
-  background-color: var(--dark--off-white);
-  flex-flow: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 600px;
-  margin-top: 4rem;
-  margin-bottom: -300px;
-  display: flex;
-  overflow: hidden;
-}
-
-.full-image {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-}
-
-img {
-  max-width: 100%;
-  display: inline-block;
-}
-
-/* Tablet screens (≤ 991px) */
-@media screen and (max-width: 991px) {
-  .hero-image {
-    border-radius: var(--radius-small);
-    height: 400px;
-    margin-top: 3rem;
-    margin-bottom: -200px;
-  }
-}
-
-/* Mobile screens (≤ 479px) */
-@media screen and (max-width: 479px) {
-  .hero-image {
-    height: 300px;
-    margin-top: 1rem;
-    margin-bottom: -150px;
-    
-  }
-  .hero-section.section{
-    margin-bottom: 170px;
-  }
-}
 
 /* =========================================================
    OUR CENTERS SECTION
@@ -112,15 +21,11 @@ img {
   color: #000;
 }
 
+/* ✅ removed hover effect */
 .center-card {
   background: #fff;
   border: 1px solid #eee;
   transition: all 0.3s ease;
-}
-
-.center-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
 /* ===============================
@@ -142,23 +47,19 @@ img {
   text-align: left;
 }
 
-
 /* ===============================
    LOCATIONS CARDS SECTION
    =============================== */
-   .location-image {
+.location-image {
   object-fit: cover;
-  object-position: 80% center; /* pushes visible area slightly to the right */
+  object-position: 80% center;
   width: 100%;
   height: 100%;
   border-radius: 20px;
   transition: transform 0.6s ease;
 }
 
-.location-image:hover {
-  transform: scale(1.03); /* small zoom on hover for a nice effect */
-}
-
+/* ✅ removed hover zoom */
 .locations-carousel-section {
   border-top-left-radius: 60px;
   border-top-right-radius: 60px;
@@ -166,6 +67,7 @@ img {
   padding-top: 5rem;
   padding-bottom: 5rem;
 }
+
 /* Default desktop spacing */
 .locations-carousel-section {
   margin-top: 400px;
@@ -181,9 +83,10 @@ img {
 /* Mobile screens (small devices) */
 @media (max-width: 767px) {
   .locations-carousel-section {
-    margin-top: 100px; /* reduce for compact mobile spacing */
+    margin-top: 100px;
   }
 }
+
 .map-container {
   border-radius: 20px;
   overflow: hidden;
@@ -215,10 +118,8 @@ img {
   transform: translateY(0);
 }
 
-.location-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-}
+/* ✅ removed hover lift */
+.location-card:hover {}
 
 /* Phone links */
 .location-card .phone {
@@ -230,9 +131,8 @@ img {
   transition: color 0.3s ease;
 }
 
-.location-card .phone:hover {
-  color: #ffd84d;
-}
+/* ✅ removed hover color change */
+.location-card .phone:hover {}
 
 /* Dots */
 .dots-wrapper {
@@ -261,6 +161,7 @@ img {
     aspect-ratio: 16 / 9;
   }
 }
+
 /* Slide container visibility fix */
 .location-slide {
   display: none;
@@ -282,7 +183,7 @@ img {
 
 /* =========================================================
    INLINE CTA SECTION – Gradient Call-to-Action Block
-   ========================================================= */
+========================================================= */
 .inline-cta-block {
   display: flex;
   flex-direction: column;
@@ -299,7 +200,6 @@ img {
   gap: 2rem;
 }
 
-/* Title styling */
 .heading-4 {
   text-wrap: balance;
   margin: 0;
@@ -309,7 +209,6 @@ img {
   color: var(--off-white);
 }
 
-/* Overlay style (added for hero-like look) */
 .overlay-text {
   color: #fff;
   mix-blend-mode: overlay;
@@ -319,7 +218,6 @@ img {
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
 }
 
-/* Button base */
 .button {
   background-color: var(--off-black);
   color: var(--off-white);
@@ -331,24 +229,24 @@ img {
   transition: transform 0.2s, background-color 0.2s, color 0.2s;
 }
 
+/* (Si tu veux supprimer hover button aussi, dis-moi) */
 .button:hover {
   background-color: white;
   transform: scale(1.05);
 }
 
-/* Variants */
-.button.is-big {
-  font-size: 1.25rem;
-}
+.button.is-big { font-size: 1.25rem; }
 
 .button.is-white {
   padding: 0.75rem 2rem;
   background-color: var(--off-white);
   color: var(--off-black);
 }
-.button.is-white:hover{
+
+.button.is-white:hover {
   background-color: white;
 }
+
 .w-button {
   color: #fff;
   line-height: inherit;
@@ -360,21 +258,71 @@ img {
   display: inline-block;
 }
 
-/* Responsive adjustments */
 @media (max-width: 767px) {
-  .inline-cta-block {
-    padding: 3rem 1.5rem;
-  }
+  .inline-cta-block { padding: 3rem 1.5rem; }
+  .heading-4 { font-size: clamp(1.8rem, 8vw, 2.5rem); }
+  .button.is-big { font-size: 1rem; padding: 0.75rem 1.5rem; }
+  .button { line-height: 1.2; }
+}
 
-  .heading-4 {
-    font-size: clamp(1.8rem, 8vw, 2.5rem);
-  }
+/* =========================================================
+   SITES SECTION (HOME) — VIDEO ALWAYS VISIBLE + FULL SIZE
+========================================================= */
 
-  .button.is-big {
-    font-size: 1rem;
-    padding: 0.75rem 1.5rem;
-  }
-  .button{
-    line-height: 1.2;
-  }
+.site-card {
+  overflow: hidden;
+  cursor: pointer; /* makes it clear it's clickable */
+}
+
+/* wrapper */
+.site-video-wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+/* base image */
+.site-video-wrapper .site-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* YouTube holder */
+.site-video-wrapper .yt-holder {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+}
+
+/* iframe cover */
+.site-video-wrapper .yt-holder iframe {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  border: 0;
+  display: block;
+}
+
+/* html5 video cover */
+.site-video-wrapper .site-video {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  display: block;
+  z-index: 3;
+}
+
+/* overlay text */
+.site-overlay {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 5;
 }

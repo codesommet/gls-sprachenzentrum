@@ -548,6 +548,9 @@ margin-top: .5rem;
     .gls-path-text {
         font-size: 1rem;
     }
+    .inline-cta-block {
+        border-radius: 0 !important;
+    }
 }
 
 /* ============================
