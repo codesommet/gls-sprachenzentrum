@@ -6,12 +6,21 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use App\Http\Controllers\Api\GroupApiController;
 use App\Http\Controllers\CertificatePublicController;
 
-/**
- * =============================
- * AUTH ROUTES (NO LOCALE)
- * =============================
- */
-Auth::routes(['verify' => true]);
+Auth::routes([
+    'verify' => true,
+    'login'  => false, 
+]);
+
+use App\Http\Controllers\Auth\LoginController;
+
+Route::middleware('guest')->group(function () {
+    Route::get('/gls-portal', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/gls-portal', [LoginController::class, 'login'])->name('login.post');
+});
+
+Route::post('/logout', [LoginController::class, 'logout'])
+    ->middleware('auth')
+    ->name('logout');
 
 /**
  * =============================
