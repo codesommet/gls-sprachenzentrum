@@ -29,8 +29,7 @@ TOP STATISTICS (DESIGN IDENTIQUE)
                     <h3 class="f-w-300 m-b-0">{{ $stats['totalSites'] }}</h3>
 
                     {{-- Peity sparkline --}}
-                    <span class="line text-end"
-                          data-peity='{ "height": 24 }'>
+                    <span class="line text-end" data-peity='{ "height": 24 }'>
                         {{ implode(',', $analytics['sitesTrend']) }}
                     </span>
                 </div>
@@ -62,8 +61,7 @@ TOP STATISTICS (DESIGN IDENTIQUE)
                     <h3 class="f-w-300 m-b-0">{{ $stats['totalTeachers'] }}</h3>
 
                     {{-- Peity bar --}}
-                    <span class="bar"
-                          data-peity='{ "height": 24 }'>
+                    <span class="bar" data-peity='{ "height": 24 }'>
                         {{ implode(',', $analytics['teachersTrend']) }}
                     </span>
                 </div>
@@ -95,8 +93,7 @@ TOP STATISTICS (DESIGN IDENTIQUE)
                     <h3 class="text-white f-w-300">{{ $stats['publishedPosts'] }}</h3>
 
                     {{-- Peity donut --}}
-                    <span class="donut"
-                          data-peity='{ "height": 26 }'>
+                    <span class="donut" data-peity='{ "height": 26 }'>
                         {{ $stats['publishedPosts'] }}/{{ $stats['totalPosts'] }}
                     </span>
                 </div>
@@ -114,14 +111,146 @@ TOP STATISTICS (DESIGN IDENTIQUE)
 
 </div>
 
-<hr>
-
 {{-- =========================
-APEX CHARTS (ONLY WHERE USEFUL)
+SECOND ROW (MODULES GLS)
 ========================= --}}
 <div class="row">
 
-    {{-- Articles par mois --}}
+    {{-- Inscriptions --}}
+    <div class="col-md-3 col-sm-6">
+        <div class="card statistics-card-1 overflow-hidden">
+            <div class="card-body">
+                <div class="float-end">
+                    <i data-feather="edit-3" class="text-brand-color-3" style="font-size:2rem"></i>
+                </div>
+
+                <h6 class="mb-3">Inscriptions</h6>
+
+                <div class="d-flex align-items-center justify-content-between">
+                    <h3 class="f-w-300 m-b-0">{{ $stats['totalInscriptions'] }}</h3>
+
+                    <span class="line text-end" data-peity='{ "height": 24 }'>
+                        {{ implode(',', $analytics['inscriptionsTrend']) }}
+                    </span>
+                </div>
+
+                <span class="badge bg-light-success mt-2">
+                    +{{ $stats['inscriptionsThisMonth'] }} ce mois
+                </span>
+
+                <p class="text-muted text-sm mt-3">Demandes d’inscription</p>
+
+                <div class="progress" style="height:7px">
+                    <div class="progress-bar bg-brand-color-3" style="width:70%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Consultations --}}
+    <div class="col-md-3 col-sm-6">
+        <div class="card statistics-card-1 overflow-hidden">
+            <div class="card-body">
+                <div class="float-end">
+                    <i data-feather="phone-call" class="text-brand-color-3" style="font-size:2rem"></i>
+                </div>
+
+                <h6 class="mb-3">Consultations</h6>
+
+                <div class="d-flex align-items-center justify-content-between">
+                    <h3 class="f-w-300 m-b-0">{{ $stats['totalConsultations'] }}</h3>
+
+                    <span class="bar" data-peity='{ "height": 24 }'>
+                        {{ implode(',', $analytics['consultationsTrend']) }}
+                    </span>
+                </div>
+
+                <span class="badge bg-light-primary mt-2">
+                    +{{ $stats['consultationsThisMonth'] }} ce mois
+                </span>
+
+                <p class="text-muted text-sm mt-3">Demandes de rappel</p>
+
+                <div class="progress" style="height:7px">
+                    <div class="progress-bar bg-brand-color-3" style="width:55%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Newsletter --}}
+    <div class="col-md-3 col-sm-6">
+        <div class="card statistics-card-1 overflow-hidden">
+            <div class="card-body">
+                <div class="float-end">
+                    <i data-feather="mail" class="text-brand-color-3" style="font-size:2rem"></i>
+                </div>
+
+                <h6 class="mb-3">Newsletter</h6>
+
+                <div class="d-flex align-items-center justify-content-between">
+                    <h3 class="f-w-300 m-b-0">{{ $stats['totalSubscribers'] }}</h3>
+
+                    <span class="line text-end" data-peity='{ "height": 24 }'>
+                        {{ implode(',', $analytics['newsletterTrend']) }}
+                    </span>
+                </div>
+
+                <span class="badge bg-light-success mt-2">
+                    +{{ $stats['subscribersThisMonth'] }} ce mois
+                </span>
+
+                <p class="text-muted text-sm mt-3">Abonnés newsletter</p>
+
+                <div class="progress" style="height:7px">
+                    <div class="progress-bar bg-brand-color-3" style="width:60%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Candidatures groupes --}}
+    <div class="col-md-3 col-sm-6">
+        <div class="card statistics-card-1 overflow-hidden">
+            <div class="card-body">
+                <div class="float-end">
+                    <i data-feather="clipboard" class="text-brand-color-3" style="font-size:2rem"></i>
+                </div>
+
+                <h6 class="mb-3">Candidatures</h6>
+
+                <div class="d-flex align-items-center justify-content-between">
+                    <h3 class="f-w-300 m-b-0">{{ $stats['totalGroupApps'] }}</h3>
+
+                    <span class="donut" data-peity='{ "height": 26 }'>
+                        {{ $stats['pendingGroupApps'] }}/{{ $stats['totalGroupApps'] }}
+                    </span>
+                </div>
+
+                <span class="badge bg-light-warning mt-2">
+                    {{ $stats['pendingGroupApps'] }} en attente
+                </span>
+
+                <p class="text-muted text-sm mt-3">Demandes d’intégration</p>
+
+                <div class="progress" style="height:7px">
+                    <div class="progress-bar bg-brand-color-3" style="width:45%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<hr>
+
+{{-- =========================
+APEX CHARTS (USING THEME chart-apex.js)
+IDs: bar-chart-1, bar-chart-2, pie-chart-2
+========================= --}}
+<div class="row">
+
+    {{-- Bar 1: Articles par mois --}}
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
@@ -129,14 +258,14 @@ APEX CHARTS (ONLY WHERE USEFUL)
             </div>
             <div class="card-body">
                 <div id="bar-chart-1"
-                     data-series='@json(array_values($postsByMonth->toArray()))'
-                     data-labels='@json(array_keys($postsByMonth->toArray()))'>
+                    data-series='@json(array_values($postsByMonth->toArray()))'
+                    data-labels='@json(array_keys($postsByMonth->toArray()))'>
                 </div>
             </div>
         </div>
     </div>
 
-    {{-- Certificats par mois --}}
+    {{-- Bar 2: Certificats par mois --}}
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
@@ -144,8 +273,40 @@ APEX CHARTS (ONLY WHERE USEFUL)
             </div>
             <div class="card-body">
                 <div id="bar-chart-2"
-                     data-series='@json(array_values($certificatesByMonth->toArray()))'
-                     data-labels='@json(array_keys($certificatesByMonth->toArray()))'>
+                    data-series='@json(array_values($certificatesByMonth->toArray()))'
+                    data-labels='@json(array_keys($certificatesByMonth->toArray()))'>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Bar 3: Inscriptions par mois --}}
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Inscriptions par mois</h5>
+            </div>
+            <div class="card-body">
+                <div id="bar-chart-3"
+                    data-series='@json(array_values($inscriptionsByMonth->toArray()))'
+                    data-labels='@json(array_keys($inscriptionsByMonth->toArray()))'>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Donut: Candidatures (statuts) --}}
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Candidatures (statuts)</h5>
+            </div>
+            <div class="card-body">
+                {{-- On réutilise un ID de ton thème "pie-chart-2" (donut) --}}
+                <div id="pie-chart-2"
+                    data-series='@json(array_values($groupAppsByStatus))'
+                    data-labels='@json(array_keys($groupAppsByStatus))'
+                    style="width:100%">
                 </div>
             </div>
         </div>
@@ -156,44 +317,134 @@ APEX CHARTS (ONLY WHERE USEFUL)
 @endsection
 
 @section('scripts')
-{{-- ApexCharts --}}
+{{-- ApexCharts THEME --}}
 <script src="{{ URL::asset('build/js/plugins/apexcharts.min.js') }}"></script>
 <script src="{{ URL::asset('build/js/chart_maps/chart-apex.js') }}"></script>
 
-{{-- Peity --}}
+{{-- Peity THEME --}}
 <script src="{{ URL::asset('build/js/plugins/peity-vanilla.min.js') }}"></script>
 
 <script>
 /* =========================
-PEITY DEFAULTS (CLEAN)
+PEITY INIT (OK)
 ========================= */
 peity.defaults.line = {
-    stroke: "#04a9f5",
+    delimiter: ",",
     fill: "#e0f5fe",
     height: 24,
-    width: 80
+    min: 0,
+    stroke: "#04a9f5",
+    strokeWidth: 1,
+    width: 80,
 };
-
 peity.defaults.bar = {
+    delimiter: ",",
     fill: ["#04a9f5"],
     height: 24,
-    width: 80
+    min: 0,
+    padding: 0.1,
+    width: 80,
 };
-
 peity.defaults.donut = {
+    delimiter: null,
     fill: ["#ffffff", "rgba(255,255,255,.3)"],
+    height: 26,
     innerRadius: 8,
-    radius: 12
+    radius: 12,
+    width: 26,
 };
 
-/* Init Peity */
-document.querySelectorAll(".line").forEach(el => peity(el, "line"));
-document.querySelectorAll(".bar").forEach(el => peity(el, "bar"));
-document.querySelectorAll(".donut").forEach(el => peity(el, "donut"));
+document.querySelectorAll(".line").forEach((e) => peity(e, "line"));
+document.querySelectorAll(".bar").forEach((e) => peity(e, "bar"));
+document.querySelectorAll(".donut").forEach((e) => peity(e, "donut"));
 
-/* Feather icons */
-if (typeof feather !== 'undefined') {
-    feather.replace();
-}
+if (typeof feather !== 'undefined') feather.replace();
+
+
+/* =========================
+APEX DASHBOARD INIT
+(ton thème ne lit pas data-series, donc on force ici)
+========================= */
+(function () {
+    if (typeof ApexCharts === 'undefined') return;
+
+    // Stockage des instances pour destroy si reload (turbo/vite/hot)
+    window.__glsApex = window.__glsApex || {};
+
+    function safeParseJson(str, fallback) {
+        try { return JSON.parse(str); } catch (e) { return fallback; }
+    }
+
+    function getData(el) {
+        const series = safeParseJson(el.getAttribute('data-series') || '[]', []);
+        const labels = safeParseJson(el.getAttribute('data-labels') || '[]', []);
+        return { series, labels };
+    }
+
+    function destroyIfExists(key) {
+        if (window.__glsApex[key] && typeof window.__glsApex[key].destroy === 'function') {
+            window.__glsApex[key].destroy();
+        }
+        window.__glsApex[key] = null;
+    }
+
+    function renderBar(elId, key, name) {
+        const el = document.getElementById(elId);
+        if (!el) return;
+
+        const { series, labels } = getData(el);
+
+        // Si pas de data, on évite un chart cassé
+        if (!Array.isArray(series) || series.length === 0) return;
+
+        destroyIfExists(key);
+
+        const options = {
+            chart: {
+                type: 'bar',
+                height: 300,
+                toolbar: { show: false }
+            },
+            series: [{ name: name, data: series }],
+            xaxis: { categories: labels },
+            dataLabels: { enabled: false },
+            grid: { strokeDashArray: 4 }
+        };
+
+        window.__glsApex[key] = new ApexCharts(el, options);
+        window.__glsApex[key].render();
+    }
+
+    function renderDonut(elId, key) {
+        const el = document.getElementById(elId);
+        if (!el) return;
+
+        const { series, labels } = getData(el);
+
+        if (!Array.isArray(series) || series.length === 0) return;
+
+        destroyIfExists(key);
+
+        const options = {
+            chart: {
+                type: 'donut',
+                height: 300
+            },
+            series: series,
+            labels: labels,
+            legend: { position: 'bottom' }
+        };
+
+        window.__glsApex[key] = new ApexCharts(el, options);
+        window.__glsApex[key].render();
+    }
+
+    // Render dashboard charts
+    renderBar('bar-chart-1', 'bar1', 'Articles');
+    renderBar('bar-chart-2', 'bar2', 'Certificats');
+    renderBar('bar-chart-3', 'bar3', 'Inscriptions');
+    renderDonut('pie-chart-2', 'donut1');
+})();
 </script>
 @endsection
+ 

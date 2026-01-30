@@ -6,8 +6,8 @@
      HERO SECTION
 =========================== --}}
         <section class="hero reveal delay-1" aria-label="Intro">
-            <div class="hero__bg reveal delay-2"
-                style="background-image: url('{{ asset('assets/images/IMG_4399.webp') }}');"></div>
+            <div class="hero__bg reveal delay-2" style="background-image: url('{{ asset('assets/images/IMG_4399.webp') }}');">
+            </div>
 
             {{-- Badges --}}
             <div class="badge b-blue b1 reveal delay-3">{{ __('home.hero.badge1') }}</div>
@@ -63,6 +63,9 @@
             </div>
         </section>
 
+        {{-- =========================
+SITES — Images only (NO iframe, NO yt-holder, NO video)
+========================= --}}
         <section class="section sites-maroc-section">
             <div class="container text-center mb-5">
                 <h2 class="sites-title">{{ __('gls.sites.title') }}</h2>
@@ -75,22 +78,6 @@
                 <div class="site-card small">
                     <div class="site-video-wrapper">
                         <img src="{{ asset('assets/images/sites/rabat.jpg') }}" alt="GLS Rabat" class="site-image">
-
-                        <iframe
-                            src="https://www.youtube.com/embed/f-DKSeGa5zI?autoplay=1&mute=1&controls=0&loop=1&playlist=f-DKSeGa5zI&modestbranding=1&playsinline=1&start=5"
-                            width="560" height="315" frameborder="0" allow="autoplay; encrypted-media">
-                        </iframe>
-                    </div>
-
-                    <div class="site-video-play">
-                        <a class="play-btn"
-                            data-video="https://www.youtube.com/embed/f-DKSeGa5zI?autoplay=1&mute=0&controls=1&modestbranding=1&rel=0">
-                            <span class="ripple"></span><span class="ripple"></span><span class="ripple"></span>
-                            <svg viewBox="0 0 448 512">
-                                <path
-                                    d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z" />
-                            </svg>
-                        </a>
                     </div>
 
                     <div class="site-overlay">
@@ -98,27 +85,10 @@
                     </div>
                 </div>
 
-
                 <!-- 2. Kénitra -->
                 <div class="site-card small">
                     <div class="site-video-wrapper">
                         <img src="{{ asset('assets/images/sites/kenitra.jpg') }}" alt="GLS Kénitra" class="site-image">
-
-                        <iframe
-                            src="https://www.youtube.com/embed/eNry-9YjhYI?autoplay=1&mute=1&controls=0&loop=1&playlist=eNry-9YjhYI&modestbranding=1&playsinline=1"
-                            width="560" height="315" frameborder="0">
-                        </iframe>
-                    </div>
-
-                    <div class="site-video-play">
-                        <a class="play-btn"
-                            data-video="https://www.youtube.com/embed/eNry-9YjhYI?autoplay=1&controls=1&modestbranding=1&rel=0">
-                            <span class="ripple"></span><span class="ripple"></span><span class="ripple"></span>
-                            <svg viewBox="0 0 448 512">
-                                <path
-                                    d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z" />
-                            </svg>
-                        </a>
                     </div>
 
                     <div class="site-overlay">
@@ -126,26 +96,11 @@
                     </div>
                 </div>
 
-
                 <!-- 3. Marrakech -->
                 <div class="site-card wide">
                     <div class="site-video-wrapper">
-                        <img src="{{ asset('assets/images/sites/marrakech.webp') }}" class="site-image">
-
-                        <video class="site-video" muted loop preload="metadata" playsinline>
-                            <source src="https://raw.githubusercontent.com/Rochdi7/Gls-Videos/main/agadir-cinematic.mp4">
-                        </video>
-                    </div>
-
-                    <div class="site-video-play">
-                        <a class="play-btn"
-                            data-video="https://www.youtube.com/embed/GJx04L_KQLk?autoplay=1&controls=1&modestbranding=1&rel=0">
-                            <span class="ripple"></span><span class="ripple"></span><span class="ripple"></span>
-                            <svg viewBox="0 0 448 512">
-                                <path
-                                    d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z" />
-                            </svg>
-                        </a>
+                        <img src="{{ asset('assets/images/sites/marrakech.webp') }}" alt="GLS Marrakech"
+                            class="site-image">
                     </div>
 
                     <div class="site-overlay">
@@ -153,27 +108,10 @@
                     </div>
                 </div>
 
-
                 <!-- 4. Salé -->
                 <div class="site-card wide">
                     <div class="site-video-wrapper">
                         <img src="{{ asset('assets/images/sites/sale.webp') }}" alt="GLS Salé" class="site-image">
-
-                        <iframe
-                            src="https://www.youtube.com/embed/GJx04L_KQLk?autoplay=1&mute=1&controls=0&loop=1&playlist=GJx04L_KQLk&modestbranding=1&playsinline=1&start=1"
-                            width="620" height="315" frameborder="0">
-                        </iframe>
-                    </div>
-
-                    <div class="site-video-play">
-                        <a class="play-btn"
-                            data-video="https://www.youtube.com/embed/GJx04L_KQLk?autoplay=1&controls=1&modestbranding=1&rel=0">
-                            <span class="ripple"></span><span class="ripple"></span><span class="ripple"></span>
-                            <svg viewBox="0 0 448 512">
-                                <path
-                                    d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z" />
-                            </svg>
-                        </a>
                     </div>
 
                     <div class="site-overlay">
@@ -181,27 +119,10 @@
                     </div>
                 </div>
 
-
                 <!-- 5. Agadir -->
                 <div class="site-card small">
                     <div class="site-video-wrapper">
                         <img src="{{ asset('assets/images/sites/agadir.avif') }}" alt="GLS Agadir" class="site-image">
-
-                        <iframe
-                            src="https://www.youtube.com/embed/MN6_-R2wvhY?autoplay=1&mute=1&controls=0&loop=1&playlist=MN6_-R2wvhY&modestbranding=1&playsinline=1&start=1"
-                            width="560" height="315">
-                        </iframe>
-                    </div>
-
-                    <div class="site-video-play">
-                        <a class="play-btn"
-                            data-video="https://www.youtube.com/embed/MN6_-R2wvhY?autoplay=1&controls=1&modestbranding=1&rel=0">
-                            <span class="ripple"></span><span class="ripple"></span><span class="ripple"></span>
-                            <svg viewBox="0 0 448 512">
-                                <path
-                                    d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z" />
-                            </svg>
-                        </a>
                     </div>
 
                     <div class="site-overlay">
@@ -209,28 +130,11 @@
                     </div>
                 </div>
 
-
                 <!-- 6. Casablanca -->
                 <div class="site-card small">
                     <div class="site-video-wrapper">
                         <img src="{{ asset('assets/images/sites/casablanca.jpg') }}" alt="GLS Casablanca"
                             class="site-image">
-
-                        <iframe
-                            src="https://www.youtube.com/embed/GJx04L_KQLk?autoplay=1&mute=1&controls=0&loop=1&playlist=GJx04L_KQLk&modestbranding=1&playsinline=1&start=1"
-                            width="560" height="315">
-                        </iframe>
-                    </div>
-
-                    <div class="site-video-play">
-                        <a class="play-btn"
-                            data-video="https://www.youtube.com/embed/GJx04L_KQLk?autoplay=1&controls=1&modestbranding=1&rel=0">
-                            <span class="ripple"></span><span class="ripple"></span><span class="ripple"></span>
-                            <svg viewBox="0 0 448 512">
-                                <path
-                                    d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z" />
-                            </svg>
-                        </a>
                     </div>
 
                     <div class="site-overlay">
@@ -240,6 +144,7 @@
 
             </div>
         </section>
+
 
         {{-- ===========================
   REVIEWS SECTION
@@ -315,52 +220,6 @@
 
             </div>
         </section>
-
-
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-
-                // When clicking any play button
-                document.querySelectorAll(".play-btn").forEach(btn => {
-                    btn.addEventListener("click", e => {
-                        e.preventDefault();
-
-                        const videoUrl = btn.getAttribute("data-video");
-                        const autoplayUrl = videoUrl + "&autoplay=1";
-
-                        const popup = document.getElementById("videoPopup");
-                        const frame = document.getElementById("videoPopupFrame");
-
-                        // Load video in iframe
-                        frame.src = autoplayUrl;
-
-                        // Show popup
-                        popup.style.display = "flex";
-                    });
-                });
-
-                // CLOSE BUTTON
-                document.getElementById("videoPopupClose").addEventListener("click", () => {
-                    closePopup();
-                });
-
-                // CLICK OUTSIDE TO CLOSE
-                document.getElementById("videoPopup").addEventListener("click", e => {
-                    if (e.target.id === "videoPopup") {
-                        closePopup();
-                    }
-                });
-
-                // FUNCTION: CLOSE POPUP
-                function closePopup() {
-                    const popup = document.getElementById("videoPopup");
-                    const frame = document.getElementById("videoPopupFrame");
-
-                    popup.style.display = "none";
-                    frame.src = ""; // stop the video
-                }
-            });
-        </script>
 
 
         <section class="home-courses-section section">
@@ -769,5 +628,5 @@
             </div>
         </section>
 
-      </main>
+    </main>
 @endsection

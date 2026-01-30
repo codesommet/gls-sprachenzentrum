@@ -5,7 +5,8 @@
             <a href="{{ route('dashboard') }}" class="b-brand text-primary">
                 <!-- ========   Change your logo from here   ============ -->
                 <img src="{{ URL::asset('assets/images/logo/gls.png') }}" alt="logo image" class="logo-lg" />
-                <span class="badge bg-brand-color-2 rounded-pill ms-1 theme-version">v1.0.0</span>
+                <span class="badge bg-brand-color-2 rounded-pill ms-1 theme-version">v1.1.0</span>
+
             </a>
         </div>
         <div class="navbar-content">

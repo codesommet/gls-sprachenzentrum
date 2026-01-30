@@ -151,8 +151,15 @@ CONTENT
 
                         <div class="info-row">
                             <span>Language of instruction</span>
-                            <strong>{{ $studienkolleg->language_of_instruction }}</strong>
+                            <strong>
+                                @if (!empty($studienkolleg->languages) && is_array($studienkolleg->languages))
+                                    {{ implode(', ', $studienkolleg->languages) }}
+                                @else
+                                    {{ $studienkolleg->language_of_instruction }}
+                                @endif
+                            </strong>
                         </div>
+
 
                         <div class="info-row">
                             <span>Entrance Exam</span>
@@ -214,37 +221,39 @@ CONTENT
                     @if (!empty($requirements))
                         <div class="info-card reveal delay-3">
                             <h3><i class="ph ph-list-checks"></i> Admission Requirements</h3>
-
-                            @foreach ($requirements as $req)
-                                @php
-                                    // normalize each requirement item
-                                    if (is_string($req)) {
-                                        $decoded = json_decode($req, true);
-                                        if (is_array($decoded)) {
-                                            $req = $decoded;
-                                        } else {
-                                            $req = ['title' => '', 'content' => $req];
+                            <ul class="document-list">
+                                @foreach ($requirements as $req)
+                                    @php
+                                        // normalize each requirement item
+                                        if (is_string($req)) {
+                                            $decoded = json_decode($req, true);
+                                            if (is_array($decoded)) {
+                                                $req = $decoded;
+                                            } else {
+                                                $req = ['title' => '', 'content' => $req];
+                                            }
                                         }
-                                    }
-                                    if (!is_array($req)) {
-                                        $req = [];
-                                    }
+                                        if (!is_array($req)) {
+                                            $req = [];
+                                        }
 
-                                    // Ensure keys exist
-                                    $reqTitle = $req['title'] ?? '';
-                                    $reqContent = $req['content'] ?? '';
-                                @endphp
-
-                                <div class="accordion-item">
-                                    <button class="accordion-header">
-                                        <span>{{ $reqTitle }}</span>
-                                        <i class="ph ph-caret-down"></i>
-                                    </button>
-                                    <div class="accordion-content">
-                                        {!! nl2br(e($reqContent)) !!}
-                                    </div>
-                                </div>
-                            @endforeach
+                                        // Format output: "Title: Content" or just content if title missing
+                                        $reqTitle = $req['title'] ?? '';
+                                        $reqContent = $req['content'] ?? '';
+                                        $output =
+                                            !empty($reqTitle) && !empty($reqContent)
+                                                ? $reqTitle . ': ' . $reqContent
+                                                : ($reqTitle ?:
+                                                $reqContent);
+                                    @endphp
+                                    <li>{{ $output }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @else
+                        <div class="info-card reveal delay-3">
+                            <h3><i class="ph ph-list-checks"></i> Admission Requirements</h3>
+                            <p>No requirements available</p>
                         </div>
                     @endif
 
@@ -351,17 +360,5 @@ CONTENT
 
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <script src="{{ asset('assets/js/favorites.js') }}"></script>
-    {{-- Accordion --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.accordion-item').forEach(item => {
-                item.querySelector('.accordion-header').addEventListener('click', () => {
-                    document.querySelectorAll('.accordion-item').forEach(i => i !== item && i
-                        .classList.remove('active'));
-                    item.classList.toggle('active');
-                });
-            });
-        });
-    </script>
 
 @endsection
