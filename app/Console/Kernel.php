@@ -12,7 +12,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        // ✅ Sitemap auto: chaque week-end (samedi + dimanche) à 03:00
+        $schedule->command('gls:generate-sitemap')
+            ->weekends()
+            ->at('03:00')
+            ->withoutOverlapping()
+            ->appendOutputTo(storage_path('logs/sitemap-schedule.log'));
     }
 
     /**
@@ -20,7 +25,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands(): void
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }
