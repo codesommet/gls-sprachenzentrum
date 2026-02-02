@@ -22,7 +22,7 @@ class GroupController extends Controller
     {
         $groups = Group::with(['site', 'teacher'])
             ->latest()
-            ->paginate(10);
+            ->get();
 
         return view('backoffice.groups.index', compact('groups'));
     }
@@ -101,7 +101,7 @@ class GroupController extends Controller
     {
         // 1) If you already have a relationship on Group like: applications()
         if (method_exists($group, 'applications')) {
-            $applications = $group->applications()->latest()->paginate(20);
+            $applications = $group->applications()->latest()->get();
 
             return view('backoffice.groups.applications', compact('group', 'applications'));
         }
@@ -125,7 +125,7 @@ class GroupController extends Controller
         }
 
         // Minimal query on detected table
-        $applications = DB::table($foundTable)->where('group_id', $group->id)->orderByDesc('id')->paginate(20);
+        $applications = DB::table($foundTable)->where('group_id', $group->id)->orderByDesc('id')->get();
 
         return view('backoffice.groups.applications', compact('group', 'applications'))->with('info', "Source: table `$foundTable` (fallback).");
     }

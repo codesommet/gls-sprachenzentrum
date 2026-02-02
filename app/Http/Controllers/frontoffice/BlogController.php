@@ -24,7 +24,7 @@ class BlogController extends Controller
         $posts = BlogPost::with('category')
             ->where('status', 'published')
             ->latest()
-            ->paginate(9);
+            ->get();
 
         // Categories
         $categories = BlogCategory::where('is_active', 1)

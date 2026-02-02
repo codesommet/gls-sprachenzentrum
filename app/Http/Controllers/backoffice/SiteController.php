@@ -14,7 +14,7 @@ class SiteController extends Controller
      */
     public function index()
     {
-        $sites = Site::latest()->paginate(10);
+        $sites = Site::latest()->get();
         return view('backoffice.sites.index', compact('sites'));
     }
 

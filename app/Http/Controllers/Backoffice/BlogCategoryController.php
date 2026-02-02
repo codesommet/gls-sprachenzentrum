@@ -12,7 +12,7 @@ class BlogCategoryController extends Controller
 {
     public function index()
     {
-        $categories = BlogCategory::orderBy('position')->paginate(10);
+        $categories = BlogCategory::orderBy('position')->get();
         return view('backoffice.blog.categories.index', compact('categories'));
     }
 

@@ -48,7 +48,7 @@ class StudienkollegController extends Controller
     }
 
     // Paginate results
-    $studienkollegs = $query->paginate(12)->withQueryString();
+    $studienkollegs = $query->get();
 
     return view('frontoffice.studienkollegs.index', [
         'featured'       => $featured,

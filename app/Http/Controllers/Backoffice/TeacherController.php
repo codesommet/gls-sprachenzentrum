@@ -15,7 +15,7 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        $teachers = Teacher::with('site')->latest()->paginate(10);
+        $teachers = Teacher::with('site')->latest()->get();
 
         return view('backoffice.teachers.index', compact('teachers'));
     }

@@ -33,7 +33,7 @@ class CertificateController extends Controller
      */
     public function index()
     {
-        $certificates = Certificate::latest()->paginate(12);
+        $certificates = Certificate::latest()->get();
 
         return view('backoffice.certificates.index', compact('certificates'));
     }
