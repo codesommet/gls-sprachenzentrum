@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontoffice;
 
 use App\Http\Controllers\Controller;
 use App\Models\Studienkolleg;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class StudienkollegController extends Controller
@@ -11,51 +12,52 @@ class StudienkollegController extends Controller
     /**
      * Studienkollegs listing with filters
      */
-    public function index(): View
-{
-    // Get filter inputs from query string
-    $filters = request()->only([
-        'q', 'city', 'lang', 'course',
-        'uni_assist', 'entrance_exam',
-        'certification_required', 'translation_required',
-        'featured',
-    ]);
+    public function index(Request $request): View
+    {
+        // Get filter inputs from query string
+        $filters = $request->only([
+            'q', 'city', 'lang', 'course',
+            'uni_assist', 'entrance_exam',
+            'certification_required', 'translation_required',
+            'featured',
+        ]);
 
-    // Clean up empty/null filters
-    $filters = array_filter($filters, fn($value) => $value !== null && $value !== '');
+        // Clean up empty/null filters
+        $filters = array_filter($filters, fn ($value) => $value !== null && $value !== '');
 
-    // Featured only if no filters applied
-    $featured = null;
+        // Featured only if no filters applied
+        $featured = null;
 
-    if (empty($filters)) {
-        $featured = Studienkolleg::query()
+        if (empty($filters)) {
+            $featured = Studienkolleg::query()
+                ->where('public', true)
+                ->where('featured', true)
+                ->orderByDesc('updated_at')
+                ->first();
+        }
+
+        // Build query with filters
+        $query = Studienkolleg::query()
             ->where('public', true)
-            ->where('featured', true)
-            ->orderByDesc('updated_at')   // ou name asc si tu veux
-            ->first();
+            ->filter($filters)
+            ->orderByDesc('featured')
+            ->orderBy('name', 'asc');
+
+        // Remove featured from the listing to avoid duplicates
+        if ($featured) {
+            $query->where('id', '!=', $featured->id);
+        }
+
+        // ✅ Paginate results (IMPORTANT)
+        $studienkollegs = $query
+            ->paginate(12)          // change 12 to whatever you want
+            ->withQueryString();    // keeps filters in pagination links
+
+        return view('frontoffice.studienkollegs.index', [
+            'featured'       => $featured,
+            'studienkollegs' => $studienkollegs,
+        ]);
     }
-
-    // Build query with filters
-    $query = Studienkolleg::query()
-        ->where('public', true)
-        ->filter($filters)
-        ->orderBy('featured', 'desc')
-        ->orderBy('name', 'asc');
-
-    // Remove featured from the listing to avoid duplicates
-    if ($featured) {
-        $query->where('id', '!=', $featured->id);
-    }
-
-    // Paginate results
-    $studienkollegs = $query->get();
-
-    return view('frontoffice.studienkollegs.index', [
-        'featured'       => $featured,
-        'studienkollegs' => $studienkollegs,
-    ]);
-}
-
 
     /**
      * Studienkolleg detail page
