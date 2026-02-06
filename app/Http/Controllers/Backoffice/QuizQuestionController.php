@@ -6,13 +6,20 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Backoffice\Quizzes\StoreQuizQuestionRequest;
 use App\Http\Requests\Backoffice\Quizzes\UpdateQuizQuestionRequest;
 use App\Models\Quiz;
+use App\Models\QuizOption;
 use App\Models\QuizQuestion;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class QuizQuestionController extends Controller
 {
     public function index(Quiz $quiz)
     {
-        $questions = $quiz->questions()->with('options')->orderBy('sort_order')->orderBy('id')->get();
+        $questions = $quiz->questions()
+            ->with(['options.media', 'media'])
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->get();
 
         return view('backoffice.quizzes.questions.index', compact('quiz', 'questions'));
     }
@@ -26,45 +33,74 @@ class QuizQuestionController extends Controller
     {
         $data = $request->validated();
 
-        $question = $quiz->questions()->create([
-            'question_text' => $data['question_text'],
-            'difficulty' => $data['difficulty'],
-            'points' => $data['points'],
-            'sort_order' => $data['sort_order'] ?? 0,
-            'is_active' => (bool) ($data['is_active'] ?? false),
+        DB::transaction(function () use ($request, $quiz, $data, &$question) {
 
-            // optional media meta
-            'media_caption' => $data['media_caption'] ?? null,
-            'media_type' => 'none',
-        ]);
+            /** @var QuizQuestion $question */
+            $question = $quiz->questions()->create([
+                'question_text' => $data['question_text'],
+                'difficulty'    => $data['difficulty'],
+                'points'        => $data['points'],
+                'sort_order'    => $data['sort_order'] ?? 0,
+                'is_active'     => (bool) ($data['is_active'] ?? false),
 
-        /* ==========================
-       OPTIONS (QCM)
-    ========================== */
-        $correctIndex = (int) $data['correct_index'];
+                // types
+                'question_media_type' => $data['question_media_type'], // none|audio|image
+                'options_type'        => $data['options_type'],        // text|image
 
-        foreach ($data['options'] as $i => $opt) {
-            $question->options()->create([
-                'option_text' => $opt['text'],
-                'is_correct' => $i === $correctIndex,
-                'sort_order' => $i,
+                // optional meta
+                'media_caption' => $data['media_caption'] ?? null,
+                'media_type'    => 'none', // recomputed after upload
             ]);
-        }
 
-        $this->handleQuestionMediaUpload($question, $request);
+            $correctIndex = (int) $data['correct_index'];
+            $optionsType  = (string) $data['options_type'];
+
+            foreach ($data['options'] as $i => $opt) {
+
+                $optionText = ($optionsType === 'image')
+                    ? null
+                    : ($opt['text'] ?? null);
+
+                /** @var QuizOption $option */
+                $option = $question->options()->create([
+                    'option_text' => $optionText,
+                    'is_correct'  => $i === $correctIndex,
+                    'sort_order'  => $i,
+                ]);
+
+                // Save option image ONLY if options_type=image
+                if ($optionsType === 'image' && $request->hasFile("options.$i.image")) {
+                    $option->addMediaFromRequest("options.$i.image")
+                        ->toMediaCollection('option_image');
+                }
+            }
+
+            // NEW RULE: Only handle question media upload if options_type != 'image'
+            // When options_type='image', question_media_type is FORCED to 'none' by validation
+            if ($optionsType !== 'image') {
+                $this->handleQuestionMediaUpload($question, $request);
+            }
+
+            // OPTIONAL strict cleanup depending on question_media_type selection
+            // $this->applyStrictQuestionMediaType($question);
+        });
 
         if ($request->input('action') === 'save_next') {
-            return redirect()->route('backoffice.quizzes.questions.create', $quiz)->with('success', 'Question saved. You can add the next one.');
+            return redirect()
+                ->route('backoffice.quizzes.questions.create', $quiz)
+                ->with('success', 'Question enregistrée. Tu peux ajouter la suivante.');
         }
 
-        return redirect()->route('backoffice.quizzes.questions.index', $quiz)->with('success', 'Question created successfully.');
+        return redirect()
+            ->route('backoffice.quizzes.questions.index', $quiz)
+            ->with('success', 'Question créée avec succès.');
     }
 
     public function edit(Quiz $quiz, QuizQuestion $question)
     {
         abort_unless($question->quiz_id === $quiz->id, 404);
 
-        $question->load('options');
+        $question->load(['options.media', 'media']);
 
         return view('backoffice.quizzes.questions.edit', compact('quiz', 'question'));
     }
@@ -75,65 +111,148 @@ class QuizQuestionController extends Controller
 
         $data = $request->validated();
 
-        $question->update([
-            'question_text' => $data['question_text'],
-            'difficulty' => $data['difficulty'],
-            'points' => $data['points'],
-            'sort_order' => $data['sort_order'] ?? 0,
-            'is_active' => (bool) ($data['is_active'] ?? false),
+        DB::transaction(function () use ($request, $question, $data) {
 
-            // optional meta
-            'media_caption' => $data['media_caption'] ?? null,
-        ]);
+            $question->update([
+                'question_text' => $data['question_text'],
+                'difficulty'    => $data['difficulty'],
+                'points'        => $data['points'],
+                'sort_order'    => $data['sort_order'] ?? 0,
+                'is_active'     => (bool) ($data['is_active'] ?? false),
 
-        // Options (reset)
-        $question->options()->delete();
+                // types
+                'question_media_type' => $data['question_media_type'],
+                'options_type'        => $data['options_type'],
 
-        $correctIndex = (int) $data['correct_index'];
-
-        foreach ($data['options'] as $i => $opt) {
-            $question->options()->create([
-                'option_text' => $opt['text'],
-                'is_correct' => $i === $correctIndex,
-                'sort_order' => $i,
+                // optional meta
+                'media_caption' => $data['media_caption'] ?? null,
             ]);
-        }
 
-        // Optional media upload (Spatie)
-        $this->handleQuestionMediaUpload($question, $request);
+            // Reset options + clear their media
+            $question->load('options.media');
+            foreach ($question->options as $oldOption) {
+                $oldOption->clearMediaCollection('option_image');
+            }
+            $question->options()->delete();
 
-        return redirect()->route('backoffice.quizzes.questions.index', $quiz)->with('success', 'Question updated successfully.');
+            $correctIndex = (int) $data['correct_index'];
+            $optionsType  = (string) $data['options_type'];
+
+            foreach ($data['options'] as $i => $opt) {
+
+                $optionText = ($optionsType === 'image')
+                    ? null
+                    : ($opt['text'] ?? null);
+
+                /** @var QuizOption $option */
+                $option = $question->options()->create([
+                    'option_text' => $optionText,
+                    'is_correct'  => $i === $correctIndex,
+                    'sort_order'  => $i,
+                ]);
+
+                if ($optionsType === 'image' && $request->hasFile("options.$i.image")) {
+                    $option->addMediaFromRequest("options.$i.image")
+                        ->toMediaCollection('option_image');
+                }
+            }
+
+            // NEW RULE: Only handle question media upload if options_type != 'image'
+            // When options_type='image', question_media_type is FORCED to 'none' by validation
+            if ($optionsType !== 'image') {
+                $this->handleQuestionMediaUpload($question, $request);
+            }
+
+            // OPTIONAL strict cleanup depending on question_media_type selection
+            // $this->applyStrictQuestionMediaType($question);
+        });
+
+        return redirect()
+            ->route('backoffice.quizzes.questions.index', $quiz)
+            ->with('success', 'Question mise à jour avec succès.');
     }
 
     public function destroy(Quiz $quiz, QuizQuestion $question)
     {
         abort_unless($question->quiz_id === $quiz->id, 404);
 
-        $question->delete();
+        DB::transaction(function () use ($question) {
 
-        return back()->with('success', 'Question deleted successfully.');
+            $question->load('options.media');
+
+            // clear question media
+            $question->clearMediaCollection('question_image');
+            $question->clearMediaCollection('question_audio');
+
+            // clear option media
+            foreach ($question->options as $opt) {
+                $opt->clearMediaCollection('option_image');
+            }
+
+            $question->delete();
+        });
+
+        return back()->with('success', 'Question supprimée avec succès.');
     }
 
     /**
-     * Handle optional image/audio uploads and set media_type.
-     * - If no file uploaded => keep existing media, only recompute type
-     * - If file uploaded => replace the corresponding collection (singleFile)
+     * Upload question media if files provided, then recompute media_type.
+     * Uses singleFile() collections => replaces automatically.
      */
-    private function handleQuestionMediaUpload(QuizQuestion $question, $request): void
+    private function handleQuestionMediaUpload(QuizQuestion $question, Request $request): void
     {
-        // Replace image only if uploaded
         if ($request->hasFile('image')) {
-            $question->addMedia($request->file('image'))->toMediaCollection('question_image');
+            $question->addMediaFromRequest('image')
+                ->toMediaCollection('question_image');
         }
 
-        // Replace audio only if uploaded
         if ($request->hasFile('audio')) {
-            $question->addMedia($request->file('audio'))->toMediaCollection('question_audio');
+            $question->addMediaFromRequest('audio')
+                ->toMediaCollection('question_audio');
         }
 
-        // Compute media_type from current stored media
-        $hasImage = !empty($question->getFirstMedia('question_image'));
-        $hasAudio = !empty($question->getFirstMedia('question_audio'));
+        // recompute media_type from stored media
+        $hasImage = (bool) $question->getFirstMedia('question_image');
+        $hasAudio = (bool) $question->getFirstMedia('question_audio');
+
+        $mediaType = 'none';
+        if ($hasImage && $hasAudio) {
+            $mediaType = 'both';
+        } elseif ($hasImage) {
+            $mediaType = 'image';
+        } elseif ($hasAudio) {
+            $mediaType = 'audio';
+        }
+
+        $question->update(['media_type' => $mediaType]);
+    }
+
+    /**
+     * OPTIONAL strict rule:
+     * If question_media_type is "none", remove image/audio.
+     * If "audio", remove image.
+     * If "image", remove audio.
+     */
+    private function applyStrictQuestionMediaType(QuizQuestion $question): void
+    {
+        $type = (string) $question->question_media_type;
+
+        if ($type === 'none') {
+            $question->clearMediaCollection('question_image');
+            $question->clearMediaCollection('question_audio');
+        }
+
+        if ($type === 'audio') {
+            $question->clearMediaCollection('question_image');
+        }
+
+        if ($type === 'image') {
+            $question->clearMediaCollection('question_audio');
+        }
+
+        // update meta after cleanup
+        $hasImage = (bool) $question->getFirstMedia('question_image');
+        $hasAudio = (bool) $question->getFirstMedia('question_audio');
 
         $mediaType = 'none';
         if ($hasImage && $hasAudio) {

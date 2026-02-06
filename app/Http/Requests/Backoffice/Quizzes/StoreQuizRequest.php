@@ -9,7 +9,7 @@ class StoreQuizRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true; // (auth middleware already)
+        return true; // auth middleware already
     }
 
     public function rules(): array

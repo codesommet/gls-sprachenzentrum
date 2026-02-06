@@ -12,12 +12,14 @@ class QuizController extends Controller
     public function index()
     {
         $quizzes = Quiz::query()->orderBy('level')->get();
+
         return view('backoffice.quizzes.index', compact('quizzes'));
     }
 
     public function create()
     {
         $levels = ['A1','A2','B1','B2'];
+
         return view('backoffice.quizzes.create', compact('levels'));
     }
 
@@ -27,13 +29,14 @@ class QuizController extends Controller
 
         return redirect()
             ->route('backoffice.quizzes.index')
-            ->with('success', 'Quiz created successfully.');
+            ->with('success', 'Quiz créé avec succès.');
     }
 
     public function edit(Quiz $quiz)
     {
         $levels = ['A1','A2','B1','B2'];
-        return view('backoffice.quizzes.edit', compact('quiz','levels'));
+
+        return view('backoffice.quizzes.edit', compact('quiz', 'levels'));
     }
 
     public function update(UpdateQuizRequest $request, Quiz $quiz)
@@ -42,13 +45,13 @@ class QuizController extends Controller
 
         return redirect()
             ->route('backoffice.quizzes.index')
-            ->with('success', 'Quiz updated successfully.');
+            ->with('success', 'Quiz mis à jour avec succès.');
     }
 
     public function destroy(Quiz $quiz)
     {
         $quiz->delete();
 
-        return back()->with('success', 'Quiz deleted successfully.');
+        return back()->with('success', 'Quiz supprimé avec succès.');
     }
 }
