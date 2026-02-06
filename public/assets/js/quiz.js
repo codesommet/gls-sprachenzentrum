@@ -129,12 +129,20 @@
 
   function renderMedia(q) {
     // Expecting: q.media = { type: 'image'|'audio'|'none', url: '...' }
+    // NEW RULE: If options_type='image', ALWAYS hide question media
+    const optionsType = String(q.options_type || 'text').toLowerCase();
     const media = q.media || { type: 'none', url: null };
     const type = String(media.type || 'none').toLowerCase();
     const url = media.url || null;
 
     resetMedia();
 
+    // Hide question media if using image options
+    if (optionsType === 'image') {
+      return;
+    }
+
+    // Otherwise, show media based on type
     if (!url || type === 'none') return;
 
     if ($qMediaWrap) $qMediaWrap.hidden = false;
@@ -162,6 +170,7 @@
 
     const qid = String(q.id);
     const current = state.answers[qid];
+    const optionsType = String(q.options_type || 'text').toLowerCase();
 
     if ($qTitle) $qTitle.textContent = q.title || '';
     if ($qPrompt) $qPrompt.textContent = q.prompt || '';
@@ -171,81 +180,160 @@
 
     $qAnswers.innerHTML = '';
 
-    if (q.type === 'text') {
-      const wrap = document.createElement('div');
-      wrap.className = 'quiz-text-wrap';
+    // ===== TEXT MODE =====
+    if (optionsType === 'text') {
+      if (q.type === 'text') {
+        const wrap = document.createElement('div');
+        wrap.className = 'quiz-text-wrap';
 
-      const input = document.createElement('input');
-      input.type = 'text';
-      input.className = 'quiz-text';
-      input.placeholder = 'Ta réponse...';
-      input.value = typeof current === 'string' ? current : '';
-      input.style.width = '100%';
-      input.style.padding = '12px 14px';
-      input.style.border = '1px solid #e5e7eb';
-      input.style.borderRadius = '12px';
-      input.style.fontWeight = '700';
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'quiz-text';
+        input.placeholder = 'Ta réponse...';
+        input.value = typeof current === 'string' ? current : '';
+        input.style.width = '100%';
+        input.style.padding = '12px 14px';
+        input.style.border = '1px solid #e5e7eb';
+        input.style.borderRadius = '12px';
+        input.style.fontWeight = '700';
 
-      input.addEventListener('input', () => {
-        state.answers[qid] = input.value;
-        setNavState();
-      });
+        input.addEventListener('input', () => {
+          state.answers[qid] = input.value;
+          setNavState();
+        });
 
-      wrap.appendChild(input);
-      $qAnswers.appendChild(wrap);
-    } else {
-      const isMulti = q.type === 'multi';
-      const name = `q_${qid}`;
+        wrap.appendChild(input);
+        $qAnswers.appendChild(wrap);
+      } else {
+        // Multi/single choice with text labels
+        const isMulti = q.type === 'multi';
+        const name = `q_${qid}`;
+
+        (q.choices || []).forEach(choice => {
+          const cid = String(choice.id);
+
+          const label = document.createElement('label');
+          label.className = 'quiz-choice';
+
+          const input = document.createElement('input');
+          input.type = isMulti ? 'checkbox' : 'radio';
+          input.name = name;
+          input.value = cid;
+
+          const span = document.createElement('span');
+          span.className = 'quiz-choice_label';
+          span.textContent = choice.label || '';
+
+          if (isMulti) {
+            const arr = Array.isArray(current) ? current : [];
+            input.checked = arr.includes(cid);
+            if (input.checked) label.classList.add('is-selected');
+          } else {
+            input.checked = current === cid;
+            if (input.checked) label.classList.add('is-selected');
+          }
+
+          label.appendChild(input);
+          label.appendChild(span);
+
+          label.addEventListener('click', () => {
+            setTimeout(() => {
+              if (isMulti) {
+                const selected = Array.from($qAnswers.querySelectorAll('input[type="checkbox"]:checked'))
+                  .map(i => i.value);
+                state.answers[qid] = selected;
+              } else {
+                const checked = $qAnswers.querySelector('input[type="radio"]:checked');
+                state.answers[qid] = checked ? checked.value : '';
+              }
+
+              $qAnswers.querySelectorAll('.quiz-choice').forEach(c => c.classList.remove('is-selected'));
+              $qAnswers.querySelectorAll('input:checked').forEach(i => {
+                const parent = i.closest('.quiz-choice');
+                if (parent) parent.classList.add('is-selected');
+              });
+
+              setNavState();
+            }, 0);
+          });
+
+          $qAnswers.appendChild(label);
+        });
+      }
+    }
+
+    // ===== IMAGE MODE =====
+    else if (optionsType === 'image') {
+      $qAnswers.className = 'quiz-answers quiz-answers-image';
 
       (q.choices || []).forEach(choice => {
         const cid = String(choice.id);
+        const imageUrl = choice.image_url || null;
+        const isSelected = current === cid;
 
-        const label = document.createElement('label');
-        label.className = 'quiz-choice';
+        // Create image card container
+        const card = document.createElement('div');
+        card.className = 'quiz-image-option';
+        if (isSelected) card.classList.add('is-selected');
 
+        // Clickable wrapper
+        const clickable = document.createElement('div');
+        clickable.className = 'quiz-image-option_clickable';
+        clickable.role = 'button';
+        clickable.tabIndex = 0;
+
+        // Hidden radio for form submission
         const input = document.createElement('input');
-        input.type = isMulti ? 'checkbox' : 'radio';
-        input.name = name;
+        input.type = 'radio';
+        input.name = `q_${qid}`;
         input.value = cid;
+        input.checked = isSelected;
+        input.style.display = 'none';
 
-        const span = document.createElement('span');
-        span.className = 'quiz-choice_label';
-        span.textContent = choice.label || '';
+        // Image or fallback
+        const imgContainer = document.createElement('div');
+        imgContainer.className = 'quiz-image-option_img';
 
-        if (isMulti) {
-          const arr = Array.isArray(current) ? current : [];
-          input.checked = arr.includes(cid);
-          if (input.checked) label.classList.add('is-selected');
+        if (imageUrl) {
+          const img = document.createElement('img');
+          img.src = imageUrl;
+          img.alt = `Option ${choice.id}`;
+          img.loading = 'lazy';
+          imgContainer.appendChild(img);
         } else {
-          input.checked = current === cid;
-          if (input.checked) label.classList.add('is-selected');
+          const fallback = document.createElement('div');
+          fallback.className = 'quiz-image-option_missing';
+          fallback.textContent = 'Image manquante';
+          imgContainer.appendChild(fallback);
         }
 
-        label.appendChild(input);
-        label.appendChild(span);
+        clickable.appendChild(imgContainer);
+        card.appendChild(input);
+        card.appendChild(clickable);
 
-        label.addEventListener('click', () => {
-          setTimeout(() => {
-            if (isMulti) {
-              const selected = Array.from($qAnswers.querySelectorAll('input[type="checkbox"]:checked'))
-                .map(i => i.value);
-              state.answers[qid] = selected;
-            } else {
-              const checked = $qAnswers.querySelector('input[type="radio"]:checked');
-              state.answers[qid] = checked ? checked.value : '';
-            }
+        // Click handler
+        card.addEventListener('click', () => {
+          input.checked = true;
+          state.answers[qid] = cid;
 
-            $qAnswers.querySelectorAll('.quiz-choice').forEach(c => c.classList.remove('is-selected'));
-            $qAnswers.querySelectorAll('input:checked').forEach(i => {
-              const parent = i.closest('.quiz-choice');
-              if (parent) parent.classList.add('is-selected');
-            });
+          // Update visual selection
+          $qAnswers.querySelectorAll('.quiz-image-option').forEach(c => {
+            c.classList.remove('is-selected');
+          });
+          card.classList.add('is-selected');
 
-            setNavState();
-          }, 0);
+          setNavState();
         });
 
-        $qAnswers.appendChild(label);
+        // Keyboard support
+        clickable.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            card.click();
+          }
+        });
+
+        $qAnswers.appendChild(card);
       });
     }
 
@@ -265,10 +353,7 @@
   function getChosenChoice(q, stored) {
     if (stored == null) return null;
 
-    // stored can be index (number) OR choice id (string)
-    if (Number.isInteger(stored)) {
-      return (q.choices || [])[stored] || null;
-    }
+    // stored can be choice id (string) from new system
     return (q.choices || []).find(c => String(c.id) === String(stored)) || null;
   }
 
@@ -280,7 +365,6 @@
   }
 
   function computeResult() {
-    let correct = 0;
     let answered = 0;
     const total = questions.length;
 
@@ -293,24 +377,21 @@
       // multi not used now, but keep safe
       if (Array.isArray(stored)) {
         if (stored.length > 0) answered++;
-        // For multi, you'd need "all correct" logic (not implemented)
         return;
       }
 
+      // For single choice, just count as answered
+      // Actual correctness will be verified server-side
       const chosen = getChosenChoice(q, stored);
-      if (!chosen) return;
-
-      answered++;
-
-      // ✅ Sécurisé: is_correct peut être bool true, int 1, ou string "1"
-      const isCorrect = chosen.is_correct === true || chosen.is_correct === 1 || chosen.is_correct === "1";
-      if (isCorrect) correct++;
+      if (chosen) answered++;
     });
 
-    const percent = total ? Math.round((correct / total) * 100) : 0;
+    const percent = total ? Math.round((answered / total) * 100) : 0;
     const level = detectLevelFromPercent(percent);
 
-    return { answered, correct, total, percent, level };
+    // ⚠️ Scoring is now SERVER-SIDE
+    // Frontend doesn't know which answers are correct (for security)
+    return { answered, correct: 0, total, percent, level, serverSideScoring: true };
   }
 
   function showResultScreen() {
@@ -335,7 +416,17 @@
       $resultLevel.textContent = result.level;
     }
 
-    if ($answersJson) $answersJson.value = JSON.stringify(state.answers);
+    if ($answersJson) {
+      $answersJson.value = JSON.stringify(state.answers);
+    }
+
+    // ✅ Submit form to server for server-side scoring
+    if ($form && result.serverSideScoring) {
+      // Small delay to ensure form field is updated
+      setTimeout(() => {
+        $form.submit();
+      }, 100);
+    }
 
     updateCounter();
     updateProgress();
