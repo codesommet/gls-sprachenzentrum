@@ -11,19 +11,19 @@
 <script src="{{ URL::asset('build/js/plugins/feather.min.js') }}"></script>
 
 @if (env('APP_DARK_LAYOUT') == 'default')
-<script>
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        dark_layout = 'true';
-    } else {
-        dark_layout = 'false';
-    }
-    layout_change_default();
-    if (dark_layout == 'true') {
-        layout_change('dark');
-    } else {
-        layout_change('light');
-    }
-</script>
+    <script>
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            dark_layout = 'true';
+        } else {
+            dark_layout = 'false';
+        }
+        layout_change_default();
+        if (dark_layout == 'true') {
+            layout_change('dark');
+        } else {
+            layout_change('light');
+        }
+    </script>
 @endif
 
 @if (env('APP_DARK_LAYOUT') != 'default')
@@ -51,6 +51,9 @@
         layout_sidebar_change('light');
     </script>
 @endif
+
+{{-- ===== Stack scripts from child templates (e.g., form JS) ===== --}}
+@stack('scripts')
 
 @if (env('APP_BOX_CONTAINER') == false)
     <script>
@@ -90,6 +93,6 @@
 
 @if (env('APP_PRESET_THEME') != '')
     <script>
-        preset_change("{{env('APP_PRESET_THEME')}}");
+        preset_change("{{ env('APP_PRESET_THEME') }}");
     </script>
 @endif
