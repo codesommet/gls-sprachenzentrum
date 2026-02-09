@@ -17,6 +17,7 @@ class QuizQuestion extends Model implements HasMedia
         // optional meta (not required if you rely fully on Spatie)
         'media_type', // none | image | audio | both
         'media_caption', // optional text
+        'audio_url', // ✅ NEW: External audio URL (Cloudinary/S3)
         'question_media_type',
         'options_type',
         'difficulty',
@@ -62,19 +63,37 @@ class QuizQuestion extends Model implements HasMedia
         return $url ?: null;
     }
 
+    /**
+     * Get audio URL: prefer audio_url DB column, fallback to Spatie for backward compatibility
+     */
     public function getAudioUrlAttribute(): ?string
     {
+        // ✅ NEW: Check audio_url column first (external URLs)
+        if ($this->attributes['audio_url'] ?? null) {
+            return $this->attributes['audio_url'];
+        }
+
+        // Fallback to legacy Spatie media collection (for backward compatibility)
         $url = $this->getFirstMediaUrl('question_audio');
         return $url ?: null;
     }
 
     /**
-     * Auto detect media_type if you want (optional)
+     * Helper: check if has audio (either URL or Spatie)
+     */
+    public function hasAudio(): bool
+    {
+        return !empty($this->attributes['audio_url']) || (bool) $this->getFirstMedia('question_audio');
+    }
+
+    /**
+     * Auto detect media_type based on image + audio presence
+     * Checks: question_image (Spatie) + audio_url (DB column)
      */
     public function refreshMediaType(): void
     {
         $hasImage = (bool) $this->getFirstMedia('question_image');
-        $hasAudio = (bool) $this->getFirstMedia('question_audio');
+        $hasAudio = !empty($this->audio_url) || (bool) $this->getFirstMedia('question_audio');
 
         $type = 'none';
         if ($hasImage && $hasAudio) {

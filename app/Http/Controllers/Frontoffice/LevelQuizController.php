@@ -5,9 +5,39 @@ namespace App\Http\Controllers\Frontoffice;
 use App\Http\Controllers\Controller;
 use App\Models\Quiz;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class LevelQuizController extends Controller
 {
+    /**
+     * Calculate remaining seconds for the current quiz attempt.
+     * If time expired, returns <= 0
+     */
+    private function getRemainingSeconds(int $timeLimitSeconds): int
+    {
+        $startedAt = session('quiz_attempt_started_at');
+        if (!$startedAt) {
+            return $timeLimitSeconds;
+        }
+
+        $elapsed = now()->diffInSeconds(Carbon::createFromTimestamp($startedAt));
+        return $timeLimitSeconds - $elapsed;
+    }
+
+    /**
+     * Initialize or get quiz attempt session data
+     */
+    private function initializeQuizAttempt(int $timeLimitSeconds): void
+    {
+        if (!session()->has('quiz_attempt_started_at')) {
+            session([
+                'quiz_attempt_started_at' => now()->timestamp,
+                'quiz_time_limit_seconds' => $timeLimitSeconds,
+            ]);
+        }
+    }
+
     public function showQuiz(Request $request)
     {
         $quizLevel = strtoupper($request->query('quiz', 'A1'));
@@ -28,11 +58,35 @@ class LevelQuizController extends Controller
             ->orderBy('id')
             ->get();
 
+        // ✅ GLOBAL TIMER: Initialize attempt on first load
+        $timeLimitSeconds = (int) ($quizModel->time_limit_seconds ?? 0);
+        $this->initializeQuizAttempt($timeLimitSeconds);
+        $remainingSeconds = max(0, $this->getRemainingSeconds($timeLimitSeconds));
+
+        // ✅ Check if time has expired (time-cheat prevention)
+        if ($timeLimitSeconds > 0 && $remainingSeconds <= 0) {
+            // Time expired => redirect to result with zero score
+            session()->put('level_quiz_result', [
+                'quiz_level' => $quizLevel,
+                'detected_level' => 'A1',
+                'answered' => 0,
+                'correct' => 0,
+                'total' => $questions->count(),
+                'percent' => 0,
+                'score_points' => 0,
+                'total_points' => $questions->sum('points') ?? 0,
+                'time_expired' => true,
+            ]);
+            session()->forget(['quiz_attempt_started_at', 'quiz_time_limit_seconds']);
+            return redirect()->route('front.discover-your-level', ['level' => 'A1']);
+        }
+
         $quiz = [
             'id' => $quizModel->id,
             'title' => $quizModel->title,
             'subtitle' => $quizModel->description,
             'time_limit_seconds' => (int) ($quizModel->time_limit_seconds ?? 0),
+            'remaining_seconds' => $remainingSeconds,
             'questions' => $questions->map(function ($q) {
 
                 // ===== RULE: If options_type="image", FORCE question_media_type to "none" =====
@@ -41,7 +95,9 @@ class LevelQuizController extends Controller
 
                 // ===== Question media URLs =====
                 $imageUrl = $q->getFirstMediaUrl('question_image') ?: null;
-                $audioUrl = $q->getFirstMediaUrl('question_audio') ?: null;
+                // ✅ NEW: Use audio_url column (external URL)
+                // Fallback to Spatie for backward compatibility
+                $audioUrl = $q->audio_url ?: ($q->getFirstMediaUrl('question_audio') ?: null);
 
                 // ===== Determine which media to expose (only if NOT in image-options mode) =====
                 $mediaType = 'none';
@@ -105,6 +161,27 @@ class LevelQuizController extends Controller
             ->where('is_active', true)
             ->firstOrFail();
 
+        // ✅ GLOBAL TIMER: Check if time expired (anti-cheat)
+        $timeLimitSeconds = (int) ($quizModel->time_limit_seconds ?? 0);
+        $remainingSeconds = $this->getRemainingSeconds($timeLimitSeconds);
+
+        if ($timeLimitSeconds > 0 && $remainingSeconds <= 0) {
+            // Time expired => return 0 score
+            session()->put('level_quiz_result', [
+                'quiz_level' => $quizLevel,
+                'detected_level' => 'A1',
+                'answered' => 0,
+                'correct' => 0,
+                'total' => $quizModel->questions()->count(),
+                'percent' => 0,
+                'score_points' => 0,
+                'total_points' => $quizModel->questions()->sum('points') ?? 0,
+                'time_expired' => true,
+            ]);
+            session()->forget(['quiz_attempt_started_at', 'quiz_time_limit_seconds']);
+            return redirect()->route('front.discover-your-level', ['level' => 'A1']);
+        }
+
         $questions = $quizModel->questions()
             ->where('is_active', true)
             ->with(['options' => function ($q) {
@@ -132,7 +209,8 @@ class LevelQuizController extends Controller
         $totalPoints = 0;
 
         foreach ($questions as $question) {
-            $qid = String($question->id);
+            $qid = (string) $question->id;
+
             $points = (int) ($question->points ?? 1);
             $totalPoints += $points;
 
@@ -175,6 +253,9 @@ class LevelQuizController extends Controller
             'score_points' => $scorePoints,
             'total_points' => $totalPoints,
         ]);
+
+        // ✅ GLOBAL TIMER: Clean up session data
+        session()->forget(['quiz_attempt_started_at', 'quiz_time_limit_seconds']);
 
         // Redirect with result
         return redirect()->route('front.discover-your-level', [

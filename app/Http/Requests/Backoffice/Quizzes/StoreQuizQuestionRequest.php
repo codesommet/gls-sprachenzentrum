@@ -28,9 +28,11 @@ class StoreQuizQuestionRequest extends FormRequest
             // optional caption
             'media_caption' => ['nullable', 'string', 'max:255'],
 
-            // uploads (required conditionally via withValidator)
+            // ✅ NEW: audio_url (external URL, not file upload)
+            'audio_url' => ['nullable', 'url', 'max:2048'],
+
+            // image upload (Spatie - still used)
             'image' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
-            'audio' => ['nullable', 'file', 'mimes:mp3,wav,ogg,m4a', 'max:10240'],
 
             // options
             'options' => ['required', 'array', 'min:2', 'max:6'],
@@ -46,24 +48,24 @@ class StoreQuizQuestionRequest extends FormRequest
     public function withValidator($validator): void
     {
         $validator->after(function ($validator) {
-
             $qType = (string) $this->input('question_media_type', 'none');
             $oType = (string) $this->input('options_type', 'text');
+            $audioUrl = (string) $this->input('audio_url', '');
 
             /**
              * ===== NEW STRICT BUSINESS RULES =====
-             * 
+             *
              * If options_type == "image":
              *   - FORCE question_media_type = "none"
-             *   - Do NOT allow question image/audio uploads
-             *   - REQUIRE each option to have an image (options.*.image required)
+             *   - Do NOT allow audio_url or question image
+             *   - REQUIRE each option to have an image
              *   - Option text is ignored/nullable
-             * 
+             *
              * If options_type == "text":
              *   - question_media_type can be: none|image|audio
-             *   - If question_media_type="image": REQUIRE question image
-             *   - If question_media_type="audio": REQUIRE question audio
-             *   - REQUIRE each option to have text (options.*.text required)
+             *   - If question_media_type="image": REQUIRE question image (Spatie)
+             *   - If question_media_type="audio": REQUIRE audio_url (external URL)
+             *   - REQUIRE each option to have text
              *   - Option images are ignored/nullable
              */
 
@@ -71,15 +73,20 @@ class StoreQuizQuestionRequest extends FormRequest
             if ($oType === 'image') {
                 $this->merge(['question_media_type' => 'none']);
                 $qType = 'none';
+
+                // Forbid audio_url when using image options
+                if ($audioUrl !== '') {
+                    $validator->errors()->add('audio_url', 'Aucune URL audio autorisée en mode "Options images".');
+                }
             }
 
             // ===== Question media validation (only if options_type=text) =====
             if ($oType === 'text') {
-                if ($qType === 'audio' && !$this->hasFile('audio')) {
-                    $validator->errors()->add('audio', "Audio obligatoire pour une question avec audio.");
+                if ($qType === 'audio' && $audioUrl === '') {
+                    $validator->errors()->add('audio_url', 'URL audio obligatoire pour une question avec audio.');
                 }
                 if ($qType === 'image' && !$this->hasFile('image')) {
-                    $validator->errors()->add('image', "Image obligatoire pour une question avec image.");
+                    $validator->errors()->add('image', 'Image obligatoire pour une question avec image.');
                 }
             }
 
@@ -90,36 +97,29 @@ class StoreQuizQuestionRequest extends FormRequest
 
             $correctIndex = (int) $this->input('correct_index', -1);
             if (!array_key_exists($correctIndex, $options)) {
-                $validator->errors()->add('correct_index', "La réponse correcte est invalide (index).");
+                $validator->errors()->add('correct_index', 'La réponse correcte est invalide (index).');
             }
 
             /**
              * ===== OPTIONS VALIDATION =====
              */
             foreach ($options as $i => $opt) {
-                $text = trim((string)($opt['text'] ?? ''));
+                $text = trim((string) ($opt['text'] ?? ''));
                 $hasText = $text !== '';
                 $hasImage = $this->hasFile("options.$i.image");
 
                 if ($oType === 'text' && !$hasText) {
                     // Text mode: REQUIRE option text
-                    $validator->errors()->add(
-                        "options.$i.text",
-                        "Option #" . ($i + 1) . " : texte obligatoire."
-                    );
+                    $validator->errors()->add("options.$i.text", 'Option #' . ($i + 1) . ' : texte obligatoire.');
                 }
 
                 if ($oType === 'image' && !$hasImage) {
                     // Image mode: REQUIRE option image
-                    $validator->errors()->add(
-                        "options.$i.image",
-                        "Option #" . ($i + 1) . " : image obligatoire."
-                    );
+                    $validator->errors()->add("options.$i.image", 'Option #' . ($i + 1) . ' : image obligatoire.');
                 }
             }
         });
     }
-
     protected function prepareForValidation(): void
     {
         $this->merge([

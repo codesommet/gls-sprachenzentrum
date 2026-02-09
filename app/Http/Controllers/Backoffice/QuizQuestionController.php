@@ -49,6 +49,7 @@ class QuizQuestionController extends Controller
 
                 // optional meta
                 'media_caption' => $data['media_caption'] ?? null,
+                'audio_url' => $data['audio_url'] ?? null, // ✅ NEW: Store audio URL
                 'media_type'    => 'none', // recomputed after upload
             ]);
 
@@ -126,6 +127,7 @@ class QuizQuestionController extends Controller
 
                 // optional meta
                 'media_caption' => $data['media_caption'] ?? null,
+                'audio_url' => $data['audio_url'] ?? null, // ✅ NEW: Store audio URL
             ]);
 
             // Reset options + clear their media
@@ -183,6 +185,7 @@ class QuizQuestionController extends Controller
             // clear question media
             $question->clearMediaCollection('question_image');
             $question->clearMediaCollection('question_audio');
+            $question->update(['audio_url' => null]); // ✅ NEW: Clear audio_url column
 
             // clear option media
             foreach ($question->options as $opt) {
@@ -196,8 +199,11 @@ class QuizQuestionController extends Controller
     }
 
     /**
-     * Upload question media if files provided, then recompute media_type.
-     * Uses singleFile() collections => replaces automatically.
+     * Upload question media if files/URL provided, then recompute media_type.
+     * 
+     * ✅ NEW: audio_url is stored in DB column (no file upload)
+     * - Image still uploaded via Spatie (question_image collection)
+     * - Audio now stored as URL in audio_url column
      */
     private function handleQuestionMediaUpload(QuizQuestion $question, Request $request): void
     {
@@ -206,14 +212,18 @@ class QuizQuestionController extends Controller
                 ->toMediaCollection('question_image');
         }
 
-        if ($request->hasFile('audio')) {
-            $question->addMediaFromRequest('audio')
-                ->toMediaCollection('question_audio');
+        // ✅ NEW: Store audio_url from request
+        $audioUrl = $request->input('audio_url');
+        if ($audioUrl !== null && $audioUrl !== '') {
+            $question->update(['audio_url' => $audioUrl]);
+        } else {
+            // If empty, clear it
+            $question->update(['audio_url' => null]);
         }
 
-        // recompute media_type from stored media
+        // Recompute media_type from stored media + audio_url
         $hasImage = (bool) $question->getFirstMedia('question_image');
-        $hasAudio = (bool) $question->getFirstMedia('question_audio');
+        $hasAudio = !empty($question->audio_url) || (bool) $question->getFirstMedia('question_audio');
 
         $mediaType = 'none';
         if ($hasImage && $hasAudio) {
