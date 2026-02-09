@@ -106,15 +106,20 @@
     </div>
 
     <div class="col-md-6" id="wrap_audio">
-        <label class="form-label">Audio (Hören)</label>
-        <input type="file" name="audio" accept="audio/*" class="form-control @error('audio') is-invalid @enderror">
-        @error('audio')
+        <label class="form-label">URL Audio (Hören)</label>
+        <input type="text" name="audio_url" placeholder="https://..."
+            value="{{ old('audio_url', $question->audio_url ?? '') }}"
+            class="form-control @error('audio_url') is-invalid @enderror">
+        @error('audio_url')
             <div class="invalid-feedback">{{ $message }}</div>
         @enderror
+        <small class="form-text text-muted d-block mt-1">
+            Collez un lien direct (Cloudinary/S3) pour écouter l'audio.
+        </small>
 
-        @if ($audioUrl)
+        @if ($question?->audio_url)
             <audio controls class="mt-2 w-100">
-                <source src="{{ $audioUrl }}">
+                <source src="{{ $question->audio_url }}">
             </audio>
         @endif
     </div>
@@ -230,7 +235,7 @@
             const wrapAudio = document.getElementById('wrap_audio');
 
             const qImageInput = wrapImage?.querySelector('input[name="image"]');
-            const qAudioInput = wrapAudio?.querySelector('input[name="audio"]');
+            const qAudioInput = wrapAudio?.querySelector('input[name="audio_url"]'); // ✅ CHANGED: audio_url text input
 
             const optionsHint = document.getElementById('options_hint');
 
@@ -342,9 +347,9 @@
                         }
                     }
                     if (qIsAudio) {
-                        const qAudioFile = document.querySelector('input[name="audio"]')?.files?.length;
+                        const qAudioUrl = document.querySelector('input[name="audio_url"]')?.value?.trim();
                         const existingQAudio = !!document.querySelector('#wrap_audio audio');
-                        if (!qAudioFile && !existingQAudio) {
+                        if (!qAudioUrl && !existingQAudio) {
                             hasErrors = true;
                             wrapAudio.classList.add('border', 'border-danger', 'border-2', 'p-2', 'rounded');
                         }

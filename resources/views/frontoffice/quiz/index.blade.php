@@ -9,6 +9,7 @@
     @php
         $quiz = $quiz ?? ['title' => 'Quiz', 'subtitle' => null, 'questions' => []];
         $timeLimitSeconds = (int) ($quiz['time_limit_seconds'] ?? 0); // depuis DB
+        $remainingSeconds = (int) ($quiz['remaining_seconds'] ?? $timeLimitSeconds); // depuis controller
     @endphp
 
     <section class="quiz-page">
@@ -23,8 +24,10 @@
 
                 {{-- TOOLS BAR --}}
                 <div class="quiz-meta" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
-                    {{-- Chrono --}}
-                    <span class="quiz-meta_label" data-quiz-timer hidden aria-live="polite"></span>
+                    {{-- ✅ GLOBAL TIMER (not per question) --}}
+                    <span class="quiz-meta_label badge bg-danger" data-quiz-timer hidden aria-live="polite" style="font-size:0.95rem;padding:0.5rem 0.75rem;">
+                        ⏱ {{ $remainingSeconds }}s
+                    </span>
 
                     {{-- Fullscreen toggle --}}
                     <button type="button" class="quiz-btn" data-quiz-fullscreen aria-pressed="false" title="Plein écran">
@@ -150,221 +153,87 @@
 
         </div>
     </section>
+
+    {{-- ✅ variables globales (OK de rester ici) --}}
     <script>
         window.__QUIZ__ = @json($quiz);
-
-        // Durée par question depuis DB (fallback 25s)
         window.__QUIZ_TIMER__ = {
             enabled: true,
             secondsPerQuestion: {{ $timeLimitSeconds > 0 ? $timeLimitSeconds : 25 }},
             autoNextOnTimeout: true
         };
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const $shell = document.querySelector('[data-quiz]');
-            if (!$shell) return;
-
-            const $screenStart = $shell.querySelector('[data-screen="start"]');
-            const $screenQuestion = $shell.querySelector('[data-screen="question"]');
-            const $screenResult = $shell.querySelector('[data-screen="result"]');
-
-            const $btnStart = $shell.querySelector('[data-quiz-start]');
-            const $btnNext = $shell.querySelector('[data-quiz-next]');
-            const $btnPrev = $shell.querySelector('[data-quiz-prev]');
-            const $btnRestart = $shell.querySelector('[data-quiz-restart]');
-
-            const $timerLabel = $shell.querySelector('[data-quiz-timer]');
-            const $counterLabel = $shell.querySelector('[data-quiz-counter]');
-
-            const $btnFullscreen = $shell.querySelector('[data-quiz-fullscreen]');
-
-            const cfg = window.__QUIZ_TIMER__ || {
-                enabled: false,
-                secondsPerQuestion: 25,
-                autoNextOnTimeout: true
-            };
-
-            let timerId = null;
-            let remaining = cfg.secondsPerQuestion || 25;
-
-            function isQuestionActive() {
-                return $screenQuestion && $screenQuestion.classList.contains('is-active');
-            }
-
-            function formatTime(s) {
-                s = Math.max(0, parseInt(s, 10) || 0);
-                const m = Math.floor(s / 60);
-                const r = s % 60;
-                return String(m).padStart(2, '0') + ':' + String(r).padStart(2, '0');
-            }
-
-            function renderTimer() {
-                if (!$timerLabel) return;
-                $timerLabel.textContent = '⏱ ' + formatTime(remaining);
-            }
-
-            function showTimer(show) {
-                if (!$timerLabel) return;
-                $timerLabel.hidden = !show;
-            }
-
-            function stopTimer() {
-                if (timerId) window.clearInterval(timerId);
-                timerId = null;
-            }
-
-            function startTimer() {
-                if (!cfg.enabled) return;
-                stopTimer();
-                remaining = cfg.secondsPerQuestion || 25;
-                showTimer(true);
-                renderTimer();
-
-                timerId = window.setInterval(function() {
-                    if (!isQuestionActive()) return;
-
-                    remaining -= 1;
-                    renderTimer();
-
-                    if (remaining <= 0) {
-                        stopTimer();
-                        // Timeout: passe NEXT si possible
-                        if (cfg.autoNextOnTimeout && $btnNext && !$btnNext.disabled) {
-                            $btnNext.click();
-                        }
-                    }
-                }, 1000);
-            }
-
-            // Reset chrono quand la question change:
-            // On observe le texte de la question + compteur
-            const $qText = $shell.querySelector('[data-q-question]');
-            const observer = new MutationObserver(function() {
-                if (isQuestionActive()) startTimer();
-            });
-
-            if ($qText) observer.observe($qText, {
-                childList: true,
-                subtree: true,
-                characterData: true
-            });
-            if ($counterLabel) observer.observe($counterLabel, {
-                childList: true,
-                subtree: true,
-                characterData: true
-            });
-
-            // Quand on arrive sur result => stop/hide
-            function syncByScreen() {
-                if ($screenResult && $screenResult.classList.contains('is-active')) {
-                    stopTimer();
-                    showTimer(false);
-                }
-                if ($screenStart && $screenStart.classList.contains('is-active')) {
-                    stopTimer();
-                    showTimer(false);
-                }
-                if (isQuestionActive()) {
-                    startTimer();
-                }
-            }
-
-            // Observe changement d’écran (is-active)
-            const screenObserver = new MutationObserver(syncByScreen);
-            if ($screenStart) screenObserver.observe($screenStart, {
-                attributes: true,
-                attributeFilter: ['class']
-            });
-            if ($screenQuestion) screenObserver.observe($screenQuestion, {
-                attributes: true,
-                attributeFilter: ['class']
-            });
-            if ($screenResult) screenObserver.observe($screenResult, {
-                attributes: true,
-                attributeFilter: ['class']
-            });
-
-            // Zoom au clic “Commencer” (simple, sans toucher quiz.css)
-            if ($btnStart) {
-                $btnStart.addEventListener('click', function() {
-                    $shell.classList.add('is-starting');
-                    $shell.style.transition = 'transform 420ms ease, filter 420ms ease';
-                    $shell.style.transformOrigin = '50% 50%';
-                    $shell.style.transform = 'scale(1.03)';
-                    $shell.style.filter = 'saturate(1.05)';
-
-                    window.setTimeout(function() {
-                        $shell.style.transform = '';
-                        $shell.style.filter = '';
-                    }, 520);
-
-                    // Timer démarre quand l’écran question devient actif (observer), mais on déclenche aussi un sync
-                    window.setTimeout(syncByScreen, 50);
-                });
-            }
-
-            // Fullscreen toggle
-            function isFullscreen() {
-                return !!document.fullscreenElement;
-            }
-
-            async function enterFullscreen() {
-                // le plus stable: fullscreen sur la carte (pas tout le body)
-                const target = $shell.querySelector('.quiz-card') || $shell;
-                if (!target.requestFullscreen) return;
-                await target.requestFullscreen();
-            }
-
-            async function exitFullscreen() {
-                if (document.exitFullscreen) await document.exitFullscreen();
-            }
-
-            function syncFullscreenUI() {
-                if (!$btnFullscreen) return;
-                const fs = isFullscreen();
-                $btnFullscreen.setAttribute('aria-pressed', fs ? 'true' : 'false');
-                $btnFullscreen.textContent = fs ? 'Quitter plein écran' : 'Plein écran';
-            }
-
-            if ($btnFullscreen) {
-                $btnFullscreen.addEventListener('click', async function() {
-                    try {
-                        if (isFullscreen()) await exitFullscreen();
-                        else await enterFullscreen();
-                    } catch (e) {}
-                    syncFullscreenUI();
-                });
-
-                document.addEventListener('fullscreenchange', syncFullscreenUI);
-                syncFullscreenUI();
-            }
-
-            // Stop timer sur restart (au cas où)
-            if ($btnRestart) {
-                $btnRestart.addEventListener('click', function() {
-                    stopTimer();
-                    showTimer(false);
-                });
-            }
-
-            // NEXT/PREV => relance timer (si question active)
-            if ($btnNext) $btnNext.addEventListener('click', function() {
-                window.setTimeout(function() {
-                    if (isQuestionActive()) startTimer();
-                }, 0);
-            });
-
-            if ($btnPrev) $btnPrev.addEventListener('click', function() {
-                window.setTimeout(function() {
-                    if (isQuestionActive()) startTimer();
-                }, 0);
-            });
-
-            // init
-            syncByScreen();
-        });
     </script>
 
     <script defer src="{{ asset('assets/js/quiz.js') }}"></script>
-    <script defer src="{{ asset('assets/js/quiz-tools.js') }}"></script>
+    <script defer src="{{ asset('assets/js/quiz-timer.js') }}"></script>
+
+    {{-- ✅ NEW: moved script --}}
+    <script defer src="{{ asset('assets/js/quiz-fullscreen.js') }}"></script>
+    <style>
+        /* ===============================
+   FORCE TIMER CENTER (TOPBAR)
+   (high specificity + !important)
+================================ */
+
+/* topbar devient le repère */
+.quiz-shell .quiz-topbar {
+  position: relative !important;
+}
+
+/* le timer est centré par rapport à la topbar */
+.quiz-shell .quiz-topbar .quiz-meta [data-quiz-timer]{
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+
+  z-index: 20 !important;
+
+  /* look propre */
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  height: 38px !important;
+  min-width: 96px !important;
+
+  padding: 8px 14px !important;
+  border-radius: 999px !important;
+
+  background: #dc3545 !important;
+  color: #fff !important;
+
+  font-weight: 900 !important;
+  letter-spacing: 0.03em !important;
+
+  box-shadow: 0 12px 28px rgba(0,0,0,0.35) !important;
+  border: 1px solid rgba(255,255,255,0.18) !important;
+}
+
+/* empêche le wrap de la meta de pousser visuellement le timer */
+.quiz-shell .quiz-topbar .quiz-meta{
+  flex-wrap: nowrap !important;
+}
+
+/* mobile: topbar en colonne => on repasse le timer en "normal" */
+@media (max-width: 640px){
+  .quiz-shell .quiz-topbar{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .quiz-shell .quiz-topbar .quiz-meta [data-quiz-timer]{
+    position: static !important;
+    transform: none !important;
+    margin: 0 auto !important;
+  }
+
+  .quiz-shell .quiz-topbar .quiz-meta{
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+    </style>
 @endsection
