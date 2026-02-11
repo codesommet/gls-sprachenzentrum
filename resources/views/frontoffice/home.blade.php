@@ -35,9 +35,12 @@
                 <div class="intro-card shadow rounded-4 mx-auto p-4 reveal delay-2" style="max-width: 1020px;">
 
                     {{-- Logo + Tagline --}}
-                    <div class="text-center mb-4 reveal delay-3" style="margin-top: 20px !important;">
-                        <img src="{{ asset('build/images/logo/gls-noir.png') }}" alt="GLS Logo"
-                            class="intro-logo mb-3 reveal delay-1" style="width: 120px; height: auto;">
+                   <div class="text-center mb-4 reveal delay-3">
+
+                        <img src="{{ asset('assets/images/logo/gls-round.png') }}" 
+     alt="GLS Logo"
+     class="intro-logo reveal delay-1">
+
 
                         <p class="text-primary fw-medium small mb-0 letter-spacing-1 reveal delay-2">
                             {{ __('home.intro.tagline') }}
