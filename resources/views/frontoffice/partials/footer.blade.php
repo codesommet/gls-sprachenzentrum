@@ -229,6 +229,9 @@
             <div class="footer-brand mt-2 mt-md-0">
                 {{ __('footer.copyright') }}
             </div>
+
+            @include('frontoffice.partials.svg-sstars')
+
         </div>
     </div>
 
