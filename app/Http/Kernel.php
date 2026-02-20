@@ -10,7 +10,7 @@ class Kernel extends HttpKernel
      * GLOBAL MIDDLEWARE
      */
     protected $middleware = [
-        \App\Http\Middleware\CacheWarmupHandler::class,
+        // \App\Http\Middleware\CacheWarmupHandler::class, // License check disabled
         \App\Http\Middleware\TrustProxies::class,
         \Illuminate\Http\Middleware\HandleCors::class,
         \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
