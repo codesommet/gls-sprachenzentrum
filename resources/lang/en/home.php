@@ -193,6 +193,30 @@ return [
 
         'button' => 'Listen now',
     ],
+    'highlights' => [
+        'title' => 'Starting Soon!',
+        'big_card' => [
+            'title' => 'Do What You Musst Course,<br>Pay what you want.',
+            'subtitle' => 'A beginner German course you can afford on your own terms',
+            'description' => 'Cost shouldn\'t stop you from learning German! Join our full A1 afternoon course on a pay-what-you-want basis. Limited availability, sign up in person in our campus.',
+            'start_date' => 'Starting December 2nd (4 Week Duration).',
+            'button_directions' => 'Get Directions',
+            'button_learn_more' => 'Learn More',
+        ],
+        'card_a1' => [
+            'title' => 'New <span class="hh-yellow">A1 Courses</span> Starting&nbsp;Soon!',
+            'spots_available' => 'Spots still available!',
+            'description' => 'Would you like to start your German Course today?<br>No problem! Register today and get started.',
+            'button' => 'Register Now',
+        ],
+        'card_intensive' => [
+            'title' => 'Intensive German Courses in Morocco',
+            'join_anytime' => 'Join anytime!',
+            'description' => 'Tuesday to Friday, 4 Weeks, 16 hours a week.<br>Learn as long as you like.',
+            'button' => 'View Pricelist',
+        ],
+    ],
+
     'contact' => [
         'title' => 'Any questions?<br>Contact us!',
 

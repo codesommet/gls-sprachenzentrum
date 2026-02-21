@@ -196,6 +196,30 @@ return [
 
         'button' => 'Écouter maintenant',
     ],
+    'highlights' => [
+        'title' => 'Bientôt disponible !',
+        'big_card' => [
+            'title' => 'Cours "Fais ce que tu dois",<br>Payez ce que vous voulez.',
+            'subtitle' => 'Un cours d\'allemand pour débutants que vous pouvez vous permettre selon vos conditions',
+            'description' => 'Le coût ne devrait pas vous arrêter d\'apprendre l\'allemand ! Rejoignez notre cours complet A1 l\'après-midi sur la base du "payez ce que vous voulez". Places limitées, inscrivez-vous en personne dans notre campus.',
+            'start_date' => 'À partir du 2 décembre (durée 4 semaines).',
+            'button_directions' => 'Obtenir les directions',
+            'button_learn_more' => 'En savoir plus',
+        ],
+        'card_a1' => [
+            'title' => 'Nouveaux cours <span class="hh-yellow">A1</span> bientôt disponibles !',
+            'spots_available' => 'Places encore disponibles !',
+            'description' => 'Voulez-vous commencer votre cours d\'allemand aujourd\'hui ?<br>Pas de problème ! Inscrivez-vous aujourd\'hui et commencez.',
+            'button' => 'S\'inscrire maintenant',
+        ],
+        'card_intensive' => [
+            'title' => 'Cours intensifs d\'allemand au Maroc',
+            'join_anytime' => 'Rejoignez-nous à tout moment !',
+            'description' => 'Mardi au vendredi, 4 semaines, 16 heures par semaine.<br>Apprenez aussi longtemps que vous le souhaitez.',
+            'button' => 'Voir le tarif',
+        ],
+    ],
+
     'contact' => [
         'title' => 'Des questions ?<br>Contactez-nous !',
 

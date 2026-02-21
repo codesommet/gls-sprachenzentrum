@@ -28,6 +28,9 @@
     @if (app()->getLocale() == 'ar')
         <link rel="stylesheet" href="{{ asset('assets/css/rtl.css') }}">
     @endif
+
+    @stack('styles')
+    @stack('head')
 </head>
 
 
@@ -86,6 +89,7 @@
     ])
     @include('frontoffice.legal.cookies')
 
+    @stack('scripts')
 
     @include('frontoffice.templates.consultation-form')
     @include('frontoffice.templates.group-apply-modals')

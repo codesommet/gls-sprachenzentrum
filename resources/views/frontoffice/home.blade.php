@@ -25,45 +25,41 @@
         {{-- ===========================
  INTRO SECTION
 =========================== --}}
-        <section
-            class="intro-section position-relative text-center {{ app()->getLocale() == 'ar' ? 'rtl' : '' }} reveal delay-2">
+       <section class="intro-section position-relative text-center {{ app()->getLocale() == 'ar' ? 'rtl' : '' }} reveal delay-2">
 
-            <div class="intro-gradient reveal delay-3"></div>
+    <div class="intro-gradient reveal delay-3"></div>
 
-            <div class="container position-relative z-2 py-5 reveal delay-1">
+    <div class="container position-relative z-2 py-5 reveal delay-1">
+        <div class="intro-card shadow rounded-4 mx-auto reveal delay-2" style="max-width: 1020px;">
 
-                <div class="intro-card shadow rounded-4 mx-auto p-4 reveal delay-2" style="max-width: 1020px;">
+            {{-- Logo + Tagline --}}
+            <div class="text-center mb-4 reveal delay-3">
+                <img src="{{ asset('assets/images/logo/gls-round.png') }}" alt="GLS Logo"
+                     class="intro-logo reveal delay-1">
 
-                    {{-- Logo + Tagline --}}
-                    <div class="text-center mb-4 reveal delay-3">
-
-                        <img src="{{ asset('assets/images/logo/gls-round.png') }}" alt="GLS Logo"
-                            class="intro-logo reveal delay-1">
-
-
-                        <p class="text-primary fw-medium small mb-0 letter-spacing-1 reveal delay-2">
-                            {{ __('home.intro.tagline') }}
-                        </p>
-                    </div>
-
-                    {{-- Heading --}}
-                    <h1 class="fw-bold mb-3 intro-heading reveal fade-blur-title delay-1">
-                        {{ __('home.intro.heading') }}
-                    </h1>
-
-                    {{-- Description --}}
-                    <p class="lead text-muted mb-4 intro-desc reveal delay-2">
-                        {{ __('home.intro.description') }}
-                    </p>
-
-                    {{-- Button --}}
-                    <a href="{{ LaravelLocalization::localizeUrl(route('front.intensive-courses')) }}"
-                        class="btn btn-success px-4 py-2 rounded-pill fw-semibold reveal delay-3">
-                        {{ __('home.intro.button') }}
-                    </a>
-                </div>
+                <p class="text-primary fw-medium small mb-0 letter-spacing-1 reveal delay-2">
+                    {{ __('home.intro.tagline') }}
+                </p>
             </div>
-        </section>
+
+            {{-- Heading --}}
+            <h1 class="fw-bold mb-3 intro-heading reveal fade-blur-title delay-1">
+                {{ __('home.intro.heading') }}
+            </h1>
+
+            {{-- Description --}}
+            <p class="lead text-muted mb-4 intro-desc reveal delay-2">
+                {{ __('home.intro.description') }}
+            </p>
+
+            {{-- Button --}}
+            <a href="{{ LaravelLocalization::localizeUrl(route('front.intensive-courses')) }}"
+               class="btn btn-success px-4 py-2 rounded-pill fw-semibold reveal delay-3">
+                {{ __('home.intro.button') }}
+            </a>
+        </div>
+    </div>
+</section>
 
         {{-- =========================
 SITES — Images only (NO iframe, NO yt-holder, NO video)
@@ -220,6 +216,75 @@ SITES — Images only (NO iframe, NO yt-holder, NO video)
 
                 </div>
 
+            </div>
+        </section>
+
+        {{-- ===========================
+  HIGHLIGHTS SECTION - Starting Soon
+=========================== --}}
+        <section class="hh-highlights">
+            <div class="container hh-container">
+                <h2 class="hh-section-title">{{ __('home.highlights.title') }}</h2>
+
+                <div class="hh-card hh-card-big">
+                    <div class="hh-block-31">
+                        <h3 class="hh-title hh-title-big">
+                            {!! __('home.highlights.big_card.title') !!}
+                        </h3>
+
+                        <div class="hh-text-block">
+                            {{ __('home.highlights.big_card.subtitle') }}
+                        </div>
+
+                        <p class="hh-text hh-text-highlight">
+                            <strong>{{ __('home.highlights.big_card.start_date') }}<br></strong>
+                            {{ __('home.highlights.big_card.description') }}
+                        </p>
+
+                        <div class="hh-buttons">
+                            <a href="https://maps.app.goo.gl/Q1AU8bPr5kp3K3Sm8" target="_blank"
+                                class="button is-white">{{ __('home.highlights.big_card.button_directions') }}</a>
+
+                            <a href="https://www.instagram.com/gls.maroc" target="_blank"
+                                class="button is-white">{{ __('home.highlights.big_card.button_learn_more') }}</a>
+                        </div>
+                    </div>
+
+                    <div class="hh-block-30">
+                        <img src="{{ asset('assets/images/IMG_4399.webp') }}"
+                            loading="lazy" alt="{{ __('home.highlights.big_card.title') }}">
+                    </div>
+                </div>
+
+                <div class="hh-row">
+                    <div class="hh-card hh-card-first">
+                        <h3 class="hh-title">
+                            {!! __('home.highlights.card_a1.title') !!}
+                        </h3>
+
+                        <p class="hh-text">
+                            <strong>{{ __('home.highlights.card_a1.spots_available') }}<br></strong>
+                            <span class="hh-muted">
+                                {!! __('home.highlights.card_a1.description') !!}
+                            </span>
+                        </p>
+
+                        <a href="{{ LaravelLocalization::localizeUrl(route('front.online-registration')) }}" class="button is-white">{{ __('home.highlights.card_a1.button') }}</a>
+                    </div>
+
+                    <div class="hh-card">
+                        <h3 class="hh-title">{{ __('home.highlights.card_intensive.title') }}</h3>
+
+                        <p class="hh-text">
+                            <strong>{{ __('home.highlights.card_intensive.join_anytime') }}<br></strong>
+                            <span class="hh-muted">
+                                {!! __('home.highlights.card_intensive.description') !!}
+                            </span>
+                        </p>
+
+                        <a href="{{ LaravelLocalization::localizeUrl(route('front.pricing')) }}" class="button is-white">{{ __('home.highlights.card_intensive.button') }}</a>
+                    </div>
+                </div>
             </div>
         </section>
 
