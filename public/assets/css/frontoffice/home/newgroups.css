@@ -1,0 +1,92 @@
+/* ===== WRAPPER ===== */
+.hh-highlights {
+    padding: 4rem 0;
+}
+
+/* spacing left/right ONLY here */
+.hh-container {
+    padding-left: 4rem;
+    padding-right: 4rem;
+}
+
+/* ===== TITLE ===== */
+.hh-section-title {
+    margin-top: 0;
+    margin-bottom: 2rem;
+    font-size: 5rem;
+    line-height: 1;
+    color: var(--off-black);
+}
+
+/* ===== ROW ===== */
+.hh-row {
+    display: flex;
+    gap: var(--gap-desktop, 1.5rem);
+}
+
+/* ===== CARD BASE ===== */
+.hh-card {
+    grid-column-gap: 1.5rem;
+    grid-row-gap: 1.5rem;
+    border-radius: var(--radius-small);
+    background-color: var(--dark--green);
+    color: #ffffff;
+    flex-flow: column;
+    flex: 1;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 3rem 2rem;
+    display: flex;
+}
+
+/* BLUE CARD */
+.hh-card-first {
+    background-color: var(--dark--blue);
+}
+
+/* ===== TEXT ===== */
+.hh-title {
+    color: #ffffff;
+}
+
+.hh-text {
+    color: #ffffff;
+}
+
+.hh-text strong {
+    color: #ffffff;
+}
+
+.hh-muted {
+    opacity: .6;
+}
+
+.hh-yellow {
+    color: #f7c948;
+}
+
+/* ===== BIG CARD (hidden by default) ===== */
+.hh-card-big {
+    display: none;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+
+    .hh-container {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
+    .hh-section-title {
+        font-size: 3rem;
+    }
+
+    .hh-row {
+        flex-direction: column;
+    }
+
+    .hh-card {
+        padding: 2rem 1.5rem;
+    }
+}

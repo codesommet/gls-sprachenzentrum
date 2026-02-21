@@ -91,7 +91,7 @@
             setSuccessVisible(true);
 
         } catch (err) {
-            showError('Impossible d'envoyer la demande. Vérifiez votre connexion.');
+            showError('Impossible d\'envoyer la demande. Vérifiez votre connexion.');
             if (submitBtn) submitBtn.disabled = false;
         }
     });

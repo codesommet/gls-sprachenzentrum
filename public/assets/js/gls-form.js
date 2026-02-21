@@ -203,6 +203,9 @@
         if (currentStep === totalSteps) {
             // Submit form
             const formData = new FormData(form);
+            
+            // Add tracking parameter for modal
+            formData.append("form_source", "modal");
 
             fetch("/fr/gls-inscription", {
                 method: "POST",
@@ -214,6 +217,11 @@
             .then(res => res.json())
             .then(data => {
                 if (data.status === "success") {
+                    // Track successful submission for modal
+                    if (window.gtag) {
+                        gtag('event', 'gls_inscription_submitted', { form_source: 'modal' });
+                    }
+                    
                     // Hide form elements
                     form.style.display = "none";
                     progressContainer.style.display = "none";
@@ -254,9 +262,21 @@
     // Initial progress update
     updateProgress();
 
-    // Listen for modal close to reset state
+    // Track form impression when modal opens
     const modal = document.getElementById('glsEnrollModal');
     if (modal) {
+        // Track modal open
+        if (window.gtag) {
+            gtag('event', 'gls_inscription_form_viewed', { form_source: 'modal' });
+        }
+        
+        modal.addEventListener('show.bs.modal', function() {
+            if (window.gtag) {
+                gtag('event', 'gls_inscription_form_viewed', { form_source: 'modal' });
+            }
+        });
+        
+        // Listen for modal close to reset state
         modal.addEventListener('hidden.bs.modal', function() {
             // Reset form
             currentStep = 1;
