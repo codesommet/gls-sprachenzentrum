@@ -158,4 +158,35 @@ class PageController extends Controller
     {
         return view('frontoffice.discover-your-level');
     }
+
+    public function onlineRegistration()
+    {
+        return view('frontoffice.online-registration');
+    }
+
+    public function storeOnlineRegistration(Request $request)
+    {
+        // Validate the registration form
+        $validated = $request->validate([
+            'full_name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'required|string|max:20',
+            'level' => 'required|string|in:A1,A2,B1,B2,no-idea',
+            'course_type' => 'required|string|in:intensive,online,exam-prep',
+            'message' => 'nullable|string|max:1000',
+            'accept_terms' => 'required|accepted',
+        ]);
+
+        // TODO: Store registration in database or send email
+        // For now, we'll just redirect with a success message
+
+        return redirect()
+            ->route('front.home')
+            ->with('success', 'Thank you for your registration! We will contact you shortly.');
+    }
+
+    public function glsInscription()
+    {
+        return view('frontoffice.gls-inscription');
+    }
 }
