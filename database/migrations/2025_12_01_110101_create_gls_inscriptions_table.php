@@ -13,15 +13,19 @@ return new class extends Migration {
         Schema::create('gls_inscriptions', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('phone');
             $table->string('adresse');
 
             $table->string('niveau');
             $table->string('type_cours')->nullable();
+            $table->integer('group_id')->nullable();
             $table->string('horaire_prefere')->nullable();
             $table->date('date_start')->nullable();
             $table->string('centre');
+
+            // Tracking field: which form was used (modal or page)
+            $table->enum('form_source', ['modal', 'page', 'unknown'])->default('unknown');
 
             $table->timestamps();
         });
