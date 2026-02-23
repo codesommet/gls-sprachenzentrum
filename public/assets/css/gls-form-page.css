@@ -147,6 +147,24 @@ body{
     border-color: #e5e7eb;
 }
 
+/* Date picker - editable, normal styling */
+.gls-inscription-scope input.date-picker{
+    background-color: #fff;
+    color: var(--off-black);
+    border-color: #d9e2ef;
+    cursor: pointer;
+}
+
+.gls-inscription-scope input.date-picker:hover{
+    border-color: var(--light--off-black);
+}
+
+.gls-inscription-scope input.date-picker:focus{
+    outline: none;
+    border-color: var(--primary-1);
+    box-shadow: 0 0 0 4px rgba(33, 30, 29, 0.10);
+}
+
 /* Checkbox row */
 .gls-inscription-scope .checkbox-row{
     display: flex;
@@ -220,13 +238,46 @@ body{
 /* Error + success */
 .gls-inscription-scope .error-message{
     display: none;
-    margin: 0 0 14px;
+    margin: 0 0 18px;
+    padding: 16px 20px;
     font-size: 14px;
-    color: #d93025;
-    font-weight: 700;
+    color: #991b1b;
+    font-weight: 600;
+    background: linear-gradient(135deg, #fef2f2, #fee2e2);
+    border: 2px solid #fca5a5;
+    border-radius: 12px;
+    border-left: 5px solid #dc2626;
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.15);
+    animation: shakeError 0.5s ease-in-out;
 }
+
 .gls-inscription-scope .error-message.active{
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.gls-inscription-scope .error-message::before{
+    content: "⚠";
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+/* Shake animation for errors */
+@keyframes shakeError {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+    20%, 40%, 60%, 80% { transform: translateX(8px); }
+}
+
+/* Pulse glow effect */
+.gls-inscription-scope .error-message.active {
+    animation: shakeError 0.5s ease-in-out, pulseGlow 2s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 4px 15px rgba(220, 38, 38, 0.15); }
+    50% { box-shadow: 0 4px 25px rgba(220, 38, 38, 0.35); }
 }
 
 .gls-inscription-scope .success-message{
@@ -301,4 +352,83 @@ body{
 /* Ensure checkbox doesn't stretch */
 .gls-inscription-scope .checkbox-row input{
     margin: 0 !important;
+}
+
+/* ===================================================
+   FLATPICKR DATE PICKER STYLES
+=================================================== */
+
+/* Highlight available dates */
+.flatpickr-day.available-date {
+    background: #1e88e5 !important;
+    color: #fff !important;
+    border-radius: 6px !important;
+    border: none !important;
+}
+
+/* Selected and hover states */
+.flatpickr-day.available-date.selected,
+.flatpickr-day.available-date:hover {
+    background: #0d47a1 !important;
+    color: #fff !important;
+}
+
+/* Flatpickr calendar styling */
+.flatpickr-calendar {
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    border: 1px solid #e5e7eb;
+}
+
+.flatpickr-months {
+    border-radius: 12px 12px 0 0;
+    padding: 8px 0;
+}
+
+.flatpickr-months .flatpickr-month {
+    color: #fff;
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months,
+.flatpickr-current-month input.cur-year {
+    color: #fff;
+    font-weight: 600;
+}
+
+.flatpickr-months .flatpickr-prev-month,
+.flatpickr-months .flatpickr-next-month {
+    fill: #fff;
+}
+
+.flatpickr-months .flatpickr-prev-month:hover,
+.flatpickr-months .flatpickr-next-month:hover {
+    fill: #e5e7eb;
+}
+
+.flatpickr-weekdays {
+    background: #f9fafb;
+}
+
+.flatpickr-weekday {
+    color: #6b7280;
+    font-weight: 600;
+}
+
+.flatpickr-day {
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.flatpickr-day:hover {
+    background: #f3f4f6;
+}
+
+.flatpickr-day.today {
+    border-color: var(--primary-1, #211e1d);
+}
+
+.success-actions .button-outline {
+    background: transparent !important;
+    border: 2px solid #211e1d !important;
+    color: #211e1d !important;
 }

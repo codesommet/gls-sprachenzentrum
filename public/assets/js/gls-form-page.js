@@ -1,61 +1,49 @@
 /**
- * GLS Inscription Form (ONE PAGE)
+ * GLS Inscription Form - Standalone Page Version
  * File: public/assets/js/gls-form-page.js
  *
- * ✅ Works for BOTH: Popup/Modal (with #glsInscriptionRoot) AND Full Page (without wrapper)
- * ✅ One-page (no steps / no progress)
- * ✅ Loads centers -> groups -> dates (flatpickr) + fills level/time
- * ✅ Tracks analytics for both contexts
+ * Uses unique IDs (glsPage*) to avoid conflicts with modal form (gls*)
  */
 
-// Guard to prevent double initialization
-if (window.__glsFormPageInitialized) {
-  console.warn('[GLS Form Page] Already initialized, skipping');
-} else {
-  window.__glsFormPageInitialized = true;
+(function() {
+  'use strict';
 
-function initGlsFormPage() {
-  // Support both modal and page contexts
-  const root = document.getElementById("glsInscriptionRoot") || document;
-  const form = root.querySelector ? root.querySelector("#glsMultiStepForm") : document.getElementById("glsMultiStepForm");
+  // Find the page form (unique ID to avoid modal conflict)
+  const form = document.getElementById("glsPageForm");
   if (!form) {
-    console.warn('[GLS Form Page] Form not found');
+    // Not on the inscription page, exit silently
     return;
   }
-  
-  console.log('[GLS Form Page] Initializing...');
+
+  console.log('[GLS Page Form] Initializing standalone form...');
 
   // Get API URLs from meta tags
   const apiCentersUrl = document.querySelector('meta[name="api-centers-url"]')?.content || '/api/centers';
   const apiGroupsUrlTemplate = document.querySelector('meta[name="api-groups-url-template"]')?.content || '/api/groups/__SITE__';
   const apiDatesUrlTemplate = document.querySelector('meta[name="api-dates-url-template"]')?.content || '/api/groups/dates/__GROUP__';
-  
-  console.log('[GLS Form Page] API URLs:', {
-    centers: apiCentersUrl,
-    groups: apiGroupsUrlTemplate,
-    dates: apiDatesUrlTemplate,
-  });
+  const glsStoreUrl = document.querySelector('meta[name="gls-store-url"]')?.content || '/gls-inscription';
 
-  // Get form elements (works in both contexts)
-  const errorWrap = root.querySelector("#glsErrorMessage");
-  const errorText = root.querySelector("#glsErrorText");
-  const successMessage = root.querySelector("#glsSuccessMessage");
+  console.log('[GLS Page Form] API URLs:', { centers: apiCentersUrl, groups: apiGroupsUrlTemplate, dates: apiDatesUrlTemplate });
 
-  const typeCours = root.querySelector("#glsTypeCours");
-  const centreWrapper = root.querySelector("#glsCentreWrapper");
-  const centreSelect = root.querySelector("#glsCentre");
+  // Get form elements with unique glsPage* IDs
+  const errorWrap = document.getElementById("glsPageErrorMessage");
+  const errorText = document.getElementById("glsPageErrorText");
+  const successMessage = document.getElementById("glsPageSuccessMessage");
 
-  const groupSelect = root.querySelector("#glsGroupId");
-  const niveauSelect = root.querySelector("#glsNiveau");
+  const typeCours = document.getElementById("glsPageTypeCours");
+  const centreWrapper = document.getElementById("glsPageCentreWrapper");
+  const centreSelect = document.getElementById("glsPageCentre");
 
-  const dateInput = root.querySelector("#glsDateStart");
-  const horairePrefereInput = root.querySelector("#glsHorairePrefere");
+  const groupSelect = document.getElementById("glsPageGroupId");
+  const niveauSelect = document.getElementById("glsPageNiveau");
 
-  // Buttons (optional)
-  const submitBtn = root.querySelector("#glsSubmitBtn");
+  const dateInput = document.getElementById("glsPageDateStart");
+  const horairePrefereInput = document.getElementById("glsPageHorairePrefere");
+
+  const submitBtn = document.getElementById("glsPageSubmitBtn");
 
   // Log element detection
-  console.log('[GLS Form Page] Elements found:', {
+  console.log('[GLS Page Form] Elements found:', {
     form: !!form,
     typeCours: !!typeCours,
     centreWrapper: !!centreWrapper,
@@ -64,20 +52,26 @@ function initGlsFormPage() {
     niveauSelect: !!niveauSelect,
     dateInput: !!dateInput,
     horairePrefereInput: !!horairePrefereInput,
-    submitBtn: !!submitBtn,
   });
 
   // Utils
   function showError(message) {
-    if (!errorWrap || !errorText) return;
-    errorText.textContent = message;
-    errorWrap.classList.add("active");
+    if (errorWrap && errorText) {
+      errorText.textContent = message;
+      errorWrap.classList.remove("active"); // Reset animation
+      void errorWrap.offsetWidth; // Trigger reflow
+      errorWrap.classList.add("active");
+      
+      // Scroll to error message
+      errorWrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
   }
 
   function clearError() {
-    if (!errorWrap || !errorText) return;
-    errorText.textContent = "";
-    errorWrap.classList.remove("active");
+    if (errorWrap && errorText) {
+      errorText.textContent = "";
+      errorWrap.classList.remove("active");
+    }
   }
 
   function getCsrfToken() {
@@ -86,141 +80,110 @@ function initGlsFormPage() {
   }
 
   function disable(el, state = true) {
-    if (!el) return;
-    el.disabled = !!state;
+    if (el) el.disabled = !!state;
   }
 
-  // Initial state
+  // Initial state - hide centre wrapper
   if (centreWrapper) centreWrapper.style.display = "none";
   if (centreSelect) centreSelect.removeAttribute("required");
-
-  // Static levels
-  const NIVEAUX = ["A1", "A2", "B1", "B2"];
-  function loadStaticLevels() {
-    if (!niveauSelect) return;
-    niveauSelect.innerHTML = `<option value="">Sélectionner un niveau</option>`;
-    NIVEAUX.forEach((lvl) => {
-      const opt = document.createElement("option");
-      opt.value = lvl;
-      opt.textContent = lvl;
-      niveauSelect.appendChild(opt);
-    });
-  }
-  loadStaticLevels();
 
   // Flatpickr instance
   let flatpickrInstance = null;
 
   /* ============================== LOAD CENTERS ============================== */
   function loadCenters() {
+    console.log('[GLS Page Form] Loading centers from:', apiCentersUrl);
+    
     if (!centreSelect) {
-      console.warn('[GLS Form Page] centreSelect not found in loadCenters');
+      console.error('[GLS Page Form] centreSelect not found!');
       return;
     }
 
-    console.log('[GLS Form Page] Fetching centers from API:', apiCentersUrl);
-    centreSelect.innerHTML = `<option value="">Chargement...</option>`;
+    centreSelect.innerHTML = '<option value="">Chargement...</option>';
     disable(centreSelect, true);
 
     fetch(apiCentersUrl)
       .then((res) => {
-        console.log('[GLS Form Page] API response status:', res.status);
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
+        console.log('[GLS Page Form] Response status:', res.status);
+        if (!res.ok) throw new Error('HTTP error: ' + res.status);
         return res.json();
       })
       .then((data) => {
-        console.log('[GLS Form Page] Centers loaded:', data);
-        if (!data || !Array.isArray(data)) {
-          console.error('[GLS Form Page] Invalid data format:', data);
-          centreSelect.innerHTML = `<option value="">Aucun centre disponible</option>`;
-          disable(centreSelect, false);
-          return;
+        console.log('[GLS Page Form] Centers received:', data);
+        
+        centreSelect.innerHTML = '<option value="">Selectionner un centre</option>';
+        
+        if (Array.isArray(data)) {
+          data.forEach((c) => {
+            const opt = document.createElement("option");
+            opt.value = c.id;
+            opt.textContent = c.name + ' (' + c.city + ')';
+            centreSelect.appendChild(opt);
+          });
+          console.log('[GLS Page Form] Added', data.length, 'centers to dropdown');
         }
         
-        centreSelect.innerHTML = `<option value="">Sélectionner un centre</option>`;
-        data.forEach((c) => {
-          const opt = document.createElement("option");
-          opt.value = c.id;
-          opt.textContent = `${c.name} (${c.city})`;
-          centreSelect.appendChild(opt);
-          console.log('[GLS Form Page] Added centre option:', c.name);
-        });
         disable(centreSelect, false);
       })
       .catch((err) => {
-        console.error('[GLS Form Page] Error loading centers:', err);
-        centreSelect.innerHTML = `<option value="">Erreur de chargement</option>`;
+        console.error('[GLS Page Form] Error loading centers:', err);
+        centreSelect.innerHTML = '<option value="">Erreur de chargement</option>';
         disable(centreSelect, false);
       });
   }
 
   /* ============================== LOAD GROUPS ============================== */
   function loadGroups() {
-    if (!centreSelect || !groupSelect) {
-      console.warn('[GLS Form Page] centreSelect or groupSelect not found');
-      return;
-    }
-    const siteId = centreSelect.value;
+    if (!centreSelect || !groupSelect) return;
     
-    console.log('[GLS Form Page] Loading groups for site:', siteId);
+    const siteId = centreSelect.value;
+    console.log('[GLS Page Form] Loading groups for site:', siteId);
 
-    groupSelect.innerHTML = `<option value="">Sélectionner un groupe</option>`;
-    horairePrefereInput && (horairePrefereInput.value = "");
-    dateInput && (dateInput.value = "");
+    groupSelect.innerHTML = '<option value="">Selectionner un groupe</option>';
+    if (horairePrefereInput) horairePrefereInput.value = "";
+    if (dateInput) dateInput.value = "";
 
     if (!siteId) {
-      console.warn('[GLS Form Page] No site selected');
+      disable(groupSelect, true);
       return;
     }
 
     const groupsUrl = apiGroupsUrlTemplate.replace('__SITE__', siteId);
-    console.log('[GLS Form Page] Fetching groups from:', groupsUrl);
+    console.log('[GLS Page Form] Fetching groups from:', groupsUrl);
     
-    groupSelect.innerHTML = `<option value="">Chargement...</option>`;
+    groupSelect.innerHTML = '<option value="">Chargement...</option>';
     disable(groupSelect, true);
 
     fetch(groupsUrl)
       .then((res) => {
-        console.log('[GLS Form Page] Groups API response status:', res.status);
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
+        if (!res.ok) throw new Error('HTTP error: ' + res.status);
         return res.json();
       })
       .then((groups) => {
-        console.log('[GLS Form Page] Groups loaded:', groups);
-        if (!groups || !Array.isArray(groups)) {
-          console.error('[GLS Form Page] Invalid groups format:', groups);
-          groupSelect.innerHTML = `<option value="">Aucun groupe disponible</option>`;
-          disable(groupSelect, false);
-          return;
+        console.log('[GLS Page Form] Groups received:', groups);
+        
+        groupSelect.innerHTML = '<option value="">Selectionner un groupe</option>';
+        
+        if (Array.isArray(groups)) {
+          groups.forEach((g) => {
+            const opt = document.createElement("option");
+            opt.value = g.id;
+            opt.textContent = g.display_name || g.name_fr || g.name || ('Groupe ' + g.id);
+            opt.setAttribute("data-level", g.level || "");
+            opt.setAttribute("data-time", g.time_range || "");
+            groupSelect.appendChild(opt);
+          });
         }
-
-        groupSelect.innerHTML = `<option value="">Sélectionner un groupe</option>`;
-
-        groups.forEach((g) => {
-          const name = g.display_name || g.name || `Groupe #${g.id}`;
-          const opt = document.createElement("option");
-          opt.value = g.id;
-          opt.textContent = `${name} (${g.time_range})`;
-          opt.setAttribute("data-level", g.level || "");
-          opt.setAttribute("data-time", g.time_range || "");
-          groupSelect.appendChild(opt);
-          console.log('[GLS Form Page] Added group option:', name);
-        });
-
+        
         disable(groupSelect, false);
       })
       .catch((err) => {
-        console.error('[GLS Form Page] Error loading groups:', err);
-        groupSelect.innerHTML = `<option value="">Erreur de chargement</option>`;
+        console.error('[GLS Page Form] Error loading groups:', err);
+        groupSelect.innerHTML = '<option value="">Erreur de chargement</option>';
         disable(groupSelect, false);
       });
   }
 
-  /* ============================== LOAD DATES ============================== */
   /* ============================== LOAD DATES ============================== */
   function loadDatesForGroup(groupId) {
     if (!dateInput) return;
@@ -229,245 +192,213 @@ function initGlsFormPage() {
     dateInput.placeholder = "Chargement...";
 
     const datesUrl = apiDatesUrlTemplate.replace('__GROUP__', groupId);
-    console.log('[GLS Form Page] Fetching dates from:', datesUrl);
+    console.log('[GLS Page Form] Fetching dates from:', datesUrl);
 
     fetch(datesUrl)
       .then((res) => {
-        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        if (!res.ok) throw new Error('HTTP error: ' + res.status);
         return res.json();
       })
       .then((availableDates) => {
-        console.log('[GLS Form Page] Dates loaded:', availableDates);
-        const dates = Array.isArray(availableDates) ? availableDates : [];
+        console.log('[GLS Page Form] Dates received:', availableDates);
 
-        if (!dates.length) {
-          if (flatpickrInstance) {
-            flatpickrInstance.destroy();
-            flatpickrInstance = null;
-          }
+        if (!availableDates || !availableDates.length) {
           dateInput.placeholder = "Aucune date disponible";
           return;
         }
 
         if (flatpickrInstance) flatpickrInstance.destroy();
 
-        // Important: bind to the real element (scoped), not a global selector
         flatpickrInstance = flatpickr(dateInput, {
           dateFormat: "Y-m-d",
-          allowInput: true,
           disable: [
-            (d) => !dates.includes(d.toISOString().split("T")[0]),
+            function(date) {
+              const dateStr = date.toISOString().split("T")[0];
+              return !availableDates.includes(dateStr);
+            }
           ],
-          onDayCreate(_, __, ___, dayElem) {
-            const d = dayElem.dateObj.toISOString().split("T")[0];
-            if (dates.includes(d)) dayElem.classList.add("available-date");
-          },
+          minDate: availableDates[0],
+          maxDate: availableDates[availableDates.length - 1],
+          onDayCreate: function(dObj, dStr, fp, dayElem) {
+            const date = dayElem.dateObj.toISOString().split("T")[0];
+            if (availableDates.includes(date)) {
+              dayElem.classList.add("available-date");
+            }
+          }
         });
 
-        dateInput.placeholder = "Sélectionner une date";
+        dateInput.placeholder = "Selectionner une date";
       })
       .catch((err) => {
-        console.error('[GLS Form Page] Error loading dates:', err);
-        dateInput.placeholder = "Erreur de chargement";
+        console.error('[GLS Page Form] Error loading dates:', err);
+        dateInput.placeholder = "Erreur";
       });
   }
 
   /* ============================== EVENTS ============================== */
+  
+  // Type de cours change event
   if (typeCours) {
-    typeCours.addEventListener("change", () => {
-      console.log('[GLS Form Page] Type cours changed to:', typeCours.value);
-      clearError();
+    console.log('[GLS Page Form] Attaching change event to typeCours');
+    
+    typeCours.addEventListener("change", function() {
+      const value = this.value;
+      console.log('[GLS Page Form] Type cours changed to:', value);
 
-      // Reset dependent fields
-      if (centreSelect) {
-        centreSelect.innerHTML = `<option value="">Sélectionner un centre</option>`;
-        centreSelect.value = "";
-      }
-      if (groupSelect) {
-        groupSelect.innerHTML = `<option value="">Sélectionner un groupe</option>`;
-        groupSelect.value = "";
-      }
-      if (dateInput) {
-        dateInput.value = "";
-        dateInput.placeholder = "Sélectionner une date";
-      }
-      if (horairePrefereInput) horairePrefereInput.value = "";
-
-      // Destroy flatpickr when changing mode
-      if (flatpickrInstance) {
-        flatpickrInstance.destroy();
-        flatpickrInstance = null;
-      }
-
-      if (typeCours.value === "presentiel") {
-        console.log('[GLS Form Page] Loading centers for PRESENTIEL');
+      if (value === "presentiel") {
+        console.log('[GLS Page Form] Showing centre wrapper and loading centers...');
         if (centreWrapper) centreWrapper.style.display = "block";
         if (centreSelect) centreSelect.setAttribute("required", "required");
         loadCenters();
       } else {
-        console.log('[GLS Form Page] EN LIGNE mode - hiding centers');
-        // en_ligne
+        console.log('[GLS Page Form] Hiding centre wrapper');
         if (centreWrapper) centreWrapper.style.display = "none";
-        if (centreSelect) centreSelect.removeAttribute("required");
+        if (centreSelect) {
+          centreSelect.removeAttribute("required");
+          centreSelect.innerHTML = '<option value="">Selectionner un centre</option>';
+        }
+        if (groupSelect) groupSelect.innerHTML = '<option value="">Selectionner un groupe</option>';
+        if (dateInput) dateInput.value = "";
+        if (horairePrefereInput) horairePrefereInput.value = "";
       }
     });
-  } else {
-    console.warn('[GLS Form Page] typeCours element not found');
   }
 
+  // Centre select change event
   if (centreSelect) {
-    centreSelect.addEventListener("change", () => {
-      clearError();
+    centreSelect.addEventListener("change", function() {
+      console.log('[GLS Page Form] Centre changed to:', this.value);
       loadGroups();
     });
   }
 
+  // Group select change event
   if (groupSelect) {
-    groupSelect.addEventListener("change", () => {
-      clearError();
-      const selected = groupSelect.options[groupSelect.selectedIndex];
+    groupSelect.addEventListener("change", function() {
+      const selected = this.options[this.selectedIndex];
       if (!selected || !selected.value) return;
 
-      const groupLevel = selected.getAttribute("data-level") || "";
-      const groupTime = selected.getAttribute("data-time") || "";
+      const groupLevel = selected.getAttribute("data-level");
+      const groupTime = selected.getAttribute("data-time");
 
+      console.log('[GLS Page Form] Group selected:', { level: groupLevel, time: groupTime });
+
+      // Set niveau as input value (readonly field)
       if (niveauSelect && groupLevel) niveauSelect.value = groupLevel;
-      if (horairePrefereInput) horairePrefereInput.value = groupTime;
+      if (horairePrefereInput && groupTime) horairePrefereInput.value = groupTime;
 
       loadDatesForGroup(selected.value);
     });
   }
 
-  /* ============================== VALIDATION (ONE PAGE) ============================== */
-  function validateForm() {
+  /* ============================== FORM SUBMIT ============================== */
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
     clearError();
 
-    // All required inputs inside root
-    const requiredFields = form.querySelectorAll("[required]");
-    for (const field of requiredFields) {
-      // Checkbox required
-      if (field.type === "checkbox") {
-        if (!field.checked) {
-          showError("Veuillez accepter les conditions générales.");
-          field.focus();
-          return false;
-        }
-        continue;
-      }
+    console.log('[GLS Page Form] Form submitted');
 
-      const value = (field.value || "").trim();
-      if (!value) {
-        showError("Veuillez remplir les champs obligatoires.");
-        field.focus();
-        return false;
+    // Basic validation
+    const requiredInputs = form.querySelectorAll("[required]");
+    for (let input of requiredInputs) {
+      if (!input.value.trim()) {
+        showError("Veuillez remplir tous les champs obligatoires.");
+        input.focus();
+        return;
       }
     }
-    return true;
-  }
 
-  /* ============================== SUBMIT ============================== */
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    if (!validateForm()) return;
-
-    disable(submitBtn, true);
-
+    // Collect form data
     const formData = new FormData(form);
-    const isModal = !!document.getElementById("glsInscriptionRoot");
-    const source = isModal ? "modal" : "page";
-    
-    // Add tracking parameter
-    formData.append("form_source", source);
+    formData.append('form_source', 'page');
 
-    fetch("/fr/gls-inscription", {
+    // Disable submit button
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Envoi en cours...";
+    }
+
+    fetch(glsStoreUrl, {
       method: "POST",
-      headers: { "X-CSRF-TOKEN": getCsrfToken() },
+      headers: {
+        "X-CSRF-TOKEN": getCsrfToken(),
+        "Accept": "application/json",
+      },
       body: formData,
     })
-      .then((res) => res.json())
+      .then((res) => {
+        // Handle validation errors (422) and other errors
+        if (!res.ok && res.status === 422) {
+          return res.json().then(data => {
+            throw { type: 'validation', data: data };
+          });
+        }
+        if (!res.ok && res.status === 409) {
+          return res.json().then(data => {
+            throw { type: 'duplicate', data: data };
+          });
+        }
+        if (!res.ok) {
+          throw { type: 'server', message: 'Erreur serveur: ' + res.status };
+        }
+        return res.json();
+      })
       .then((data) => {
-        if (data && data.status === "success") {
-          // Track successful submission
+        console.log('[GLS Page Form] Submit response:', data);
+
+        if (data.success && data.redirect_url) {
+          // Track conversion before redirect
           if (window.gtag) {
-            gtag('event', 'gls_inscription_submitted', { form_source: source });
+            gtag('event', 'form_submit', {
+              event_category: 'GLS Inscription',
+              event_label: 'Page Form',
+              event_callback: function() {
+                window.location.href = data.redirect_url;
+              }
+            });
+            // Fallback redirect if gtag callback doesn't fire
+            setTimeout(function() {
+              window.location.href = data.redirect_url;
+            }, 1000);
+          } else {
+            // No gtag, redirect immediately
+            window.location.href = data.redirect_url;
           }
-          
+        } else if (data.success) {
+          // Fallback: show success message if no redirect URL
           form.style.display = "none";
-          if (successMessage) successMessage.classList.add("active");
-          return;
+          if (successMessage) successMessage.style.display = "block";
+        } else {
+          showError(data.message || "Une erreur est survenue.");
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Envoyer";
+          }
         }
-
-        if (data && data.status === "duplicate") {
-          showError(data.message || "Vous avez déjà envoyé une demande.");
-          return;
-        }
-
-        showError("Une erreur est survenue.");
       })
       .catch((err) => {
-        console.error(err);
-        showError("Impossible d'envoyer votre inscription.");
-      })
-      .finally(() => {
-        disable(submitBtn, false);
+        console.error('[GLS Page Form] Submit error:', err);
+        
+        if (err.type === 'validation' && err.data.errors) {
+          // Show validation errors
+          const errors = err.data.errors;
+          const firstError = Object.values(errors)[0];
+          showError(Array.isArray(firstError) ? firstError[0] : firstError);
+        } else if (err.type === 'duplicate') {
+          showError(err.data.message || "Vous avez deja fait une demande pour ce centre.");
+        } else if (err.type === 'server') {
+          showError(err.message);
+        } else {
+          showError("Erreur de connexion. Veuillez reessayer.");
+        }
+        
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Envoyer";
+        }
       });
   });
 
-  /* ============================== OPTIONAL: RESET WHEN MODAL CLOSE ============================== */
-  const modal = document.getElementById("glsEnrollModal");
-  if (modal) {
-    modal.addEventListener("hidden.bs.modal", function () {
-      form.reset();
-      clearError();
-      if (successMessage) successMessage.classList.remove("active");
-      form.style.display = "";
+  console.log('[GLS Page Form] Initialization complete!');
 
-      if (centreWrapper) centreWrapper.style.display = "none";
-      if (centreSelect) {
-        centreSelect.removeAttribute("required");
-        centreSelect.innerHTML = `<option value="">Sélectionner un centre</option>`;
-      }
-      if (groupSelect) {
-        groupSelect.innerHTML = `<option value="">Sélectionner un groupe</option>`;
-      }
-      if (horairePrefereInput) horairePrefereInput.value = "";
-      if (dateInput) {
-        dateInput.value = "";
-        dateInput.placeholder = "Sélectionner une date";
-      }
-
-      if (flatpickrInstance) {
-        flatpickrInstance.destroy();
-        flatpickrInstance = null;
-      }
-
-      loadStaticLevels();
-    });
-  }
-
-  /* ============================== AUTO-LOAD PRESENTIEL ============================== */
-  // If form loads with "presentiel" already selected, auto-load centers
-  if (typeCours && typeCours.value === "presentiel") {
-    console.log('[GLS Form Page] Auto-loading centers (presentiel already selected)');
-    if (centreWrapper) centreWrapper.style.display = "block";
-    if (centreSelect) centreSelect.setAttribute("required", "required");
-    loadCenters();
-  }
-
-  // Track form impressions (when page loads)
-  if (window.gtag) {
-    const isModal = !!document.getElementById("glsInscriptionRoot");
-    const source = isModal ? "modal" : "page";
-    gtag('event', 'gls_inscription_form_viewed', { form_source: source });
-  }
-}
-
-// Try to initialize immediately
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initGlsFormPage);
-} else {
-  // Already loaded
-  initGlsFormPage();
-}
-
-} // End guard wrapper
+})();
