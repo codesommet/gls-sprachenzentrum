@@ -60,15 +60,29 @@ return [
             'label' => 'À partir de...',
             'placeholder' => 'Sélectionner une date',
         ],
+        'accept_terms' => [
+            'label' => 'J\'accepte les',
+            'link' => 'conditions générales',
+        ],
     ],
 
     'buttons' => [
         'prev' => 'Retour',
         'next' => 'Continuer',
+        'submit' => 'Envoyer',
+        'cancel' => 'Annuler',
+        'back_home' => 'Retour à l\'accueil',
     ],
 
     'messages' => [
         'success_title' => 'Merci !',
         'success_text' => 'Votre demande a bien été envoyée. Notre équipe vous contactera sous peu.',
+    ],
+
+    'errors' => [
+        'required_fields' => 'Veuillez remplir tous les champs obligatoires.',
+        'duplicate' => 'Vous avez déjà fait une demande pour ce groupe.',
+        'server_error' => 'Erreur serveur. Veuillez réessayer.',
+        'connection_error' => 'Erreur de connexion. Veuillez réessayer.',
     ],
 ];

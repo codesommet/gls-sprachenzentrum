@@ -60,15 +60,29 @@ return [
             'label' => 'Start Date',
             'placeholder' => 'Select a date',
         ],
+        'accept_terms' => [
+            'label' => 'I accept the',
+            'link' => 'terms and conditions',
+        ],
     ],
 
     'buttons' => [
         'prev' => 'Back',
         'next' => 'Continue',
+        'submit' => 'Submit',
+        'cancel' => 'Cancel',
+        'back_home' => 'Back to Home',
     ],
 
     'messages' => [
         'success_title' => 'Thank you!',
         'success_text' => 'Your request has been sent successfully. Our team will contact you soon.',
+    ],
+
+    'errors' => [
+        'required_fields' => 'Please fill in all required fields.',
+        'duplicate' => 'You have already submitted a request for this group.',
+        'server_error' => 'Server error. Please try again.',
+        'connection_error' => 'Connection error. Please try again.',
     ],
 ];
