@@ -189,4 +189,9 @@ class PageController extends Controller
     {
         return view('frontoffice.gls-inscription');
     }
+
+    public function glsSuccess()
+    {
+        return view('frontoffice.gls-success');
+    }
 }
