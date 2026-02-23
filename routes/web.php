@@ -8,7 +8,7 @@ use App\Http\Controllers\CertificatePublicController;
 
 Auth::routes([
     'verify' => true,
-    'login'  => false, 
+    'login'  => false,
 ]);
 
 use App\Http\Controllers\Auth\LoginController;
@@ -57,7 +57,6 @@ Route::group([
 ], function () {
 
     require __DIR__ . '/frontoffice.php';
-
 });
 
 /**
@@ -69,9 +68,26 @@ Route::group([
 Route::prefix('api')->group(function () {
     Route::get('/groups/dates/{site_id}/{level}', [GroupApiController::class, 'getDates']);
     Route::get('/centers', function () {
-        return \App\Models\Site::select('id','name','city')->get();
+        return \App\Models\Site::select('id', 'name', 'city')->get();
     });
 });
 
 Route::get('/certificates/download/{token}', [CertificatePublicController::class, 'download'])
     ->name('certificates.public.download');
+
+/**
+ * =============================
+ * TEST ERROR PAGES (REMOVE IN PRODUCTION)
+ * =============================
+ */
+Route::prefix('test-errors')->group(function () {
+    Route::get('/401', fn() => response()->view('errors.401', [], 401));
+    Route::get('/403', fn() => response()->view('errors.403', [], 403));
+    Route::get('/404', fn() => response()->view('errors.404', [], 404));
+    Route::get('/419', fn() => response()->view('errors.419', [], 419));
+    Route::get('/429', fn() => response()->view('errors.429', [], 429));
+    Route::get('/500', fn() => response()->view('errors.500', [], 500));
+    Route::get('/501', fn() => response()->view('errors.501', [], 501));
+    Route::get('/502', fn() => response()->view('errors.502', [], 502));
+    Route::get('/503', fn() => response()->view('errors.503', [], 503));
+});

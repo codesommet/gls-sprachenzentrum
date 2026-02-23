@@ -36,6 +36,10 @@ Route::middleware(CacheResponse::class)->group(function () {
 
     Route::get('/pricing', [PageController::class, 'pricing'])->name('front.pricing');
 
+    Route::get('/online-registration', [PageController::class, 'onlineRegistration'])->name('front.online-registration');
+    Route::get('/gls-inscription', [PageController::class, 'glsInscription'])->name('front.gls-inscription');
+    Route::get('/gls-inscription/success', [PageController::class, 'glsSuccess'])->name('front.gls-inscription.success');
+
     Route::get('/exams/gls', [PageController::class, 'glsExams'])->name('front.exams.gls');
     Route::get('/exams/osd', [PageController::class, 'osdExams'])->name('front.exams.osd');
     Route::get('/exams/goethe', [PageController::class, 'goetheExams'])->name('front.exams.goethe');
@@ -84,6 +88,7 @@ Route::post('/discover-your-level/answer', [LevelQuizController::class, 'answer'
 */
 Route::post('/contact', [PageController::class, 'contactPost'])->name('front.contact.post');
 Route::post('/certificate-check', [PageController::class, 'certificateCheckPost'])->name('front.certificate.check.post');
+Route::post('/online-registration', [PageController::class, 'storeOnlineRegistration'])->name('front.online-registration.store');
 Route::post('/gls-inscription', [GlsController::class, 'store'])->name('gls.inscription');
 Route::post('/consultation', [ConsultationController::class, 'store'])->name('front.consultation.store');
 Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
