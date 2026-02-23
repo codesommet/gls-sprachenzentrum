@@ -1,4 +1,4 @@
-{{-- resources/views/frontoffice/pages/gls-inscription.blade.php --}}
+{{-- resources/views/frontoffice/gls-inscription.blade.php --}}
 @extends('frontoffice.layouts.app')
 
 @push('styles')
@@ -6,9 +6,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 @endpush
 
-{{-- ✅ URLs dynamiques --}}
 @push('head')
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="api-centers-url" content="{{ url('/api/centers') }}">
     <meta name="api-groups-url-template" content="{{ url('/api/groups') }}/__SITE__">
     <meta name="api-dates-url-template" content="{{ url('/api/groups/dates') }}/__GROUP__">
@@ -39,15 +37,15 @@
                                         {{ $tr('templates/gls-form.header.title', 'Inscription GLS') }}
                                     </h1>
                                     <p class="form-subtitle mb-0">
-                                        {{ $tr('templates/gls-form.header.subtitle', 'Complétez le formulaire pour envoyer votre demande') }}
+                                        {{ $tr('templates/gls-form.header.subtitle', 'Completez le formulaire pour envoyer votre demande') }}
                                     </p>
                                 </div>
 
-                                <div class="error-message" id="glsErrorMessage">
-                                    <span id="glsErrorText"></span>
+                                <div class="error-message" id="glsPageErrorMessage">
+                                    <span id="glsPageErrorText"></span>
                                 </div>
 
-                                <form id="glsMultiStepForm">
+                                <form id="glsPageForm">
                                     @csrf
 
                                     <h4 class="section-title">
@@ -55,45 +53,45 @@
                                     </h4>
 
                                     <div class="form-group">
-                                        <label for="glsName">
+                                        <label for="glsPageName">
                                             {{ $tr('templates/gls-form.fields.name.label', 'Nom complet') }}
                                             <span class="required">*</span>
                                         </label>
-                                        <input type="text" id="glsName" name="name"
+                                        <input type="text" id="glsPageName" name="name"
                                             placeholder="{{ $tr('templates/gls-form.fields.name.placeholder', 'Votre nom complet') }}"
                                             required>
                                         <div class="invalid-feedback"></div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="glsEmail">
+                                        <label for="glsPageEmail">
                                             {{ $tr('templates/gls-form.fields.email.label', 'Email') }}
                                             <span class="required">*</span>
                                         </label>
-                                        <input type="email" id="glsEmail" name="email"
+                                        <input type="email" id="glsPageEmail" name="email"
                                             placeholder="{{ $tr('templates/gls-form.fields.email.placeholder', 'email@example.com') }}"
                                             required>
                                         <div class="invalid-feedback"></div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="glsPhone">
-                                            {{ $tr('templates/gls-form.fields.phone.label', 'Téléphone') }}
+                                        <label for="glsPagePhone">
+                                            {{ $tr('templates/gls-form.fields.phone.label', 'Telephone') }}
                                             <span class="required">*</span>
                                         </label>
-                                        <input type="tel" id="glsPhone" name="phone"
+                                        <input type="tel" id="glsPagePhone" name="phone"
                                             placeholder="{{ $tr('templates/gls-form.fields.phone.placeholder', '+212 6XX-XXXXXX') }}"
                                             required>
                                         <div class="invalid-feedback"></div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="glsAdresse">
+                                        <label for="glsPageAdresse">
                                             {{ $tr('templates/gls-form.fields.adresse.label', 'Adresse') }}
                                             <span class="required">*</span>
                                         </label>
-                                        <input type="text" id="glsAdresse" name="adresse"
-                                            placeholder="{{ $tr('templates/gls-form.fields.adresse.placeholder', 'Votre adresse complète') }}"
+                                        <input type="text" id="glsPageAdresse" name="adresse"
+                                            placeholder="{{ $tr('templates/gls-form.fields.adresse.placeholder', 'Votre adresse complete') }}"
                                             required>
                                         <div class="invalid-feedback"></div>
                                     </div>
@@ -105,32 +103,32 @@
                                     </h4>
 
                                     <div class="form-group">
-                                        <label for="glsTypeCours">
+                                        <label for="glsPageTypeCours">
                                             {{ $tr('templates/gls-form.fields.type_cours.label', 'Type de cours') }}
                                             <span class="required">*</span>
                                         </label>
-                                        <select id="glsTypeCours" name="type_cours" required>
+                                        <select id="glsPageTypeCours" name="type_cours" required>
                                             <option value="">
                                                 {{ $tr('templates/gls-form.fields.type_cours.placeholder', 'Choisissez un type') }}
                                             </option>
                                             <option value="presentiel">
-                                                {{ $tr('templates/gls-form.fields.type_cours_options.presentiel', 'Présentiel') }}
+                                                {{ $tr('templates/gls-form.fields.type_cours_options.presentiel', 'Cours presentiel') }}
                                             </option>
                                             <option value="en_ligne">
-                                                {{ $tr('templates/gls-form.fields.type_cours_options.en_ligne', 'En ligne') }}
+                                                {{ $tr('templates/gls-form.fields.type_cours_options.en_ligne', 'Cours en ligne') }}
                                             </option>
                                         </select>
                                         <div class="invalid-feedback"></div>
                                     </div>
 
-                                    <div class="form-group" id="glsCentreWrapper">
-                                        <label for="glsCentre">
-                                            {{ $tr('templates/gls-form.fields.centre.label', 'Centre GLS préféré') }}
+                                    <div class="form-group" id="glsPageCentreWrapper" style="display: none;">
+                                        <label for="glsPageCentre">
+                                            {{ $tr('templates/gls-form.fields.centre.label', 'Centre GLS prefere') }}
                                             <span class="required">*</span>
                                         </label>
-                                        <select id="glsCentre" name="centre">
+                                        <select id="glsPageCentre" name="centre">
                                             <option value="">
-                                                {{ $tr('templates/gls-form.fields.centre.placeholder', 'Sélectionner un centre') }}
+                                                {{ $tr('templates/gls-form.fields.centre.placeholder', 'Selectionner un centre') }}
                                             </option>
                                         </select>
                                         <div class="invalid-feedback"></div>
@@ -143,62 +141,58 @@
                                     </h4>
 
                                     <div class="form-group">
-                                        <label for="glsGroupId">
+                                        <label for="glsPageGroupId">
                                             {{ $tr('templates/gls-form.fields.group_id.label', 'Groupe') }}
                                             <span class="required">*</span>
                                         </label>
-                                        <select id="glsGroupId" name="group_id" required>
+                                        <select id="glsPageGroupId" name="group_id" required>
                                             <option value="">
-                                                {{ $tr('templates/gls-form.fields.group_id.placeholder', 'Sélectionner un groupe') }}
+                                                {{ $tr('templates/gls-form.fields.group_id.placeholder', 'Selectionner un groupe') }}
                                             </option>
                                         </select>
                                         <div class="invalid-feedback"></div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="glsNiveau">
-                                            {{ $tr('templates/gls-form.fields.niveau.label', 'Niveau d’Allemand') }}
-                                            <span class="required">*</span>
+                                        <label for="glsPageNiveau">
+                                            {{ $tr('templates/gls-form.fields.niveau.label', "Niveau d'Allemand") }}
                                         </label>
-                                        <select id="glsNiveau" name="niveau" required>
-                                            <option value="">
-                                                {{ $tr('templates/gls-form.fields.niveau.placeholder', 'Sélectionner un niveau') }}
-                                            </option>
-                                        </select>
-                                        <div class="invalid-feedback"></div>
+                                        <input type="text" id="glsPageNiveau" name="niveau" readonly
+                                            placeholder="{{ $tr('templates/gls-form.fields.niveau.placeholder', 'Auto rempli') }}">
                                     </div>
 
                                     <div class="divider"></div>
 
                                     <h4 class="section-title">
-                                        {{ $tr('templates/gls-form.progress.steps.step4', 'Préférences') }}
+                                        {{ $tr('templates/gls-form.progress.steps.step4', 'Preferences') }}
                                     </h4>
 
                                     <div class="form-group">
-                                        <label for="glsHorairePrefere">
+                                        <label for="glsPageHorairePrefere">
                                             {{ $tr('templates/gls-form.fields.horaire_prefere.label', 'Horaire de cours') }}
                                         </label>
-                                        <input type="text" id="glsHorairePrefere" name="horaire_prefere" readonly
+                                        <input type="text" id="glsPageHorairePrefere" name="horaire_prefere" readonly
                                             placeholder="{{ $tr('templates/gls-form.fields.horaire_prefere.placeholder', 'Auto rempli') }}">
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="glsDateStart">
-                                            {{ $tr('templates/gls-form.fields.date_start.label', 'À partir de…') }}
+                                        <label for="glsPageDateStart">
+                                            {{ $tr('templates/gls-form.fields.date_start.label', 'A partir de...') }}
                                         </label>
-                                        <input type="text" id="glsDateStart" name="date_start"
-                                            placeholder="{{ $tr('templates/gls-form.fields.date_start.placeholder', 'Sélectionner une date') }}">
+                                        <input type="text" id="glsPageDateStart" name="date_start"
+                                            class="date-picker"
+                                            placeholder="{{ $tr('templates/gls-form.fields.date_start.placeholder', 'Selectionner une date') }}">
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="checkbox-row" for="glsAcceptTerms">
-                                            <input type="checkbox" id="glsAcceptTerms" name="accept_terms"
+                                        <label class="checkbox-row" for="glsPageAcceptTerms">
+                                            <input type="checkbox" id="glsPageAcceptTerms" name="accept_terms"
                                                 value="1" required>
                                             <span class="checkbox-text">
-                                                {{ $tr('templates/gls-form.fields.accept_terms.label', 'J’accepte les') }}
+                                                {{ $tr('templates/gls-form.fields.accept_terms.label', "J'accepte les") }}
                                                 <a href="{{ LaravelLocalization::localizeUrl(route('front.terms')) }}"
                                                     target="_blank" class="link">
-                                                    {{ $tr('templates/gls-form.fields.accept_terms.link', 'conditions générales') }}
+                                                    {{ $tr('templates/gls-form.fields.accept_terms.link', 'conditions generales') }}
                                                 </a>
                                                 <span class="required">*</span>
                                             </span>
@@ -212,20 +206,20 @@
                                             &larr; {{ $tr('templates/gls-form.buttons.cancel', 'Annuler') }}
                                         </a>
 
-                                        <button type="submit" class="button" id="glsSubmitBtn">
+                                        <button type="submit" class="button" id="glsPageSubmitBtn">
                                             {{ $tr('templates/gls-form.buttons.submit', 'Envoyer') }}
                                         </button>
                                     </div>
                                 </form>
 
-                                <div class="success-message" id="glsSuccessMessage">
+                                <div class="success-message" id="glsPageSuccessMessage">
                                     <h3 class="mb-2">
-                                        {{ $tr('templates/gls-form.messages.success_title', 'Demande envoyée !') }}</h3>
+                                        {{ $tr('templates/gls-form.messages.success_title', 'Demande envoyee !') }}</h3>
                                     <p class="mb-4">
-                                        {{ $tr('templates/gls-form.messages.success_text', 'Merci. Nous vous contacterons très vite.') }}
+                                        {{ $tr('templates/gls-form.messages.success_text', 'Merci. Nous vous contacterons tres vite.') }}
                                     </p>
                                     <a href="{{ LaravelLocalization::localizeUrl(route('front.home')) }}" class="button">
-                                        {{ $tr('templates/gls-form.buttons.back_home', 'Retour à l’accueil') }}
+                                        {{ $tr('templates/gls-form.buttons.back_home', "Retour a l'accueil") }}
                                     </a>
                                 </div>
 
