@@ -93,7 +93,7 @@
 
 .intro-section .btn-success {
   background-color: #1c1c1a;
-  color: #fff;
+  color: var(--color-surface);
   border: none;
   transition: all 0.3s ease;
 

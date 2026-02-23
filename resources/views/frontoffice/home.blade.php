@@ -25,41 +25,42 @@
         {{-- ===========================
  INTRO SECTION
 =========================== --}}
-       <section class="intro-section position-relative text-center {{ app()->getLocale() == 'ar' ? 'rtl' : '' }} reveal delay-2">
+        <section
+            class="intro-section position-relative text-center {{ app()->getLocale() == 'ar' ? 'rtl' : '' }} reveal delay-2">
 
-    <div class="intro-gradient reveal delay-3"></div>
+            <div class="intro-gradient reveal delay-3"></div>
 
-    <div class="container position-relative z-2 py-5 reveal delay-1">
-        <div class="intro-card shadow rounded-4 mx-auto reveal delay-2" style="max-width: 1020px;">
+            <div class="container position-relative z-2 py-5 reveal delay-1">
+                <div class="intro-card shadow rounded-4 mx-auto reveal delay-2" style="max-width: 1020px;">
 
-            {{-- Logo + Tagline --}}
-            <div class="text-center mb-4 reveal delay-3">
-                <img src="{{ asset('assets/images/logo/gls-round.png') }}" alt="GLS Logo"
-                     class="intro-logo reveal delay-1">
+                    {{-- Logo + Tagline --}}
+                    <div class="text-center mb-4 reveal delay-3">
+                        <img src="{{ asset('assets/images/logo/gls-round.png') }}" alt="GLS Logo"
+                            class="intro-logo reveal delay-1">
 
-                <p class="text-primary fw-medium small mb-0 letter-spacing-1 reveal delay-2">
-                    {{ __('home.intro.tagline') }}
-                </p>
+                        <p class="text-primary fw-medium small mb-0 letter-spacing-1 reveal delay-2">
+                            {{ __('home.intro.tagline') }}
+                        </p>
+                    </div>
+
+                    {{-- Heading --}}
+                    <h1 class="fw-bold mb-3 intro-heading reveal fade-blur-title delay-1">
+                        {{ __('home.intro.heading') }}
+                    </h1>
+
+                    {{-- Description --}}
+                    <p class="lead text-muted mb-4 intro-desc reveal delay-2">
+                        {{ __('home.intro.description') }}
+                    </p>
+
+                    {{-- Button --}}
+                    <a href="{{ LaravelLocalization::localizeUrl(route('front.intensive-courses')) }}"
+                        class="btn btn-success px-4 py-2 rounded-pill fw-semibold reveal delay-3">
+                        {{ __('home.intro.button') }}
+                    </a>
+                </div>
             </div>
-
-            {{-- Heading --}}
-            <h1 class="fw-bold mb-3 intro-heading reveal fade-blur-title delay-1">
-                {{ __('home.intro.heading') }}
-            </h1>
-
-            {{-- Description --}}
-            <p class="lead text-muted mb-4 intro-desc reveal delay-2">
-                {{ __('home.intro.description') }}
-            </p>
-
-            {{-- Button --}}
-            <a href="{{ LaravelLocalization::localizeUrl(route('front.intensive-courses')) }}"
-               class="btn btn-success px-4 py-2 rounded-pill fw-semibold reveal delay-3">
-                {{ __('home.intro.button') }}
-            </a>
-        </div>
-    </div>
-</section>
+        </section>
 
         {{-- =========================
 SITES — Images only (NO iframe, NO yt-holder, NO video)
@@ -251,8 +252,8 @@ SITES — Images only (NO iframe, NO yt-holder, NO video)
                     </div>
 
                     <div class="hh-block-30">
-                        <img src="{{ asset('assets/images/IMG_4399.webp') }}"
-                            loading="lazy" alt="{{ __('home.highlights.big_card.title') }}">
+                        <img src="{{ asset('assets/images/IMG_4399.webp') }}" loading="lazy"
+                            alt="{{ __('home.highlights.big_card.title') }}">
                     </div>
                 </div>
 
@@ -269,7 +270,13 @@ SITES — Images only (NO iframe, NO yt-holder, NO video)
                             </span>
                         </p>
 
-                        <a href="{{ LaravelLocalization::localizeUrl(route('front.online-registration')) }}" class="button is-white">{{ __('home.highlights.card_a1.button') }}</a>
+                        <a href="{{ LaravelLocalization::localizeUrl(route('front.gls-inscription')) }}"
+                            class="button is-white"
+                            style="background:#ffffff !important; 
+          color: var(--dark--off-black) !important; 
+          border-color: var(--dark--off-black) !important;">
+                            {{ __('home.highlights.card_a1.button') }}
+                        </a>
                     </div>
 
                     <div class="hh-card">
@@ -282,7 +289,10 @@ SITES — Images only (NO iframe, NO yt-holder, NO video)
                             </span>
                         </p>
 
-                        <a href="{{ LaravelLocalization::localizeUrl(route('front.pricing')) }}" class="button is-white">{{ __('home.highlights.card_intensive.button') }}</a>
+                        <a href="http://127.0.0.1:8000/en/gls-inscription" class="button is-white"
+                            style="background:#ffffff !important; color: var(--dark--off-black) !important; border-color: var(--dark--off-black) !important;">
+                            {{ __('home.highlights.card_a1.button') }}
+                        </a>
                     </div>
                 </div>
             </div>
@@ -578,8 +588,8 @@ SITES — Images only (NO iframe, NO yt-holder, NO video)
                             loading="lazy">
 
                         {{-- ——— Set B ——— --}}
-                        <img src="{{ asset('assets/images/home/goethe.png') }}" alt="Goethe-Institut" aria-hidden="true"
-                            loading="lazy">
+                        <img src="{{ asset('assets/images/home/goethe.png') }}" alt="Goethe-Institut"
+                            aria-hidden="true" loading="lazy">
                         <img src="{{ asset('assets/images/home/marokkofc.png') }}" alt="Marokko FC" aria-hidden="true"
                             loading="lazy">
                         <img src="{{ asset('assets/images/home/osd.png') }}" alt="ÖSD Exam" aria-hidden="true"
