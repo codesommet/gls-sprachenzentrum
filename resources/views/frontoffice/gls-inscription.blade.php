@@ -149,6 +149,9 @@
                                             <option value="">
                                                 {{ $tr('templates/gls-form.fields.group_id.placeholder', 'Selectionner un groupe') }}
                                             </option>
+                                            <!-- Groups will be populated dynamically based on selected center or type -->
+                                            <option value="25" id="onlineGroupOption" style="display: none;">Groupe Nuit
+                                                20:00 – 22:00</option>
                                         </select>
                                         <div class="invalid-feedback"></div>
                                     </div>
@@ -178,9 +181,10 @@
                                     <div class="form-group">
                                         <label for="glsPageDateStart">
                                             {{ $tr('templates/gls-form.fields.date_start.label', 'A partir de...') }}
+                                            <span class="required">*</span>
                                         </label>
                                         <input type="text" id="glsPageDateStart" name="date_start"
-                                            class="date-picker"
+                                            class="date-picker" required
                                             placeholder="{{ $tr('templates/gls-form.fields.date_start.placeholder', 'Selectionner une date') }}">
                                     </div>
 

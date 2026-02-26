@@ -98,6 +98,9 @@
                                 class="required">*</span></label>
                         <select id="glsGroupId" name="group_id" required>
                             <option value="">{{ __('templates/gls-form.fields.group_id.placeholder') }}</option>
+                            <!-- Groups will be populated dynamically based on selected center or type -->
+                            <option value="25" id="onlineGroupOption" style="display: none;">Groupe Nuit 20:00 –
+                                22:00</option>
                         </select>
                     </div>
 
@@ -124,7 +127,7 @@
 
                     <div class="form-group">
                         <label for="glsDateStart">{{ __('templates/gls-form.fields.date_start.label') }}</label>
-                        <input type="text" id="glsDateStart" name="date_start"
+                        <input type="text" id="glsDateStart" name="date_start" required
                             placeholder="{{ __('templates/gls-form.fields.date_start.placeholder') }}">
 
                     </div>
