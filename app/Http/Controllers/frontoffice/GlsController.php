@@ -54,13 +54,18 @@ class GlsController extends Controller
         $centre = Site::find($request->centre);
         $group  = \App\Models\Group::find($request->group_id);
 
+        // Add course duration to data for email
+        if ($centre) {
+            $data['course_duration'] = $centre->getCourseDuration();
+        }
+
         // Admin email
         Mail::to('rochdi.karouali1234@gmail.com')
-            ->send(new GlsInscriptionMail($request->all(), $centre, $group));
+            ->send(new GlsInscriptionMail($data, $centre, $group));
 
         // Student confirmation email
         Mail::to($request->email)
-            ->send(new GlsInscriptionConfirmation($request->all(), $centre, $group));
+            ->send(new GlsInscriptionConfirmation($data, $centre, $group));
 
         // Return success with redirect URL
         return response()->json([

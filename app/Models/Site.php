@@ -56,4 +56,19 @@ class Site extends Model implements HasMedia
     {
         return preg_match('/(youtube\.com|youtu\.be)/i', $url);
     }
+
+    /**
+     * Get course duration (in hours) based on center
+     * 2h for: Rabat, Sale, Casablanca, Online
+     * 2.5h for: Kenitra, Agadir, Marrakech
+     */
+    public function getCourseDuration()
+    {
+        $twohCenters = ['rabat', 'sale', 'casablanca', 'online'];
+        if (in_array(strtolower($this->slug), $twohCenters)) {
+            return 2;
+        }
+        // Default to 2.5h for other centers (Kenitra, Agadir, Marrakech)
+        return 2.5;
+    }
 }
