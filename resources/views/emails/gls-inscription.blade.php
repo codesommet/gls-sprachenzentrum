@@ -45,7 +45,8 @@
             @if (!empty($group))
                 {{ $group->display_name ?? ($group->name ?? 'Groupe ' . $group->id) }}
             @else
-                Aucun groupe sélectionné
+                <span style="color:#d9534f;">Aucun groupe sélectionné – merci de contacter notre équipe pour choisir un
+                    groupe adapté.</span>
             @endif
         </p>
 

@@ -156,12 +156,23 @@
                                         <div class="invalid-feedback"></div>
                                     </div>
 
+
                                     <div class="form-group">
                                         <label for="glsPageNiveau">
                                             {{ $tr('templates/gls-form.fields.niveau.label', "Niveau d'Allemand") }}
+                                            <span class="required">*</span>
                                         </label>
-                                        <input type="text" id="glsPageNiveau" name="niveau" readonly
-                                            placeholder="{{ $tr('templates/gls-form.fields.niveau.placeholder', 'Auto rempli') }}">
+                                        <select id="glsPageNiveau" name="niveau" required>
+                                            <option value="">
+                                                {{ $tr('templates/gls-form.fields.niveau.placeholder', 'Selectionner un niveau') }}
+                                            </option>
+                                            <option value="A0">A0</option>
+                                            <option value="A1">A1</option>
+                                            <option value="A2">A2</option>
+                                            <option value="B1">B1</option>
+                                            <option value="B2">B2</option>
+                                        </select>
+                                        <div class="invalid-feedback"></div>
                                     </div>
 
                                     <div class="divider"></div>

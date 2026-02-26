@@ -218,50 +218,18 @@
     if (!dateInput) return;
 
     dateInput.value = "";
-    dateInput.placeholder = "Chargement...";
+    
+    // Destroy existing flatpickr instance
+    if (flatpickrInstance) flatpickrInstance.destroy();
 
-    const datesUrl = apiDatesUrlTemplate.replace('__GROUP__', groupId);
-    console.log('[GLS Page Form] Fetching dates from:', datesUrl);
+    // Initialize flatpickr with no date restrictions (static date picker)
+    flatpickrInstance = flatpickr(dateInput, {
+      dateFormat: "Y-m-d",
+      minDate: "today", // Minimum date is today
+      placeholder: "Selectionner une date"
+    });
 
-    fetch(datesUrl)
-      .then((res) => {
-        if (!res.ok) throw new Error('HTTP error: ' + res.status);
-        return res.json();
-      })
-      .then((availableDates) => {
-        console.log('[GLS Page Form] Dates received:', availableDates);
-
-        if (!availableDates || !availableDates.length) {
-          dateInput.placeholder = "Aucune date disponible";
-          return;
-        }
-
-        if (flatpickrInstance) flatpickrInstance.destroy();
-
-        flatpickrInstance = flatpickr(dateInput, {
-          dateFormat: "Y-m-d",
-          disable: [
-            function(date) {
-              const dateStr = date.toISOString().split("T")[0];
-              return !availableDates.includes(dateStr);
-            }
-          ],
-          minDate: availableDates[0],
-          maxDate: availableDates[availableDates.length - 1],
-          onDayCreate: function(dObj, dStr, fp, dayElem) {
-            const date = dayElem.dateObj.toISOString().split("T")[0];
-            if (availableDates.includes(date)) {
-              dayElem.classList.add("available-date");
-            }
-          }
-        });
-
-        dateInput.placeholder = "Selectionner une date";
-      })
-      .catch((err) => {
-        console.error('[GLS Page Form] Error loading dates:', err);
-        dateInput.placeholder = "Erreur";
-      });
+    console.log('[GLS Page Form] Date picker initialized for group:', groupId);
   }
 
   /* ============================== UPDATE GROUP TIMES BASED ON CENTER ============================== */
@@ -307,16 +275,14 @@
         { id: 16, name: 'Groupe 19:00 – 21:00' }
       ],
       kenitra: [
-        { id: 17, name: 'Groupe 10:00 – 12:00' },
-        { id: 18, name: 'Groupe 15:00 – 17:00' },
-        { id: 19, name: 'Groupe 17:00 – 19:00' },
-        { id: 20, name: 'Groupe 19:00 – 21:00' }
+        { id: 17, name: 'Groupe 10:00 – 12:30' },
+        { id: 18, name: 'Groupe 16:00 – 18:30' },
+        { id: 19, name: 'Groupe 18:30 – 21:00' }
       ],
       agadir: [
-        { id: 21, name: 'Groupe 10:00 – 12:00' },
-        { id: 22, name: 'Groupe 15:00 – 17:00' },
-        { id: 23, name: 'Groupe 17:00 – 19:00' },
-        { id: 24, name: 'Groupe 19:00 – 21:00' }
+        { id: 21, name: 'Groupe 10:00 – 12:30' },
+        { id: 22, name: 'Groupe 16:00 – 18:30' },
+        { id: 23, name: 'Groupe 18:30 – 21:00' }
       ],
       online: [
         { id: 25, name: 'Groupe Nuit 20:00 – 22:00' }
@@ -401,14 +367,19 @@
       const selected = this.options[this.selectedIndex];
       if (!selected || !selected.value) return;
 
-      const groupLevel = selected.getAttribute("data-level");
-      const groupTime = selected.getAttribute("data-time");
+      // Get group text to extract time (format: "Groupe HH:MM – HH:MM")
+      const groupText = selected.textContent;
+      console.log('[GLS Page Form] Group selected:', groupText);
 
-      console.log('[GLS Page Form] Group selected:', { level: groupLevel, time: groupTime });
+      // Extract time from group text using regex (e.g., "10:00 – 12:00" or "10:00 – 12:30")
+      const timeMatch = groupText.match(/(\d{1,2}:\d{2}\s*–\s*\d{1,2}:\d{2})/);
+      const groupTime = timeMatch ? timeMatch[1] : '';
 
-      // Set niveau as input value (readonly field)
-      if (niveauSelect && groupLevel) niveauSelect.value = groupLevel;
-      if (horairePrefereInput && groupTime) horairePrefereInput.value = groupTime;
+      // Set horaire_prefere input value (readonly field)
+      if (horairePrefereInput) {
+        horairePrefereInput.value = groupTime;
+        console.log('[GLS Page Form] Set horaire_prefere to:', groupTime);
+      }
 
       loadDatesForGroup(selected.value);
     });
@@ -424,7 +395,18 @@
     // Basic validation
     const requiredInputs = form.querySelectorAll("[required]");
     for (let input of requiredInputs) {
-      if (!input.value.trim()) {
+      const value = input.value.trim();
+      
+      // For select elements, value must be non-empty (exclude empty placeholder options)
+      if (input.tagName === 'SELECT') {
+        if (!value) {
+          showError("Veuillez remplir tous les champs obligatoires.");
+          input.focus();
+          return;
+        }
+      }
+      // For other inputs, check they're not empty
+      else if (!value) {
         showError("Veuillez remplir tous les champs obligatoires.");
         input.focus();
         return;
@@ -433,6 +415,12 @@
 
     // Collect form data
     const formData = new FormData(form);
+    
+    // Remove centre field for en_ligne courses (online courses don't need a center)
+    if (typeCours && typeCours.value === "en_ligne") {
+      formData.delete("centre");
+    }
+    
     formData.append('form_source', 'page');
 
     // Disable submit button
