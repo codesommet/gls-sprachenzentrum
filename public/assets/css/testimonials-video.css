@@ -1,0 +1,628 @@
+
+.gls-tv-section {
+  background: #1f8b6c;
+  padding: 64px 0;
+  overflow: hidden;
+}
+
+.gls-tv-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+}
+
+.gls-tv-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.gls-tv-title {
+  margin: 0;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 32px;
+}
+
+.gls-tv-stage {
+  position: relative;
+  min-height: 580px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gls-tv-deck {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  isolation: isolate;
+  z-index: 1;
+}
+
+.gls-tv-card {
+  position: absolute;
+  top: 50%;
+  width: 260px;
+  height: 360px;
+  border-radius: 28px;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  pointer-events: auto;
+  cursor: pointer;
+  opacity: 1 !important;
+}
+
+.gls-tv-card--side {
+  opacity: 1 !important;
+}
+
+.gls-tv-card--center {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.gls-tv-card[data-pos="farLeft"] {
+  left: 6%;
+  transform: translate(-50%, -50%) rotate(-12deg) scale(0.85);
+  z-index: 1 !important;
+}
+
+.gls-tv-card[data-pos="farRight"] {
+  left: 94%;
+  transform: translate(-50%, -50%) rotate(12deg) scale(0.85);
+  z-index: 1 !important;
+}
+
+.gls-tv-card[data-pos="left"] {
+  left: 18%;
+  transform: translate(-50%, -50%) rotate(-5deg) scale(0.95);
+  z-index: 3 !important;
+}
+
+.gls-tv-card[data-pos="right"] {
+  left: 82%;
+  transform: translate(-50%, -50%) rotate(5deg) scale(0.95);
+  z-index: 3 !important;
+}
+
+.gls-tv-card[data-pos="center"] {
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5 !important;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Card Backgrounds - GLS Brand Gradients
+   ══════════════════════════════════════════════════════════════ */
+.gls-tv-card--bg1 {
+  background: linear-gradient(145deg, var(--light--blue) 0%, var(--blue) 100%) !important;
+}
+
+.gls-tv-card--bg2 {
+  background: linear-gradient(145deg, var(--light--green) 0%, var(--green) 100%) !important;
+}
+
+.gls-tv-card--bg3 {
+  background: linear-gradient(145deg, var(--light--orange) 0%, var(--orange) 100%) !important;
+}
+
+.gls-tv-card--bg4 {
+  background: linear-gradient(145deg, var(--light--purple) 0%, var(--purple) 100%) !important;
+}
+
+/* Card content overlay for readability */
+.gls-tv-card--bg1 .gls-tv-card-bottom,
+.gls-tv-card--bg2 .gls-tv-card-bottom,
+.gls-tv-card--bg3 .gls-tv-card-bottom,
+.gls-tv-card--bg4 .gls-tv-card-bottom {
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.gls-tv-card--bg1 .gls-tv-role,
+.gls-tv-card--bg2 .gls-tv-role,
+.gls-tv-card--bg3 .gls-tv-role,
+.gls-tv-card--bg4 .gls-tv-role {
+  opacity: 0.9;
+}
+
+.gls-tv-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.gls-tv-avatar {
+  width: 160px;
+  height: 160px;
+  border-radius: 999px;
+  background: #fff;
+  overflow: hidden;
+  position: relative;
+}
+
+.gls-tv-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.gls-tv-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gls-tv-play-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  border: 0;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease;
+}
+
+.gls-tv-play-btn:hover {
+  transform: scale(1.08);
+}
+
+.gls-tv-play-btn:active {
+  transform: scale(0.96);
+}
+
+.gls-tv-play-tri {
+  width: 0;
+  height: 0;
+  border-left: 11px solid #2a66ff;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  margin-left: 3px;
+}
+
+.gls-tv-card-bottom {
+  color: #0f172a;
+}
+
+.gls-tv-name {
+  font-weight: 800;
+  font-size: 15px;
+  margin: 0 0 2px 0;
+}
+
+.gls-tv-role {
+  margin: 0;
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+.gls-tv-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 7px 11px;
+  font-size: 11px;
+  font-weight: 700;
+  margin-top: 8px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Pill Colors - Coordinated with Card Backgrounds
+   ══════════════════════════════════════════════════════════════ */
+.gls-tv-card--bg1 .gls-tv-pill {
+  background: var(--dark--blue);
+  border-color: var(--blue);
+}
+
+.gls-tv-card--bg2 .gls-tv-pill {
+  background: var(--dark--green);
+  border-color: var(--green);
+}
+
+.gls-tv-card--bg3 .gls-tv-pill {
+  background: var(--dark--orange);
+  border-color: var(--orange);
+}
+
+.gls-tv-card--bg4 .gls-tv-pill {
+  background: var(--dark--purple);
+  border-color: var(--purple);
+}
+
+.gls-tv-phone {
+  position: relative;
+  z-index: 10 !important;
+  width: 280px;
+  flex-shrink: 0;
+}
+
+.gls-tv-device {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 19.5;
+}
+
+.gls-tv-device-screen {
+  position: absolute;
+  top: 3%;
+  left: 3%;
+  right: 3%;
+  bottom: 3%;
+  border-radius: 38px;
+  overflow: hidden;
+  background: #000;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   iOS Status Bar
+   ══════════════════════════════════════════════════════════════ */
+.gls-tv-statusbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, transparent 100%);
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  z-index: 40;
+  pointer-events: none;
+  user-select: none;
+}
+
+.gls-tv-sb-left {
+  display: flex;
+  align-items: center;
+}
+
+.gls-tv-sb-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gls-tv-sb-icon {
+  width: 16px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+.gls-tv-sb-icon--battery {
+  width: 22px;
+}
+
+.gls-tv-device-mockup {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.gls-tv-phone-video {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.gls-tv-reel {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.gls-tv-yt--reel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  border: 0;
+  background: #000;
+  pointer-events: none;
+}
+
+.gls-tv-controls {
+  position: absolute;
+  right: 12px;
+  bottom: 14px;
+  display: flex;
+  gap: 8px;
+  z-index: 50;
+  pointer-events: auto;
+}
+
+.gls-tv-nav {
+  position: relative;
+  z-index: 60;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 0;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  transition: transform 0.15s ease;
+  pointer-events: auto;
+}
+
+.gls-tv-nav--prev {
+  background: rgba(255, 255, 255, 0.4);
+  color: #fff;
+}
+
+.gls-tv-nav--next {
+  background: #fff;
+  color: #0f172a;
+}
+
+.gls-tv-nav:hover {
+  transform: scale(1.08);
+}
+
+.gls-tv-nav:active {
+  transform: scale(0.96);
+}
+
+.gls-tv-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 9999;
+}
+
+.gls-tv-modal.is-open {
+  display: block;
+}
+
+.gls-tv-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.gls-tv-modal-dialog {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(900px, 92vw);
+  background: #0b0f17;
+  border-radius: 18px;
+  padding: 14px;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6);
+}
+
+.gls-tv-modal-close {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  border: 0;
+  cursor: pointer;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  background: #fff;
+  color: #0f172a;
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  transition: transform 0.15s ease;
+  z-index: 10;
+}
+
+.gls-tv-modal-close:hover {
+  transform: scale(1.1);
+}
+
+.gls-tv-yt--modal {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: 12px;
+  background: #000;
+  display: block;
+}
+
+@media (max-width: 1100px) {
+  .gls-tv-card[data-pos="farLeft"],
+  .gls-tv-card[data-pos="farRight"] {
+    display: none;
+  }
+
+  .gls-tv-card[data-pos="left"] {
+    left: 12%;
+  }
+
+  .gls-tv-card[data-pos="right"] {
+    left: 88%;
+  }
+}
+
+@media (max-width: 860px) {
+  .gls-tv-card[data-pos="left"],
+  .gls-tv-card[data-pos="right"] {
+    display: none;
+  }
+
+  .gls-tv-phone {
+    width: 260px;
+  }
+}
+
+@media (max-width: 480px) {
+  .gls-tv-section{
+  background:#1f8b6c;
+  padding:48px 0;
+  overflow:hidden;
+}
+
+  .gls-tv-title {
+    font-size: 24px;
+  }
+
+  .gls-tv-phone {
+    width: 240px;
+  }
+
+  .gls-tv-stage{
+  position:relative;
+  min-height:clamp(520px, 68vh, 610px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+  .gls-tv-device-screen {
+    border-radius: 32px;
+  }
+}
+/* ✅ MOBILE: keep desktop deck look (small cards left/right) */
+@media (max-width: 860px) {
+
+  /* keep stage centered */
+  .gls-tv-stage{
+    min-height: 540px;
+  }
+
+  /* show the deck cards again */
+  .gls-tv-card[data-pos="left"],
+  .gls-tv-card[data-pos="right"]{
+    display: flex !important;
+  }
+
+  /* hide far cards (optional) to avoid overflow on small screens */
+  .gls-tv-card[data-pos="farLeft"],
+  .gls-tv-card[data-pos="farRight"]{
+    display: none !important;
+  }
+
+  /* make cards smaller */
+  .gls-tv-card{
+    width: 180px;
+    height: 250px;
+    padding: 14px;
+    border-radius: 22px;
+  }
+
+  /* adjust avatar size inside small cards */
+  .gls-tv-avatar{
+    width: 110px;
+    height: 110px;
+  }
+
+  /* adjust text sizes */
+  .gls-tv-name{ font-size: 13px; }
+  .gls-tv-role{ font-size: 11px; }
+  .gls-tv-pill{ font-size: 10px; padding: 6px 10px; }
+
+  /* reposition left/right closer to phone */
+  .gls-tv-card[data-pos="left"]{
+    left: 16%;
+    transform: translate(-50%, -50%) rotate(-6deg) scale(0.98) !important;
+    z-index: 3 !important;
+  }
+
+  .gls-tv-card[data-pos="right"]{
+    left: 84%;
+    transform: translate(-50%, -50%) rotate(6deg) scale(0.98) !important;
+    z-index: 3 !important;
+  }
+
+  /* keep phone above the deck */
+  .gls-tv-phone{
+    width: 260px;
+    z-index: 10 !important;
+  }
+
+  /* keep center card hidden like desktop (your current design) */
+  .gls-tv-card--center{
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+/* ✅ EXTRA SMALL PHONES: reduce more + tighten positions */
+@media (max-width: 480px) {
+
+  .gls-tv-stage{
+    min-height: clamp(520px, 68vh, 610px);
+  }
+
+  .gls-tv-phone{
+    width: 240px;
+  }
+
+  .gls-tv-card{
+    width: 155px;
+    height: 225px;
+    padding: 12px;
+    border-radius: 20px;
+  }
+
+  .gls-tv-avatar{
+    width: 96px;
+    height: 96px;
+  }
+
+  .gls-tv-card[data-pos="left"]{
+    left: 14%;
+    transform: translate(-50%, -50%) rotate(-7deg) scale(1) !important;
+  }
+
+  .gls-tv-card[data-pos="right"]{
+    left: 86%;
+    transform: translate(-50%, -50%) rotate(7deg) scale(1) !important;
+  }
+
+  /* Move controls to left to avoid YouTube watermark overlap */
+  .gls-tv-controls {
+    right: auto;
+    left: 12px;
+  }
+}

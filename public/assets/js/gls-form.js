@@ -39,12 +39,24 @@
     centreWrapper.style.display = "none";
     centreSelect.removeAttribute("required");
 
-    // Static levels
-    const NIVEAUX = ["A1", "A2", "B1", "B2"];
+    // Static levels with French and English descriptions
+    const NIVEAUX_DATA = [
+        { code: "A0", fr: "A0 – Aucune connaissance préalable", en: "A0 – No prior knowledge" },
+        { code: "A1", fr: "A1 – Débutant", en: "A1 – Beginner" },
+        { code: "A2", fr: "A2 – Élémentaire", en: "A2 – Elementary" },
+        { code: "B1", fr: "B1 – Intermédiaire", en: "B1 – Intermediate" },
+        { code: "B2", fr: "B2 – Intermédiaire Supérieur", en: "B2 – Upper Intermediate" }
+    ];
+
     function loadStaticLevels() {
+        // Detect current language (fr or en)
+        const locale = document.documentElement.lang || 'fr';
+        const isFrench = locale.startsWith('fr');
+        
         niveauSelect.innerHTML = '<option value="">Sélectionner un niveau</option>';
-        NIVEAUX.forEach(level => {
-            niveauSelect.innerHTML += `<option value="${level}">${level}</option>`;
+        NIVEAUX_DATA.forEach(level => {
+            const text = isFrench ? level.fr : level.en;
+            niveauSelect.innerHTML += `<option value="${level.code}">${text}</option>`;
         });
     }
     loadStaticLevels();
@@ -67,6 +79,8 @@
     }
 
     /* ============================== LOAD GROUPS ============================== */
+    // COMMENTED OUT - Using static groups for now, will implement dynamic loading later
+    /*
     function loadGroups() {
         const siteId = centreSelect.value;
         if (!siteId) return;
@@ -91,6 +105,7 @@
             })
             .catch(() => groupSelect.innerHTML = "<option>Erreur</option>");
     }
+    */
 
     /* ============================== LOAD DATES ============================== */
     function loadDatesForGroup(groupId) {
@@ -140,12 +155,96 @@
         loadDatesForGroup(selected.value);
     });
 
+    /* ============================== UPDATE GROUP TIMES BASED ON CENTER ============================== */
+    function updateGroupTimes() {
+        const selectedCenter = centreSelect.options[centreSelect.selectedIndex];
+        if (!selectedCenter.value) return;
+
+        // Get center name/city to determine duration
+        const centerText = selectedCenter.textContent.toLowerCase();
+        
+        // Define groups for each center
+        const groupsByCenter = {
+            rabat: [
+                { id: 1, name: 'Groupe 10:00 – 12:00' },
+                { id: 2, name: 'Groupe 15:00 – 17:00' },
+                { id: 3, name: 'Groupe 17:00 – 19:00' },
+                { id: 4, name: 'Groupe 19:00 – 21:00' }
+            ],
+            casablanca: [
+                { id: 5, name: 'Groupe 10:00 – 12:00' },
+                { id: 6, name: 'Groupe 15:00 – 17:00' },
+                { id: 7, name: 'Groupe 17:00 – 19:00' },
+                { id: 8, name: 'Groupe 19:00 – 21:00' }
+            ],
+            casa: [
+                { id: 5, name: 'Groupe 10:00 – 12:00' },
+                { id: 6, name: 'Groupe 15:00 – 17:00' },
+                { id: 7, name: 'Groupe 17:00 – 19:00' },
+                { id: 8, name: 'Groupe 19:00 – 21:00' }
+            ],
+            marrakech: [
+                { id: 9, name: 'Groupe 10:00 – 12:30' },
+                { id: 10, name: 'Groupe 13:00 – 15:30' },
+                { id: 11, name: 'Groupe 16:30 – 18:00' },
+                { id: 12, name: 'Groupe 19:00 – 21:30' }
+            ],
+            sale: [
+                { id: 13, name: 'Groupe 10:00 – 12:00' },
+                { id: 14, name: 'Groupe 15:00 – 17:00' },
+                { id: 15, name: 'Groupe 17:00 – 19:00' },
+                { id: 16, name: 'Groupe 19:00 – 21:00' }
+            ],
+            kenitra: [
+                { id: 17, name: 'Groupe 10:00 – 12:00' },
+                { id: 18, name: 'Groupe 15:00 – 17:00' },
+                { id: 19, name: 'Groupe 17:00 – 19:00' },
+                { id: 20, name: 'Groupe 19:00 – 21:00' }
+            ],
+            agadir: [
+                { id: 21, name: 'Groupe 10:00 – 12:00' },
+                { id: 22, name: 'Groupe 15:00 – 17:00' },
+                { id: 23, name: 'Groupe 17:00 – 19:00' },
+                { id: 24, name: 'Groupe 19:00 – 21:00' }
+            ],
+            online: [
+                { id: 25, name: 'Groupe Nuit 20:00 – 22:00' }
+            ]
+        };
+
+        // Find matching center
+        let groups = [];
+        for (const [city, cityGroups] of Object.entries(groupsByCenter)) {
+            if (centerText.includes(city)) {
+                groups = cityGroups;
+                break;
+            }
+        }
+
+        // Update group select
+        groupSelect.innerHTML = '<option value="">Sélectionner un groupe</option>';
+        groups.forEach(group => {
+            groupSelect.innerHTML += `<option value="${group.id}">${group.name}</option>`;
+        });
+    }
+
     /* ============================== TYPE COURS EVENTS ============================== */
     typeCours.addEventListener("change", () => {
         if (typeCours.value === "presentiel") {
             centreWrapper.style.display = "block";
             centreSelect.setAttribute("required", "required");
             loadCenters();
+        } else if (typeCours.value === "en_ligne") {
+            centreWrapper.style.display = "none";
+            centreSelect.removeAttribute("required");
+            centreSelect.innerHTML = "";
+
+            // For online courses, show only the static night group
+            groupSelect.innerHTML = '<option value="">Sélectionner un groupe</option>';
+            groupSelect.innerHTML += '<option value="25">Groupe Nuit 20:00 – 22:00</option>';
+            
+            dateInput.value = "";
+            horairePrefereInput.value = "20:00 – 22:00";
         } else {
             centreWrapper.style.display = "none";
             centreSelect.removeAttribute("required");
@@ -157,7 +256,12 @@
         }
     });
 
-    centreSelect.addEventListener("change", loadGroups);
+    centreSelect.addEventListener("change", function() {
+        // COMMENTED OUT - Using static groups for now
+        // loadGroups();
+        // Update group times based on selected center
+        updateGroupTimes();
+    });
 
     /* ============================== PROGRESS SYSTEM ============================== */
     function updateProgress() {
