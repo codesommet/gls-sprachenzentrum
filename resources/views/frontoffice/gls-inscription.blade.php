@@ -181,6 +181,8 @@
                                         {{ $tr('templates/gls-form.progress.steps.step4', 'Preferences') }}
                                     </h4>
 
+                                    {{-- Hidden for now - static groups don't need preferences --}}
+                                    {{--
                                     <div class="form-group">
                                         <label for="glsPageHorairePrefere">
                                             {{ $tr('templates/gls-form.fields.horaire_prefere.label', 'Horaire de cours') }}
@@ -198,6 +200,7 @@
                                             class="date-picker" required
                                             placeholder="{{ $tr('templates/gls-form.fields.date_start.placeholder', 'Selectionner une date') }}">
                                     </div>
+                                    --}}
 
                                     <div class="form-group">
                                         <label class="checkbox-row" for="glsPageAcceptTerms">

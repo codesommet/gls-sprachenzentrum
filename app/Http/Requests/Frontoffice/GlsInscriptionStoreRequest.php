@@ -27,7 +27,7 @@ class GlsInscriptionStoreRequest extends FormRequest
             'type_cours'      => 'required|in:presentiel,en_ligne',
             'niveau'          => 'required|in:A0,A1,A2,B1,B2',
             'horaire_prefere' => 'nullable|string|max:50',
-            'date_start'      => 'required|date',
+            'date_start'      => 'nullable|date',
             'group_id'        => 'required|integer|min:1|max:999',
             'form_source'     => 'nullable|string|max:50',
         ];

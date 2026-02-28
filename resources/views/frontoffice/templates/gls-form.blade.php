@@ -24,8 +24,8 @@
                         data-number="2">{{ __('templates/gls-form.progress.steps.step2') }}</span>
                     <span class="progress-step" data-step="3"
                         data-number="3">{{ __('templates/gls-form.progress.steps.step3') }}</span>
-                    <span class="progress-step" data-step="4"
-                        data-number="4">{{ __('templates/gls-form.progress.steps.step4') }}</span>
+                    {{-- <span class="progress-step" data-step="4"
+                        data-number="4">{{ __('templates/gls-form.progress.steps.step4') }}</span> --}}
                 </div>
             </div>
 
@@ -115,7 +115,7 @@
                 </div>
 
                 <!-- STEP 4 — PREFERENCES -->
-                <div class="form-step" data-step="4">
+                {{-- <div class="form-step" data-step="4">
 
                     <div class="form-group">
                         <label
@@ -131,7 +131,7 @@
                             placeholder="{{ __('templates/gls-form.fields.date_start.placeholder') }}">
 
                     </div>
-                </div>
+                </div> --}}
 
                 <!-- BUTTONS -->
                 <div class="button-group">

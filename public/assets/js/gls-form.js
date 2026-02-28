@@ -17,7 +17,7 @@
 
   // Local state
   let currentStep = 1;
-  const totalSteps = 4;
+  const totalSteps = 3;
 
   // Scoped DOM queries (all within root)
   const formSteps = root.querySelectorAll(".form-step");

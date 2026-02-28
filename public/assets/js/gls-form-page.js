@@ -113,6 +113,10 @@
   if (centreWrapper) centreWrapper.style.display = "none";
   if (centreSelect) centreSelect.removeAttribute("required");
 
+  // Disable group and niveau until a course type is selected
+  if (groupSelect) disable(groupSelect, true);
+  if (niveauSelect) disable(niveauSelect, true);
+
   // Flatpickr instance
   let flatpickrInstance = null;
 
@@ -322,6 +326,12 @@
         if (centreWrapper) centreWrapper.style.display = "block";
         if (centreSelect) centreSelect.setAttribute("required", "required");
         loadCenters();
+        // Enable niveau but keep group disabled until a centre is selected
+        if (niveauSelect) disable(niveauSelect, false);
+        if (groupSelect) {
+          groupSelect.innerHTML = '<option value="">Selectionner un groupe</option>';
+          disable(groupSelect, true);
+        }
       } else if (value === "en_ligne") {
         console.log('[GLS Page Form] Showing online course group...');
         if (centreWrapper) centreWrapper.style.display = "none";
@@ -333,7 +343,9 @@
         if (groupSelect) {
           groupSelect.innerHTML = '<option value="">Selectionner un groupe</option>';
           groupSelect.innerHTML += '<option value="25">Groupe Nuit 20:00 – 22:00</option>';
+          disable(groupSelect, false);
         }
+        if (niveauSelect) disable(niveauSelect, false);
         if (dateInput) dateInput.value = "";
         if (horairePrefereInput) horairePrefereInput.value = "20:00 – 22:00";
       } else {
@@ -343,7 +355,11 @@
           centreSelect.removeAttribute("required");
           centreSelect.innerHTML = '<option value="">Selectionner un centre</option>';
         }
-        if (groupSelect) groupSelect.innerHTML = '<option value="">Selectionner un groupe</option>';
+        if (groupSelect) {
+          groupSelect.innerHTML = '<option value="">Selectionner un groupe</option>';
+          disable(groupSelect, true);
+        }
+        if (niveauSelect) disable(niveauSelect, true);
         if (dateInput) dateInput.value = "";
         if (horairePrefereInput) horairePrefereInput.value = "";
       }
@@ -351,13 +367,13 @@
   }
 
   // Centre select change event
-  // COMMENTED OUT - Using static groups for now
   if (centreSelect) {
     centreSelect.addEventListener("change", function() {
       console.log('[GLS Page Form] Centre changed to:', this.value);
       // Update group times based on selected center
       updateGroupTimes();
-      // loadGroups(); // COMMENTED OUT
+      // Enable group select once a centre is chosen
+      if (groupSelect) disable(groupSelect, !this.value);
     });
   }
 
