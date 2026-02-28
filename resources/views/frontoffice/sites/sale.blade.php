@@ -7,8 +7,8 @@
 @section('content')
 
     <!-- ===========================
-                                 HERO SECTION – SALÉ
-                            =========================== -->
+                                     HERO SECTION – SALÉ
+                                =========================== -->
     <section class="hero-section section about-hero reveal delay-1">
         <div class="container is-hero reveal delay-2">
 
@@ -30,8 +30,8 @@
 
 
     <!-- ===========================
-                                 ABOUT SALÉ CENTER
-                            =========================== -->
+                                     ABOUT SALÉ CENTER
+                                =========================== -->
     <section class="gls-section gls-richtext-wrapper reveal delay-1">
         <div class="gls-container reveal delay-2">
             <div class="gls-richtext reveal delay-3">
@@ -64,8 +64,8 @@
 
 
     <!-- ===========================
-                                 PHOTO STRIP – SALÉ
-                            =========================== -->
+                                     PHOTO STRIP – SALÉ
+                                =========================== -->
     <section class="gls-photo-strip section reveal delay-1">
         <div class="gls-container gls-photo-grid reveal delay-2">
 
@@ -79,8 +79,8 @@
 
 
     <!-- ===========================
-                                 INFO CARDS – NIVEAUX
-                            =========================== -->
+                                     INFO CARDS – NIVEAUX
+                                =========================== -->
     <section class="gls-info-section gls-section reveal delay-1">
         <div class="gls-container reveal delay-2">
 
@@ -137,8 +137,8 @@
 
 
     <!-- ===========================
-                                 GROUP SCHEDULE – SALÉ
-                            =========================== -->
+                                     GROUP SCHEDULE – SALÉ
+                                =========================== -->
     <section class="gls-schedule-section reveal delay-1">
         <div class="gls-schedule-container reveal delay-2">
 
@@ -268,8 +268,8 @@
     </section>
 
     <!-- ===========================
-                                 CTA – SALÉ
-                            =========================== -->
+                                     CTA – SALÉ
+                                =========================== -->
 
     <section class="inline-cta-section section reveal delay-1">
         <div class="inline-cta-block reveal delay-2">
@@ -373,8 +373,8 @@
     </section>
 
     <!-- ===========================
-                                 JAVASCRIPT
-                            =========================== -->
+                                     JAVASCRIPT
+                                =========================== -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const dropdowns = document.querySelectorAll(".schedule-dropdown");
@@ -423,5 +423,10 @@
 
         updateCards("A1");
     </script>
+
+    @include('frontoffice.sites.partials._book-on-whatsapp', [
+        'centerName' => 'GLS Salé',
+        'centerPhoneE164' => '212600000000',
+    ])
 
 @endsection

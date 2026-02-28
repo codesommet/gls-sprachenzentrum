@@ -344,4 +344,10 @@
         });
     </script>
 
+    @include('frontoffice.sites.partials._book-on-whatsapp', [
+        'centerName' => 'GLS Sprachenzentrum',
+        'centerPhoneE164' => '212600000000',
+        'waType' => 'online',
+    ])
+
 @endsection

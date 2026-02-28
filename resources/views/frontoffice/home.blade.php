@@ -1,4 +1,4 @@
-@extends('frontoffice.layouts.app')
+﻿@extends('frontoffice.layouts.app')
 
 @section('content')
     <main class="home-page">

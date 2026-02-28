@@ -147,7 +147,7 @@
           data.forEach((c) => {
             const opt = document.createElement("option");
             opt.value = c.id;
-            opt.textContent = c.name + ' (' + c.city + ')';
+            opt.textContent = c.name;
             centreSelect.appendChild(opt);
           });
           console.log('[GLS Page Form] Added', data.length, 'centers to dropdown');
@@ -268,9 +268,8 @@
       ],
       marrakech: [
         { id: 9, name: 'Groupe 10:00 – 12:30' },
-        { id: 10, name: 'Groupe 13:00 – 15:30' },
-        { id: 11, name: 'Groupe 16:30 – 18:00' },
-        { id: 12, name: 'Groupe 19:00 – 21:30' }
+        { id: 10, name: 'Groupe 16:00 – 18:30' },
+        { id: 11, name: 'Groupe 18:30 – 21:00' }
       ],
       sale: [
         { id: 13, name: 'Groupe 10:00 – 12:00' },
@@ -286,7 +285,7 @@
       agadir: [
         { id: 21, name: 'Groupe 10:00 – 12:30' },
         { id: 22, name: 'Groupe 16:00 – 18:30' },
-        { id: 23, name: 'Groupe 18:30 – 21:00' }
+        { id: 23, name: 'Groupe 19:00 – 21:30' }
       ],
       online: [
         { id: 25, name: 'Groupe Nuit 20:00 – 22:00' }

@@ -7,8 +7,8 @@
 @section('content')
 
     <!-- ===========================
-                         HERO SECTION – CASABLANCA
-                    =========================== -->
+                             HERO SECTION – CASABLANCA
+                        =========================== -->
     <section class="hero-section section about-hero reveal delay-1">
         <div class="container is-hero reveal delay-2">
 
@@ -29,8 +29,8 @@
 
 
     <!-- ===========================
-                         ABOUT CASABLANCA CENTER
-                    =========================== -->
+                             ABOUT CASABLANCA CENTER
+                        =========================== -->
     <section class="gls-section gls-richtext-wrapper reveal delay-1">
         <div class="gls-container reveal delay-2">
             <div class="gls-richtext reveal delay-3">
@@ -63,8 +63,8 @@
 
 
     <!-- ===========================
-                         PHOTO STRIP
-                    =========================== -->
+                             PHOTO STRIP
+                        =========================== -->
     <section class="gls-photo-strip section reveal delay-1">
         <div class="gls-container gls-photo-grid reveal delay-2">
 
@@ -81,8 +81,8 @@
 
 
     <!-- ===========================
-                         INFO CARDS
-                    =========================== -->
+                             INFO CARDS
+                        =========================== -->
     <section class="gls-info-section gls-section reveal delay-1">
         <div class="gls-container reveal delay-2">
 
@@ -135,8 +135,8 @@
 
 
     <!-- ===========================
-                         GROUPS
-                    =========================== -->
+                             GROUPS
+                        =========================== -->
     <section class="gls-schedule-section reveal delay-1">
         <div class="gls-schedule-container reveal delay-2">
 
@@ -237,8 +237,8 @@
     </section>
 
     <!-- ===========================
-                         9ONSOL TALKS – CASABLANCA
-                    =========================== -->
+                             9ONSOL TALKS – CASABLANCA
+                        =========================== -->
     <section class="home-about-section section reveal delay-1">
         <div class="container about-grid reveal delay-2">
 
@@ -263,8 +263,8 @@
     </section>
 
     <!-- ===========================
-                         CTA
-                    =========================== -->
+                             CTA
+                        =========================== -->
 
     <section class="inline-cta-section section reveal delay-1">
         <div class="inline-cta-block reveal delay-2">
@@ -415,5 +415,10 @@
         // Default
         updateCards("A1");
     </script>
+
+    @include('frontoffice.sites.partials._book-on-whatsapp', [
+        'centerName' => 'GLS Casablanca',
+        'centerPhoneE164' => '212600000000',
+    ])
 
 @endsection

@@ -7,8 +7,8 @@
 @section('content')
 
     <!-- ===========================
-                                 HERO SECTION – KÉNITRA
-                            =========================== -->
+                                     HERO SECTION – KÉNITRA
+                                =========================== -->
     <section class="hero-section section about-hero reveal delay-1">
         <div class="container is-hero reveal delay-2">
 
@@ -28,8 +28,8 @@
 
 
     <!-- ===========================
-                                 ABOUT KENITRA CENTER
-                            =========================== -->
+                                     ABOUT KENITRA CENTER
+                                =========================== -->
     <section class="gls-section gls-richtext-wrapper reveal delay-1">
         <div class="gls-container reveal delay-2">
             <div class="gls-richtext reveal delay-3">
@@ -62,8 +62,8 @@
 
 
     <!-- ===========================
-                                 PHOTO STRIP – KENITRA
-                            =========================== -->
+                                     PHOTO STRIP – KENITRA
+                                =========================== -->
     <section class="gls-photo-strip section reveal delay-1">
         <div class="gls-container gls-photo-grid reveal delay-2">
 
@@ -80,8 +80,8 @@
 
 
     <!-- ===========================
-                                 INFO CARDS
-                            =========================== -->
+                                     INFO CARDS
+                                =========================== -->
     <section class="gls-info-section gls-section reveal delay-1">
 
         <div class="gls-container reveal delay-2">
@@ -136,8 +136,8 @@
 
 
     <!-- ===========================
-                                 GROUPS – KENITRA
-                            =========================== -->
+                                     GROUPS – KENITRA
+                                =========================== -->
     <section class="gls-schedule-section reveal delay-1">
         <div class="gls-schedule-container reveal delay-2">
 
@@ -238,8 +238,8 @@
 
 
     <!-- ===========================
-                                 9ONSOL – KENITRA EPISODE
-                            =========================== -->
+                                     9ONSOL – KENITRA EPISODE
+                                =========================== -->
     <section class="home-about-section section reveal delay-1">
         <div class="container about-grid reveal delay-2">
 
@@ -266,8 +266,8 @@
 
 
     <!-- ===========================
-                                 CTA
-                            =========================== -->
+                                     CTA
+                                =========================== -->
 
     <section class="inline-cta-section section reveal delay-1">
         <div class="inline-cta-block reveal delay-2">
@@ -428,5 +428,9 @@
         updateCards("A1");
     </script>
 
+    @include('frontoffice.sites.partials._book-on-whatsapp', [
+        'centerName' => 'GLS Kénitra',
+        'centerPhoneE164' => '212600000000',
+    ])
 
 @endsection
