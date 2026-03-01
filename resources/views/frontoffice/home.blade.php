@@ -707,6 +707,7 @@ SITES — Images only (NO iframe, NO yt-holder, NO video)
 
         {{-- Testimonials Videos Section --}}
         @include('frontoffice.partials.testimonials-videos')
+        
 
     </main>
 @endsection
