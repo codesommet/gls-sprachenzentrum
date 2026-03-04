@@ -19,6 +19,7 @@ use App\Http\Controllers\Backoffice\QuizController;
 use App\Http\Controllers\Backoffice\QuizQuestionController;
 use App\Http\Controllers\Backoffice\HelpController;
 
+use App\Http\Controllers\Backoffice\GroupApplicationController as BackofficeGroupApplicationController;
 use App\Http\Controllers\Frontoffice\GroupApplicationController as GroupApplicationController;
 
 /*
@@ -186,6 +187,24 @@ Route::prefix('backoffice')
                 Route::get('/{quiz}/questions/{question}/edit', [QuizQuestionController::class, 'edit'])->name('questions.edit');
                 Route::put('/{quiz}/questions/{question}', [QuizQuestionController::class, 'update'])->name('questions.update');
                 Route::delete('/{quiz}/questions/{question}', [QuizQuestionController::class, 'destroy'])->name('questions.destroy');
+            });
+
+        /*
+        |----------------------------------------------------------------------
+        | APPLICATIONS (standalone CRUD)
+        |----------------------------------------------------------------------
+        */
+        Route::prefix('applications')
+            ->name('applications.')
+            ->group(function () {
+                Route::get('/', [BackofficeGroupApplicationController::class, 'index'])->name('index');
+                Route::get('/create', [BackofficeGroupApplicationController::class, 'create'])->name('create');
+                Route::post('/', [BackofficeGroupApplicationController::class, 'store'])->name('store');
+                Route::get('/{application}', [BackofficeGroupApplicationController::class, 'show'])->name('show');
+                Route::get('/{application}/edit', [BackofficeGroupApplicationController::class, 'edit'])->name('edit');
+                Route::put('/{application}', [BackofficeGroupApplicationController::class, 'update'])->name('update');
+                Route::delete('/{application}', [BackofficeGroupApplicationController::class, 'destroy'])->name('destroy');
+                Route::post('/{application}/resync', [BackofficeGroupApplicationController::class, 'resync'])->name('resync');
             });
 
         /*
