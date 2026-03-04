@@ -1,6 +1,13 @@
 ﻿@extends('frontoffice.layouts.app')
 
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('assets/css/frontoffice/home/celebration.css') }}">
+@endpush
+
 @section('content')
+    {{-- New Website Celebration --}}
+    <canvas class="celebration-confetti"></canvas>
+
     <main class="home-page">
         {{-- ===========================
      HERO SECTION
@@ -711,3 +718,7 @@ SITES — Images only (NO iframe, NO yt-holder, NO video)
 
     </main>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('assets/js/celebration.js') }}"></script>
+@endpush
