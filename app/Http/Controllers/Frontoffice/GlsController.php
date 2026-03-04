@@ -57,20 +57,15 @@ class GlsController extends Controller
 
         $group = null;
         if (isset($validated['group_id']) && $validated['group_id']) {
-            $group = \App\Models\Group::find($validated['group_id']);
-            // If group not found in DB, create a fallback object with at least the ID
-            if (!$group) {
-                // Extract the group display from horaire_prefere if available
-                $groupDisplay = 'Groupe ' . $validated['group_id'];
-                if (isset($validated['horaire_prefere']) && $validated['horaire_prefere']) {
-                    $groupDisplay = 'Groupe ' . $validated['horaire_prefere'];
-                }
-                $group = (object)[
-                    'id' => $validated['group_id'],
-                    'name' => $groupDisplay,
-                    'display_name' => $groupDisplay
-                ];
-            }
+            $groupId = (int) $validated['group_id'];
+            $staticName = config('google-sheets.group_names')[$groupId] ?? null;
+            $groupDisplay = $staticName ?? ('Groupe ' . $groupId);
+
+            $group = (object)[
+                'id' => $groupId,
+                'name' => $groupDisplay,
+                'display_name' => $groupDisplay,
+            ];
         }
 
         // Prepare data for emails

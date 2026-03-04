@@ -2,9 +2,98 @@
 
 namespace App\Models;
 
+use App\Contracts\SyncableToGoogleSheet;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class GlsInscription extends Model
+class GlsInscription extends Model implements SyncableToGoogleSheet
 {
-    protected $fillable = ['name', 'email', 'phone', 'adresse', 'niveau', 'type_cours', 'horaire_prefere', 'date_start', 'centre', 'group_id', 'form_source'];
+    use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'email',
+        'phone',
+        'adresse',
+        'niveau',
+        'type_cours',
+        'horaire_prefere',
+        'date_start',
+        'centre',
+        'group_id',
+        'form_source',
+
+        // Google Sheets tracking
+        'google_sheet_name',
+        'google_sheet_row',
+        'google_sheet_synced_at',
+        'google_sheet_confirmed_synced_at',
+    ];
+
+    protected $casts = [
+        'date_start' => 'date',
+        'google_sheet_synced_at' => 'datetime',
+        'google_sheet_confirmed_synced_at' => 'datetime',
+    ];
+
+    public function isSyncedToSheet(): bool
+    {
+        return $this->google_sheet_synced_at !== null;
+    }
+
+    public function isSyncedToConfirmedSheet(): bool
+    {
+        return $this->google_sheet_confirmed_synced_at !== null;
+    }
+
+    /**
+     * centre stores the site ID.
+     */
+    public function site()
+    {
+        return $this->belongsTo(Site::class, 'centre');
+    }
+
+    // --- SyncableToGoogleSheet ---
+
+    public function getSheetFullName(): string
+    {
+        return $this->name;
+    }
+
+    public function getSheetLevel(): string
+    {
+        return $this->niveau ?? 'N/A';
+    }
+
+    public function getSheetPhone(): string
+    {
+        return $this->phone;
+    }
+
+    public function getSheetEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function getSheetCenter(): ?string
+    {
+        $sheetMap = config('google-sheets.sheet_map', []);
+        return $sheetMap[(string) $this->centre] ?? null;
+    }
+
+    public function getSheetGroup(): string
+    {
+        $groupNames = config('google-sheets.group_names', []);
+        return $groupNames[$this->group_id] ?? ('Groupe ' . ($this->group_id ?? 'N/A'));
+    }
+
+    public function getSheetCentreId(): ?int
+    {
+        if ($this->type_cours === 'en_ligne') {
+            return 0; // maps to ONLINE
+        }
+
+        return $this->centre ? (int) $this->centre : null;
+    }
 }

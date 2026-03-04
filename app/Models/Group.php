@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Group extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'site_id',
         'teacher_id',
@@ -41,6 +43,11 @@ class Group extends Model
     public function teacher()
     {
         return $this->belongsTo(Teacher::class);
+    }
+
+    public function applications()
+    {
+        return $this->hasMany(GroupApplication::class);
     }
 
     /**

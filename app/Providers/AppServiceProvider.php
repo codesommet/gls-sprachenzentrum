@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\GlsInscription;
+use App\Models\GroupApplication;
+use App\Observers\GlsInscriptionObserver;
+use App\Observers\GroupApplicationObserver;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 
@@ -22,5 +26,9 @@ class AppServiceProvider extends ServiceProvider
     {
         // Fix MySQL index length errors
         Schema::defaultStringLength(191);
+
+        // Observers
+        GroupApplication::observe(GroupApplicationObserver::class);
+        GlsInscription::observe(GlsInscriptionObserver::class);
     }
 }
