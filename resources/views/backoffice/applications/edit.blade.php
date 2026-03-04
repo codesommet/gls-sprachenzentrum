@@ -1,0 +1,78 @@
+@extends('layouts.main')
+
+@section('title', 'Modifier Application')
+@section('breadcrumb-item', 'Applications')
+@section('breadcrumb-item-active', 'Modifier')
+@section('page-animation', 'animate__rollIn')
+
+@section('css')
+<link rel="stylesheet" href="{{ URL::asset('build/css/plugins/style.css') }}">
+<link rel="stylesheet" href="{{ URL::asset('build/css/plugins/animate.min.css') }}">
+@endsection
+
+@section('content')
+<div class="row">
+    <div class="col-md-12">
+
+        @if ($errors->any())
+            <div class="alert alert-danger animate__animated animate__shakeX">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <form action="{{ route('backoffice.applications.update', $application) }}" method="POST" class="needs-validation" novalidate>
+            @csrf
+            @method('PUT')
+
+            <div id="app-form-card" class="card animate__animated animate__rollIn">
+                <div class="card-header">
+                    <h5>Modifier l'Application #{{ $application->id }}</h5>
+                </div>
+
+                <div class="card-body">
+                    @include('backoffice.applications._form')
+                </div>
+
+                <div class="card-footer text-end">
+                    <a href="{{ route('backoffice.applications.index') }}" class="btn btn-secondary"
+                        onclick="rollOutCard(event, this)">Annuler</a>
+                    <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+@endsection
+
+@section('scripts')
+<script>
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            const forms = document.getElementsByClassName('needs-validation');
+            [...forms].forEach(form => {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                });
+            });
+        });
+    })();
+
+    function rollOutCard(event, link) {
+        event.preventDefault();
+        const card = document.getElementById('app-form-card');
+        card.classList.remove('animate__rollIn');
+        card.classList.add('animate__animated', 'animate__rollOut');
+        setTimeout(() => window.location.href = link.href, 800);
+    }
+</script>
+@endsection
