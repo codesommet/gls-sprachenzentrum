@@ -13,33 +13,39 @@ class StoreCertificateRequest extends FormRequest
 
     public function rules(): array
     {
-        return [
-            // Personal
-            'last_name'            => 'required|string|max:255',
-            'first_name'           => 'required|string|max:255',
-            'birth_date'           => 'required|date',
-            'birth_place'          => 'nullable|string|max:255',
+        $type = $this->input('certificate_type', 'b2');
 
-            // Exam
-            'exam_level'           => 'required|string|max:255',
-            'exam_date'            => 'required|date',
-            'issue_date'           => 'required|date',
-            'certificate_number'   => 'required|string|max:255|unique:certificates,certificate_number',
+        $rules = [
+            'last_name'          => 'required|string|max:255',
+            'first_name'         => 'required|string|max:255',
+            'birth_date'         => 'required|date',
+            'birth_place'        => 'nullable|string|max:255',
 
-            // Written
-            'reading_score'        => 'required|integer|min:0',
-            'grammar_score'        => 'required|integer|min:0',
-            'listening_score'      => 'required|integer|min:0',
-            'writing_score'        => 'required|integer|min:0',
+            'certificate_type'   => 'required|in:a2,b2',
+            'exam_level'         => 'required|string|max:255',
+            'exam_date'          => 'required|date',
+            'issue_date'         => 'required|date',
+            'certificate_number' => 'required|string|max:255|unique:certificates,certificate_number',
 
-            // Oral
-            'presentation_score'   => 'required|integer|min:0',
-            'discussion_score'     => 'required|integer|min:0',
-            'problemsolving_score' => 'required|integer|min:0',
-
-            // Final result
-            'final_result'         => 'required|string|max:255',
+            'final_result'       => 'required|string|max:255',
         ];
+
+        if ($type === 'a2') {
+            $rules['reading_score']   = 'required|integer|min:0|max:25';
+            $rules['listening_score'] = 'required|integer|min:0|max:25';
+            $rules['writing_score']   = 'required|integer|min:0|max:25';
+            $rules['speaking_score']  = 'required|integer|min:0|max:25';
+        } else {
+            $rules['reading_score']        = 'required|integer|min:0|max:75';
+            $rules['grammar_score']        = 'required|integer|min:0|max:30';
+            $rules['listening_score']      = 'required|integer|min:0|max:75';
+            $rules['writing_score']        = 'required|integer|min:0|max:45';
+            $rules['presentation_score']   = 'required|integer|min:0|max:25';
+            $rules['discussion_score']     = 'required|integer|min:0|max:25';
+            $rules['problemsolving_score'] = 'required|integer|min:0|max:25';
+        }
+
+        return $rules;
     }
 
     public function messages(): array

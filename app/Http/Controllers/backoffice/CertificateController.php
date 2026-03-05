@@ -12,21 +12,27 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class CertificateController extends Controller
 {
     /**
-     * ---------------------------------------------------------
-     *   SEUIL NOTES (MAX SCORES) — KEEP EXACTLY AS USER WANTS
-     * ---------------------------------------------------------
+     * Score configs per certificate type.
      */
-    private const READING_MAX = 75;
-    private const GRAMMAR_MAX = 30;
-    private const LISTENING_MAX = 75;
-    private const WRITING_MAX = 45;
-
-    private const PRESENTATION_MAX = 25;
-    private const DISCUSSION_MAX = 25;
-    private const PROBLEMSOLVING_MAX = 25;
-
-    private const WRITTEN_MAX = 225;
-    private const ORAL_MAX = 75;
+    private const SCORE_CONFIGS = [
+        'b2' => [
+            'reading'        => 75,
+            'grammar'        => 30,
+            'listening'      => 75,
+            'writing'        => 45,
+            'presentation'   => 25,
+            'discussion'     => 25,
+            'problemsolving' => 25,
+            'written_max'    => 225,
+            'oral_max'       => 75,
+        ],
+        'a2' => [
+            'reading'   => 25,  // Lesen
+            'listening' => 25,  // Hören
+            'writing'   => 25,  // Schreiben
+            'speaking'  => 25,  // Sprechen
+        ],
+    ];
 
     /**
      * INDEX
@@ -44,16 +50,7 @@ class CertificateController extends Controller
     public function create()
     {
         return view('backoffice.certificates.create', [
-            'max' => [
-                'reading' => self::READING_MAX,
-                'grammar' => self::GRAMMAR_MAX,
-                'listening' => self::LISTENING_MAX,
-                'writing' => self::WRITING_MAX,
-
-                'presentation' => self::PRESENTATION_MAX,
-                'discussion' => self::DISCUSSION_MAX,
-                'problemsolving' => self::PROBLEMSOLVING_MAX,
-            ],
+            'scoreConfigs' => self::SCORE_CONFIGS,
         ]);
     }
 
@@ -88,16 +85,7 @@ class CertificateController extends Controller
 
         return view('backoffice.certificates.edit', [
             'certificate' => $certificate,
-            'max' => [
-                'reading' => self::READING_MAX,
-                'grammar' => self::GRAMMAR_MAX,
-                'listening' => self::LISTENING_MAX,
-                'writing' => self::WRITING_MAX,
-
-                'presentation' => self::PRESENTATION_MAX,
-                'discussion' => self::DISCUSSION_MAX,
-                'problemsolving' => self::PROBLEMSOLVING_MAX,
-            ],
+            'scoreConfigs' => self::SCORE_CONFIGS,
         ]);
     }
 
@@ -132,23 +120,21 @@ class CertificateController extends Controller
     {
         $certificate = Certificate::findOrFail($id);
 
-        // URL publique qui servira au QR (scan => download)
         $url = route('certificates.public.download', [
             'token' => $certificate->public_token,
         ]);
 
-        // QR en PNG base64 (compatible DomPDF)
-        $qrPng = QrCode::format('png')
+        $qrSvg = QrCode::format('svg')
             ->size(180)
             ->margin(1)
             ->generate($url);
 
-        $qrCodeBase64 = base64_encode($qrPng);
+        $qrCodeBase64 = base64_encode($qrSvg);
 
         $pdf = Pdf::loadView('backoffice.certificates.pdf', [
                 'certificate' => $certificate,
                 'qrCodeBase64' => $qrCodeBase64,
-                'qrUrl' => $url, // utile si tu veux aussi afficher l’URL en petit texte
+                'qrUrl' => $url,
             ])
             ->setPaper('a4')
             ->setOption('isHtml5ParserEnabled', true)
@@ -159,39 +145,82 @@ class CertificateController extends Controller
 
     /**
      * ---------------------------------------------------------
-     *               SCORE NORMALIZATION + MAX VALUES
+     *   SCORE NORMALIZATION — type-aware (A2 vs B2)
      * ---------------------------------------------------------
-     * Fills max values, blocks scores > max, calculates totals.
      */
     private function hydrateScores(array $data): array
     {
-        // Attach MAX VALUES
-        $data['reading_max'] = self::READING_MAX;
-        $data['grammar_max'] = self::GRAMMAR_MAX;
-        $data['listening_max'] = self::LISTENING_MAX;
-        $data['writing_max'] = self::WRITING_MAX;
+        $type = $data['certificate_type'] ?? 'b2';
+        $config = self::SCORE_CONFIGS[$type] ?? self::SCORE_CONFIGS['b2'];
 
-        $data['presentation_max'] = self::PRESENTATION_MAX;
-        $data['discussion_max'] = self::DISCUSSION_MAX;
-        $data['problemsolving_max'] = self::PROBLEMSOLVING_MAX;
+        if ($type === 'a2') {
+            return $this->hydrateA2($data, $config);
+        }
 
-        $data['written_max'] = self::WRITTEN_MAX;
-        $data['oral_max'] = self::ORAL_MAX;
+        return $this->hydrateB2($data, $config);
+    }
 
-        // Normalize scores: NEVER allow score > max
-        $data['reading_score'] = min($data['reading_score'], self::READING_MAX);
-        $data['grammar_score'] = min($data['grammar_score'], self::GRAMMAR_MAX);
-        $data['listening_score'] = min($data['listening_score'], self::LISTENING_MAX);
-        $data['writing_score'] = min($data['writing_score'], self::WRITING_MAX);
+    private function hydrateA2(array $data, array $config): array
+    {
+        $data['reading_max'] = $config['reading'];
+        $data['listening_max'] = $config['listening'];
+        $data['writing_max'] = $config['writing'];
+        $data['speaking_max'] = $config['speaking'];
 
-        $data['presentation_score'] = min($data['presentation_score'], self::PRESENTATION_MAX);
-        $data['discussion_score'] = min($data['discussion_score'], self::DISCUSSION_MAX);
-        $data['problemsolving_score'] = min($data['problemsolving_score'], self::PROBLEMSOLVING_MAX);
+        $data['reading_score'] = min($data['reading_score'], $config['reading']);
+        $data['listening_score'] = min($data['listening_score'], $config['listening']);
+        $data['writing_score'] = min($data['writing_score'], $config['writing']);
+        $data['speaking_score'] = min($data['speaking_score'], $config['speaking']);
 
-        // Calculate totals
-        $data['written_total'] = $data['reading_score'] + $data['grammar_score'] + $data['listening_score'] + $data['writing_score'];
+        // Nullify B2-only fields
+        $data['grammar_score'] = null;
+        $data['grammar_max'] = null;
+        $data['presentation_score'] = null;
+        $data['presentation_max'] = null;
+        $data['discussion_score'] = null;
+        $data['discussion_max'] = null;
+        $data['problemsolving_score'] = null;
+        $data['problemsolving_max'] = null;
+        $data['written_total'] = null;
+        $data['written_max'] = null;
+        $data['oral_total'] = null;
+        $data['oral_max'] = null;
 
-        $data['oral_total'] = $data['presentation_score'] + $data['discussion_score'] + $data['problemsolving_score'];
+        return $data;
+    }
+
+    private function hydrateB2(array $data, array $config): array
+    {
+        $data['reading_max'] = $config['reading'];
+        $data['grammar_max'] = $config['grammar'];
+        $data['listening_max'] = $config['listening'];
+        $data['writing_max'] = $config['writing'];
+
+        $data['presentation_max'] = $config['presentation'];
+        $data['discussion_max'] = $config['discussion'];
+        $data['problemsolving_max'] = $config['problemsolving'];
+
+        $data['written_max'] = $config['written_max'];
+        $data['oral_max'] = $config['oral_max'];
+
+        $data['reading_score'] = min($data['reading_score'], $config['reading']);
+        $data['grammar_score'] = min($data['grammar_score'], $config['grammar']);
+        $data['listening_score'] = min($data['listening_score'], $config['listening']);
+        $data['writing_score'] = min($data['writing_score'], $config['writing']);
+
+        $data['presentation_score'] = min($data['presentation_score'], $config['presentation']);
+        $data['discussion_score'] = min($data['discussion_score'], $config['discussion']);
+        $data['problemsolving_score'] = min($data['problemsolving_score'], $config['problemsolving']);
+
+        $data['written_total'] = $data['reading_score'] + $data['grammar_score']
+                               + $data['listening_score'] + $data['writing_score'];
+
+        $data['oral_total'] = $data['presentation_score'] + $data['discussion_score']
+                            + $data['problemsolving_score'];
+
+        // Nullify A2-only fields
+        $data['speaking_score'] = null;
+        $data['speaking_max'] = null;
 
         return $data;
     }

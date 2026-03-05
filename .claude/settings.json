@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php artisan google:sheets:resync --help)",
+      "Bash(php artisan google:sheets:resync)",
+      "Bash(php artisan tinker --execute=\"$i = App\\\\Models\\\\GlsInscription::find\\(13\\); if\\($i\\) { echo ''centre=''.$i->centre.'' type_cours=''.$i->type_cours; } else { echo ''not found''; }\")",
+      "Bash(php check_inscription.php)",
+      "Bash(php artisan tinker --execute=\":*)"
+    ]
+  }
+}

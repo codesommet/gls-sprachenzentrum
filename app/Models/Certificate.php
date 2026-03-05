@@ -19,8 +19,9 @@ class Certificate extends Model
         'exam_date',
         'issue_date',
         'certificate_number',
+        'certificate_type', // 'a2' or 'b2'
 
-        // Written
+        // Written (B2) / Lesen+Hören (A2)
         'written_total',
         'written_max',
 
@@ -36,7 +37,11 @@ class Certificate extends Model
         'writing_score',
         'writing_max',
 
-        // Oral
+        // Speaking (A2: Sprechen)
+        'speaking_score',
+        'speaking_max',
+
+        // Oral (B2 only)
         'oral_total',
         'oral_max',
 
@@ -75,6 +80,9 @@ class Certificate extends Model
         'writing_score' => 'integer',
         'writing_max' => 'integer',
 
+        'speaking_score' => 'integer',
+        'speaking_max' => 'integer',
+
         'oral_total' => 'integer',
         'oral_max' => 'integer',
 
@@ -90,18 +98,44 @@ class Certificate extends Model
 
     /*
     |--------------------------------------------------------------------------
+    |  HELPERS
+    |--------------------------------------------------------------------------
+    */
+
+    public function isA2(): bool
+    {
+        return $this->certificate_type === 'a2';
+    }
+
+    public function isB2(): bool
+    {
+        return $this->certificate_type === 'b2';
+    }
+
+    /*
+    |--------------------------------------------------------------------------
     |  ACCESSORS
     |--------------------------------------------------------------------------
     */
 
     public function getTotalMaxAttribute()
     {
-        return $this->written_max + $this->oral_max;
+        if ($this->isA2()) {
+            return ($this->reading_max ?? 0) + ($this->listening_max ?? 0)
+                 + ($this->writing_max ?? 0) + ($this->speaking_max ?? 0);
+        }
+
+        return ($this->written_max ?? 0) + ($this->oral_max ?? 0);
     }
 
     public function getTotalScoreAttribute()
     {
-        return $this->written_total + $this->oral_total;
+        if ($this->isA2()) {
+            return ($this->reading_score ?? 0) + ($this->listening_score ?? 0)
+                 + ($this->writing_score ?? 0) + ($this->speaking_score ?? 0);
+        }
+
+        return ($this->written_total ?? 0) + ($this->oral_total ?? 0);
     }
 
     public function getTotalPercentageAttribute()
@@ -111,12 +145,12 @@ class Certificate extends Model
 
     public function getWrittenPercentageAttribute()
     {
-        return $this->written_max == 0 ? 0 : round(($this->written_total / $this->written_max) * 100, 2);
+        return $this->written_max == 0 ? 0 : round((($this->written_total ?? 0) / $this->written_max) * 100, 2);
     }
 
     public function getOralPercentageAttribute()
     {
-        return $this->oral_max == 0 ? 0 : round(($this->oral_total / $this->oral_max) * 100, 2);
+        return $this->oral_max == 0 ? 0 : round((($this->oral_total ?? 0) / $this->oral_max) * 100, 2);
     }
 
     public function getFullNameAttribute()
