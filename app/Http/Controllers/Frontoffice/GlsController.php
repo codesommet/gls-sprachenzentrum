@@ -8,6 +8,8 @@ use App\Models\GlsInscription;
 use App\Models\Site;
 use App\Mail\GlsInscriptionMail;
 use App\Mail\GlsInscriptionConfirmation;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -47,7 +49,27 @@ class GlsController extends Controller
         */
 
         // Create inscription
-        $inscription = GlsInscription::create($validated);
+        try {
+            $inscription = GlsInscription::create($validated);
+        } catch (QueryException $e) {
+            if ($e->getCode() == 23000) {
+                Log::warning('Duplicate GLS inscription attempt', ['email' => $validated['email']]);
+
+                return response()->json([
+                    'success' => false,
+                    'status'  => 'duplicate',
+                    'message' => 'Une inscription avec cet email existe déjà. Merci de vérifier vos informations.',
+                ], 409);
+            }
+
+            Log::error('GLS inscription error: ' . $e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'status'  => 'error',
+                'message' => 'Une erreur est survenue. Merci de réessayer.',
+            ], 500);
+        }
 
         // Load related objects for email
         $centre = null;

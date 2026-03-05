@@ -159,16 +159,6 @@
             margin: 0 auto 5px auto;
         }
 
-        /* WATERMARK */
-        .watermark {
-            position: fixed;
-            top: 380px;
-            left: 175px;
-            width: 350px;
-            opacity: 0.06;
-            z-index: 0;
-        }
-
         /* FOOTER */
         .footer-address {
             position: fixed;
@@ -192,9 +182,6 @@
 </head>
 
 <body>
-
-    <!-- WATERMARK -->
-    <img src="{{ public_path('assets/images/logo/gls.png') }}" class="watermark">
 
     <!-- HEADER -->
     <table>
