@@ -86,9 +86,9 @@
                             <div class="row">
 
                                 <div class="col-md-4">
-                                    <p class="mb-1 fw-bold">Niveau :</p>
+                                    <p class="mb-1 fw-bold">Type / Niveau :</p>
                                     <span class="badge bg-light-primary text-primary fs-6 px-3">
-                                        {{ $certificate->exam_level }}
+                                        {{ strtoupper($certificate->certificate_type) }} — {{ $certificate->exam_level }}
                                     </span>
                                 </div>
 
@@ -136,79 +136,123 @@
 
                     <hr>
 
-                    {{-- ===============================
-                       WRITTEN EXAM
-                    =============================== --}}
-                    <h5 class="fw-bold mb-3">Schriftliche Prüfung (Écrit)</h5>
+                    @if($certificate->isA2())
+                        {{-- ===============================
+                           A2 SCORES
+                        =============================== --}}
+                        <h5 class="fw-bold mb-3">Prüfungsergebnisse — A2</h5>
 
-                    <table class="table table-bordered mb-4">
-                        <thead>
-                            <tr>
-                                <th>Section</th>
-                                <th>Score</th>
-                                <th>Max</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>Total Écrit</strong></td>
-                                <td>{{ $certificate->written_total }}</td>
-                                <td>{{ $certificate->written_max }}</td>
-                            </tr>
-                            <tr>
-                                <td>Leseverstehen</td>
-                                <td>{{ $certificate->reading_score }}</td>
-                                <td>{{ $certificate->reading_max }}</td>
-                            </tr>
-                            <tr>
-                                <td>Sprachbausteine</td>
-                                <td>{{ $certificate->grammar_score }}</td>
-                                <td>{{ $certificate->grammar_max }}</td>
-                            </tr>
-                            <tr>
-                                <td>Hörverstehen</td>
-                                <td>{{ $certificate->listening_score }}</td>
-                                <td>{{ $certificate->listening_max }}</td>
-                            </tr>
-                            <tr>
-                                <td>Schriftlicher Ausdruck</td>
-                                <td>{{ $certificate->writing_score }}</td>
-                                <td>{{ $certificate->writing_max }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                        <table class="table table-bordered mb-4">
+                            <thead>
+                                <tr>
+                                    <th>Section</th>
+                                    <th>Score</th>
+                                    <th>Max</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Gesamt</strong></td>
+                                    <td><strong>{{ $certificate->total_score }}</strong></td>
+                                    <td><strong>{{ $certificate->total_max }}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Lesen</td>
+                                    <td>{{ $certificate->reading_score }}</td>
+                                    <td>{{ $certificate->reading_max }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Hören</td>
+                                    <td>{{ $certificate->listening_score }}</td>
+                                    <td>{{ $certificate->listening_max }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Schreiben</td>
+                                    <td>{{ $certificate->writing_score }}</td>
+                                    <td>{{ $certificate->writing_max }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Sprechen</td>
+                                    <td>{{ $certificate->speaking_score }}</td>
+                                    <td>{{ $certificate->speaking_max }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    @else
+                        {{-- ===============================
+                           B2 WRITTEN EXAM
+                        =============================== --}}
+                        <h5 class="fw-bold mb-3">Schriftliche Prüfung (Écrit) — B2</h5>
 
-                    <hr>
+                        <table class="table table-bordered mb-4">
+                            <thead>
+                                <tr>
+                                    <th>Section</th>
+                                    <th>Score</th>
+                                    <th>Max</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Total Écrit</strong></td>
+                                    <td><strong>{{ $certificate->written_total }}</strong></td>
+                                    <td><strong>{{ $certificate->written_max }}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Leseverstehen</td>
+                                    <td>{{ $certificate->reading_score }}</td>
+                                    <td>{{ $certificate->reading_max }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Sprachbausteine</td>
+                                    <td>{{ $certificate->grammar_score }}</td>
+                                    <td>{{ $certificate->grammar_max }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Hörverstehen</td>
+                                    <td>{{ $certificate->listening_score }}</td>
+                                    <td>{{ $certificate->listening_max }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Schriftlicher Ausdruck</td>
+                                    <td>{{ $certificate->writing_score }}</td>
+                                    <td>{{ $certificate->writing_max }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-                    {{-- ===============================
-                       ORAL EXAM
-                    =============================== --}}
-                    <h5 class="fw-bold mb-3">Mündliche Prüfung (Oral)</h5>
+                        <hr>
 
-                    <table class="table table-bordered mb-4">
-                        <tbody>
-                            <tr>
-                                <td><strong>Total Oral</strong></td>
-                                <td>{{ $certificate->oral_total }}</td>
-                                <td>{{ $certificate->oral_max }}</td>
-                            </tr>
-                            <tr>
-                                <td>Präsentation</td>
-                                <td>{{ $certificate->presentation_score }}</td>
-                                <td>{{ $certificate->presentation_max }}</td>
-                            </tr>
-                            <tr>
-                                <td>Diskussion</td>
-                                <td>{{ $certificate->discussion_score }}</td>
-                                <td>{{ $certificate->discussion_max }}</td>
-                            </tr>
-                            <tr>
-                                <td>Problemlösung</td>
-                                <td>{{ $certificate->problemsolving_score }}</td>
-                                <td>{{ $certificate->problemsolving_max }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                        {{-- ===============================
+                           B2 ORAL EXAM
+                        =============================== --}}
+                        <h5 class="fw-bold mb-3">Mündliche Prüfung (Oral) — B2</h5>
+
+                        <table class="table table-bordered mb-4">
+                            <tbody>
+                                <tr>
+                                    <td><strong>Total Oral</strong></td>
+                                    <td><strong>{{ $certificate->oral_total }}</strong></td>
+                                    <td><strong>{{ $certificate->oral_max }}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Präsentation</td>
+                                    <td>{{ $certificate->presentation_score }}</td>
+                                    <td>{{ $certificate->presentation_max }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Diskussion</td>
+                                    <td>{{ $certificate->discussion_score }}</td>
+                                    <td>{{ $certificate->discussion_max }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Problemlösung</td>
+                                    <td>{{ $certificate->problemsolving_score }}</td>
+                                    <td>{{ $certificate->problemsolving_max }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    @endif
 
                     <hr>
 
