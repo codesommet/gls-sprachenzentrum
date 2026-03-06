@@ -1,0 +1,94 @@
+/* ===============================
+   QUIZ TOOLBAR — Flag button, progress bar
+================================ */
+
+.quiz-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 0 16px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--quiz-border);
+}
+
+.quiz-toolbar_left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quiz-toolbar_right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+/* ===== FLAG BUTTON ===== */
+.quiz-flag-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1.5px solid var(--quiz-border);
+  border-radius: 8px;
+  background: var(--color-surface);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--quiz-muted);
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.quiz-flag-btn:hover {
+  border-color: var(--quiz-warning);
+  color: var(--quiz-warning);
+  background: var(--quiz-warning-light);
+}
+
+.quiz-flag-btn.is-flagged {
+  border-color: var(--quiz-warning);
+  color: #b45309;
+  background: var(--quiz-warning-light);
+}
+
+.quiz-flag-btn.is-flagged svg {
+  fill: var(--quiz-warning);
+  stroke: var(--quiz-warning);
+}
+
+/* ===== PROGRESS BAR ===== */
+.quiz-progressbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 180px;
+}
+
+.quiz-progressbar_track {
+  flex: 1;
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.quiz-progressbar_fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--quiz-accent), #3b82f6);
+  border-radius: 999px;
+  transition: width 0.35s ease;
+}
+
+.quiz-progressbar_text {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--quiz-muted);
+  white-space: nowrap;
+  min-width: 90px;
+  text-align: right;
+}

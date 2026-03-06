@@ -18,6 +18,7 @@ use App\Http\Controllers\Backoffice\CertificateController;
 use App\Http\Controllers\Backoffice\QuizController;
 use App\Http\Controllers\Backoffice\QuizQuestionController;
 use App\Http\Controllers\Backoffice\HelpController;
+use App\Http\Controllers\Backoffice\UserController;
 
 use App\Http\Controllers\Backoffice\GroupApplicationController as BackofficeGroupApplicationController;
 use App\Http\Controllers\Frontoffice\GroupApplicationController as GroupApplicationController;
@@ -205,6 +206,22 @@ Route::prefix('backoffice')
                 Route::put('/{application}', [BackofficeGroupApplicationController::class, 'update'])->name('update');
                 Route::delete('/{application}', [BackofficeGroupApplicationController::class, 'destroy'])->name('destroy');
                 Route::post('/{application}/resync', [BackofficeGroupApplicationController::class, 'resync'])->name('resync');
+            });
+
+        /*
+        |----------------------------------------------------------------------
+        | UTILISATEURS
+        |----------------------------------------------------------------------
+        */
+        Route::prefix('users')
+            ->name('users.')
+            ->group(function () {
+                Route::get('/', [UserController::class, 'index'])->name('index');
+                Route::get('/create', [UserController::class, 'create'])->name('create');
+                Route::post('/', [UserController::class, 'store'])->name('store');
+                Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit');
+                Route::put('/{user}', [UserController::class, 'update'])->name('update');
+                Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
             });
 
         /*

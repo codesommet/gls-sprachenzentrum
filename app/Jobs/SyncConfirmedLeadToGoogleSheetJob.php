@@ -26,6 +26,11 @@ class SyncConfirmedLeadToGoogleSheetJob implements ShouldQueue
 
     public function handle(GoogleSheetsLeadSyncService $syncService): void
     {
+        if (!class_exists(\Google\Client::class)) {
+            Log::warning('SyncConfirmedLeadToGoogleSheetJob: google/apiclient not installed, skipping.');
+            return;
+        }
+
         $syncService->updateLeadRow($this->lead);
         $syncService->appendLeadToConfirmedSheet($this->lead);
     }

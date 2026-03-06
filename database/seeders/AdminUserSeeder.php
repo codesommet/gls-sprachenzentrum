@@ -16,6 +16,7 @@ class AdminUserSeeder extends Seeder
             'rafik@glszentrum.com' => 'Rafik',
             'abderrahimelmoulabbi@glszentrum.com' => 'Abderrahim Elmoulabbi',
             'achraf.elyounani@glszentrum.com' => 'Achraf Elyounani',
+            'ichrak.fakroune@glszentrum.com' => 'Ichrak Fakroune',
         ];
 
         foreach ($admins as $email => $name) {

@@ -1,66 +1,76 @@
+/**
+ * Quiz Core — State, rendering, navigation, results
+ * Exposes window.__quizEngine for quiz-tools.js and quiz-keyboard.js
+ */
 (function () {
-  const quiz = window.__QUIZ__ || { questions: [] };
-  const questions = Array.isArray(quiz.questions) ? quiz.questions : [];
+  var quiz = window.__QUIZ__ || { questions: [] };
+  var questions = Array.isArray(quiz.questions) ? quiz.questions : [];
 
-  const $shell = document.querySelector('[data-quiz]');
+  var $shell = document.querySelector('[data-quiz]');
   if (!$shell) return;
 
-  const $screens = {
+  var $screens = {
     start: $shell.querySelector('[data-screen="start"]'),
     question: $shell.querySelector('[data-screen="question"]'),
     result: $shell.querySelector('[data-screen="result"]'),
   };
 
-  const $counter = $shell.querySelector('[data-quiz-counter]');
-  const $progress = $shell.querySelector('[data-quiz-progress]');
+  var $counter = $shell.querySelector('[data-quiz-counter]');
+  var $progress = $shell.querySelector('[data-quiz-progress]');
 
-  const $btnStart = $shell.querySelector('[data-quiz-start]');
-  const $btnRestart = $shell.querySelector('[data-quiz-restart]');
-  const $btnSubmit = $shell.querySelector('[data-quiz-submit]'); // optional
-  const $btnPrev = $shell.querySelector('[data-quiz-prev]');
-  const $btnNext = $shell.querySelector('[data-quiz-next]');
+  var $btnStart = $shell.querySelector('[data-quiz-start]');
+  var $btnRestart = $shell.querySelector('[data-quiz-restart]');
+  var $btnSubmit = $shell.querySelector('[data-quiz-submit]');
+  var $btnPrev = $shell.querySelector('[data-quiz-prev]');
+  var $btnNext = $shell.querySelector('[data-quiz-next]');
 
-  // Nav wrapper (if you add data-quiz-nav + hidden in blade, we will control it)
-  const $nav = $shell.querySelector('[data-quiz-nav]') || $shell.querySelector('.quiz-nav');
+  var $nav = $shell.querySelector('[data-quiz-nav]') || $shell.querySelector('.quiz-nav');
 
-  const $qTitle = $shell.querySelector('[data-q-title]');
-  const $qPrompt = $shell.querySelector('[data-q-prompt]');
-  const $qQuestion = $shell.querySelector('[data-q-question]');
-  const $qAnswers = $shell.querySelector('[data-q-answers]');
+  var $qTitle = $shell.querySelector('[data-q-title]');
+  var $qPrompt = $shell.querySelector('[data-q-prompt]');
+  var $qQuestion = $shell.querySelector('[data-q-question]');
+  var $qAnswers = $shell.querySelector('[data-q-answers]');
 
-  // ✅ Media elements (support image + audio)
-  const $qMediaWrap = $shell.querySelector('[data-q-media]');
-  const $qImage = $shell.querySelector('[data-q-image]');
-  const $qAudio = $shell.querySelector('[data-q-audio]');
+  var $qMediaWrap = $shell.querySelector('[data-q-media]');
+  var $qImage = $shell.querySelector('[data-q-image]');
+  var $qAudio = $shell.querySelector('[data-q-audio]');
 
-  const $resultCorrect = $shell.querySelector('[data-result-correct]');
-  const $resultTotal = $shell.querySelector('[data-result-total]');
-  const $resultPercent = $shell.querySelector('[data-result-percent]');
-  const $resultLevel = $shell.querySelector('[data-result-level]');
+  var $resultCorrect = $shell.querySelector('[data-result-correct]');
+  var $resultTotal = $shell.querySelector('[data-result-total]');
+  var $resultPercent = $shell.querySelector('[data-result-percent]');
+  var $resultLevel = $shell.querySelector('[data-result-level]');
 
-  const $form = $shell.querySelector('[data-quiz-form]');
-  const $answersJson = $shell.querySelector('[data-answers-json]');
+  var $form = $shell.querySelector('[data-quiz-form]');
+  var $answersJson = $shell.querySelector('[data-answers-json]');
 
-  // Header elements to hide after start (from your blade)
-  const $hero = $shell.querySelector('[data-quiz-hero]');
-  const $startSubtitle = $shell.querySelector('[data-quiz-subtitle]');
-  const $startTitle = $shell.querySelector('[data-quiz-title]'); // if you used it
+  var $hero = $shell.querySelector('[data-quiz-hero]');
+  var $startSubtitle = $shell.querySelector('[data-quiz-subtitle]');
+  var $startTitle = $shell.querySelector('[data-quiz-title]');
+  var $toolbar = $shell.querySelector('[data-quiz-toolbar]');
 
-  let state = {
-    step: -1,          // -1 start, 0..n-1 questions, n result
-    answers: {},       // { [questionId]: value } (value = string | string[])
+  var state = {
+    step: -1,
+    answers: {},
+    flagged: {},
+    fontSize: 100,
   };
 
+  // Helper: get tools (set by quiz-tools.js after load)
+  function tools() {
+    return (window.__quizEngine && window.__quizEngine.tools) || {};
+  }
+
+  // ===== CORE FUNCTIONS =====
   function showScreen(name) {
-    Object.values($screens).forEach(el => el && el.classList.remove('is-active'));
+    Object.values($screens).forEach(function (el) { if (el) el.classList.remove('is-active'); });
     if ($screens[name]) $screens[name].classList.add('is-active');
   }
 
   function buildProgress() {
     if (!$progress) return;
     $progress.innerHTML = '';
-    for (let i = 0; i < questions.length; i++) {
-      const dot = document.createElement('span');
+    for (var i = 0; i < questions.length; i++) {
+      var dot = document.createElement('span');
       dot.className = 'quiz-dot';
       dot.setAttribute('data-dot', String(i));
       $progress.appendChild(dot);
@@ -69,26 +79,26 @@
 
   function updateProgress() {
     if (!$progress) return;
-    const dots = $progress.querySelectorAll('.quiz-dot');
-    dots.forEach((d, i) => {
-      d.classList.remove('is-active', 'is-done');
+    var dots = $progress.querySelectorAll('.quiz-dot');
+    dots.forEach(function (d, i) {
+      d.classList.remove('is-active', 'is-done', 'is-flagged');
       if (i < state.step) d.classList.add('is-done');
       if (i === state.step) d.classList.add('is-active');
+      if (state.flagged[i]) d.classList.add('is-flagged');
     });
   }
 
   function updateCounter() {
     if (!$counter) return;
-
     if (state.step >= 0 && state.step < questions.length) {
-      $counter.textContent = `${state.step + 1} / ${questions.length}`;
+      $counter.textContent = (state.step + 1) + ' / ' + questions.length;
     } else {
       $counter.textContent = '';
     }
   }
 
   function setNavState() {
-    const onQuestion = state.step >= 0 && state.step < questions.length;
+    var onQuestion = state.step >= 0 && state.step < questions.length;
 
     if ($btnPrev) $btnPrev.disabled = !(state.step > 0);
     if ($btnNext) $btnNext.disabled = true;
@@ -99,9 +109,9 @@
       return;
     }
 
-    const q = questions[state.step];
-    const qid = String(q.id);
-    const ans = state.answers[qid];
+    var q = questions[state.step];
+    var qid = String(q.id);
+    var ans = state.answers[qid];
 
     if (q.type === 'multi') {
       if ($btnNext) $btnNext.disabled = !(Array.isArray(ans) && ans.length > 0);
@@ -120,29 +130,22 @@
     }
     if ($qAudio) {
       $qAudio.hidden = true;
-      $qAudio.pause?.();
+      if ($qAudio.pause) $qAudio.pause();
       $qAudio.removeAttribute('src');
-      $qAudio.load?.();
+      if ($qAudio.load) $qAudio.load();
     }
     if ($qMediaWrap) $qMediaWrap.hidden = true;
   }
 
   function renderMedia(q) {
-    // Expecting: q.media = { type: 'image'|'audio'|'none', url: '...' }
-    // NEW RULE: If options_type='image', ALWAYS hide question media
-    const optionsType = String(q.options_type || 'text').toLowerCase();
-    const media = q.media || { type: 'none', url: null };
-    const type = String(media.type || 'none').toLowerCase();
-    const url = media.url || null;
+    var optionsType = String(q.options_type || 'text').toLowerCase();
+    var media = q.media || { type: 'none', url: null };
+    var type = String(media.type || 'none').toLowerCase();
+    var url = media.url || null;
 
     resetMedia();
 
-    // Hide question media if using image options
-    if (optionsType === 'image') {
-      return;
-    }
-
-    // Otherwise, show media based on type
+    if (optionsType === 'image') return;
     if (!url || type === 'none') return;
 
     if ($qMediaWrap) $qMediaWrap.hidden = false;
@@ -164,13 +167,19 @@
     resetMedia();
   }
 
+  function onAnswerChange(qid) {
+    setNavState();
+    if (tools().updateNavigator) tools().updateNavigator();
+    if (tools().updateProgressBar) tools().updateProgressBar();
+  }
+
   function renderQuestion() {
-    const q = questions[state.step];
+    var q = questions[state.step];
     if (!q) return;
 
-    const qid = String(q.id);
-    const current = state.answers[qid];
-    const optionsType = String(q.options_type || 'text').toLowerCase();
+    var qid = String(q.id);
+    var current = state.answers[qid];
+    var optionsType = String(q.options_type || 'text').toLowerCase();
 
     if ($qTitle) $qTitle.textContent = q.title || '';
     if ($qPrompt) $qPrompt.textContent = q.prompt || '';
@@ -179,17 +188,18 @@
     renderMedia(q);
 
     $qAnswers.innerHTML = '';
+    $qAnswers.className = 'quiz-answers';
 
     // ===== TEXT MODE =====
     if (optionsType === 'text') {
       if (q.type === 'text') {
-        const wrap = document.createElement('div');
+        var wrap = document.createElement('div');
         wrap.className = 'quiz-text-wrap';
 
-        const input = document.createElement('input');
+        var input = document.createElement('input');
         input.type = 'text';
         input.className = 'quiz-text';
-        input.placeholder = 'Ta réponse...';
+        input.placeholder = (window.__QUIZ_I18N__ || {}).placeholder || '...';
         input.value = typeof current === 'string' ? current : '';
         input.style.width = '100%';
         input.style.padding = '12px 14px';
@@ -197,63 +207,71 @@
         input.style.borderRadius = '12px';
         input.style.fontWeight = '700';
 
-        input.addEventListener('input', () => {
+        input.addEventListener('input', function () {
           state.answers[qid] = input.value;
-          setNavState();
+          onAnswerChange(qid);
         });
 
         wrap.appendChild(input);
         $qAnswers.appendChild(wrap);
       } else {
-        // Multi/single choice with text labels
-        const isMulti = q.type === 'multi';
-        const name = `q_${qid}`;
+        var isMulti = q.type === 'multi';
+        var name = 'q_' + qid;
 
-        (q.choices || []).forEach(choice => {
-          const cid = String(choice.id);
+        (q.choices || []).forEach(function (choice, idx) {
+          var cid = String(choice.id);
 
-          const label = document.createElement('label');
+          var label = document.createElement('label');
           label.className = 'quiz-choice';
+          label.setAttribute('data-choice-index', String(idx));
 
-          const input = document.createElement('input');
-          input.type = isMulti ? 'checkbox' : 'radio';
-          input.name = name;
-          input.value = cid;
+          var inp = document.createElement('input');
+          inp.type = isMulti ? 'checkbox' : 'radio';
+          inp.name = name;
+          inp.value = cid;
 
-          const span = document.createElement('span');
+          var span = document.createElement('span');
           span.className = 'quiz-choice_label';
           span.textContent = choice.label || '';
 
-          if (isMulti) {
-            const arr = Array.isArray(current) ? current : [];
-            input.checked = arr.includes(cid);
-            if (input.checked) label.classList.add('is-selected');
-          } else {
-            input.checked = current === cid;
-            if (input.checked) label.classList.add('is-selected');
+          // Keyboard shortcut hint
+          if (!isMulti && idx < 9) {
+            var hint = document.createElement('span');
+            hint.className = 'quiz-choice_key';
+            hint.textContent = String(idx + 1);
+            label.appendChild(hint);
           }
 
-          label.appendChild(input);
+          if (isMulti) {
+            var arr = Array.isArray(current) ? current : [];
+            inp.checked = arr.includes(cid);
+            if (inp.checked) label.classList.add('is-selected');
+          } else {
+            inp.checked = current === cid;
+            if (inp.checked) label.classList.add('is-selected');
+          }
+
+          label.appendChild(inp);
           label.appendChild(span);
 
-          label.addEventListener('click', () => {
-            setTimeout(() => {
+          label.addEventListener('click', function () {
+            setTimeout(function () {
               if (isMulti) {
-                const selected = Array.from($qAnswers.querySelectorAll('input[type="checkbox"]:checked'))
-                  .map(i => i.value);
+                var selected = Array.from($qAnswers.querySelectorAll('input[type="checkbox"]:checked'))
+                  .map(function (i) { return i.value; });
                 state.answers[qid] = selected;
               } else {
-                const checked = $qAnswers.querySelector('input[type="radio"]:checked');
+                var checked = $qAnswers.querySelector('input[type="radio"]:checked');
                 state.answers[qid] = checked ? checked.value : '';
               }
 
-              $qAnswers.querySelectorAll('.quiz-choice').forEach(c => c.classList.remove('is-selected'));
-              $qAnswers.querySelectorAll('input:checked').forEach(i => {
-                const parent = i.closest('.quiz-choice');
+              $qAnswers.querySelectorAll('.quiz-choice').forEach(function (c) { c.classList.remove('is-selected'); });
+              $qAnswers.querySelectorAll('input:checked').forEach(function (i) {
+                var parent = i.closest('.quiz-choice');
                 if (parent) parent.classList.add('is-selected');
               });
 
-              setNavState();
+              onAnswerChange(qid);
             }, 0);
           });
 
@@ -266,67 +284,60 @@
     else if (optionsType === 'image') {
       $qAnswers.className = 'quiz-answers quiz-answers-image';
 
-      (q.choices || []).forEach(choice => {
-        const cid = String(choice.id);
-        const imageUrl = choice.image_url || null;
-        const isSelected = current === cid;
+      (q.choices || []).forEach(function (choice) {
+        var cid = String(choice.id);
+        var imageUrl = choice.image_url || null;
+        var isSelected = current === cid;
 
-        // Create image card container
-        const card = document.createElement('div');
+        var card = document.createElement('div');
         card.className = 'quiz-image-option';
         if (isSelected) card.classList.add('is-selected');
 
-        // Clickable wrapper
-        const clickable = document.createElement('div');
+        var clickable = document.createElement('div');
         clickable.className = 'quiz-image-option_clickable';
         clickable.role = 'button';
         clickable.tabIndex = 0;
 
-        // Hidden radio for form submission
-        const input = document.createElement('input');
-        input.type = 'radio';
-        input.name = `q_${qid}`;
-        input.value = cid;
-        input.checked = isSelected;
-        input.style.display = 'none';
+        var inp = document.createElement('input');
+        inp.type = 'radio';
+        inp.name = 'q_' + qid;
+        inp.value = cid;
+        inp.checked = isSelected;
+        inp.style.display = 'none';
 
-        // Image or fallback
-        const imgContainer = document.createElement('div');
+        var imgContainer = document.createElement('div');
         imgContainer.className = 'quiz-image-option_img';
 
         if (imageUrl) {
-          const img = document.createElement('img');
+          var img = document.createElement('img');
           img.src = imageUrl;
-          img.alt = `Option ${choice.id}`;
+          img.alt = 'Option ' + choice.id;
           img.loading = 'lazy';
           imgContainer.appendChild(img);
         } else {
-          const fallback = document.createElement('div');
+          var fallback = document.createElement('div');
           fallback.className = 'quiz-image-option_missing';
           fallback.textContent = 'Image manquante';
           imgContainer.appendChild(fallback);
         }
 
         clickable.appendChild(imgContainer);
-        card.appendChild(input);
+        card.appendChild(inp);
         card.appendChild(clickable);
 
-        // Click handler
-        card.addEventListener('click', () => {
-          input.checked = true;
+        card.addEventListener('click', function () {
+          inp.checked = true;
           state.answers[qid] = cid;
 
-          // Update visual selection
-          $qAnswers.querySelectorAll('.quiz-image-option').forEach(c => {
+          $qAnswers.querySelectorAll('.quiz-image-option').forEach(function (c) {
             c.classList.remove('is-selected');
           });
           card.classList.add('is-selected');
 
-          setNavState();
+          onAnswerChange(qid);
         });
 
-        // Keyboard support
-        clickable.addEventListener('keydown', (e) => {
+        clickable.addEventListener('keydown', function (e) {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
             card.click();
@@ -339,99 +350,33 @@
 
     updateCounter();
     updateProgress();
+    if (tools().updateNavigator) tools().updateNavigator();
+    if (tools().updateProgressBar) tools().updateProgressBar();
+    if (tools().updateFlagButton) tools().updateFlagButton();
     setNavState();
-  }
-
-  function countAnswered() {
-    return Object.keys(state.answers).filter(k => {
-      const v = state.answers[k];
-      if (Array.isArray(v)) return v.length > 0;
-      return typeof v === 'string' && v.trim().length > 0;
-    }).length;
-  }
-
-  function getChosenChoice(q, stored) {
-    if (stored == null) return null;
-
-    // stored can be choice id (string) from new system
-    return (q.choices || []).find(c => String(c.id) === String(stored)) || null;
-  }
-
-  function detectLevelFromPercent(percent) {
-    if (percent >= 85) return 'B2';
-    if (percent >= 70) return 'B1';
-    if (percent >= 50) return 'A2';
-    return 'A1';
-  }
-
-  function computeResult() {
-    let answered = 0;
-    const total = questions.length;
-
-    questions.forEach(q => {
-      const qid = String(q.id);
-      const stored = state.answers[qid];
-
-      if (stored == null) return;
-
-      // multi not used now, but keep safe
-      if (Array.isArray(stored)) {
-        if (stored.length > 0) answered++;
-        return;
-      }
-
-      // For single choice, just count as answered
-      // Actual correctness will be verified server-side
-      const chosen = getChosenChoice(q, stored);
-      if (chosen) answered++;
-    });
-
-    const percent = total ? Math.round((answered / total) * 100) : 0;
-    const level = detectLevelFromPercent(percent);
-
-    // ⚠️ Scoring is now SERVER-SIDE
-    // Frontend doesn't know which answers are correct (for security)
-    return { answered, correct: 0, total, percent, level, serverSideScoring: true };
   }
 
   function showResultScreen() {
     showScreen('result');
     resetMedia();
 
-    const result = computeResult();
+    // Show loading state — real scoring is done server-side
+    if ($resultCorrect) $resultCorrect.textContent = '...';
+    if ($resultTotal) $resultTotal.textContent = String(questions.length);
+    if ($resultPercent) $resultPercent.textContent = '...';
+    if ($resultLevel) $resultLevel.textContent = '...';
 
-    if ($resultCorrect) {
-      $resultCorrect.textContent = String(result.correct);
-    }
+    if ($answersJson) $answersJson.value = JSON.stringify(state.answers);
 
-    if ($resultTotal) {
-      $resultTotal.textContent = String(result.total);
-    }
-
-    if ($resultPercent) {
-      $resultPercent.textContent = String(result.percent);
-    }
-
-    if ($resultLevel) {
-      $resultLevel.textContent = result.level;
-    }
-
-    if ($answersJson) {
-      $answersJson.value = JSON.stringify(state.answers);
-    }
-
-    // ✅ Submit form to server for server-side scoring
-    if ($form && result.serverSideScoring) {
-      // Small delay to ensure form field is updated
-      setTimeout(() => {
-        $form.submit();
-      }, 100);
+    if ($form) {
+      setTimeout(function () { $form.submit(); }, 100);
     }
 
     updateCounter();
     updateProgress();
+    if (tools().updateNavigator) tools().updateNavigator();
+    if (tools().updateProgressBar) tools().updateProgressBar();
 
-    // Disable nav at result
     if ($btnPrev) $btnPrev.disabled = true;
     if ($btnNext) $btnNext.disabled = true;
   }
@@ -446,10 +391,12 @@
       updateCounter();
       updateProgress();
 
-      // hide nav on start
       if ($nav) $nav.style.display = 'none';
+      if ($toolbar) $toolbar.hidden = true;
 
-      // reset buttons state
+      var navPanel = $shell.querySelector('[data-quiz-navigator-panel]');
+      if (navPanel) navPanel.hidden = true;
+
       setNavState();
       return;
     }
@@ -458,54 +405,74 @@
     if (state.step >= 0 && state.step < questions.length) {
       showScreen('question');
 
-      // show nav when quiz starts
       if ($nav) $nav.style.display = '';
+      if ($toolbar) $toolbar.hidden = false;
 
       renderQuestion();
       return;
     }
 
     // RESULT
+    if ($toolbar) $toolbar.hidden = true;
     showResultScreen();
   }
 
-  // Events
-  $btnStart?.addEventListener('click', () => {
-    // hide header + subtitle on start click
-    if ($hero) $hero.style.display = 'none';
-    if ($startTitle) $startTitle.style.display = 'none';
-    if ($startSubtitle) $startSubtitle.style.display = 'none';
+  // ===== EVENT LISTENERS =====
+  if ($btnStart) {
+    $btnStart.addEventListener('click', function () {
+      if ($hero) $hero.style.display = 'none';
+      if ($startTitle) $startTitle.style.display = 'none';
+      if ($startSubtitle) $startSubtitle.style.display = 'none';
+      goToStep(0);
+    });
+  }
 
-    goToStep(0);
-  });
+  if ($btnPrev) {
+    $btnPrev.addEventListener('click', function () {
+      if (state.step > 0) goToStep(state.step - 1);
+    });
+  }
 
-  $btnPrev?.addEventListener('click', () => {
-    if (state.step > 0) goToStep(state.step - 1);
-  });
+  if ($btnNext) {
+    $btnNext.addEventListener('click', function () {
+      if (state.step < questions.length - 1) {
+        goToStep(state.step + 1);
+      } else {
+        goToStep(questions.length);
+      }
+    });
+  }
 
-  $btnNext?.addEventListener('click', () => {
-    if (state.step < questions.length - 1) {
-      goToStep(state.step + 1);
-    } else {
-      // last question -> show result automatically
-      goToStep(questions.length);
-    }
-  });
+  if ($btnRestart) {
+    $btnRestart.addEventListener('click', function () {
+      window.location.reload();
+    });
+  }
 
-  $btnRestart?.addEventListener('click', () => {
-    state = { step: -1, answers: {} };
+  if ($btnSubmit) {
+    $btnSubmit.addEventListener('click', function () {
+      if ($answersJson) $answersJson.value = JSON.stringify(state.answers);
+    });
+  }
+
+  // ===== EXPOSE ENGINE =====
+  window.__quizEngine = {
+    $shell: $shell,
+    $btnNext: $btnNext,
+    $btnPrev: $btnPrev,
+    state: state,
+    questions: questions,
+    goToStep: goToStep,
+    updateProgress: updateProgress,
+    tools: {} // filled by quiz-tools.js
+  };
+
+  // ===== INIT =====
+  if (window.__QUIZ_HAS_RESULT__) {
+    // Result already rendered server-side, don't reset to start screen
+    state.step = questions.length;
+  } else {
     buildProgress();
     goToStep(-1);
-  });
-
-  // Submit is optional now (we don't need it)
-  $btnSubmit?.addEventListener('click', () => {
-    // You can still keep it for debug
-    if ($answersJson) $answersJson.value = JSON.stringify(state.answers);
-    alert('Résultat affiché automatiquement ✅ (Submit non nécessaire).');
-  });
-
-  // Init
-  buildProgress();
-  goToStep(-1);
+  }
 })();

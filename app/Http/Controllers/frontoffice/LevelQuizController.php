@@ -143,7 +143,10 @@ class LevelQuizController extends Controller
             })->toArray(),
         ];
 
-        return view('frontoffice.quiz.index', compact('quiz', 'quizLevel'));
+        // Check if returning with result from answer()
+        $quizResult = session()->pull('level_quiz_result');
+
+        return view('frontoffice.quiz.index', compact('quiz', 'quizLevel', 'quizResult'));
     }
 
     public function answer(Request $request)
@@ -257,9 +260,10 @@ class LevelQuizController extends Controller
         // ✅ GLOBAL TIMER: Clean up session data
         session()->forget(['quiz_attempt_started_at', 'quiz_time_limit_seconds']);
 
-        // Redirect with result
-        return redirect()->route('front.discover-your-level', [
-            'level' => $detectedLevel,
+        // Redirect back to quiz with result
+        return redirect()->route('front.discover-your-level.quiz', [
+            'quiz' => $quizLevel,
+            'result' => 1,
         ]);
     }
 

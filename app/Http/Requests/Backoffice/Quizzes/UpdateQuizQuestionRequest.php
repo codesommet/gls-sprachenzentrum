@@ -17,7 +17,7 @@ class UpdateQuizQuestionRequest extends FormRequest
             // question core
             'question_text' => ['required', 'string'],
             'difficulty' => ['required', 'integer', 'min:1', 'max:5'],
-            'points' => ['required', 'integer', 'min:1', 'max:50'],
+            'points' => ['nullable', 'integer', 'min:1', 'max:50'],
             'sort_order' => ['nullable', 'integer', 'min:0', 'max:9999'],
             'is_active' => ['sometimes', 'boolean'],
 
@@ -138,8 +138,18 @@ class UpdateQuizQuestionRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
+        // When options_type='image', JS disables question_media_type select (not submitted)
+        // Default to 'none' so the required rule passes
+        $qmt = $this->input('question_media_type');
+        if ($qmt === null || $qmt === '') {
+            $qmt = 'none';
+        }
+
         $this->merge([
             'is_active' => (bool) $this->input('is_active', false),
+            'question_media_type' => $qmt,
+            'points' => (int) ($this->input('points', 1) ?: 1),
+            'sort_order' => (int) ($this->input('sort_order', 0) ?: 0),
         ]);
     }
 }

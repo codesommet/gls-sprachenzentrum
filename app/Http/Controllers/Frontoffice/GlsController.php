@@ -17,58 +17,58 @@ class GlsController extends Controller
 {
     public function store(GlsInscriptionStoreRequest $request)
     {
-        // Get validated data
         $validated = $request->validated();
 
-        // Get form source for tracking (modal or page)
         $formSource = $request->input('form_source', 'unknown');
         $validated['form_source'] = $formSource;
 
-        // For en_ligne courses, provide a default centre value if not set
         if ($validated['type_cours'] === 'en_ligne' && (empty($validated['centre']) || !isset($validated['centre']))) {
-            $validated['centre'] = 0; // Use 0 as placeholder for online courses
+            $validated['centre'] = 0;
         }
-
-        // Duplicate protection disabled for development with static groups
-        // TODO: Re-enable once dynamic groups are implemented and tested
-        /*
-        $query = GlsInscription::where('email', $validated['email'])
-            ->where('group_id', $validated['group_id']);
-
-        if (isset($validated['centre']) && $validated['centre']) {
-            $query->where('centre', $validated['centre']);
-        }
-
-        if ($query->exists()) {
-            return response()->json([
-                'success' => false,
-                'status'  => 'duplicate',
-                'message' => 'Vous avez déjà fait une demande pour ce groupe.',
-            ], 409);
-        }
-        */
 
         // Create inscription
         try {
             $inscription = GlsInscription::create($validated);
         } catch (QueryException $e) {
-            if ($e->getCode() == 23000) {
+            $isDuplicate = $e->getCode() == 23000
+                || (isset($e->errorInfo[1]) && $e->errorInfo[1] == 1062);
+
+            if ($isDuplicate) {
                 Log::warning('Duplicate GLS inscription attempt', ['email' => $validated['email']]);
 
-                return response()->json([
-                    'success' => false,
-                    'status'  => 'duplicate',
-                    'message' => 'Une inscription avec cet email existe déjà. Merci de vérifier vos informations.',
-                ], 409);
+                $errorMsg = 'Une inscription avec cet email existe déjà. Merci de vérifier vos informations.';
+
+                if ($request->expectsJson()) {
+                    return response()->json([
+                        'success' => false,
+                        'status'  => 'duplicate',
+                        'message' => $errorMsg,
+                        'errors'  => ['email' => [$errorMsg]],
+                    ], 422);
+                }
+
+                return back()->withInput()->withErrors(['email' => $errorMsg]);
             }
 
-            Log::error('GLS inscription error: ' . $e->getMessage());
+            Log::error('GLS inscription error', [
+                'message'    => $e->getMessage(),
+                'email'      => $validated['email'] ?? null,
+                'group_id'   => $validated['group_id'] ?? null,
+                'ip'         => $request->ip(),
+                'user_agent' => $request->userAgent(),
+            ]);
 
-            return response()->json([
-                'success' => false,
-                'status'  => 'error',
-                'message' => 'Une erreur est survenue. Merci de réessayer.',
-            ], 500);
+            $genericMsg = 'Une erreur est survenue. Merci de réessayer.';
+
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'status'  => 'error',
+                    'message' => $genericMsg,
+                ], 500);
+            }
+
+            return back()->withInput()->withErrors(['error' => $genericMsg]);
         }
 
         // Load related objects for email
@@ -96,13 +96,18 @@ class GlsController extends Controller
             $emailData['course_duration'] = $centre->getCourseDuration();
         }
 
-        // Send admin notification
-        Mail::to('rochdi.karouali1234@gmail.com')
-            ->send(new GlsInscriptionMail($emailData, $centre, $group));
+        // Send emails (wrapped so email failure doesn't break the flow)
+        try {
+            Mail::to('rochdi.karouali1234@gmail.com')
+                ->send(new GlsInscriptionMail($emailData, $centre, $group));
 
-        // Send student confirmation
-        Mail::to($validated['email'])
-            ->send(new GlsInscriptionConfirmation($emailData, $centre, $group));
+            Mail::to($validated['email'])
+                ->send(new GlsInscriptionConfirmation($emailData, $centre, $group));
+        } catch (\Throwable $e) {
+            Log::error('GLS inscription email error: ' . $e->getMessage(), [
+                'inscription_id' => $inscription->id,
+            ]);
+        }
 
         // Return JSON success
         return response()->json([

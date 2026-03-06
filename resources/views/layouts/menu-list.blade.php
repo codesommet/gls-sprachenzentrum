@@ -76,3 +76,11 @@
         <span class="pc-mtext">Quizzes (QCM)</span>
     </a>
 </li>
+
+<!-- USERS -->
+<li class="pc-item">
+    <a href="{{ route('backoffice.users.index') }}" class="pc-link">
+        <span class="pc-micon"><i class="ph-duotone ph-user-gear"></i></span>
+        <span class="pc-mtext">Utilisateurs</span>
+    </a>
+</li>

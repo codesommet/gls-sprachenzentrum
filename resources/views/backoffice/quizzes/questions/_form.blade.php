@@ -195,24 +195,13 @@
 <hr>
 <div class="row g-3">
 
-    <div class="col-md-3">
+    <div class="col-md-6">
         <label>Difficulté</label>
         <input type="number" name="difficulty" min="1" max="5"
             value="{{ old('difficulty', $question->difficulty ?? 1) }}" class="form-control">
     </div>
 
-    <div class="col-md-3">
-        <label>Points</label>
-        <input type="number" name="points" value="{{ old('points', $question->points ?? 1) }}" class="form-control">
-    </div>
-
-    <div class="col-md-3">
-        <label>Ordre</label>
-        <input type="number" name="sort_order" value="{{ old('sort_order', $question->sort_order ?? 0) }}"
-            class="form-control">
-    </div>
-
-    <div class="col-md-3 d-flex align-items-end">
+    <div class="col-md-6 d-flex align-items-end">
         <div class="form-check">
             <input class="form-check-input" type="checkbox" name="is_active" value="1"
                 @checked(old('is_active', $question->is_active ?? true))>

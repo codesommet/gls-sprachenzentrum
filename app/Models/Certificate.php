@@ -56,6 +56,7 @@ class Certificate extends Model
 
         // Final
         'final_result',
+        'ergebnis_note',
 
         'public_token',
     ];
@@ -164,6 +165,26 @@ class Certificate extends Model
             if (empty($certificate->public_token)) {
                 $certificate->public_token = Str::random(48);
             }
+
+            if (empty($certificate->certificate_number)) {
+                $certificate->certificate_number = self::generateCertificateNumber();
+            }
         });
+    }
+
+    public static function generateCertificateNumber(): string
+    {
+        $prefix = 'GLS-' . now()->format('Ym');
+        $last = static::where('certificate_number', 'like', $prefix . '%')
+            ->orderByDesc('certificate_number')
+            ->value('certificate_number');
+
+        $next = 1;
+        if ($last) {
+            $lastNum = (int) substr($last, strrpos($last, '-') + 1);
+            $next = $lastNum + 1;
+        }
+
+        return $prefix . '-' . str_pad($next, 4, '0', STR_PAD_LEFT);
     }
 }

@@ -27,9 +27,10 @@ class UpdateCertificateRequest extends FormRequest
             'issue_date'         => 'required|date',
 
             'certificate_number' =>
-                'required|string|max:255|unique:certificates,certificate_number,' . $this->id,
+                'required|string|max:255|unique:certificates,certificate_number,' . $this->route('certificate'),
 
             'final_result'       => 'required|string|max:255',
+            'ergebnis_note'      => 'nullable|string|max:255',
         ];
 
         if ($type === 'a2') {

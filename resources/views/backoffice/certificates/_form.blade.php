@@ -75,8 +75,13 @@
 
     <div class="col-md-4 mb-3">
         <label class="form-label fw-bold">Numéro du certificat</label>
-        <input type="text" name="certificate_number" class="form-control" required
-            value="{{ old('certificate_number', $cert->certificate_number ?? '') }}">
+        @if($cert)
+            <input type="text" name="certificate_number" class="form-control" required
+                value="{{ old('certificate_number', $cert->certificate_number) }}">
+        @else
+            <input type="text" class="form-control" disabled
+                placeholder="Généré automatiquement">
+        @endif
     </div>
 
 
@@ -222,9 +227,17 @@
     </div>
 
     <div class="col-md-6 mb-3">
-        <label class="form-label fw-bold">Résultat</label>
+        <label class="form-label fw-bold">Ergebnis</label>
+        <input type="text" name="ergebnis_note" class="form-control"
+            value="{{ old('ergebnis_note', $cert->ergebnis_note ?? '') }}"
+            placeholder="Ex: Befriedigend, Gut, Sehr gut...">
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">Note</label>
         <input type="text" name="final_result" class="form-control" required
-            value="{{ old('final_result', $cert->final_result ?? '') }}">
+            value="{{ old('final_result', $cert->final_result ?? '') }}"
+            placeholder="Ex: 240/300">
     </div>
 
 </div>

@@ -45,8 +45,8 @@
             font-size: 32px;
             font-weight: bold;
             letter-spacing: 12px;
-            margin-top: 35px;
-            margin-bottom: 6px;
+            margin-top: 25px;
+            margin-bottom: 4px;
             color: #1a1a1a;
         }
 
@@ -55,12 +55,12 @@
             font-size: 22px;
             font-weight: bold;
             letter-spacing: 8px;
-            margin-bottom: 45px;
+            margin-bottom: 30px;
             color: #1a1a1a;
         }
 
         /* PERSONAL INFO */
-        .info-table { margin-bottom: 40px; }
+        .info-table { margin-bottom: 25px; }
         .info-table td { width: 50%; padding-right: 30px; }
         .info-table td:last-child { padding-right: 0; padding-left: 30px; }
 
@@ -68,7 +68,7 @@
             font-size: 9.5px;
             color: #888;
             margin-top: 2px;
-            margin-bottom: 14px;
+            margin-bottom: 10px;
             font-style: italic;
         }
 
@@ -90,10 +90,10 @@
 
         /* SCORE SECTIONS */
         .section-title {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: bold;
-            margin-top: 28px;
-            margin-bottom: 8px;
+            margin-top: 16px;
+            margin-bottom: 5px;
             color: #1a1a1a;
             width: 55%;
             margin-left: auto;
@@ -101,7 +101,7 @@
         }
 
         .score-table { width: 55%; margin-left: auto; margin-right: auto; }
-        .score-table td { padding: 3px 0; font-size: 11.5px; }
+        .score-table td { padding: 2px 0; font-size: 11px; }
         .score-label { color: #333; width: 200px; }
         .score-val {
             text-align: right;
@@ -124,28 +124,28 @@
         }
         .score-gesamt td {
             padding-top: 0;
-            padding-bottom: 6px;
-            font-size: 12.5px;
+            padding-bottom: 4px;
+            font-size: 12px;
         }
-        .score-gesamt .score-val { font-size: 14px; }
-        .score-gesamt .score-max { font-size: 14px; }
+        .score-gesamt .score-val { font-size: 13px; }
+        .score-gesamt .score-max { font-size: 13px; }
         .score-item .score-label { padding-left: 20px; }
         .score-item .score-label::before { content: "\2022\00a0\00a0"; }
 
         /* RESULT */
-        .result-section { width: 55%; margin: 25px auto 0 auto; }
-        .result-section td { padding: 4px 0; font-size: 13px; }
+        .result-section { width: 55%; margin: 16px auto 0 auto; }
+        .result-section td { padding: 3px 0; font-size: 12px; }
         .result-label { font-weight: bold; width: 200px; }
-        .result-value { text-align: right; font-weight: bold; font-size: 14px; }
+        .result-value { text-align: right; font-weight: bold; font-size: 13px; }
 
         /* DATES */
-        .dates-section { width: 55%; margin: 28px auto 0 auto; }
-        .dates-section td { padding: 3px 0; font-size: 11px; }
+        .dates-section { width: 55%; margin: 16px auto 0 auto; }
+        .dates-section td { padding: 2px 0; font-size: 10.5px; }
         .dates-section .date-label { color: #555; width: 200px; }
         .dates-section .date-value { text-align: right; font-weight: bold; }
 
         /* SIGNATURES */
-        .sig-table { margin-top: 55px; }
+        .sig-table { margin-top: 35px; }
         .sig-cell {
             width: 50%;
             text-align: center;
@@ -178,10 +178,26 @@
         }
         .qr-block img { width: 100px; height: 100px; }
         .qr-block .qr-text { font-size: 8px; color: #888; margin-top: 4px; }
+
+        /* WATERMARK */
+        .watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: auto;
+            margin-top: -200px;
+            margin-left: -150px;
+            opacity: 0.04;
+            z-index: -1;
+        }
     </style>
 </head>
 
 <body>
+
+    <!-- WATERMARK -->
+    <img src="{{ public_path('assets/images/logo/gls.png') }}" class="watermark">
 
     <!-- HEADER -->
     <table>
@@ -331,8 +347,14 @@
 
     <!-- RESULT -->
     <table class="result-section">
+        @if($certificate->ergebnis_note)
         <tr>
             <td class="result-label">Ergebnis</td>
+            <td class="result-value">{{ $certificate->ergebnis_note }}</td>
+        </tr>
+        @endif
+        <tr>
+            <td class="result-label">Note</td>
             <td class="result-value">{{ $certificate->final_result }}</td>
         </tr>
     </table>

@@ -25,9 +25,10 @@ class StoreCertificateRequest extends FormRequest
             'exam_level'         => 'required|string|max:255',
             'exam_date'          => 'required|date',
             'issue_date'         => 'required|date',
-            'certificate_number' => 'required|string|max:255|unique:certificates,certificate_number',
+            'certificate_number' => 'nullable|string|max:255|unique:certificates,certificate_number',
 
             'final_result'       => 'required|string|max:255',
+            'ergebnis_note'      => 'nullable|string|max:255',
         ];
 
         if ($type === 'a2') {
