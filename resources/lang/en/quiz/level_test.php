@@ -17,7 +17,7 @@ return [
     ],
 
     'quizzes' => [
-        'cta' => 'Take Quiz (Sooon)',
+        'cta' => 'Take Quiz',
 
         'a1' => [
             'title' => 'Beginner Level Quiz',

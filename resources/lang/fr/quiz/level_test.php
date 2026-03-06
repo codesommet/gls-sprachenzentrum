@@ -17,7 +17,7 @@ return [
     ],
 
     'quizzes' => [
-        'cta' => 'Répondre au quiz Bientôt',
+        'cta' => 'Répondre au quiz',
 
         'a1' => [
             'title' => 'Beginner Level Quiz',
