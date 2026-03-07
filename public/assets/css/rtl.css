@@ -16,8 +16,28 @@ html[dir="rtl"] .site-header .nav {
 
 html[dir="rtl"] .dropdown-menu {
     text-align: right;
-    right: 0 !important;
+    right: 0;
+    left: auto;
+}
+
+/* Subdropdown: open to the left in RTL */
+html[dir="rtl"] .dropdown-submenu > .dropdown-menu {
     left: auto !important;
+    right: 100% !important;
+    margin-right: 23px;
+    margin-left: 0;
+    transform: translateX(-10px);
+}
+
+html[dir="rtl"] .dropdown-submenu:hover > .dropdown-menu {
+    transform: translateX(0);
+}
+
+/* Flip submenu arrow for RTL */
+html[dir="rtl"] .dropdown-submenu > a::after {
+    transform: rotate(135deg);
+    margin-left: 0;
+    margin-right: 8px;
 }
 
 /* Submenu arrow flip */

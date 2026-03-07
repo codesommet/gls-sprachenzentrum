@@ -45,7 +45,24 @@
                                     <span id="glsPageErrorText"></span>
                                 </div>
 
-                                <form id="glsPageForm">
+                                <form id="glsPageForm"
+                                    data-label-submit="{{ __('templates/gls-form.buttons.submit') }}"
+                                    data-label-sending="{{ __('templates/gls-form.buttons.sending') }}"
+                                    data-error-required="{{ __('templates/gls-form.errors.required_fields') }}"
+                                    data-error-duplicate="{{ __('templates/gls-form.errors.duplicate') }}"
+                                    data-error-connection="{{ __('templates/gls-form.errors.connection_error') }}"
+                                    data-error-generic="{{ __('templates/gls-form.errors.generic') }}"
+                                    data-error-server="{{ __('templates/gls-form.errors.server_error') }}"
+                                    data-error-session="{{ __('templates/gls-form.errors.session_expired') }}"
+                                    data-error-check="{{ __('templates/gls-form.errors.check_fields') }}"
+                                    data-js-loading="{{ __('templates/gls-form.js.loading') }}"
+                                    data-js-error-loading="{{ __('templates/gls-form.js.error_loading') }}"
+                                    data-js-select-level="{{ __('templates/gls-form.js.select_level') }}"
+                                    data-js-select-center="{{ __('templates/gls-form.js.select_center') }}"
+                                    data-js-select-group="{{ __('templates/gls-form.js.select_group') }}"
+                                    data-js-select-date="{{ __('templates/gls-form.js.select_date') }}"
+                                    data-js-group-label="{{ __('templates/gls-form.js.group_label') }}"
+                                    data-js-group-night="{{ __('templates/gls-form.js.group_night_label') }}">
                                     @csrf
 
                                     <h4 class="section-title">

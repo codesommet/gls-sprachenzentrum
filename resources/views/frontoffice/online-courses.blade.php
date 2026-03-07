@@ -172,8 +172,8 @@
             'evening' => __('sites/online.groups.evening'),
             'active' => __('sites/online.groups.active'),
             'upcoming' => __('sites/online.groups.upcoming'),
-            'empty_active' => 'Aucun groupe actif',
-            'empty_upcoming' => 'Pas de nouveaux groupes prévus',
+            'empty_active' => __('home.groups.empty_active'),
+            'empty_upcoming' => __('home.groups.empty_upcoming'),
         ],
     ])
 

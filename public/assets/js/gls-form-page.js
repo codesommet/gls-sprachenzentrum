@@ -25,6 +25,25 @@
 
   console.log('[GLS Page Form] API URLs:', { centers: apiCentersUrl, groups: apiGroupsUrlTemplate, dates: apiDatesUrlTemplate });
 
+  // Translated labels from data attributes on form element
+  const t = {
+    submit: form.dataset.labelSubmit || "Envoyer",
+    sending: form.dataset.labelSending || "Envoi en cours...",
+    errRequired: form.dataset.errorRequired || "Veuillez remplir tous les champs obligatoires.",
+    errDuplicate: form.dataset.errorDuplicate || "Vous avez déjà fait une demande pour ce groupe.",
+    errConnection: form.dataset.errorConnection || "Erreur de connexion. Veuillez réessayer.",
+    errGeneric: form.dataset.errorGeneric || "Une erreur est survenue.",
+    errServer: form.dataset.errorServer || "Erreur serveur. Veuillez réessayer.",
+    loading: form.dataset.jsLoading || "Chargement...",
+    errLoading: form.dataset.jsErrorLoading || "Erreur de chargement",
+    selectLevel: form.dataset.jsSelectLevel || "Sélectionner un niveau",
+    selectCenter: form.dataset.jsSelectCenter || "Sélectionner un centre",
+    selectGroup: form.dataset.jsSelectGroup || "Sélectionner un groupe",
+    selectDate: form.dataset.jsSelectDate || "Sélectionner une date",
+    groupLabel: form.dataset.jsGroupLabel || "Groupe",
+    groupNight: form.dataset.jsGroupNight || "Groupe Nuit",
+  };
+
   // Get form elements with unique glsPage* IDs
   const errorWrap = document.getElementById("glsPageErrorMessage");
   const errorText = document.getElementById("glsPageErrorText");
@@ -99,7 +118,7 @@
     const locale = document.documentElement.lang || 'fr';
     const isFrench = locale.startsWith('fr');
     
-    niveauSelect.innerHTML = '<option value="">Sélectionner un niveau</option>';
+    niveauSelect.innerHTML = `<option value="">${t.selectLevel}</option>`;
     NIVEAUX_DATA.forEach(level => {
       const text = isFrench ? level.fr : level.en;
       niveauSelect.innerHTML += `<option value="${level.code}">${text}</option>`;
@@ -129,7 +148,7 @@
       return;
     }
 
-    centreSelect.innerHTML = '<option value="">Chargement...</option>';
+    centreSelect.innerHTML = `<option value="">${t.loading}</option>`;
     disable(centreSelect, true);
 
     fetch(apiCentersUrl)
@@ -141,8 +160,8 @@
       .then((data) => {
         console.log('[GLS Page Form] Centers received:', data);
         
-        centreSelect.innerHTML = '<option value="">Selectionner un centre</option>';
-        
+        centreSelect.innerHTML = `<option value="">${t.selectCenter}</option>`;
+
         if (Array.isArray(data)) {
           data.forEach((c) => {
             const opt = document.createElement("option");
@@ -157,7 +176,7 @@
       })
       .catch((err) => {
         console.error('[GLS Page Form] Error loading centers:', err);
-        centreSelect.innerHTML = '<option value="">Erreur de chargement</option>';
+        centreSelect.innerHTML = `<option value="">${t.errLoading}</option>`;
         disable(centreSelect, false);
       });
   }
@@ -171,7 +190,7 @@
     const siteId = centreSelect.value;
     console.log('[GLS Page Form] Loading groups for site:', siteId);
 
-    groupSelect.innerHTML = '<option value="">Selectionner un groupe</option>';
+    groupSelect.innerHTML = `<option value="">${t.selectGroup}</option>`;
     if (horairePrefereInput) horairePrefereInput.value = "";
     if (dateInput) dateInput.value = "";
 
@@ -194,7 +213,7 @@
       .then((groups) => {
         console.log('[GLS Page Form] Groups received:', groups);
         
-        groupSelect.innerHTML = '<option value="">Selectionner un groupe</option>';
+        groupSelect.innerHTML = `<option value="">${t.selectGroup}</option>`;
         
         if (Array.isArray(groups)) {
           groups.forEach((g) => {
@@ -230,7 +249,7 @@
     flatpickrInstance = flatpickr(dateInput, {
       dateFormat: "Y-m-d",
       minDate: "today", // Minimum date is today
-      placeholder: "Selectionner une date"
+      placeholder: t.selectDate
     });
 
     console.log('[GLS Page Form] Date picker initialized for group:', groupId);
@@ -246,49 +265,50 @@
     // Get center name/city to determine duration
     const centerText = selectedCenter.textContent.toLowerCase();
     
-    // Define groups for each center
+    // Define groups for each center (using translated group label)
+    const gl = t.groupLabel;
     const groupsByCenter = {
       rabat: [
-        { id: 1, name: 'Groupe 10:00 – 12:00' },
-        { id: 2, name: 'Groupe 15:00 – 17:00' },
-        { id: 3, name: 'Groupe 17:00 – 19:00' },
-        { id: 4, name: 'Groupe 19:00 – 21:00' }
+        { id: 1, name: gl + ' 10:00 – 12:00' },
+        { id: 2, name: gl + ' 15:00 – 17:00' },
+        { id: 3, name: gl + ' 17:00 – 19:00' },
+        { id: 4, name: gl + ' 19:00 – 21:00' }
       ],
       casablanca: [
-        { id: 5, name: 'Groupe 10:00 – 12:00' },
-        { id: 6, name: 'Groupe 15:00 – 17:00' },
-        { id: 7, name: 'Groupe 17:00 – 19:00' },
-        { id: 8, name: 'Groupe 19:00 – 21:00' }
+        { id: 5, name: gl + ' 10:00 – 12:00' },
+        { id: 6, name: gl + ' 15:00 – 17:00' },
+        { id: 7, name: gl + ' 17:00 – 19:00' },
+        { id: 8, name: gl + ' 19:00 – 21:00' }
       ],
       casa: [
-        { id: 5, name: 'Groupe 10:00 – 12:00' },
-        { id: 6, name: 'Groupe 15:00 – 17:00' },
-        { id: 7, name: 'Groupe 17:00 – 19:00' },
-        { id: 8, name: 'Groupe 19:00 – 21:00' }
+        { id: 5, name: gl + ' 10:00 – 12:00' },
+        { id: 6, name: gl + ' 15:00 – 17:00' },
+        { id: 7, name: gl + ' 17:00 – 19:00' },
+        { id: 8, name: gl + ' 19:00 – 21:00' }
       ],
       marrakech: [
-        { id: 9, name: 'Groupe 10:00 – 12:30' },
-        { id: 10, name: 'Groupe 16:00 – 18:30' },
-        { id: 11, name: 'Groupe 18:30 – 21:00' }
+        { id: 9, name: gl + ' 10:00 – 12:30' },
+        { id: 10, name: gl + ' 16:00 – 18:30' },
+        { id: 11, name: gl + ' 18:30 – 21:00' }
       ],
       sale: [
-        { id: 13, name: 'Groupe 10:00 – 12:00' },
-        { id: 14, name: 'Groupe 15:00 – 17:00' },
-        { id: 15, name: 'Groupe 17:00 – 19:00' },
-        { id: 16, name: 'Groupe 19:00 – 21:00' }
+        { id: 13, name: gl + ' 10:00 – 12:00' },
+        { id: 14, name: gl + ' 15:00 – 17:00' },
+        { id: 15, name: gl + ' 17:00 – 19:00' },
+        { id: 16, name: gl + ' 19:00 – 21:00' }
       ],
       kenitra: [
-        { id: 17, name: 'Groupe 10:00 – 12:30' },
-        { id: 18, name: 'Groupe 16:00 – 18:30' },
-        { id: 19, name: 'Groupe 18:30 – 21:00' }
+        { id: 17, name: gl + ' 10:00 – 12:30' },
+        { id: 18, name: gl + ' 16:00 – 18:30' },
+        { id: 19, name: gl + ' 18:30 – 21:00' }
       ],
       agadir: [
-        { id: 21, name: 'Groupe 10:00 – 12:30' },
-        { id: 22, name: 'Groupe 16:00 – 18:30' },
-        { id: 23, name: 'Groupe 19:00 – 21:30' }
+        { id: 21, name: gl + ' 10:00 – 12:30' },
+        { id: 22, name: gl + ' 16:00 – 18:30' },
+        { id: 23, name: gl + ' 19:00 – 21:30' }
       ],
       online: [
-        { id: 25, name: 'Groupe Nuit 20:00 – 22:00' }
+        { id: 25, name: t.groupNight + ' 20:00 – 22:00' }
       ]
     };
 
@@ -302,7 +322,7 @@
     }
 
     // Update group select
-    groupSelect.innerHTML = '<option value="">Selectionner un groupe</option>';
+    groupSelect.innerHTML = `<option value="">${t.selectGroup}</option>`;
     groups.forEach(group => {
       groupSelect.innerHTML += `<option value="${group.id}">${group.name}</option>`;
     });
@@ -328,7 +348,7 @@
         // Enable niveau but keep group disabled until a centre is selected
         if (niveauSelect) disable(niveauSelect, false);
         if (groupSelect) {
-          groupSelect.innerHTML = '<option value="">Selectionner un groupe</option>';
+          groupSelect.innerHTML = `<option value="">${t.selectGroup}</option>`;
           disable(groupSelect, true);
         }
       } else if (value === "en_ligne") {
@@ -336,12 +356,12 @@
         if (centreWrapper) centreWrapper.style.display = "none";
         if (centreSelect) {
           centreSelect.removeAttribute("required");
-          centreSelect.innerHTML = '<option value="">Selectionner un centre</option>';
+          centreSelect.innerHTML = `<option value="">${t.selectCenter}</option>`;
         }
         // For online courses, show only the static night group
         if (groupSelect) {
-          groupSelect.innerHTML = '<option value="">Selectionner un groupe</option>';
-          groupSelect.innerHTML += '<option value="25">Groupe Nuit 20:00 – 22:00</option>';
+          groupSelect.innerHTML = `<option value="">${t.selectGroup}</option>`;
+          groupSelect.innerHTML += `<option value="25">${t.groupNight} 20:00 – 22:00</option>`;
           disable(groupSelect, false);
         }
         if (niveauSelect) disable(niveauSelect, false);
@@ -352,10 +372,10 @@
         if (centreWrapper) centreWrapper.style.display = "none";
         if (centreSelect) {
           centreSelect.removeAttribute("required");
-          centreSelect.innerHTML = '<option value="">Selectionner un centre</option>';
+          centreSelect.innerHTML = `<option value="">${t.selectCenter}</option>`;
         }
         if (groupSelect) {
-          groupSelect.innerHTML = '<option value="">Selectionner un groupe</option>';
+          groupSelect.innerHTML = `<option value="">${t.selectGroup}</option>`;
           disable(groupSelect, true);
         }
         if (niveauSelect) disable(niveauSelect, true);
@@ -415,14 +435,14 @@
       // For select elements, value must be non-empty (exclude empty placeholder options)
       if (input.tagName === 'SELECT') {
         if (!value) {
-          showError("Veuillez remplir tous les champs obligatoires.");
+          showError(t.errRequired);
           input.focus();
           return;
         }
       }
       // For other inputs, check they're not empty
       else if (!value) {
-        showError("Veuillez remplir tous les champs obligatoires.");
+        showError(t.errRequired);
         input.focus();
         return;
       }
@@ -441,7 +461,7 @@
     // Disable submit button
     if (submitBtn) {
       submitBtn.disabled = true;
-      submitBtn.textContent = "Envoi en cours...";
+      submitBtn.textContent = t.sending;
     }
 
     fetch(glsStoreUrl, {
@@ -465,7 +485,7 @@
           });
         }
         if (!res.ok) {
-          throw { type: 'server', message: 'Erreur serveur: ' + res.status };
+          throw { type: 'server', message: t.errServer + ' (' + res.status + ')' };
         }
         return res.json();
       })
@@ -495,10 +515,10 @@
           form.style.display = "none";
           if (successMessage) successMessage.style.display = "block";
         } else {
-          showError(data.message || "Une erreur est survenue.");
+          showError(data.message || t.errGeneric);
           if (submitBtn) {
             submitBtn.disabled = false;
-            submitBtn.textContent = "Envoyer";
+            submitBtn.textContent = t.submit;
           }
         }
       })
@@ -511,16 +531,16 @@
           const firstError = Object.values(errors)[0];
           showError(Array.isArray(firstError) ? firstError[0] : firstError);
         } else if (err.type === 'duplicate') {
-          showError(err.data.message || "Vous avez deja fait une demande pour ce centre.");
+          showError(err.data.message || t.errDuplicate);
         } else if (err.type === 'server') {
           showError(err.message);
         } else {
-          showError("Erreur de connexion. Veuillez reessayer.");
+          showError(t.errConnection);
         }
-        
+
         if (submitBtn) {
           submitBtn.disabled = false;
-          submitBtn.textContent = "Envoyer";
+          submitBtn.textContent = t.submit;
         }
       });
   });

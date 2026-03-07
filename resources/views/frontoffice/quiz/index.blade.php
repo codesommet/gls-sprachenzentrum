@@ -279,5 +279,5 @@
     <script defer src="{{ asset('assets/js/quiz-keyboard.js') }}"></script>
     <script defer src="{{ asset('assets/js/quiz-timer.js') }}"></script>
     <script defer src="{{ asset('assets/js/quiz-fullscreen.js') }}"></script>
-    {{-- <script defer src="{{ asset('assets/js/quiz-anticheat.js') }}"></script> --}}
+    <script defer src="{{ asset('assets/js/quiz-anticheat.js') }}"></script>
 @endsection

@@ -244,4 +244,20 @@ return [
             Av. Massoude Al Wafkaoui, Place des taxis, Hay Essalam, Agadir
         ",
     ],
+
+    'site_modal' => [
+        'kicker' => 'Our centers',
+        'title' => 'Choose your center',
+        'marrakech' => 'Marrakech',
+        'casablanca' => 'Casablanca',
+        'rabat' => 'Rabat',
+        'kenitra' => 'Kénitra',
+        'sale' => 'Salé',
+        'agadir' => 'Agadir',
+    ],
+
+    'groups' => [
+        'empty_active' => 'No active groups',
+        'empty_upcoming' => 'No upcoming groups planned',
+    ],
 ];

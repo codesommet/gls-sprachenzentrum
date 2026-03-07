@@ -499,8 +499,8 @@ SITES — Images only (NO iframe, NO yt-holder, NO video)
 
                         <div class="gls-site-modal__header">
                             <div>
-                                <div class="gls-site-modal__kicker">Nos centres</div>
-                                <h5 class="gls-site-modal__title">Choisissez votre site</h5>
+                                <div class="gls-site-modal__kicker">{{ __('home.site_modal.kicker') }}</div>
+                                <h5 class="gls-site-modal__title">{{ __('home.site_modal.title') }}</h5>
                             </div>
 
                             <button type="button" class="gls-site-modal__close" data-bs-dismiss="modal"
@@ -512,19 +512,19 @@ SITES — Images only (NO iframe, NO yt-holder, NO video)
                         <div class="gls-site-modal__body">
                             <div class="gls-site-grid">
                                 <a class="gls-site-pill"
-                                    href="{{ route('front.sites.show', 'gls-marrakech') }}">Marrakech</a>
+                                    href="{{ route('front.sites.show', 'gls-marrakech') }}">{{ __('home.site_modal.marrakech') }}</a>
 
                                 <a class="gls-site-pill"
-                                    href="{{ route('front.sites.show', 'gls-casablanca') }}">Casablanca</a>
+                                    href="{{ route('front.sites.show', 'gls-casablanca') }}">{{ __('home.site_modal.casablanca') }}</a>
 
-                                <a class="gls-site-pill" href="{{ route('front.sites.show', 'gls-rabat') }}">Rabat</a>
+                                <a class="gls-site-pill" href="{{ route('front.sites.show', 'gls-rabat') }}">{{ __('home.site_modal.rabat') }}</a>
 
                                 <a class="gls-site-pill"
-                                    href="{{ route('front.sites.show', 'gls-kenitra') }}">Kénitra</a>
+                                    href="{{ route('front.sites.show', 'gls-kenitra') }}">{{ __('home.site_modal.kenitra') }}</a>
 
-                                <a class="gls-site-pill" href="{{ route('front.sites.show', 'gls-sale') }}">Salé</a>
+                                <a class="gls-site-pill" href="{{ route('front.sites.show', 'gls-sale') }}">{{ __('home.site_modal.sale') }}</a>
 
-                                <a class="gls-site-pill" href="{{ route('front.sites.show', 'gls-agadir') }}">Agadir</a>
+                                <a class="gls-site-pill" href="{{ route('front.sites.show', 'gls-agadir') }}">{{ __('home.site_modal.agadir') }}</a>
                             </div>
                         </div>
 

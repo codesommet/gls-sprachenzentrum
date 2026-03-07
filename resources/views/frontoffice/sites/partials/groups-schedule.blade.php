@@ -53,7 +53,7 @@
                                     </p>
                                 @empty
                                     <p class="reveal delay-1">
-                                        {{ __('Aucun groupe actif') }}
+                                        {{ __('home.groups.empty_active') }}
                                     </p>
                                 @endforelse
                             </div>
@@ -71,7 +71,7 @@
                                     </p>
                                 @empty
                                     <p class="reveal delay-1">
-                                        {{ __('Pas de nouveaux groupes prévus') }}
+                                        {{ __('home.groups.empty_upcoming') }}
                                     </p>
                                 @endforelse
                             </div>

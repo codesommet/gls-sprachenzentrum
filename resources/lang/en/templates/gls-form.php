@@ -70,6 +70,7 @@ return [
         'prev' => 'Back',
         'next' => 'Continue',
         'submit' => 'Submit',
+        'sending' => 'Sending...',
         'cancel' => 'Cancel',
         'back_home' => 'Back to Home',
     ],
@@ -84,5 +85,19 @@ return [
         'duplicate' => 'You have already submitted a request for this group.',
         'server_error' => 'Server error. Please try again.',
         'connection_error' => 'Connection error. Please try again.',
+        'generic' => 'An error occurred.',
+        'session_expired' => 'Session expired. Please reload the page.',
+        'check_fields' => 'Please check the form fields.',
+    ],
+
+    'js' => [
+        'loading' => 'Loading...',
+        'error_loading' => 'Loading error',
+        'select_level' => 'Select a level',
+        'select_center' => 'Select a center',
+        'select_group' => 'Select a group',
+        'select_date' => 'Select a date',
+        'group_label' => 'Group',
+        'group_night_label' => 'Night Group',
     ],
 ];

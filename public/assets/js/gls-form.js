@@ -19,6 +19,27 @@
   let currentStep = 1;
   const totalSteps = 3;
 
+  // Translated labels from data attributes
+  const t = {
+    next: root.dataset.labelNext || "Continuer",
+    submit: root.dataset.labelSubmit || "Envoyer",
+    errRequired: root.dataset.errorRequired || "Veuillez remplir les champs obligatoires.",
+    errDuplicate: root.dataset.errorDuplicate || "Vous êtes déjà inscrit.",
+    errConnection: root.dataset.errorConnection || "Impossible d'envoyer votre inscription.",
+    errGeneric: root.dataset.errorGeneric || "Une erreur est survenue.",
+    errServer: root.dataset.errorServer || "Erreur serveur. Veuillez réessayer.",
+    errSession: root.dataset.errorSession || "Session expirée. Veuillez recharger la page.",
+    errCheck: root.dataset.errorCheck || "Veuillez vérifier les champs du formulaire.",
+    loading: root.dataset.jsLoading || "Chargement...",
+    errLoading: root.dataset.jsErrorLoading || "Erreur",
+    selectLevel: root.dataset.jsSelectLevel || "Sélectionner un niveau",
+    selectCenter: root.dataset.jsSelectCenter || "Sélectionner un centre",
+    selectGroup: root.dataset.jsSelectGroup || "Sélectionner un groupe",
+    selectDate: root.dataset.jsSelectDate || "Sélectionner une date",
+    groupLabel: root.dataset.jsGroupLabel || "Groupe",
+    groupNight: root.dataset.jsGroupNight || "Groupe Nuit",
+  };
+
   // Scoped DOM queries (all within root)
   const formSteps = root.querySelectorAll(".form-step");
   const progressSteps = root.querySelectorAll(".progress-step");
@@ -80,11 +101,11 @@
   }
 
   function mapHttpErrorToMessage(status) {
-    if (status === 419) return "Session expirée (419). Recharge la page et réessaie.";
-    if (status === 422) return "Veuillez vérifier les champs du formulaire (422).";
-    if (status === 404) return "Route introuvable (404). Vérifie l’URL du POST.";
-    if (status === 500) return "Erreur serveur (500). Vérifie les logs Laravel.";
-    return `Une erreur est survenue (HTTP ${status}).`;
+    if (status === 419) return t.errSession + " (419)";
+    if (status === 422) return t.errCheck + " (422)";
+    if (status === 404) return t.errServer + " (404)";
+    if (status === 500) return t.errServer + " (500)";
+    return t.errGeneric + ` (HTTP ${status})`;
   }
 
   // ===== Init: centre wrapper visibility =====
@@ -104,7 +125,7 @@
     const locale = document.documentElement.lang || "fr";
     const isFrench = locale.toLowerCase().startsWith("fr");
 
-    niveauSelect.innerHTML = '<option value="">Sélectionner un niveau</option>';
+    niveauSelect.innerHTML = `<option value="">${t.selectLevel}</option>`;
     NIVEAUX_DATA.forEach((level) => {
       const text = isFrench ? level.fr : level.en;
       niveauSelect.innerHTML += `<option value="${level.code}">${text}</option>`;
@@ -116,7 +137,7 @@
 
   /* ============================== LOAD CENTERS ============================== */
   function loadCenters() {
-    centreSelect.innerHTML = "<option>Chargement...</option>";
+    centreSelect.innerHTML = `<option>${t.loading}</option>`;
 
     fetch("/api/centers", {
       headers: {
@@ -126,13 +147,13 @@
     })
       .then((res) => res.json())
       .then((data) => {
-        centreSelect.innerHTML = '<option value="">Sélectionner un centre</option>';
+        centreSelect.innerHTML = `<option value="">${t.selectCenter}</option>`;
         data.forEach((c) => {
           centreSelect.innerHTML += `<option value="${c.id}">${c.name}</option>`;
         });
       })
       .catch(() => {
-        centreSelect.innerHTML = "<option>Erreur</option>";
+        centreSelect.innerHTML = `<option>${t.errLoading}</option>`;
       });
   }
 
@@ -147,7 +168,7 @@
     flatpickrInstance = flatpickr(dateInput, {
       dateFormat: "Y-m-d",
       minDate: "today",
-      placeholder: "Sélectionner une date"
+      placeholder: t.selectDate
     });
 
     console.log("[GLS Form] Date picker initialized for group:", groupId);
@@ -177,47 +198,48 @@
 
     const centerText = (selectedCenter.textContent || "").toLowerCase();
 
+    const gl = t.groupLabel;
     const groupsByCenter = {
       rabat: [
-        { id: 1, name: "Groupe 10:00 – 12:00" },
-        { id: 2, name: "Groupe 15:00 – 17:00" },
-        { id: 3, name: "Groupe 17:00 – 19:00" },
-        { id: 4, name: "Groupe 19:00 – 21:00" }
+        { id: 1, name: gl + " 10:00 – 12:00" },
+        { id: 2, name: gl + " 15:00 – 17:00" },
+        { id: 3, name: gl + " 17:00 – 19:00" },
+        { id: 4, name: gl + " 19:00 – 21:00" }
       ],
       casablanca: [
-        { id: 5, name: "Groupe 10:00 – 12:00" },
-        { id: 6, name: "Groupe 15:00 – 17:00" },
-        { id: 7, name: "Groupe 17:00 – 19:00" },
-        { id: 8, name: "Groupe 19:00 – 21:00" }
+        { id: 5, name: gl + " 10:00 – 12:00" },
+        { id: 6, name: gl + " 15:00 – 17:00" },
+        { id: 7, name: gl + " 17:00 – 19:00" },
+        { id: 8, name: gl + " 19:00 – 21:00" }
       ],
       casa: [
-        { id: 5, name: "Groupe 10:00 – 12:00" },
-        { id: 6, name: "Groupe 15:00 – 17:00" },
-        { id: 7, name: "Groupe 17:00 – 19:00" },
-        { id: 8, name: "Groupe 19:00 – 21:00" }
+        { id: 5, name: gl + " 10:00 – 12:00" },
+        { id: 6, name: gl + " 15:00 – 17:00" },
+        { id: 7, name: gl + " 17:00 – 19:00" },
+        { id: 8, name: gl + " 19:00 – 21:00" }
       ],
       marrakech: [
-        { id: 9, name: "Groupe 10:00 – 12:30" },
-        { id: 10, name: "Groupe 16:00 – 18:30" },
-        { id: 11, name: "Groupe 18:30 – 21:00" }
+        { id: 9, name: gl + " 10:00 – 12:30" },
+        { id: 10, name: gl + " 16:00 – 18:30" },
+        { id: 11, name: gl + " 18:30 – 21:00" }
       ],
       sale: [
-        { id: 13, name: "Groupe 10:00 – 12:00" },
-        { id: 14, name: "Groupe 15:00 – 17:00" },
-        { id: 15, name: "Groupe 17:00 – 19:00" },
-        { id: 16, name: "Groupe 19:00 – 21:00" }
+        { id: 13, name: gl + " 10:00 – 12:00" },
+        { id: 14, name: gl + " 15:00 – 17:00" },
+        { id: 15, name: gl + " 17:00 – 19:00" },
+        { id: 16, name: gl + " 19:00 – 21:00" }
       ],
       kenitra: [
-        { id: 17, name: "Groupe 10:00 – 12:30" },
-        { id: 18, name: "Groupe 16:00 – 18:30" },
-        { id: 19, name: "Groupe 18:30 – 21:00" }
+        { id: 17, name: gl + " 10:00 – 12:30" },
+        { id: 18, name: gl + " 16:00 – 18:30" },
+        { id: 19, name: gl + " 18:30 – 21:00" }
       ],
       agadir: [
-        { id: 21, name: "Groupe 10:00 – 12:30" },
-        { id: 22, name: "Groupe 16:00 – 18:30" },
-        { id: 23, name: "Groupe 19:00 – 21:30" }
+        { id: 21, name: gl + " 10:00 – 12:30" },
+        { id: 22, name: gl + " 16:00 – 18:30" },
+        { id: 23, name: gl + " 19:00 – 21:30" }
       ],
-      online: [{ id: 25, name: "Groupe Nuit 20:00 – 22:00" }]
+      online: [{ id: 25, name: t.groupNight + " 20:00 – 22:00" }]
     };
 
     let groups = [];
@@ -228,7 +250,7 @@
       }
     }
 
-    groupSelect.innerHTML = '<option value="">Sélectionner un groupe</option>';
+    groupSelect.innerHTML = `<option value="">${t.selectGroup}</option>`;
     groups.forEach((group) => {
       groupSelect.innerHTML += `<option value="${group.id}">${group.name}</option>`;
     });
@@ -252,7 +274,7 @@
       loadCenters();
 
       // Reset group/date/time when switching type
-      groupSelect.innerHTML = '<option value="">Sélectionner un groupe</option>';
+      groupSelect.innerHTML = `<option value="">${t.selectGroup}</option>`;
       dateInput.value = "";
       horairePrefereInput.value = "";
     } else if (typeCours.value === "en_ligne") {
@@ -260,8 +282,8 @@
       centreSelect.removeAttribute("required");
       centreSelect.innerHTML = "";
 
-      groupSelect.innerHTML = '<option value="">Sélectionner un groupe</option>';
-      groupSelect.innerHTML += '<option value="25">Groupe Nuit 20:00 – 22:00</option>';
+      groupSelect.innerHTML = `<option value="">${t.selectGroup}</option>`;
+      groupSelect.innerHTML += `<option value="25">${t.groupNight} 20:00 – 22:00</option>`;
 
       dateInput.value = "";
       horairePrefereInput.value = "20:00 – 22:00";
@@ -277,7 +299,7 @@
       centreSelect.removeAttribute("required");
       centreSelect.innerHTML = "";
 
-      groupSelect.innerHTML = '<option value="">Sélectionner un groupe</option>';
+      groupSelect.innerHTML = `<option value="">${t.selectGroup}</option>`;
       dateInput.value = "";
       horairePrefereInput.value = "";
 
@@ -309,7 +331,7 @@
     });
 
     prevBtn.style.display = currentStep === 1 ? "none" : "block";
-    nextBtn.textContent = currentStep === totalSteps ? "Envoyer" : "Continuer";
+    nextBtn.textContent = currentStep === totalSteps ? t.submit : t.next;
   }
 
   function validateStep() {
@@ -321,7 +343,7 @@
     for (let input of requiredInputs) {
       const value = (input.value || "").trim();
       if (!value) {
-        showError("Veuillez remplir les champs obligatoires.");
+        showError(t.errRequired);
         input.focus();
         return false;
       }
@@ -333,7 +355,7 @@
   async function submitForm() {
     const csrf = getCsrfToken();
     if (!csrf) {
-      showError("CSRF token manquant. Vérifie le meta csrf-token dans le layout.");
+      showError(t.errSession);
       return;
     }
 
@@ -399,14 +421,14 @@
       }
 
       if (data.status === "duplicate") {
-        showError(data.message || "Vous êtes déjà inscrit.");
+        showError(data.message || t.errDuplicate);
         return;
       }
 
-      showError(data.message || "Une erreur est survenue.");
+      showError(data.message || t.errGeneric);
     } catch (err) {
       console.error(err);
-      showError("Impossible d'envoyer votre inscription.");
+      showError(t.errConnection);
     }
   }
 

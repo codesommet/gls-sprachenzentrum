@@ -304,7 +304,7 @@
             <div class="dropdown">
                 <button class="btn btn-link dropdown-toggle text-decoration-none" type="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
-                    Visa
+                    {{ __('header.visa') }}
                 </button>
 
                 <ul class="dropdown-menu">
@@ -312,7 +312,7 @@
                     <li>
                         <a class="dropdown-item"
                             href="{{ LaravelLocalization::localizeUrl(route('front.studienkollegs')) }}">
-                            Studienkolleg
+                            {{ __('header.studienkolleg') }}
                         </a>
                     </li>
 
@@ -340,6 +340,19 @@
                         </a>
                     </div>
 
+                    {{-- <div class="w-locale">
+                        <a class="nav-lang-btn {{ app()->getLocale() == 'de' ? 'active-lang' : '' }}"
+                            href="{{ LaravelLocalization::getLocalizedURL('de') }}">
+                            DE
+                        </a>
+                    </div>
+
+                    <div class="w-locale">
+                        <a class="nav-lang-btn {{ app()->getLocale() == 'ar' ? 'active-lang' : '' }}"
+                            href="{{ LaravelLocalization::getLocalizedURL('ar') }}">
+                            AR
+                        </a>
+                    </div> --}}
 
                 </div>
             </div>
@@ -506,6 +519,16 @@
                 class="nav-lang-btn {{ app()->getLocale() == 'en' ? 'active-lang' : '' }}">
                 EN
             </a>
+{{-- 
+            <a href="{{ LaravelLocalization::getLocalizedURL('de') }}"
+                class="nav-lang-btn {{ app()->getLocale() == 'de' ? 'active-lang' : '' }}">
+                DE
+            </a>
+
+            <a href="{{ LaravelLocalization::getLocalizedURL('ar') }}"
+                class="nav-lang-btn {{ app()->getLocale() == 'ar' ? 'active-lang' : '' }}">
+                AR
+            </a> --}}
         </div>
 
 

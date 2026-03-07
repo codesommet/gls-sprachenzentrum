@@ -48,6 +48,8 @@ return [
 
     'cta' => [
         'title'  => 'Want to collaborate with GLS?',
+        'text'   => 'We are open to educational, sports and cultural partnerships that share our values and vision.',
+        'button' => 'Contact us',
     ],
 
 ];

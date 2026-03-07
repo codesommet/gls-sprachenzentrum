@@ -17,6 +17,18 @@ return [
             'native' => 'English',
             'regional' => 'en_GB',
         ],
+        'de' => [
+            'name' => 'German',
+            'script' => 'Latn',
+            'native' => 'Deutsch',
+            'regional' => 'de_DE',
+        ],
+        'ar' => [
+            'name' => 'Arabic',
+            'script' => 'Arab',
+            'native' => 'العربية',
+            'regional' => 'ar_MA',
+        ],
     ],
 
     // Requires middleware `LaravelSessionRedirect.php`.
