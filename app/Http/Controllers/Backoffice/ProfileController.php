@@ -49,20 +49,26 @@ class ProfileController extends Controller
     {
         $request->validate([
             'current_password' => 'required',
-            'password'         => 'required|confirmed|min:8'
+            'password'         => 'required|confirmed|min:6',
+        ], [
+            'current_password.required' => 'Le mot de passe actuel est obligatoire.',
+            'password.required'         => 'Le nouveau mot de passe est obligatoire.',
+            'password.confirmed'        => 'La confirmation du mot de passe ne correspond pas.',
+            'password.min'              => 'Le mot de passe doit contenir au moins :min caractères.',
         ]);
 
         $user = Auth::user();
 
         if (!Hash::check($request->current_password, $user->password)) {
             return back()->withErrors([
-                'current_password' => 'Le mot de passe actuel est incorrect.'
-            ]);
+                'current_password' => 'Le mot de passe actuel est incorrect.',
+            ])->with('active_tab', 'password');
         }
 
-        $user->password = Hash::make($request->password);
+        $user->password = $request->password;
         $user->save();
 
-        return back()->with('success', 'Votre mot de passe a été mis à jour avec succès.');
+        return back()->with('success', 'Votre mot de passe a été mis à jour avec succès.')
+                     ->with('active_tab', 'password');
     }
 }

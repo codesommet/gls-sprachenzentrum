@@ -366,8 +366,10 @@
                 });
             }
 
-            // Auto-activate tab if URL already contains the hash
-            if (window.location.hash === '#user-set-password') {
+            // Auto-activate password tab on hash or after password update
+            var activeTab = @json(session('active_tab', ''));
+            if (window.location.hash === '#user-set-password' || activeTab === 'password'
+                || @json($errors->has('current_password') || $errors->has('password') || $errors->has('password_confirmation'))) {
                 const tabTrigger = document.querySelector('#user-set-password-tab');
                 if (tabTrigger) {
                     const bsTab = new bootstrap.Tab(tabTrigger);
