@@ -105,6 +105,86 @@
 
         gtag('config', 'AW-17817493313');
     </script>
+
+    {{-- Disable Inspect/DevTools (Production Only) --}}
+    @production
+        <script>
+            (function() {
+                // Disable right-click context menu
+                document.addEventListener('contextmenu', function(e) {
+                    e.preventDefault();
+                });
+
+                // Disable keyboard shortcuts
+                document.addEventListener('keydown', function(e) {
+                    // F12
+                    if (e.key === 'F12' || e.keyCode === 123) {
+                        e.preventDefault();
+                        return false;
+                    }
+                    // Ctrl+Shift+I (Inspect)
+                    if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.keyCode === 73)) {
+                        e.preventDefault();
+                        return false;
+                    }
+                    // Ctrl+Shift+J (Console)
+                    if (e.ctrlKey && e.shiftKey && (e.key === 'J' || e.key === 'j' || e.keyCode === 74)) {
+                        e.preventDefault();
+                        return false;
+                    }
+                    // Ctrl+Shift+C (Element picker)
+                    if (e.ctrlKey && e.shiftKey && (e.key === 'C' || e.key === 'c' || e.keyCode === 67)) {
+                        e.preventDefault();
+                        return false;
+                    }
+                    // Ctrl+U (View Source)
+                    if (e.ctrlKey && (e.key === 'U' || e.key === 'u' || e.keyCode === 85)) {
+                        e.preventDefault();
+                        return false;
+                    }
+                    // Ctrl+S (Save)
+                    if (e.ctrlKey && (e.key === 'S' || e.key === 's' || e.keyCode === 83)) {
+                        e.preventDefault();
+                        return false;
+                    }
+                });
+
+                // Detect DevTools open (optional - console warning)
+                var devtools = {
+                    open: false
+                };
+                setInterval(function() {
+                    var threshold = 160;
+                    if (window.outerWidth - window.innerWidth > threshold ||
+                        window.outerHeight - window.innerHeight > threshold) {
+                        if (!devtools.open) {
+                            devtools.open = true;
+                            console.clear();
+                            console.log('%c⚠️ DevTools Detected',
+                            'color: red; font-size: 30px; font-weight: bold;');
+                            console.log('%cThis is a protected website. Unauthorized access is prohibited.',
+                                'color: gray; font-size: 14px;');
+                        }
+                    } else {
+                        devtools.open = false;
+                    }
+                }, 500);
+
+                // Disable text selection (optional)
+                document.addEventListener('selectstart', function(e) {
+                    if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+                        e.preventDefault();
+                    }
+                });
+
+                // Disable drag
+                document.addEventListener('dragstart', function(e) {
+                    e.preventDefault();
+                });
+            })
+            ();
+        </script>
+    @endproduction
 </body>
 
 </html>
