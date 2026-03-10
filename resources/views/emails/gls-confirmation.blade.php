@@ -9,13 +9,14 @@
 <body style="font-family: Arial, sans-serif; background:#f7f7f7; padding:20px;">
     <div style="background:white; padding:25px; border-radius:12px; max-width:600px; margin:auto;">
 
-        <h2 style="color:#111;">Merci pour votre inscription, {{ $data['name'] }} !</h2>
+        <h2 style="color:#111;">Merci pour votre inscription, {{ $data['nom'] }} {{ $data['prenom'] }} !</h2>
 
-        <p>Nous avons bien reçu votre demande d’inscription au GLS Sprachenzentrum.</p>
+        <p>Nous avons bien reçu votre demande d'inscription au GLS Sprachenzentrum.</p>
 
         <p style="margin-top:20px;"><strong>Détails de votre demande :</strong></p>
 
-        <p><strong>Nom :</strong> {{ $data['name'] ?? '—' }}</p>
+        <p><strong>Nom :</strong> {{ $data['nom'] ?? '—' }}</p>
+        <p><strong>Prénom :</strong> {{ $data['prenom'] ?? '—' }}</p>
         <p><strong>Email :</strong> {{ $data['email'] ?? '—' }}</p>
         <p><strong>Téléphone :</strong> {{ $data['phone'] ?? '—' }}</p>
         <p><strong>Adresse :</strong> {{ $data['adresse'] ?? '—' }}</p>

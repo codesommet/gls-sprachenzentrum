@@ -16,6 +16,14 @@ return [
     ],
 
     'fields' => [
+        'nom' => [
+            'label' => 'Nom',
+            'placeholder' => 'Votre nom',
+        ],
+        'prenom' => [
+            'label' => 'Prénom',
+            'placeholder' => 'Votre prénom',
+        ],
         'name' => [
             'label' => 'Nom complet',
             'placeholder' => 'Votre nom complet',

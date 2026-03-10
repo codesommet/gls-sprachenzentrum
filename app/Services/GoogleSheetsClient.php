@@ -45,9 +45,10 @@ class GoogleSheetsClient
     /**
      * Ensure the header row exists in row 1. Writes it only if A1 is empty.
      */
-    public function ensureHeaderRow(string $sheetName, array $headers): void
+    public function ensureHeaderRow(string $sheetName, array $headers, int $columnCount = 9): void
     {
-        $range = "'{$sheetName}'!A1:F1";
+        $lastCol = $this->columnToLetter($columnCount);
+        $range = "'{$sheetName}'!A1:{$lastCol}1";
         $response = $this->service->spreadsheets_values->get($this->spreadsheetId, $range);
         $existing = $response->getValues() ?? [];
 
@@ -72,9 +73,10 @@ class GoogleSheetsClient
     /**
      * Append a row to a sheet AFTER the header (row 2+). Returns the row number of the appended row.
      */
-    public function append(string $sheetName, array $row): int
+    public function append(string $sheetName, array $row, int $columnCount = 9): int
     {
-        $range = "'{$sheetName}'!A2:F";
+        $lastCol = $this->columnToLetter($columnCount);
+        $range = "'{$sheetName}'!A2:{$lastCol}";
 
         $body = new ValueRange([
             'values' => [$row],

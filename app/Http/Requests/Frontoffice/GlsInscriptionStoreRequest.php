@@ -20,7 +20,8 @@ class GlsInscriptionStoreRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'name'            => 'required|string|max:255',
+            'nom'             => 'required|string|max:255',
+            'prenom'          => 'required|string|max:255',
             'email'           => 'required|email|max:255',
             'phone'           => 'required|string|max:20',
             'adresse'         => 'required|string|max:500',
@@ -49,9 +50,13 @@ class GlsInscriptionStoreRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required'            => 'Le nom est obligatoire.',
-            'name.string'              => 'Le nom doit être un texte.',
-            'name.max'                 => 'Le nom ne peut pas dépasser 255 caractères.',
+            'nom.required'             => 'Le nom est obligatoire.',
+            'nom.string'               => 'Le nom doit être un texte.',
+            'nom.max'                  => 'Le nom ne peut pas dépasser 255 caractères.',
+
+            'prenom.required'          => 'Le prénom est obligatoire.',
+            'prenom.string'            => 'Le prénom doit être un texte.',
+            'prenom.max'               => 'Le prénom ne peut pas dépasser 255 caractères.',
 
             'email.required'           => 'L\'email est obligatoire.',
             'email.email'              => 'L\'email doit être valide.',

@@ -12,7 +12,8 @@
 
         <h2 style="color:#111; margin-bottom:20px;">Nouvelle inscription GLS</h2>
 
-        <p><strong>Nom :</strong> {{ $data['name'] ?? '—' }}</p>
+        <p><strong>Nom :</strong> {{ $data['nom'] ?? '—' }}</p>
+        <p><strong>Prénom :</strong> {{ $data['prenom'] ?? '—' }}</p>
         <p><strong>Email :</strong> {{ $data['email'] ?? '—' }}</p>
         <p><strong>Téléphone :</strong> {{ $data['phone'] ?? '—' }}</p>
         <p><strong>Adresse :</strong> {{ $data['adresse'] ?? '—' }}</p>

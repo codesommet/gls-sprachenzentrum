@@ -1,21 +1,20 @@
-<div class="container" id="glsInscriptionRoot"
-     data-label-next="{{ __('templates/gls-form.buttons.next') }}"
-     data-label-submit="{{ __('templates/gls-form.buttons.submit') }}"
-     data-error-required="{{ __('templates/gls-form.errors.required_fields') }}"
-     data-error-duplicate="{{ __('templates/gls-form.errors.duplicate') }}"
-     data-error-connection="{{ __('templates/gls-form.errors.connection_error') }}"
-     data-error-generic="{{ __('templates/gls-form.errors.generic') }}"
-     data-error-server="{{ __('templates/gls-form.errors.server_error') }}"
-     data-error-session="{{ __('templates/gls-form.errors.session_expired') }}"
-     data-error-check="{{ __('templates/gls-form.errors.check_fields') }}"
-     data-js-loading="{{ __('templates/gls-form.js.loading') }}"
-     data-js-error-loading="{{ __('templates/gls-form.js.error_loading') }}"
-     data-js-select-level="{{ __('templates/gls-form.js.select_level') }}"
-     data-js-select-center="{{ __('templates/gls-form.js.select_center') }}"
-     data-js-select-group="{{ __('templates/gls-form.js.select_group') }}"
-     data-js-select-date="{{ __('templates/gls-form.js.select_date') }}"
-     data-js-group-label="{{ __('templates/gls-form.js.group_label') }}"
-     data-js-group-night="{{ __('templates/gls-form.js.group_night_label') }}">
+<div class="container" id="glsInscriptionRoot" data-label-next="{{ __('templates/gls-form.buttons.next') }}"
+    data-label-submit="{{ __('templates/gls-form.buttons.submit') }}"
+    data-error-required="{{ __('templates/gls-form.errors.required_fields') }}"
+    data-error-duplicate="{{ __('templates/gls-form.errors.duplicate') }}"
+    data-error-connection="{{ __('templates/gls-form.errors.connection_error') }}"
+    data-error-generic="{{ __('templates/gls-form.errors.generic') }}"
+    data-error-server="{{ __('templates/gls-form.errors.server_error') }}"
+    data-error-session="{{ __('templates/gls-form.errors.session_expired') }}"
+    data-error-check="{{ __('templates/gls-form.errors.check_fields') }}"
+    data-js-loading="{{ __('templates/gls-form.js.loading') }}"
+    data-js-error-loading="{{ __('templates/gls-form.js.error_loading') }}"
+    data-js-select-level="{{ __('templates/gls-form.js.select_level') }}"
+    data-js-select-center="{{ __('templates/gls-form.js.select_center') }}"
+    data-js-select-group="{{ __('templates/gls-form.js.select_group') }}"
+    data-js-select-date="{{ __('templates/gls-form.js.select_date') }}"
+    data-js-group-label="{{ __('templates/gls-form.js.group_label') }}"
+    data-js-group-night="{{ __('templates/gls-form.js.group_night_label') }}">
     <div class="form-card">
 
         <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close">✕</button>
@@ -54,10 +53,17 @@
                 <div class="form-step active" data-step="1">
 
                     <div class="form-group">
-                        <label for="glsName">{{ __('templates/gls-form.fields.name.label') }} <span
+                        <label for="glsNom">{{ __('templates/gls-form.fields.nom.label') }} <span
                                 class="required">*</span></label>
-                        <input type="text" id="glsName" name="name"
-                            placeholder="{{ __('templates/gls-form.fields.name.placeholder') }}" required>
+                        <input type="text" id="glsNom" name="nom"
+                            placeholder="{{ __('templates/gls-form.fields.nom.placeholder') }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="glsPrenom">{{ __('templates/gls-form.fields.prenom.label') }} <span
+                                class="required">*</span></label>
+                        <input type="text" id="glsPrenom" name="prenom"
+                            placeholder="{{ __('templates/gls-form.fields.prenom.placeholder') }}" required>
                     </div>
 
                     <div class="form-group">

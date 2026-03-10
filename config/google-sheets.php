@@ -8,7 +8,29 @@ return [
         ? $jsonPath                    // already absolute
         : base_path($jsonPath),        // resolve relative to project root
     'sheet_map' => json_decode(env('GOOGLE_SHEETS_SHEET_MAP', '{}'), true),
-    'confirmed_sheet' => env('GOOGLE_SHEETS_CONFIRMED_SHEET', 'CONFIRMED'),
+    'consultation_sheet' => env('GOOGLE_SHEETS_CONSULTATION_SHEET', 'Consultation'),
+
+    // Headers for GLS Form & Inscription (same structure)
+    'inscription_headers' => [
+        'Date de Lead',
+        'Nom',
+        'Prenom',
+        'telephone',
+        'Niveau actuel',
+        'Groupe',
+        'email',
+        'Adresse',
+        'Centre de formation',
+    ],
+
+    // Headers for Consultation (different structure)
+    'consultation_headers' => [
+        'Date de Lead',
+        'Nom Complet',
+        'telephone',
+        'City',
+        'Email',
+    ],
 
     // Static group ID → display name (must match the JS forms)
     'group_names' => [

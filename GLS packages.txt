@@ -1,3 +1,4 @@
 composer require spatie/schema-org
 
 php artisan queue:work --queue=google-sheets
+php artisan queue:work database --queue=google-sheets --tries=3

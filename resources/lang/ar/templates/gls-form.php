@@ -16,6 +16,14 @@ return [
     ],
 
     'fields' => [
+        'nom' => [
+            'label' => 'الاسم العائلي',
+            'placeholder' => 'اسمكم العائلي',
+        ],
+        'prenom' => [
+            'label' => 'الاسم الشخصي',
+            'placeholder' => 'اسمكم الشخصي',
+        ],
         'name' => [
             'label' => 'الاسم الكامل',
             'placeholder' => 'اسمكم الكامل',

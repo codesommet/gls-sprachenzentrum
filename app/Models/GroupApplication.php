@@ -96,4 +96,38 @@ class GroupApplication extends Model implements HasMedia, SyncableToGoogleSheet
         $this->loadMissing('group.site');
         return $this->group?->site?->id;
     }
+
+    /**
+     * Check if this is a consultation type (it's not - it's a group application)
+     */
+    public function isConsultation(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Get the address for Google Sheet (not available for group applications)
+     */
+    public function getSheetAdresse(): string
+    {
+        return '';
+    }
+
+    /**
+     * Split name into first name (returns first part)
+     */
+    public function getSheetFirstName(): string
+    {
+        $parts = explode(' ', trim($this->full_name), 2);
+        return $parts[0] ?? '';
+    }
+
+    /**
+     * Split name into last name (returns second part)
+     */
+    public function getSheetLastName(): string
+    {
+        $parts = explode(' ', trim($this->full_name), 2);
+        return $parts[1] ?? '';
+    }
 }

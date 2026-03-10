@@ -3,13 +3,12 @@
 namespace App\Services;
 
 use App\Contracts\SyncableToGoogleSheet;
+use App\Models\Consultation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 
 class GoogleSheetsLeadSyncService
 {
-    const HEADERS = ['Nom', 'Niveau', 'Téléphone', 'Email', 'Centre', 'Groupe'];
-
     protected GoogleSheetsClient $client;
 
     public function __construct(GoogleSheetsClient $client)
@@ -18,7 +17,35 @@ class GoogleSheetsLeadSyncService
     }
 
     /**
-     * Append a lead to the center's Google Sheet tab.
+     * Get headers based on the model type
+     */
+    protected function getHeaders(Model $lead): array
+    {
+        if ($lead instanceof Consultation || (method_exists($lead, 'isConsultation') && $lead->isConsultation())) {
+            return config('google-sheets.consultation_headers', [
+                'Date de Lead',
+                'Nom Complet',
+                'telephone',
+                'City',
+                'Email'
+            ]);
+        }
+
+        return config('google-sheets.inscription_headers', [
+            'Date de Lead',
+            'Nom',
+            'Prenom',
+            'telephone',
+            'Niveau actuel',
+            'Groupe',
+            'email',
+            'Adresse',
+            'Centre de formation'
+        ]);
+    }
+
+    /**
+     * Append a lead to the appropriate Google Sheet tab.
      * Idempotent: if already synced, updates the existing row instead.
      *
      * @param Model&SyncableToGoogleSheet $lead
@@ -34,8 +61,11 @@ class GoogleSheetsLeadSyncService
             return;
         }
 
+        $headers = $this->getHeaders($lead);
+        $columnCount = count($headers);
+
         // Ensure header row exists before any write
-        $this->client->ensureHeaderRow($sheetName, self::HEADERS);
+        $this->client->ensureHeaderRow($sheetName, $headers, $columnCount);
 
         $rowData = $this->buildRowData($lead);
 
@@ -47,7 +77,7 @@ class GoogleSheetsLeadSyncService
         }
 
         // Append new row
-        $rowNumber = $this->client->append($sheetName, $rowData);
+        $rowNumber = $this->client->append($sheetName, $rowData, $columnCount);
 
         $lead->update([
             'google_sheet_name' => $sheetName,
@@ -81,42 +111,19 @@ class GoogleSheetsLeadSyncService
     }
 
     /**
-     * Append the lead to the CONFIRMED sheet.
-     * Idempotent: skips if already synced to confirmed sheet.
-     *
-     * @param Model&SyncableToGoogleSheet $lead
-     */
-    public function appendLeadToConfirmedSheet(Model $lead): void
-    {
-        $label = $this->label($lead);
-
-        if ($lead->isSyncedToConfirmedSheet()) {
-            Log::info("Google Sheets: {$label} already synced to CONFIRMED sheet, skipping");
-            return;
-        }
-
-        $confirmedSheet = config('google-sheets.confirmed_sheet', 'CONFIRMED');
-
-        $this->client->ensureSheetExists($confirmedSheet);
-        $this->client->ensureHeaderRow($confirmedSheet, self::HEADERS);
-
-        $rowData = $this->buildRowData($lead);
-        $this->client->append($confirmedSheet, $rowData);
-
-        $lead->update([
-            'google_sheet_confirmed_synced_at' => now(),
-        ]);
-
-        Log::info("Google Sheets: appended {$label} to CONFIRMED sheet");
-    }
-
-    /**
-     * Resolve the Google Sheet tab name from the lead's centre ID.
+     * Resolve the Google Sheet tab name from the lead.
+     * Consultations go to a dedicated sheet, inscriptions go by centre.
      *
      * @param Model&SyncableToGoogleSheet $lead
      */
     public function resolveSheetName(Model $lead): ?string
     {
+        // Consultations go to their dedicated sheet
+        if ($lead instanceof Consultation || (method_exists($lead, 'isConsultation') && $lead->isConsultation())) {
+            return config('google-sheets.consultation_sheet', 'Consultation');
+        }
+
+        // Inscriptions/Forms go by centre
         $centreId = $lead->getSheetCentreId();
 
         if ($centreId === null) {
@@ -133,19 +140,38 @@ class GoogleSheetsLeadSyncService
     }
 
     /**
-     * Build the simplified row data: full_name, level, phone, email, center.
+     * Build the row data based on the model type.
+     * Consultation: Date de Lead, Nom Complet, telephone, City, Email
+     * Inscription/Form: Date de Lead, Nom, Prenom, telephone, Niveau actuel, Groupe, email, Adresse, Centre de formation
      *
      * @param Model&SyncableToGoogleSheet $lead
      */
     public function buildRowData(Model $lead): array
     {
+        $dateCreated = $lead->created_at ? $lead->created_at->format('Y-m-d H:i:s') : now()->format('Y-m-d H:i:s');
+
+        // Consultation has different structure
+        if ($lead instanceof Consultation || (method_exists($lead, 'isConsultation') && $lead->isConsultation())) {
+            return [
+                $dateCreated,                           // Date de Lead
+                $lead->getSheetFullName(),              // Nom Complet
+                $lead->getSheetPhone(),                 // telephone
+                $lead->getSheetCity(),                  // City
+                $lead->getSheetEmail(),                 // Email
+            ];
+        }
+
+        // Inscription/Form structure
         return [
-            $lead->getSheetFullName(),
-            $lead->getSheetLevel(),
-            $lead->getSheetPhone(),
-            $lead->getSheetEmail(),
-            $lead->getSheetCenter() ?? 'N/A',
-            $lead->getSheetGroup(),
+            $dateCreated,                               // Date de Lead
+            $lead->getSheetFirstName(),                 // Nom (first name)
+            $lead->getSheetLastName(),                  // Prenom (last name)
+            $lead->getSheetPhone(),                     // telephone
+            $lead->getSheetLevel(),                     // Niveau actuel
+            $lead->getSheetGroup(),                     // Groupe
+            $lead->getSheetEmail(),                     // email
+            $lead->getSheetAdresse(),                   // Adresse
+            $lead->getSheetCenter() ?? 'N/A',           // Centre de formation
         ];
     }
 

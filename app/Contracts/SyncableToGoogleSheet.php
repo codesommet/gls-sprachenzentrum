@@ -24,4 +24,9 @@ interface SyncableToGoogleSheet
     public function isSyncedToSheet(): bool;
 
     public function isSyncedToConfirmedSheet(): bool;
+
+    /**
+     * Check if this model is a consultation type (uses different columns).
+     */
+    public function isConsultation(): bool;
 }

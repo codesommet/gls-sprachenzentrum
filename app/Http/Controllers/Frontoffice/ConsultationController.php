@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontoffice;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SyncLeadToGoogleSheetJob;
 use App\Models\Consultation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -35,6 +36,9 @@ class ConsultationController extends Controller
 
         // Save in DB
         $consultation = Consultation::create($validated);
+
+        // Sync to Google Sheets
+        SyncLeadToGoogleSheetJob::dispatch($consultation);
 
         // Admin email
         Mail::to('mehdivermittlung@gmail.com')

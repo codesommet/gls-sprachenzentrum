@@ -11,7 +11,8 @@ class GlsInscription extends Model implements SyncableToGoogleSheet
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'nom',
+        'prenom',
         'email',
         'phone',
         'adresse',
@@ -58,7 +59,7 @@ class GlsInscription extends Model implements SyncableToGoogleSheet
 
     public function getSheetFullName(): string
     {
-        return $this->name;
+        return trim($this->nom . ' ' . $this->prenom);
     }
 
     public function getSheetLevel(): string
@@ -95,5 +96,37 @@ class GlsInscription extends Model implements SyncableToGoogleSheet
         }
 
         return $this->centre ? (int) $this->centre : null;
+    }
+
+    /**
+     * Check if this is a consultation type (it's not - it's an inscription)
+     */
+    public function isConsultation(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Get the address for Google Sheet
+     */
+    public function getSheetAdresse(): string
+    {
+        return $this->adresse ?? '';
+    }
+
+    /**
+     * Get first name (nom) for Google Sheet
+     */
+    public function getSheetFirstName(): string
+    {
+        return $this->nom ?? '';
+    }
+
+    /**
+     * Get last name (prenom) for Google Sheet
+     */
+    public function getSheetLastName(): string
+    {
+        return $this->prenom ?? '';
     }
 }

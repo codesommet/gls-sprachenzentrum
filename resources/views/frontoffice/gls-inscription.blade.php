@@ -45,8 +45,7 @@
                                     <span id="glsPageErrorText"></span>
                                 </div>
 
-                                <form id="glsPageForm"
-                                    data-label-submit="{{ __('templates/gls-form.buttons.submit') }}"
+                                <form id="glsPageForm" data-label-submit="{{ __('templates/gls-form.buttons.submit') }}"
                                     data-label-sending="{{ __('templates/gls-form.buttons.sending') }}"
                                     data-error-required="{{ __('templates/gls-form.errors.required_fields') }}"
                                     data-error-duplicate="{{ __('templates/gls-form.errors.duplicate') }}"
@@ -70,12 +69,23 @@
                                     </h4>
 
                                     <div class="form-group">
-                                        <label for="glsPageName">
-                                            {{ $tr('templates/gls-form.fields.name.label', 'Nom complet') }}
+                                        <label for="glsPageNom">
+                                            {{ $tr('templates/gls-form.fields.nom.label', 'Nom') }}
                                             <span class="required">*</span>
                                         </label>
-                                        <input type="text" id="glsPageName" name="name"
-                                            placeholder="{{ $tr('templates/gls-form.fields.name.placeholder', 'Votre nom complet') }}"
+                                        <input type="text" id="glsPageNom" name="nom"
+                                            placeholder="{{ $tr('templates/gls-form.fields.nom.placeholder', 'Votre nom') }}"
+                                            required>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="glsPagePrenom">
+                                            {{ $tr('templates/gls-form.fields.prenom.label', 'Prénom') }}
+                                            <span class="required">*</span>
+                                        </label>
+                                        <input type="text" id="glsPagePrenom" name="prenom"
+                                            placeholder="{{ $tr('templates/gls-form.fields.prenom.placeholder', 'Votre prénom') }}"
                                             required>
                                         <div class="invalid-feedback"></div>
                                     </div>
@@ -167,7 +177,8 @@
                                                 {{ $tr('templates/gls-form.fields.group_id.placeholder', 'Selectionner un groupe') }}
                                             </option>
                                             <!-- Groups will be populated dynamically based on selected center or type -->
-                                            <option value="25" id="onlineGroupOption" style="display: none;">Groupe Nuit
+                                            <option value="25" id="onlineGroupOption" style="display: none;">Groupe
+                                                Nuit
                                                 20:00 – 22:00</option>
                                         </select>
                                         <div class="invalid-feedback"></div>
