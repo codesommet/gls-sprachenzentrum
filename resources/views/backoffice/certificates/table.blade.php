@@ -16,12 +16,6 @@
 
         <tbody>
             @forelse($certificates as $cert)
-                @php
-                    // Totaux calculés (ton controller calcule déjà)
-                    $totalScore = $cert->written_total + $cert->oral_total;
-                    $maxScore = 225 + 75; // 300
-                @endphp
-
                 <tr>
                     {{-- ID --}}
                     <td>{{ $cert->id }}</td>
@@ -42,7 +36,7 @@
                     {{-- TOTAL SCORE --}}
                     <td>
                         <span class="badge bg-light-info text-info">
-                            {{ $totalScore }} / {{ $maxScore }}
+                            {{ $cert->total_score }} / {{ $cert->total_max }}
                         </span>
                     </td>
 

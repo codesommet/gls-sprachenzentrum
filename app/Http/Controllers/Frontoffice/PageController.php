@@ -132,7 +132,7 @@ class PageController extends Controller
             'message' => 'required|string|min:5',
         ]);
 
-        Mail::to('rochdi.karouali1234@gmail.com')->send(new ContactMessageMail($request->all()));
+        Mail::to('mehdivermittlung@gmail.com')->send(new ContactMessageMail($request->all()));
 
         return back()->with('success', 'Votre message a bien été envoyé.');
     }

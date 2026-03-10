@@ -240,11 +240,17 @@
     <script type="text/javascript">
         var Tawk_API = Tawk_API || {},
             Tawk_LoadStart = new Date();
+        Tawk_API.customStyle = {
+            visibility: {
+                desktop: { position: 'br', xOffset: 24, yOffset: 90 },
+                mobile:  { position: 'br', xOffset: 15, yOffset: 90 }
+            }
+        };
         (function() {
             var s1 = document.createElement("script"),
                 s0 = document.getElementsByTagName("script")[0];
             s1.async = true;
-            s1.src = 'https://embed.tawk.to/69666fd7d7f0511983c59b92/1jes29osr';
+            s1.src = 'https://embed.tawk.to/69af4ebd7d962c1c35e7812e/1jjacn54k';
             s1.charset = 'UTF-8';
             s1.setAttribute('crossorigin', '*');
             s0.parentNode.insertBefore(s1, s0);

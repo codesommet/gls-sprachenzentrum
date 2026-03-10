@@ -253,7 +253,7 @@ opacity: 0;
 visibility: hidden;
 transform: translateY(10px);
 transition: opacity .25s ease, transform .25s ease, visibility .25s;
-z-index: 999;
+z-index: 2147483647;
 }
 
 /* RTL support */

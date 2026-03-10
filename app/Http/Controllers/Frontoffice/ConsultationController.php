@@ -37,7 +37,7 @@ class ConsultationController extends Controller
         $consultation = Consultation::create($validated);
 
         // Admin email
-        Mail::to('rochdi.karouali1234@gmail.com')
+        Mail::to('mehdivermittlung@gmail.com')
             ->send(new ConsultationAdminMail($consultation));
 
         // Client confirmation email
