@@ -106,7 +106,6 @@
         gtag('config', 'AW-17817493313');
     </script>
 
-    {{-- Disable Inspect/DevTools (Production Only) --}}
     @production
         <script>
             (function() {
