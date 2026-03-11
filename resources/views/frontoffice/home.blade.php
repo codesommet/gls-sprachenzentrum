@@ -1,13 +1,6 @@
 ﻿@extends('frontoffice.layouts.app')
 
-@push('styles')
-    <link rel="stylesheet" href="{{ asset('assets/css/frontoffice/home/celebration.css') }}">
-@endpush
-
 @section('content')
-    {{-- New Website Celebration --}}
-    <canvas class="celebration-confetti"></canvas>
-
     <main class="home-page">
         {{-- ===========================
      HERO SECTION
@@ -517,14 +510,17 @@ SITES — Images only (NO iframe, NO yt-holder, NO video)
                                 <a class="gls-site-pill"
                                     href="{{ route('front.sites.show', 'gls-casablanca') }}">{{ __('home.site_modal.casablanca') }}</a>
 
-                                <a class="gls-site-pill" href="{{ route('front.sites.show', 'gls-rabat') }}">{{ __('home.site_modal.rabat') }}</a>
+                                <a class="gls-site-pill"
+                                    href="{{ route('front.sites.show', 'gls-rabat') }}">{{ __('home.site_modal.rabat') }}</a>
 
                                 <a class="gls-site-pill"
                                     href="{{ route('front.sites.show', 'gls-kenitra') }}">{{ __('home.site_modal.kenitra') }}</a>
 
-                                <a class="gls-site-pill" href="{{ route('front.sites.show', 'gls-sale') }}">{{ __('home.site_modal.sale') }}</a>
+                                <a class="gls-site-pill"
+                                    href="{{ route('front.sites.show', 'gls-sale') }}">{{ __('home.site_modal.sale') }}</a>
 
-                                <a class="gls-site-pill" href="{{ route('front.sites.show', 'gls-agadir') }}">{{ __('home.site_modal.agadir') }}</a>
+                                <a class="gls-site-pill"
+                                    href="{{ route('front.sites.show', 'gls-agadir') }}">{{ __('home.site_modal.agadir') }}</a>
                             </div>
                         </div>
 
@@ -714,11 +710,7 @@ SITES — Images only (NO iframe, NO yt-holder, NO video)
 
         {{-- Testimonials Videos Section --}}
         @include('frontoffice.partials.testimonials-videos')
-        
+
 
     </main>
 @endsection
-
-@push('scripts')
-    <script src="{{ asset('assets/js/celebration.js') }}"></script>
-@endpush
