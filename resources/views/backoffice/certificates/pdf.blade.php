@@ -30,7 +30,10 @@
         }
 
         /* HEADER */
-        .header-logo { width: 140px; }
+        .header-logo {
+            width: 140px;
+        }
+
         .header-right {
             text-align: right;
             font-size: 10px;
@@ -60,9 +63,19 @@
         }
 
         /* PERSONAL INFO */
-        .info-table { margin-bottom: 25px; }
-        .info-table td { width: 50%; padding-right: 30px; }
-        .info-table td:last-child { padding-right: 0; padding-left: 30px; }
+        .info-table {
+            margin-bottom: 25px;
+        }
+
+        .info-table td {
+            width: 50%;
+            padding-right: 30px;
+        }
+
+        .info-table td:last-child {
+            padding-right: 0;
+            padding-left: 30px;
+        }
 
         .field-label {
             font-size: 9.5px;
@@ -100,15 +113,29 @@
             margin-right: auto;
         }
 
-        .score-table { width: 55%; margin-left: auto; margin-right: auto; }
-        .score-table td { padding: 2px 0; font-size: 11px; }
-        .score-label { color: #333; width: 200px; }
+        .score-table {
+            width: 55%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .score-table td {
+            padding: 2px 0;
+            font-size: 11px;
+        }
+
+        .score-label {
+            color: #333;
+            width: 200px;
+        }
+
         .score-val {
             text-align: right;
             font-weight: bold;
             white-space: nowrap;
             width: 40px;
         }
+
         .score-sep {
             text-align: center;
             white-space: nowrap;
@@ -116,36 +143,84 @@
             width: 20px;
             padding: 0 2px;
         }
+
         .score-max {
             text-align: left;
             font-weight: bold;
             white-space: nowrap;
             width: 40px;
         }
+
         .score-gesamt td {
             padding-top: 0;
             padding-bottom: 4px;
             font-size: 12px;
         }
-        .score-gesamt .score-val { font-size: 13px; }
-        .score-gesamt .score-max { font-size: 13px; }
-        .score-item .score-label { padding-left: 20px; }
-        .score-item .score-label::before { content: "\2022\00a0\00a0"; }
+
+        .score-gesamt .score-val {
+            font-size: 13px;
+        }
+
+        .score-gesamt .score-max {
+            font-size: 13px;
+        }
+
+        .score-item .score-label {
+            padding-left: 20px;
+        }
+
+        .score-item .score-label::before {
+            content: "\2022\00a0\00a0";
+        }
 
         /* RESULT */
-        .result-section { width: 55%; margin: 16px auto 0 auto; }
-        .result-section td { padding: 3px 0; font-size: 12px; }
-        .result-label { font-weight: bold; width: 200px; }
-        .result-value { text-align: right; font-weight: bold; font-size: 13px; }
+        .result-section {
+            width: 55%;
+            margin: 16px auto 0 auto;
+        }
+
+        .result-section td {
+            padding: 3px 0;
+            font-size: 12px;
+        }
+
+        .result-label {
+            font-weight: bold;
+            width: 200px;
+        }
+
+        .result-value {
+            text-align: right;
+            font-weight: bold;
+            font-size: 13px;
+        }
 
         /* DATES */
-        .dates-section { width: 55%; margin: 16px auto 0 auto; }
-        .dates-section td { padding: 2px 0; font-size: 10.5px; }
-        .dates-section .date-label { color: #555; width: 200px; }
-        .dates-section .date-value { text-align: right; font-weight: bold; }
+        .dates-section {
+            width: 55%;
+            margin: 16px auto 0 auto;
+        }
+
+        .dates-section td {
+            padding: 2px 0;
+            font-size: 10.5px;
+        }
+
+        .dates-section .date-label {
+            color: #555;
+            width: 200px;
+        }
+
+        .dates-section .date-value {
+            text-align: right;
+            font-weight: bold;
+        }
 
         /* SIGNATURES */
-        .sig-table { margin-top: 35px; }
+        .sig-table {
+            margin-top: 35px;
+        }
+
         .sig-cell {
             width: 50%;
             text-align: center;
@@ -153,6 +228,7 @@
             color: #555;
             font-style: italic;
         }
+
         .sig-line {
             border-top: 1px solid #aaa;
             width: 65%;
@@ -176,8 +252,17 @@
             bottom: 35px;
             text-align: center;
         }
-        .qr-block img { width: 100px; height: 100px; }
-        .qr-block .qr-text { font-size: 8px; color: #888; margin-top: 4px; }
+
+        .qr-block img {
+            width: 100px;
+            height: 100px;
+        }
+
+        .qr-block .qr-text {
+            font-size: 8px;
+            color: #888;
+            margin-top: 4px;
+        }
 
         /* WATERMARK */
         .watermark {
@@ -222,7 +307,7 @@
                 <div class="field-value">{{ $certificate->last_name }}</div>
                 <div class="field-label">Name</div>
 
-                <div class="field-value-normal">{{ $certificate->birth_date->format('m/d/Y') }}</div>
+                <div class="field-value-normal">{{ $certificate->birth_date->format('d/m/Y') }}</div>
                 <div class="field-label">Geburtsdatum</div>
             </td>
             <td>
@@ -236,7 +321,7 @@
     </table>
 
 
-    @if($certificate->isA2())
+    @if ($certificate->isA2())
         {{-- A2 SCORES --}}
 
         <div class="section-title">Prüfungsergebnisse</div>
@@ -273,7 +358,6 @@
                 <td class="score-max">{{ $certificate->speaking_max }}</td>
             </tr>
         </table>
-
     @else
         {{-- B2 SCORES --}}
 
@@ -347,11 +431,11 @@
 
     <!-- RESULT -->
     <table class="result-section">
-        @if($certificate->ergebnis_note)
-        <tr>
-            <td class="result-label">Ergebnis</td>
-            <td class="result-value">{{ $certificate->ergebnis_note }}</td>
-        </tr>
+        @if ($certificate->ergebnis_note)
+            <tr>
+                <td class="result-label">Ergebnis</td>
+                <td class="result-value">{{ $certificate->ergebnis_note }}</td>
+            </tr>
         @endif
         <tr>
             <td class="result-label">Note</td>
@@ -397,7 +481,7 @@
     </div>
 
     <!-- QR CODE -->
-    @if(!empty($qrCodeBase64))
+    @if (!empty($qrCodeBase64))
         <div class="qr-block">
             <img src="data:image/svg+xml;base64,{{ $qrCodeBase64 }}" alt="QR">
             <div class="qr-text">Scan to download</div>
