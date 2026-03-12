@@ -263,4 +263,71 @@ return [
         'empty_active' => 'لا توجد مجموعات نشطة',
         'empty_upcoming' => 'لا توجد مجموعات جديدة مخططة',
     ],
+
+    // ========================
+    // MARKETING VIDEOS SECTION
+    // ========================
+    'marketing_videos' => [
+        'title' => 'فيديوهاتنا',
+        'subtitle' => 'اكتشف GLS Sprachenzentrum عبر الفيديو',
+        'videos' => [
+            ['label' => 'Arbeit', 'vimeo' => '1172167791', 'color' => 'blue'],
+            ['label' => '1POD3', 'vimeo' => '1172166709', 'color' => 'orange'],
+            ['label' => 'جواز سفر GLS', 'vimeo' => '1172166445', 'color' => 'green'],
+            ['label' => 'النسخة النهائية 3', 'vimeo' => '1172167181', 'color' => 'purple'],
+            ['label' => 'Final HQ', 'vimeo' => '1172171254', 'color' => 'blue'],
+        ],
+    ],
+
+    // ========================
+    // TESTIMONIALS VIDEOS SECTION
+    // ========================
+    'testimonials_videos' => [
+        'title' => 'شهادات',
+        'aria_section' => 'شهادات بالفيديو',
+        'aria_preview' => 'معاينة الشهادات',
+        'aria_play' => 'تشغيل الفيديو',
+        'aria_prev' => 'السابق',
+        'aria_next' => 'التالي',
+        'aria_modal' => 'تشغيل الفيديو',
+        'aria_close' => 'إغلاق',
+        'aria_card' => 'مشاهدة شهادة',
+        'items' => [
+            [
+                'name' => 'Alex',
+                'age' => 14,
+                'role' => 'طالب GLS',
+                'group' => 'المستوى B1 – متوسط',
+                'vimeo' => '1172183086',
+            ],
+            [
+                'name' => 'Kate',
+                'age' => null,
+                'role' => 'أم أوليغ (15 سنة)',
+                'group' => 'المستوى B1 – متوسط',
+                'vimeo' => '1172183039',
+            ],
+            [
+                'name' => 'Jay',
+                'age' => 13,
+                'role' => 'طالب GLS',
+                'group' => 'المستوى B1 – متوسط',
+                'vimeo' => '1172182987',
+            ],
+            [
+                'name' => 'Sara',
+                'age' => 15,
+                'role' => 'طالبة GLS',
+                'group' => 'المستوى B1 – متوسط',
+                'vimeo' => '1172182943',
+            ],
+            [
+                'name' => 'Oleg',
+                'age' => 15,
+                'role' => 'طالب GLS',
+                'group' => 'المستوى B1 – متوسط',
+                'vimeo' => '1172182895',
+            ],
+        ],
+    ],
 ];

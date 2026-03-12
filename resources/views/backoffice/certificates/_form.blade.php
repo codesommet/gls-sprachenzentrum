@@ -227,17 +227,17 @@
     </div>
 
     <div class="col-md-6 mb-3">
-        <label class="form-label fw-bold">Ergebnis</label>
-        <input type="text" name="ergebnis_note" class="form-control"
-            value="{{ old('ergebnis_note', $cert->ergebnis_note ?? '') }}"
-            placeholder="Ex: Befriedigend, Gut, Sehr gut...">
+        <label class="form-label fw-bold">Note <small class="text-muted">(auto-calculée)</small></label>
+        <input type="text" name="final_result" id="finalResultInput" class="form-control" required
+            value="{{ old('final_result', $cert->final_result ?? '') }}"
+            placeholder="Ex: 240/300">
     </div>
 
     <div class="col-md-6 mb-3">
-        <label class="form-label fw-bold">Note</label>
-        <input type="text" name="final_result" class="form-control" required
-            value="{{ old('final_result', $cert->final_result ?? '') }}"
-            placeholder="Ex: 240/300">
+        <label class="form-label fw-bold">Ergebnis <small class="text-muted">(auto)</small></label>
+        <input type="text" name="ergebnis_note" id="ergebnisNoteInput" class="form-control"
+            value="{{ old('ergebnis_note', $cert->ergebnis_note ?? '') }}"
+            placeholder="Ex: Befriedigend, Gut, Sehr gut...">
     </div>
 
 </div>
@@ -247,10 +247,59 @@
 {{-- ========================= --}}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const typeSelect = document.getElementById('certificateType');
-    const examLevel  = document.getElementById('examLevelInput');
-    const b2Block    = document.getElementById('b2-scores');
-    const a2Block    = document.getElementById('a2-scores');
+    const typeSelect       = document.getElementById('certificateType');
+    const examLevel        = document.getElementById('examLevelInput');
+    const b2Block          = document.getElementById('b2-scores');
+    const a2Block          = document.getElementById('a2-scores');
+    const finalResultInput = document.getElementById('finalResultInput');
+    const ergebnisInput    = document.getElementById('ergebnisNoteInput');
+
+    // Score configs matching PHP SCORE_CONFIGS
+    const configs = {
+        b2: { reading: 75, grammar: 30, listening: 75, writing: 45, presentation: 25, discussion: 25, problemsolving: 25, total: 300 },
+        a2: { reading: 25, listening: 25, writing: 25, speaking: 25, total: 100 }
+    };
+
+    function getVal(name) {
+        const el = document.querySelector('input[name="' + name + '"]:not([disabled])');
+        return el ? (parseInt(el.value) || 0) : 0;
+    }
+
+    function determineGrade(percent) {
+        if (percent >= 90) return 'Sehr gut';
+        if (percent >= 75) return 'Gut';
+        if (percent >= 60) return 'Befriedigend';
+        if (percent >= 50) return 'Ausreichend';
+        return 'Nicht bestanden';
+    }
+
+    function calculateNote() {
+        const type = typeSelect.value;
+        let fields = [], max = 0;
+
+        if (type === 'b2') {
+            fields = ['reading_score','grammar_score','listening_score','writing_score','presentation_score','discussion_score','problemsolving_score'];
+            max = configs.b2.total;
+        } else {
+            fields = ['reading_score','listening_score','writing_score','speaking_score'];
+            max = configs.a2.total;
+        }
+
+        let total = 0, hasAny = false;
+        fields.forEach(function(name) {
+            const el = document.querySelector('input[name="' + name + '"]:not([disabled])');
+            if (el && el.value !== '') {
+                hasAny = true;
+                total += parseInt(el.value) || 0;
+            }
+        });
+
+        if (hasAny) {
+            const percent = Math.round((total / max) * 100);
+            finalResultInput.value = total + '/' + max;
+            ergebnisInput.value = determineGrade(percent);
+        }
+    }
 
     function toggleType() {
         const type = typeSelect.value;
@@ -268,7 +317,14 @@ document.addEventListener('DOMContentLoaded', function() {
             a2Block.querySelectorAll('.a2-field').forEach(f => { f.disabled = true; f.removeAttribute('required'); });
             if (examLevel.value === 'Deutsch A2' || examLevel.value === '') examLevel.value = 'Deutsch B2';
         }
+
+        calculateNote();
     }
+
+    // Listen to score input changes for auto-calculation
+    document.querySelectorAll('.b2-field, .a2-field').forEach(function(input) {
+        input.addEventListener('input', calculateNote);
+    });
 
     typeSelect.addEventListener('change', toggleType);
     toggleType(); // set initial state

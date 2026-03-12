@@ -22,16 +22,16 @@ class ConsultationController extends Controller
             'email' => ['required', 'email', 'max:255'],
         ]);
 
-        // Duplicate protection (email OR phone)
-        $exists = Consultation::where('email', $validated['email'])
+        // Block if 3+ consultations already exist for this email or phone
+        $existingCount = Consultation::where('email', $validated['email'])
             ->orWhere('phone', $validated['phone'])
-            ->exists();
+            ->count();
 
-        if ($exists) {
+        if ($existingCount >= 3) {
             return response()->json([
-                'status'  => 'duplicate',
-                'message' => 'Une demande avec cet email ou ce numéro existe déjà.',
-            ], 409);
+                'status'  => 'blocked',
+                'message' => 'Vous avez atteint le nombre maximum de demandes (3). Veuillez nous contacter directement.',
+            ], 429);
         }
 
         // Save in DB

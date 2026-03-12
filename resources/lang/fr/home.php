@@ -263,4 +263,71 @@ return [
         'empty_active' => 'Aucun groupe actif',
         'empty_upcoming' => 'Pas de nouveaux groupes prévus',
     ],
+
+    // ========================
+    // MARKETING VIDEOS SECTION
+    // ========================
+    'marketing_videos' => [
+        'title' => 'NOS VIDÉOS',
+        'subtitle' => 'Découvrez GLS Sprachenzentrum en vidéo',
+        'videos' => [
+            ['label' => 'Arbeit', 'vimeo' => '1172167791', 'color' => 'blue'],
+            ['label' => '1POD3', 'vimeo' => '1172166709', 'color' => 'orange'],
+            ['label' => 'Le Passeport GLS', 'vimeo' => '1172166445', 'color' => 'green'],
+            ['label' => 'Final Version 3', 'vimeo' => '1172167181', 'color' => 'purple'],
+            ['label' => 'Final HQ', 'vimeo' => '1172171254', 'color' => 'blue'],
+        ],
+    ],
+
+    // ========================
+    // TESTIMONIALS VIDEOS SECTION
+    // ========================
+    'testimonials_videos' => [
+        'title' => 'TÉMOIGNAGES',
+        'aria_section' => 'Témoignages vidéo',
+        'aria_preview' => 'Aperçu des témoignages',
+        'aria_play' => 'Lire la vidéo',
+        'aria_prev' => 'Précédent',
+        'aria_next' => 'Suivant',
+        'aria_modal' => 'Lecture vidéo',
+        'aria_close' => 'Fermer',
+        'aria_card' => 'Voir le témoignage de',
+        'items' => [
+            [
+                'name' => 'Alex',
+                'age' => 14,
+                'role' => 'Étudiant GLS',
+                'group' => 'Niveau B1 – Intermédiaire',
+                'vimeo' => '1172183086',
+            ],
+            [
+                'name' => 'Kate',
+                'age' => null,
+                'role' => 'Maman de Oleg (15 ans)',
+                'group' => 'Niveau B1 – Intermédiaire',
+                'vimeo' => '1172183039',
+            ],
+            [
+                'name' => 'Jay',
+                'age' => 13,
+                'role' => 'Étudiant GLS',
+                'group' => 'Niveau B1 – Intermédiaire',
+                'vimeo' => '1172182987',
+            ],
+            [
+                'name' => 'Sara',
+                'age' => 15,
+                'role' => 'Étudiante GLS',
+                'group' => 'Niveau B1 – Intermédiaire',
+                'vimeo' => '1172182943',
+            ],
+            [
+                'name' => 'Oleg',
+                'age' => 15,
+                'role' => 'Étudiant GLS',
+                'group' => 'Niveau B1 – Intermédiaire',
+                'vimeo' => '1172182895',
+            ],
+        ],
+    ],
 ];

@@ -48,54 +48,50 @@
     return clampIndex(map[pos]);
   }
 
-  function toEmbedUrl(url) {
-    // Accepts:
-    // - https://www.youtube.com/embed/ID
-    // - https://youtu.be/ID
-    // - https://www.youtube.com/watch?v=ID
-    // Returns https://www.youtube.com/embed/ID
+  function toVimeoEmbedUrl(url) {
     if (!url) return '';
-
     try {
       const u = new URL(url);
-      if (u.pathname.startsWith('/embed/')) return `https://www.youtube.com${u.pathname}`;
-      if (u.hostname.includes('youtu.be')) return `https://www.youtube.com/embed/${u.pathname.replace('/', '')}`;
-      if (u.searchParams.get('v')) return `https://www.youtube.com/embed/${u.searchParams.get('v')}`;
-      // fallback
+      // Already a player.vimeo.com embed URL
+      if (u.hostname === 'player.vimeo.com') return url;
+      // Regular vimeo.com/ID URL
+      if (u.hostname.includes('vimeo.com')) {
+        const id = u.pathname.replace('/', '');
+        return `https://player.vimeo.com/video/${id}`;
+      }
       return url;
     } catch {
       return url;
     }
   }
 
-  function ytSrcForPhone(item) {
-    const base = toEmbedUrl(item.youtube);
-    // autoplay + mute + loop-like feel (playlist=id is common trick)
-    const id = base.split('/embed/')[1]?.split('?')[0] || '';
+  function vimeoSrcForPhone(item) {
+    const base = toVimeoEmbedUrl(item.vimeo);
     const params = new URLSearchParams({
       autoplay: '1',
-      mute: '1',
+      muted: '0',
       controls: '0',
-      rel: '0',
-      playsinline: '1',
-      modestbranding: '1',
-      iv_load_policy: '3',
-      // loop trick
       loop: '1',
-      playlist: id,
+      background: '0',
+      playsinline: '1',
+      title: '0',
+      byline: '0',
+      portrait: '0',
+      badge: '0',
     });
     return `${base}?${params.toString()}`;
   }
 
-  function ytSrcForModal(item) {
-    const base = toEmbedUrl(item.youtube);
+  function vimeoSrcForModal(item) {
+    const base = toVimeoEmbedUrl(item.vimeo);
     const params = new URLSearchParams({
       autoplay: '1',
-      mute: '0',
+      muted: '0',
       controls: '1',
-      rel: '0',
-      playsinline: '1',
-      modestbranding: '1',
+      title: '0',
+      byline: '0',
+      portrait: '0',
+      badge: '0',
     });
     return `${base}?${params.toString()}`;
   }
@@ -166,14 +162,14 @@
     if (!phoneSlide) return;
     const item = items[activeIndex];
 
-    // Replace the phone video with autoplay muted iframe
+    // Replace the phone video with autoplay muted Vimeo iframe
     phoneSlide.innerHTML = `
       <div class="gls-tv-reel" data-open aria-label="Ouvrir la vidéo">
         <iframe
           class="gls-tv-yt--reel"
-          src="${escapeHtml(ytSrcForPhone(item))}"
+          src="${escapeHtml(vimeoSrcForPhone(item))}"
           title="${escapeHtml(item?.name || 'Témoignage')}"
-          allow="autoplay; encrypted-media; picture-in-picture"
+          allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
           allowfullscreen
           loading="lazy"
         ></iframe>
@@ -197,9 +193,9 @@
 
     const iframe = document.createElement('iframe');
     iframe.className = 'gls-tv-yt--modal';
-    iframe.src = ytSrcForModal(item);
+    iframe.src = vimeoSrcForModal(item);
     iframe.title = item?.name ? `Témoignage — ${item.name}` : 'Témoignage';
-    iframe.allow = 'autoplay; encrypted-media; picture-in-picture';
+    iframe.allow = 'autoplay; fullscreen; picture-in-picture; encrypted-media';
     iframe.allowFullscreen = true;
 
     modalDialog.appendChild(iframe);

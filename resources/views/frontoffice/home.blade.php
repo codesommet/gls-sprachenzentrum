@@ -220,6 +220,10 @@ SITES — Images only (NO iframe, NO yt-holder, NO video)
             </div>
         </section>
 
+         {{-- Testimonials Videos Section --}}
+        @include('frontoffice.partials.testimonials-videos')
+
+
         {{-- ===========================
   HIGHLIGHTS SECTION - Starting Soon
 =========================== --}}
@@ -566,7 +570,10 @@ SITES — Images only (NO iframe, NO yt-holder, NO video)
 
             </div>
         </section>
+   {{-- Marketing Videos Section --}}
+        @include('frontoffice.partials.marketing-videos')
 
+       
 
         {{-- ===============================
  COOPERATION PARTNERS – Auto Marquee
@@ -708,9 +715,7 @@ SITES — Images only (NO iframe, NO yt-holder, NO video)
             </div>
         </section>
 
-        {{-- Testimonials Videos Section --}}
-        @include('frontoffice.partials.testimonials-videos')
-
+     
 
     </main>
 @endsection

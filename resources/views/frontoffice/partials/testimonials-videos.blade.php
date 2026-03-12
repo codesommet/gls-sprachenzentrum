@@ -3,9 +3,11 @@
         <header class="gls-tv-header">
             <h2 class="gls-tv-title">
                 @if (app()->getLocale() == 'fr')
-                    TÉMOIGNAGES
+                    ILS PARLENT DE NOUS
+                @elseif (app()->getLocale() == 'ar')
+                    يتحدثون عنا
                 @else
-                    TESTIMONIALS
+                    THEY TALK ABOUT US
                 @endif
             </h2>
         </header>
@@ -17,32 +19,40 @@
                     'age' => 14,
                     'role' => 'Étudiant GLS',
                     'group' => 'Niveau B1 – Intermédiaire',
-                    'poster' => asset('assets/images/9onsol.jpg'),
-                    'youtube' => 'https://www.youtube.com/embed/LTPQqtvxzNw',
+                    'poster' => asset('assets/images/logo/gls-round.png'),
+                    'vimeo' => 'https://player.vimeo.com/video/1172183086',
                 ],
                 [
                     'name' => 'Kate',
                     'age' => null,
                     'role' => 'Maman de Oleg (15 ans)',
                     'group' => 'Niveau B1 – Intermédiaire',
-                    'poster' => asset('assets/images/9onsol.jpg'),
-                    'youtube' => 'https://www.youtube.com/embed/LTPQqtvxzNw',
+                    'poster' => asset('assets/images/logo/gls-round.png'),
+                    'vimeo' => 'https://player.vimeo.com/video/1172183039',
                 ],
                 [
                     'name' => 'Jay',
                     'age' => 13,
                     'role' => 'Étudiant GLS',
                     'group' => 'Niveau B1 – Intermédiaire',
-                    'poster' => asset('assets/images/9onsol.jpg'),
-                    'youtube' => 'https://www.youtube.com/embed/LTPQqtvxzNw',
+                    'poster' => asset('assets/images/logo/gls-round.png'),
+                    'vimeo' => 'https://player.vimeo.com/video/1172182987',
                 ],
                 [
                     'name' => 'Sara',
                     'age' => 15,
                     'role' => 'Étudiante GLS',
                     'group' => 'Niveau B1 – Intermédiaire',
-                    'poster' => asset('assets/images/9onsol.jpg'),
-                    'youtube' => 'https://www.youtube.com/embed/LTPQqtvxzNw',
+                    'poster' => asset('assets/images/logo/gls-round.png'),
+                    'vimeo' => 'https://player.vimeo.com/video/1172182943',
+                ],
+                [
+                    'name' => 'Oleg',
+                    'age' => 15,
+                    'role' => 'Étudiant GLS',
+                    'group' => 'Niveau B1 – Intermédiaire',
+                    'poster' => asset('assets/images/logo/gls-round.png'),
+                    'vimeo' => 'https://player.vimeo.com/video/1172182895',
                 ],
             ];
         @endphp

@@ -26,30 +26,30 @@ class GlsController extends Controller
             $validated['centre'] = 0;
         }
 
+        // Block if 3+ inscriptions already exist for this email
+        $existingCount = GlsInscription::where('email', $validated['email'])->count();
+
+        if ($existingCount >= 3) {
+            Log::warning('GLS inscription blocked: too many attempts', ['email' => $validated['email'], 'count' => $existingCount]);
+
+            $errorMsg = 'Vous avez atteint le nombre maximum d\'inscriptions (3). Veuillez nous contacter directement.';
+
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'status'  => 'blocked',
+                    'message' => $errorMsg,
+                    'errors'  => ['email' => [$errorMsg]],
+                ], 429);
+            }
+
+            return back()->withInput()->withErrors(['email' => $errorMsg]);
+        }
+
         // Create inscription
         try {
             $inscription = GlsInscription::create($validated);
         } catch (QueryException $e) {
-            $isDuplicate = $e->getCode() == 23000
-                || (isset($e->errorInfo[1]) && $e->errorInfo[1] == 1062);
-
-            if ($isDuplicate) {
-                Log::warning('Duplicate GLS inscription attempt', ['email' => $validated['email']]);
-
-                $errorMsg = 'Une inscription avec cet email existe déjà. Merci de vérifier vos informations.';
-
-                if ($request->expectsJson()) {
-                    return response()->json([
-                        'success' => false,
-                        'status'  => 'duplicate',
-                        'message' => $errorMsg,
-                        'errors'  => ['email' => [$errorMsg]],
-                    ], 422);
-                }
-
-                return back()->withInput()->withErrors(['email' => $errorMsg]);
-            }
-
             Log::error('GLS inscription error', [
                 'message'    => $e->getMessage(),
                 'email'      => $validated['email'] ?? null,

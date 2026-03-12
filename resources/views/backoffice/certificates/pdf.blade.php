@@ -276,6 +276,7 @@
             opacity: 0.04;
             z-index: -1;
         }
+
     </style>
 </head>
 

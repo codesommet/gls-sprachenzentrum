@@ -1,0 +1,209 @@
+/* ══════════════════════════════════════════════════════════════
+   GLS Marketing Videos — matches testimonials-video.css design
+   ══════════════════════════════════════════════════════════════ */
+
+.gls-mv-section {
+  background: var(--off-black, #211e1d);
+  padding: 64px 0;
+  overflow: hidden;
+}
+
+.gls-mv-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.gls-mv-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.gls-mv-title {
+  margin: 0 0 8px 0;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  color: var(--color-surface);
+  text-transform: uppercase;
+  font-size: 32px;
+}
+
+.gls-mv-subtitle {
+  margin: 0;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+/* ── Desktop Grid: 5 equal columns ── */
+.gls-mv-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 18px;
+}
+
+/* ── Card ── */
+.gls-mv-card {
+  border-radius: 28px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  border: 3px solid transparent;
+}
+
+.gls-mv-card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  z-index: 2;
+}
+
+/* Card color accents — matching GLS brand gradients */
+.gls-mv-card--blue {
+  border-color: var(--blue, #1c45db);
+}
+
+.gls-mv-card--blue .gls-mv-label {
+  background: linear-gradient(135deg, var(--blue, #1c45db), var(--light--blue, #3577f4));
+}
+
+.gls-mv-card--blue .gls-mv-dot {
+  background: var(--light--blue, #3577f4);
+}
+
+.gls-mv-card--orange {
+  border-color: var(--orange, #ff7a08);
+}
+
+.gls-mv-card--orange .gls-mv-label {
+  background: linear-gradient(135deg, var(--orange, #ff7a08), var(--light--orange, #ffb90e));
+}
+
+.gls-mv-card--orange .gls-mv-dot {
+  background: var(--light--orange, #ffb90e);
+}
+
+.gls-mv-card--green {
+  border-color: var(--green, #009d5a);
+}
+
+.gls-mv-card--green .gls-mv-label {
+  background: linear-gradient(135deg, var(--green, #009d5a), var(--light--green, #00d98a));
+}
+
+.gls-mv-card--green .gls-mv-dot {
+  background: var(--light--green, #00d98a);
+}
+
+.gls-mv-card--purple {
+  border-color: var(--purple, #9767f8);
+}
+
+.gls-mv-card--purple .gls-mv-label {
+  background: linear-gradient(135deg, var(--purple, #9767f8), var(--light--purple, #d5a4fe));
+}
+
+.gls-mv-card--purple .gls-mv-dot {
+  background: var(--light--purple, #d5a4fe);
+}
+
+/* ── Video container (9:16 vertical) ── */
+.gls-mv-video {
+  position: relative;
+  padding-top: 177.78%;
+  width: 100%;
+  background: #111;
+}
+
+.gls-mv-video iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* ── Label bar at bottom ── */
+.gls-mv-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.gls-mv-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Responsive
+   ══════════════════════════════════════════════════════════════ */
+
+/* Tablet: 3 columns top + 2 centered bottom */
+@media (max-width: 1100px) {
+  .gls-mv-grid {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  /* Center the last 2 cards when they wrap to a new row */
+  .gls-mv-card:nth-child(4),
+  .gls-mv-card:nth-child(5) {
+    justify-self: center;
+  }
+}
+
+/* Mobile: horizontal scroll */
+@media (max-width: 768px) {
+  .gls-mv-grid {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-bottom: 12px;
+    max-width: none;
+    gap: 14px;
+  }
+
+  .gls-mv-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .gls-mv-card {
+    flex: 0 0 auto;
+    width: 240px;
+    scroll-snap-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .gls-mv-section {
+    padding: 48px 0;
+  }
+
+  .gls-mv-title {
+    font-size: 24px;
+  }
+
+  .gls-mv-card {
+    width: 200px;
+    border-radius: 22px;
+  }
+
+  .gls-mv-label {
+    padding: 10px 14px;
+    font-size: 12px;
+  }
+}
