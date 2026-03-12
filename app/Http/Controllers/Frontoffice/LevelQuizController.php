@@ -68,7 +68,6 @@ class LevelQuizController extends Controller
             // Time expired => redirect to result with zero score
             session()->put('level_quiz_result', [
                 'quiz_level' => $quizLevel,
-                'detected_level' => 'A1',
                 'answered' => 0,
                 'correct' => 0,
                 'total' => $questions->count(),
@@ -172,7 +171,6 @@ class LevelQuizController extends Controller
             // Time expired => return 0 score
             session()->put('level_quiz_result', [
                 'quiz_level' => $quizLevel,
-                'detected_level' => 'A1',
                 'answered' => 0,
                 'correct' => 0,
                 'total' => $quizModel->questions()->count(),
@@ -242,13 +240,9 @@ class LevelQuizController extends Controller
         // Percent based on question count
         $percent = $total > 0 ? (int) round(($correctCount / $total) * 100) : 0;
 
-        // Detect level from percent
-        $detectedLevel = $this->detectLevelFromPercent($percent);
-
         // Store result in session so you can show it in any view
         session()->put('level_quiz_result', [
             'quiz_level' => $quizLevel,
-            'detected_level' => $detectedLevel,
             'answered' => $answeredCount,
             'correct' => $correctCount,
             'total' => $total,
@@ -267,12 +261,4 @@ class LevelQuizController extends Controller
         ]);
     }
 
-    private function detectLevelFromPercent(int $percent): string
-    {
-        // ✅ Simple thresholds (tu peux les changer)
-        if ($percent >= 85) return 'B2';
-        if ($percent >= 70) return 'B1';
-        if ($percent >= 50) return 'A2';
-        return 'A1';
-    }
 }

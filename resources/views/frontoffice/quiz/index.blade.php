@@ -193,19 +193,7 @@
                                     ]) !!}
                                 </p>
 
-                                <p class="quiz-result_level">
-                                    @if($isGood)
-                                        {!! __('quiz/level_test.interface.result_level_good', ['level' => '<strong>' . ($quizResult['detected_level'] ?? 'A1') . '</strong>']) !!}
-                                        <span class="quiz-result_level_sub">
-                                            {{ __('quiz/level_test.interface.result_level_sub_good') }}
-                                        </span>
-                                    @else
-                                        {{ __('quiz/level_test.interface.result_level_bad') }}
-                                        <span class="quiz-result_level_sub">
-                                            {{ __('quiz/level_test.interface.result_level_sub_bad') }}
-                                        </span>
-                                    @endif
-                                </p>
+                                {{-- Level detection removed --}}
                             @else
                                 {{-- JS placeholder (briefly visible before form submit) --}}
                                 <h2 class="quiz-result_title" data-result-title>
@@ -214,9 +202,7 @@
                                 <p class="quiz-result_points" data-result-text>
                                     {!! __('quiz/level_test.interface.result_text', ['correct' => '<span data-result-correct>...</span>', 'total' => '<span data-result-total>0</span>', 'percent' => '<span data-result-percent>...</span>']) !!}
                                 </p>
-                                <p class="quiz-result_level">
-                                    <span data-result-level>...</span>
-                                </p>
+                                {{-- Level detection removed --}}
                             @endif
 
                             <div class="quiz-result_actions">

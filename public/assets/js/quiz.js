@@ -38,7 +38,6 @@
   var $resultCorrect = $shell.querySelector('[data-result-correct]');
   var $resultTotal = $shell.querySelector('[data-result-total]');
   var $resultPercent = $shell.querySelector('[data-result-percent]');
-  var $resultLevel = $shell.querySelector('[data-result-level]');
 
   var $form = $shell.querySelector('[data-quiz-form]');
   var $answersJson = $shell.querySelector('[data-answers-json]');
@@ -364,7 +363,6 @@
     if ($resultCorrect) $resultCorrect.textContent = '...';
     if ($resultTotal) $resultTotal.textContent = String(questions.length);
     if ($resultPercent) $resultPercent.textContent = '...';
-    if ($resultLevel) $resultLevel.textContent = '...';
 
     if ($answersJson) $answersJson.value = JSON.stringify(state.answers);
 
