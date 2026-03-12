@@ -221,7 +221,7 @@ SITES — Images only (NO iframe, NO yt-holder, NO video)
         </section>
 
          {{-- Testimonials Videos Section --}}
-        @include('frontoffice.partials.testimonials-videos')
+        {{-- @include('frontoffice.partials.testimonials-videos') --}}
 
 
         {{-- ===========================
@@ -571,7 +571,7 @@ SITES — Images only (NO iframe, NO yt-holder, NO video)
             </div>
         </section>
    {{-- Marketing Videos Section --}}
-        @include('frontoffice.partials.marketing-videos')
+        {{-- @include('frontoffice.partials.marketing-videos') --}}
 
        
 
