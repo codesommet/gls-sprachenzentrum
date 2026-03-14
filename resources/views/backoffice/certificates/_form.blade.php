@@ -234,7 +234,7 @@
     </div>
 
     <div class="col-md-6 mb-3">
-        <label class="form-label fw-bold">Ergebnis <small class="text-muted">(auto)</small></label>
+        <label class="form-label fw-bold">Ergebnis</label>
         <input type="text" name="ergebnis_note" id="ergebnisNoteInput" class="form-control"
             value="{{ old('ergebnis_note', $cert->ergebnis_note ?? '') }}"
             placeholder="Ex: Befriedigend, Gut, Sehr gut...">
@@ -252,7 +252,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const b2Block          = document.getElementById('b2-scores');
     const a2Block          = document.getElementById('a2-scores');
     const finalResultInput = document.getElementById('finalResultInput');
-    const ergebnisInput    = document.getElementById('ergebnisNoteInput');
 
     // Score configs matching PHP SCORE_CONFIGS
     const configs = {
@@ -263,14 +262,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function getVal(name) {
         const el = document.querySelector('input[name="' + name + '"]:not([disabled])');
         return el ? (parseInt(el.value) || 0) : 0;
-    }
-
-    function determineGrade(percent) {
-        if (percent >= 90) return 'Sehr gut';
-        if (percent >= 75) return 'Gut';
-        if (percent >= 60) return 'Befriedigend';
-        if (percent >= 50) return 'Ausreichend';
-        return 'Nicht bestanden';
     }
 
     function calculateNote() {
@@ -295,9 +286,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         if (hasAny) {
-            const percent = Math.round((total / max) * 100);
             finalResultInput.value = total + '/' + max;
-            ergebnisInput.value = determineGrade(percent);
         }
     }
 

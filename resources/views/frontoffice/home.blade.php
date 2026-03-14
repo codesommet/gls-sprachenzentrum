@@ -220,33 +220,33 @@ SITES — Images only (NO iframe, NO yt-holder, NO video)
             </div>
         </section>
 
-         {{-- Testimonials Videos Section --}}
-        {{-- @include('frontoffice.partials.testimonials-videos') --}}
+        {{-- Testimonials Videos Section --}}
+        @include('frontoffice.partials.testimonials-videos')
 
 
         {{-- ===========================
   HIGHLIGHTS SECTION - Starting Soon
 =========================== --}}
-        <section class="hh-highlights">
-            <div class="container hh-container">
-                <h2 class="hh-section-title">{{ __('home.highlights.title') }}</h2>
+        <section class="hh-highlights reveal delay-1">
+            <div class="container hh-container reveal delay-2">
+                <h2 class="hh-section-title reveal fade-blur-title delay-1">{{ __('home.highlights.title') }}</h2>
 
-                <div class="hh-card hh-card-big">
-                    <div class="hh-block-31">
-                        <h3 class="hh-title hh-title-big">
+                <div class="hh-card hh-card-big reveal delay-2">
+                    <div class="hh-block-31 reveal delay-3">
+                        <h3 class="hh-title hh-title-big reveal delay-1">
                             {!! __('home.highlights.big_card.title') !!}
                         </h3>
 
-                        <div class="hh-text-block">
+                        <div class="hh-text-block reveal delay-2">
                             {{ __('home.highlights.big_card.subtitle') }}
                         </div>
 
-                        <p class="hh-text hh-text-highlight">
+                        <p class="hh-text hh-text-highlight reveal delay-3">
                             <strong>{{ __('home.highlights.big_card.start_date') }}<br></strong>
                             {{ __('home.highlights.big_card.description') }}
                         </p>
 
-                        <div class="hh-buttons">
+                        <div class="hh-buttons reveal delay-1">
                             <a href="https://maps.app.goo.gl/Q1AU8bPr5kp3K3Sm8" target="_blank"
                                 class="button is-white">{{ __('home.highlights.big_card.button_directions') }}</a>
 
@@ -255,19 +255,19 @@ SITES — Images only (NO iframe, NO yt-holder, NO video)
                         </div>
                     </div>
 
-                    <div class="hh-block-30">
+                    <div class="hh-block-30 reveal delay-1">
                         <img src="{{ asset('assets/images/IMG_4399.webp') }}" loading="lazy"
                             alt="{{ __('home.highlights.big_card.title') }}">
                     </div>
                 </div>
 
-                <div class="hh-row">
-                    <div class="hh-card hh-card-first">
-                        <h3 class="hh-title">
+                <div class="hh-row reveal delay-3">
+                    <div class="hh-card hh-card-first reveal delay-1">
+                        <h3 class="hh-title reveal delay-2">
                             {!! __('home.highlights.card_a1.title') !!}
                         </h3>
 
-                        <p class="hh-text">
+                        <p class="hh-text reveal delay-3">
                             <strong>{{ __('home.highlights.card_a1.spots_available') }}<br></strong>
                             <span class="hh-muted">
                                 {!! __('home.highlights.card_a1.description') !!}
@@ -275,7 +275,7 @@ SITES — Images only (NO iframe, NO yt-holder, NO video)
                         </p>
 
                         <a href="{{ LaravelLocalization::localizeUrl(route('front.gls-inscription')) }}"
-                            class="button is-white"
+                            class="button is-white reveal delay-1"
                             style="background:#ffffff !important; 
           color: var(--dark--off-black) !important; 
           border-color: var(--dark--off-black) !important;">
@@ -283,17 +283,17 @@ SITES — Images only (NO iframe, NO yt-holder, NO video)
                         </a>
                     </div>
 
-                    <div class="hh-card">
-                        <h3 class="hh-title">{{ __('home.highlights.card_intensive.title') }}</h3>
+                    <div class="hh-card reveal delay-2">
+                        <h3 class="hh-title reveal delay-3">{{ __('home.highlights.card_intensive.title') }}</h3>
 
-                        <p class="hh-text">
+                        <p class="hh-text reveal delay-1">
                             <strong>{{ __('home.highlights.card_intensive.join_anytime') }}<br></strong>
                             <span class="hh-muted">
                                 {!! __('home.highlights.card_intensive.description') !!}
                             </span>
                         </p>
 
-                        <a href="http://127.0.0.1:8000/en/gls-inscription" class="button is-white"
+                        <a href="{{ LaravelLocalization::localizeUrl(route('front.gls-inscription')) }}" class="button is-white reveal delay-2"
                             style="background:#ffffff !important; color: var(--dark--off-black) !important; border-color: var(--dark--off-black) !important;">
                             {{ __('home.highlights.card_a1.button') }}
                         </a>
@@ -570,10 +570,10 @@ SITES — Images only (NO iframe, NO yt-holder, NO video)
 
             </div>
         </section>
-   {{-- Marketing Videos Section --}}
-        {{-- @include('frontoffice.partials.marketing-videos') --}}
+        {{-- Marketing Videos Section --}}
+        @include('frontoffice.partials.marketing-videos')
 
-       
+
 
         {{-- ===============================
  COOPERATION PARTNERS – Auto Marquee
@@ -715,7 +715,7 @@ SITES — Images only (NO iframe, NO yt-holder, NO video)
             </div>
         </section>
 
-     
+
 
     </main>
 @endsection

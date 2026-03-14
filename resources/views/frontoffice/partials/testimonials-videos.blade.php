@@ -1,7 +1,7 @@
-<section class="gls-tv-section" aria-label="Témoignages vidéo">
-    <div class="gls-tv-wrap">
-        <header class="gls-tv-header">
-            <h2 class="gls-tv-title">
+<section class="gls-tv-section reveal delay-1" aria-label="Témoignages vidéo">
+    <div class="gls-tv-wrap reveal delay-2">
+        <header class="gls-tv-header reveal delay-3">
+            <h2 class="gls-tv-title reveal fade-blur-title delay-1">
                 @if (app()->getLocale() == 'fr')
                     ILS PARLENT DE NOUS
                 @elseif (app()->getLocale() == 'ar')
@@ -15,40 +15,30 @@
         @php
             $videoTestimonials = [
                 [
-                    'name' => 'Alex',
-                    'age' => 14,
                     'role' => 'Étudiant GLS',
                     'group' => 'Niveau B1 – Intermédiaire',
                     'poster' => asset('assets/images/logo/gls-round.png'),
                     'vimeo' => 'https://player.vimeo.com/video/1172183086',
                 ],
                 [
-                    'name' => 'Kate',
-                    'age' => null,
-                    'role' => 'Maman de Oleg (15 ans)',
+                    'role' => 'Étudiant GLS',
                     'group' => 'Niveau B1 – Intermédiaire',
                     'poster' => asset('assets/images/logo/gls-round.png'),
                     'vimeo' => 'https://player.vimeo.com/video/1172183039',
                 ],
                 [
-                    'name' => 'Jay',
-                    'age' => 13,
                     'role' => 'Étudiant GLS',
                     'group' => 'Niveau B1 – Intermédiaire',
                     'poster' => asset('assets/images/logo/gls-round.png'),
                     'vimeo' => 'https://player.vimeo.com/video/1172182987',
                 ],
                 [
-                    'name' => 'Sara',
-                    'age' => 15,
-                    'role' => 'Étudiante GLS',
+                    'role' => 'Étudiant GLS',
                     'group' => 'Niveau B1 – Intermédiaire',
                     'poster' => asset('assets/images/logo/gls-round.png'),
                     'vimeo' => 'https://player.vimeo.com/video/1172182943',
                 ],
                 [
-                    'name' => 'Oleg',
-                    'age' => 15,
                     'role' => 'Étudiant GLS',
                     'group' => 'Niveau B1 – Intermédiaire',
                     'poster' => asset('assets/images/logo/gls-round.png'),
@@ -57,16 +47,16 @@
             ];
         @endphp
 
-        <div class="gls-tv-stage" data-gls-tv data-items='@json($videoTestimonials, JSON_UNESCAPED_UNICODE)'>
-            <div class="gls-tv-deck">
-                <div class="gls-tv-card gls-tv-card--side" data-pos="farLeft"></div>
-                <div class="gls-tv-card gls-tv-card--side" data-pos="left"></div>
-                <div class="gls-tv-card gls-tv-card--center" data-pos="center"></div>
-                <div class="gls-tv-card gls-tv-card--side" data-pos="right"></div>
-                <div class="gls-tv-card gls-tv-card--side" data-pos="farRight"></div>
+        <div class="gls-tv-stage reveal delay-1" data-gls-tv data-items='@json($videoTestimonials, JSON_UNESCAPED_UNICODE)'>
+            <div class="gls-tv-deck reveal delay-2">
+                <div class="gls-tv-card gls-tv-card--side reveal delay-1" data-pos="farLeft"></div>
+                <div class="gls-tv-card gls-tv-card--side reveal delay-2" data-pos="left"></div>
+                <div class="gls-tv-card gls-tv-card--center reveal delay-3" data-pos="center"></div>
+                <div class="gls-tv-card gls-tv-card--side reveal delay-2" data-pos="right"></div>
+                <div class="gls-tv-card gls-tv-card--side reveal delay-1" data-pos="farRight"></div>
             </div>
 
-            <div class="gls-tv-phone" role="group" aria-label="Aperçu des témoignages">
+            <div class="gls-tv-phone reveal delay-3" role="group" aria-label="Aperçu des témoignages">
                 <div class="gls-tv-device">
                     <div class="gls-tv-device-screen">
                         {{-- iOS Status Bar --}}
@@ -99,6 +89,7 @@
                         </div>
                         <article class="gls-tv-phone-video" data-phone-slide></article>
                         <div class="gls-tv-controls">
+                            <span class="gls-tv-student-label">Étudiant GLS</span>
                             <button class="gls-tv-nav gls-tv-nav--prev" type="button" data-prev
                                 aria-label="Précédent">‹</button>
                             <button class="gls-tv-nav gls-tv-nav--next" type="button" data-next
