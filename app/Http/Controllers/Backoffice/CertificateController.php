@@ -146,6 +146,8 @@ class CertificateController extends Controller
 
     /**
      * BULK PDF EXPORT (ID range → single PDF, one certificate per page)
+     * Renders each certificate with the same pdf.blade.php, extracts <body> content,
+     * and combines them into a single PDF with page breaks.
      */
     public function exportBulkPdf(Request $request)
     {
@@ -163,7 +165,9 @@ class CertificateController extends Controller
                 ->with('error', 'Aucun certificat trouvé dans cette plage d\'IDs.');
         }
 
-        $certificatesData = $certificates->map(function ($certificate) {
+        $pages = [];
+
+        foreach ($certificates as $certificate) {
             $url = route('certificates.public.download', [
                 'token' => $certificate->public_token,
             ]);
@@ -173,16 +177,30 @@ class CertificateController extends Controller
                 ->margin(1)
                 ->generate($url);
 
-            return [
-                'certificate'   => $certificate,
-                'qrCodeBase64'  => base64_encode($qrSvg),
-                'qrUrl'         => $url,
-            ];
-        });
+            $html = view('backoffice.certificates.pdf', [
+                'certificate'  => $certificate,
+                'qrCodeBase64' => base64_encode($qrSvg),
+                'qrUrl'        => $url,
+            ])->render();
 
-        $pdf = Pdf::loadView('backoffice.certificates.pdf-bulk', [
-                'certificatesData' => $certificatesData,
-            ])
+            // Extract content between <body> and </body>
+            if (preg_match('/<body[^>]*>(.*)<\/body>/s', $html, $matches)) {
+                $pages[] = $matches[1];
+            }
+
+            // Extract <style> block from first certificate only
+            if (count($pages) === 1 && preg_match('/<style>(.*)<\/style>/s', $html, $styleMatch)) {
+                $style = $styleMatch[1];
+            }
+        }
+
+        $combinedHtml = '<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><style>'
+            . $style
+            . '</style></head><body>'
+            . implode('<div style="page-break-before: always;"></div>', $pages)
+            . '</body></html>';
+
+        $pdf = Pdf::loadHTML($combinedHtml)
             ->setPaper('a4')
             ->setOption('isHtml5ParserEnabled', true)
             ->setOption('isRemoteEnabled', true);
