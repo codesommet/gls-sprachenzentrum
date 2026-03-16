@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Jobs\SyncLeadToGoogleSheetJob;
+use App\Models\Consultation;
 use App\Models\GlsInscription;
 use App\Models\GroupApplication;
 use Illuminate\Console\Command;
@@ -10,11 +11,11 @@ use Illuminate\Console\Command;
 class ResyncInscriptionsCommand extends Command
 {
     protected $signature = 'google:sheets:resync
-                            {--model=all : Which model to resync (all, inscriptions, applications)}
+                            {--model=all : Which model to resync (all, inscriptions, applications, consultations)}
                             {--force : Re-dispatch even if already synced}
                             {--limit=0 : Max number of records to process (0 = unlimited)}';
 
-    protected $description = 'Re-dispatch Google Sheets sync jobs for unsynced inscriptions and applications';
+    protected $description = 'Re-dispatch Google Sheets sync jobs for unsynced inscriptions, applications and consultations';
 
     public function handle(): int
     {
@@ -30,6 +31,11 @@ class ResyncInscriptionsCommand extends Command
         if (in_array($model, ['all', 'applications'])) {
             $remaining = $limit > 0 ? max(0, $limit - $total) : 0;
             $total += $this->resyncModel(GroupApplication::class, 'GroupApplication', $force, $limit > 0 ? $remaining : 0);
+        }
+
+        if (in_array($model, ['all', 'consultations'])) {
+            $remaining = $limit > 0 ? max(0, $limit - $total) : 0;
+            $total += $this->resyncModel(Consultation::class, 'Consultation', $force, $limit > 0 ? $remaining : 0);
         }
 
         if ($total === 0) {
