@@ -220,8 +220,8 @@ SITES — Images only (NO iframe, NO yt-holder, NO video)
             </div>
         </section>
 
-        {{-- Testimonials videos moved to marketing-videos section --}}
-
+      {{-- Testimonial Videos Section --}}
+        @include('frontoffice.partials.marketing-videos-testimonials')
 
         {{-- ===========================
   HIGHLIGHTS SECTION - Starting Soon
@@ -569,10 +569,8 @@ SITES — Images only (NO iframe, NO yt-holder, NO video)
 
             </div>
         </section>
-        {{-- Marketing Videos Section --}}
+        {{-- Marketing Videos Section (GLS Videos) --}}
         @include('frontoffice.partials.marketing-videos')
-
-
 
         {{-- ===============================
  COOPERATION PARTNERS – Auto Marquee

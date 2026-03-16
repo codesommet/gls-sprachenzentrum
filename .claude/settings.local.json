@@ -6,7 +6,10 @@
       "Bash(php artisan tinker --execute=\":*)",
       "Bash(php artisan tinker --execute=\"echo json_encode\\(App\\\\Models\\\\GlsInscription::all\\([''id'',''group_id'',''google_sheet_synced_at'',''google_sheet_row'']\\)->toArray\\(\\)\\);\")",
       "Bash(php artisan tinker --execute=\"echo App\\\\Models\\\\GlsInscription::count\\(\\) . '' inscriptions, '' . App\\\\Models\\\\GroupApplication::count\\(\\) . '' applications'';\")",
-      "Bash(find /c/Users/ASUS/Desktop/Projects/Gls/resources/views/backoffice -type f -name *.blade.php)"
+      "Bash(find /c/Users/ASUS/Desktop/Projects/Gls/resources/views/backoffice -type f -name *.blade.php)",
+      "Bash(find /c/Users/ASUS/Desktop/Projects/Gls/resources -type f \\\\\\(-name *marketing* -o -name *testimonial* -o -name *video* \\\\\\))",
+      "Bash(grep -E \"\\\\.\\(js|css\\)$\")",
+      "Bash(find /c/Users/ASUS/Desktop/Projects/Gls -path */resources/js/app.js -o -path */resources/js/app -type f)"
     ]
   }
 }

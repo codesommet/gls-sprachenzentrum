@@ -2,8 +2,9 @@
    GLS Marketing Videos — Grid carousel (pages of 5/3/2/1)
    ══════════════════════════════════════════════════════════════ */
 (function () {
+  var viewport = document.querySelector('.gls-mv-viewport');
   var grid = document.querySelector('.gls-mv-grid');
-  if (!grid) return;
+  if (!grid || !viewport) return;
 
   var cards = Array.from(grid.children);
   var prevBtn = document.querySelector('.gls-mv-carousel-btn--prev');
@@ -26,7 +27,7 @@
   function render() {
     var visible = getVisible();
     var gap = 18;
-    var cardWidth = (grid.offsetWidth - gap * (visible - 1)) / visible;
+    var cardWidth = (viewport.offsetWidth - gap * (visible - 1)) / visible;
 
     cards.forEach(function (card) {
       card.style.flex = '0 0 ' + cardWidth + 'px';
@@ -81,12 +82,12 @@
   var startX = 0;
   var dragging = false;
 
-  grid.addEventListener('touchstart', function (e) {
+  viewport.addEventListener('touchstart', function (e) {
     startX = e.touches[0].clientX;
     dragging = true;
   }, { passive: true });
 
-  grid.addEventListener('touchend', function (e) {
+  viewport.addEventListener('touchend', function (e) {
     if (!dragging) return;
     dragging = false;
     var diff = startX - e.changedTouches[0].clientX;

@@ -270,20 +270,14 @@ return [
     'marketing_videos' => [
         'title' => 'فيديوهاتنا',
         'subtitle' => 'اكتشف GLS Sprachenzentrum عبر الفيديو',
-        'videos' => [
-            ['label' => 'Arbeit', 'vimeo' => '1172167791', 'color' => 'blue'],
-            ['label' => '1POD3', 'vimeo' => '1172166709', 'color' => 'orange'],
-            ['label' => 'جواز سفر GLS', 'vimeo' => '1172166445', 'color' => 'green'],
-            ['label' => 'النسخة النهائية 3', 'vimeo' => '1172167181', 'color' => 'purple'],
-            ['label' => 'Final HQ', 'vimeo' => '1172171254', 'color' => 'blue'],
-        ],
     ],
 
     // ========================
     // TESTIMONIALS VIDEOS SECTION
     // ========================
     'testimonials_videos' => [
-        'title' => 'شهادات',
+        'title' => 'شهادات بالفيديو',
+        'subtitle' => 'اكتشف قصص طلابنا',
         'aria_section' => 'شهادات بالفيديو',
         'aria_preview' => 'معاينة الشهادات',
         'aria_play' => 'تشغيل الفيديو',

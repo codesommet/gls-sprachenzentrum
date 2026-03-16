@@ -262,4 +262,21 @@ return [
         'empty_active' => 'Keine aktiven Gruppen',
         'empty_upcoming' => 'Keine neuen Gruppen geplant',
     ],
+
+    // ========================
+    // MARKETING VIDEOS SECTION
+    // ========================
+    'marketing_videos' => [
+        'title' => 'UNSERE VIDEOS',
+        'subtitle' => 'Entdecken Sie GLS Sprachenzentrum im Video',
+    ],
+
+    // ========================
+    // TESTIMONIALS VIDEOS SECTION
+    // ========================
+    'testimonials_videos' => [
+        'title' => 'VIDEO-ERFAHRUNGSBERICHTE',
+        'subtitle' => 'Entdecken Sie die Geschichten unserer Studenten',
+        'aria_section' => 'Video-Erfahrungsberichte',
+    ],
 ];

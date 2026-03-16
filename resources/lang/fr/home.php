@@ -270,20 +270,14 @@ return [
     'marketing_videos' => [
         'title' => 'NOS VIDÉOS',
         'subtitle' => 'Découvrez GLS Sprachenzentrum en vidéo',
-        'videos' => [
-            ['label' => 'Arbeit', 'vimeo' => '1172167791', 'color' => 'blue'],
-            ['label' => '1POD3', 'vimeo' => '1172166709', 'color' => 'orange'],
-            ['label' => 'Le Passeport GLS', 'vimeo' => '1172166445', 'color' => 'green'],
-            ['label' => 'Final Version 3', 'vimeo' => '1172167181', 'color' => 'purple'],
-            ['label' => 'Final HQ', 'vimeo' => '1172171254', 'color' => 'blue'],
-        ],
     ],
 
     // ========================
     // TESTIMONIALS VIDEOS SECTION
     // ========================
     'testimonials_videos' => [
-        'title' => 'TÉMOIGNAGES',
+        'title' => 'TÉMOIGNAGES VIDÉO',
+        'subtitle' => 'Découvrez les histoires de nos étudiants',
         'aria_section' => 'Témoignages vidéo',
         'aria_preview' => 'Aperçu des témoignages',
         'aria_play' => 'Lire la vidéo',
