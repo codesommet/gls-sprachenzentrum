@@ -112,7 +112,130 @@ TOP STATISTICS (DESIGN IDENTIQUE)
 </div>
 
 {{-- =========================
-SECOND ROW (MODULES GLS)
+SECOND ROW (ACADEMIC)
+========================= --}}
+<div class="row">
+
+    {{-- Certificats --}}
+    <div class="col-md-3 col-sm-6">
+        <div class="card statistics-card-1 overflow-hidden">
+            <div class="card-body">
+                <div class="float-end">
+                    <i data-feather="award" class="text-brand-color-3" style="font-size:2rem"></i>
+                </div>
+
+                <h6 class="mb-3">Certificats</h6>
+
+                <div class="d-flex align-items-center justify-content-between">
+                    <h3 class="f-w-300 m-b-0">{{ $stats['totalCertificates'] }}</h3>
+                </div>
+
+                <span class="badge bg-light-success mt-2">
+                    Certificats délivrés
+                </span>
+
+                <p class="text-muted text-sm mt-3">Attestations d'examen</p>
+
+                <div class="progress" style="height:7px">
+                    <div class="progress-bar bg-brand-color-3" style="width:75%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Studienkollegs --}}
+    <div class="col-md-3 col-sm-6">
+        <div class="card statistics-card-1 overflow-hidden">
+            <div class="card-body">
+                <div class="float-end">
+                    <i data-feather="book-open" class="text-brand-color-3" style="font-size:2rem"></i>
+                </div>
+
+                <h6 class="mb-3">Studienkollegs</h6>
+
+                <div class="d-flex align-items-center justify-content-between">
+                    <h3 class="f-w-300 m-b-0">{{ $stats['totalStudienkollegs'] }}</h3>
+
+                    <span class="donut" data-peity='{ "height": 26 }'>
+                        {{ $stats['featuredStudienkollegs'] }}/{{ $stats['totalStudienkollegs'] }}
+                    </span>
+                </div>
+
+                <span class="badge bg-light-primary mt-2">
+                    {{ $stats['featuredStudienkollegs'] }} en vedette
+                </span>
+
+                <p class="text-muted text-sm mt-3">Programmes universitaires</p>
+
+                <div class="progress" style="height:7px">
+                    <div class="progress-bar bg-brand-color-3" style="width:60%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Quizzes --}}
+    <div class="col-md-3 col-sm-6">
+        <div class="card statistics-card-1 overflow-hidden">
+            <div class="card-body">
+                <div class="float-end">
+                    <i data-feather="help-circle" class="text-brand-color-3" style="font-size:2rem"></i>
+                </div>
+
+                <h6 class="mb-3">Quiz</h6>
+
+                <div class="d-flex align-items-center justify-content-between">
+                    <h3 class="f-w-300 m-b-0">{{ $stats['totalQuizzes'] }}</h3>
+
+                    <span class="donut" data-peity='{ "height": 26 }'>
+                        {{ $stats['activeQuizzes'] }}/{{ $stats['totalQuizzes'] }}
+                    </span>
+                </div>
+
+                <span class="badge bg-light-success mt-2">
+                    {{ $stats['totalQuestions'] }} questions
+                </span>
+
+                <p class="text-muted text-sm mt-3">Tests de niveau</p>
+
+                <div class="progress" style="height:7px">
+                    <div class="progress-bar bg-brand-color-3" style="width:65%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Utilisateurs --}}
+    <div class="col-md-3 col-sm-6">
+        <div class="card statistics-card-1 overflow-hidden">
+            <div class="card-body">
+                <div class="float-end">
+                    <i data-feather="user" class="text-brand-color-3" style="font-size:2rem"></i>
+                </div>
+
+                <h6 class="mb-3">Utilisateurs</h6>
+
+                <div class="d-flex align-items-center justify-content-between">
+                    <h3 class="f-w-300 m-b-0">{{ $stats['totalUsers'] }}</h3>
+                </div>
+
+                <span class="badge bg-light-primary mt-2">
+                    Comptes enregistrés
+                </span>
+
+                <p class="text-muted text-sm mt-3">Gestion des accès</p>
+
+                <div class="progress" style="height:7px">
+                    <div class="progress-bar bg-brand-color-3" style="width:40%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{{-- =========================
+THIRD ROW (MODULES GLS)
 ========================= --}}
 <div class="row">
 
@@ -295,6 +418,21 @@ IDs: bar-chart-1, bar-chart-2, pie-chart-2
         </div>
     </div>
 
+    {{-- Bar 4: Consultations par mois --}}
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Consultations par mois</h5>
+            </div>
+            <div class="card-body">
+                <div id="bar-chart-4"
+                    data-series='@json(array_values($consultationsByMonth->toArray()))'
+                    data-labels='@json(array_keys($consultationsByMonth->toArray()))'>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {{-- Donut: Candidatures (statuts) --}}
     <div class="col-md-6">
         <div class="card">
@@ -302,7 +440,6 @@ IDs: bar-chart-1, bar-chart-2, pie-chart-2
                 <h5>Candidatures (statuts)</h5>
             </div>
             <div class="card-body">
-                {{-- On réutilise un ID de ton thème "pie-chart-2" (donut) --}}
                 <div id="pie-chart-2"
                     data-series='@json(array_values($groupAppsByStatus))'
                     data-labels='@json(array_keys($groupAppsByStatus))'
@@ -443,6 +580,7 @@ APEX DASHBOARD INIT
     renderBar('bar-chart-1', 'bar1', 'Articles');
     renderBar('bar-chart-2', 'bar2', 'Certificats');
     renderBar('bar-chart-3', 'bar3', 'Inscriptions');
+    renderBar('bar-chart-4', 'bar4', 'Consultations');
     renderDonut('pie-chart-2', 'donut1');
 })();
 </script>

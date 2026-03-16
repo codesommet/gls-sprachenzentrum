@@ -5,7 +5,8 @@
       "Bash(php artisan tinker --execute=\"echo ''OK'';\")",
       "Bash(php artisan tinker --execute=\":*)",
       "Bash(php artisan tinker --execute=\"echo json_encode\\(App\\\\Models\\\\GlsInscription::all\\([''id'',''group_id'',''google_sheet_synced_at'',''google_sheet_row'']\\)->toArray\\(\\)\\);\")",
-      "Bash(php artisan tinker --execute=\"echo App\\\\Models\\\\GlsInscription::count\\(\\) . '' inscriptions, '' . App\\\\Models\\\\GroupApplication::count\\(\\) . '' applications'';\")"
+      "Bash(php artisan tinker --execute=\"echo App\\\\Models\\\\GlsInscription::count\\(\\) . '' inscriptions, '' . App\\\\Models\\\\GroupApplication::count\\(\\) . '' applications'';\")",
+      "Bash(find /c/Users/ASUS/Desktop/Projects/Gls/resources/views/backoffice -type f -name *.blade.php)"
     ]
   }
 }

@@ -146,6 +146,10 @@ Route::prefix('backoffice')
                 Route::get('/', [CertificateController::class, 'index'])->name('index');
                 Route::get('/create', [CertificateController::class, 'create'])->name('create');
                 Route::post('/', [CertificateController::class, 'store'])->name('store');
+
+                // BULK PDF EXPORT (by ID range) — must be before {certificate} wildcard
+                Route::get('/export/bulk-pdf', [CertificateController::class, 'exportBulkPdf'])->name('export.bulk-pdf');
+
                 Route::get('/{certificate}', [CertificateController::class, 'show'])->name('show');
                 Route::get('/{certificate}/edit', [CertificateController::class, 'edit'])->name('edit');
                 Route::put('/{certificate}', [CertificateController::class, 'update'])->name('update');

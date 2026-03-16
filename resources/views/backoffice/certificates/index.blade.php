@@ -32,6 +32,44 @@
     @endif
 
 
+    {{-- Bulk PDF Export --}}
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <form action="{{ route('backoffice.certificates.export.bulk-pdf') }}" method="GET"
+                        class="row align-items-end g-3">
+                        <div class="col-auto">
+                            <label class="form-label fw-bold mb-1">Exporter en PDF</label>
+                        </div>
+                        <div class="col-auto">
+                            <label for="from_id" class="form-label mb-1">De l'ID</label>
+                            <input type="number" name="from_id" id="from_id" class="form-control" min="1"
+                                required placeholder="ex: 1">
+                        </div>
+                        <div class="col-auto">
+                            <label for="to_id" class="form-label mb-1">Jusqu'à l'ID</label>
+                            <input type="number" name="to_id" id="to_id" class="form-control" min="1"
+                                required placeholder="ex: 50">
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="ti ti-file-type-pdf me-1"></i> Exporter PDF
+                            </button>
+                        </div>
+                    </form>
+                    @if ($errors->any())
+                        <div class="text-danger mt-2 small">
+                            @foreach ($errors->all() as $error)
+                                {{ $error }}<br>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-12">
 
@@ -42,7 +80,6 @@
                         <h5 class="mb-3 mb-sm-0">Certificats</h5>
                         <a href="{{ route('backoffice.certificates.create') }}" class="btn btn-primary">Ajouter
                             Certificat</a>
-                        
                     </div>
                 </div>
 
@@ -62,7 +99,10 @@
         import {
             DataTable
         } from "/build/js/plugins/module.js";
-        window.dt = new DataTable("#pc-dt-simple");
+        window.dt = new DataTable("#pc-dt-simple", {
+            perPage: 5,
+            perPageSelect: [5, 10, 25, 50]
+        });
     </script>
 
     <script>

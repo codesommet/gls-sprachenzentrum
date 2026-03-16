@@ -7,6 +7,7 @@ use App\Http\Requests\Backoffice\Certificates\StoreCertificateRequest;
 use App\Http\Requests\Backoffice\Certificates\UpdateCertificateRequest;
 use App\Models\Certificate;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class CertificateController extends Controller
@@ -141,6 +142,54 @@ class CertificateController extends Controller
             ->setOption('isRemoteEnabled', true);
 
         return $pdf->download('certificate-' . $certificate->certificate_number . '.pdf');
+    }
+
+    /**
+     * BULK PDF EXPORT (ID range → single PDF, one certificate per page)
+     */
+    public function exportBulkPdf(Request $request)
+    {
+        $request->validate([
+            'from_id' => 'required|integer|min:1',
+            'to_id'   => 'required|integer|min:1|gte:from_id',
+        ]);
+
+        $certificates = Certificate::whereBetween('id', [$request->from_id, $request->to_id])
+            ->orderBy('id')
+            ->get();
+
+        if ($certificates->isEmpty()) {
+            return redirect()->route('backoffice.certificates.index')
+                ->with('error', 'Aucun certificat trouvé dans cette plage d\'IDs.');
+        }
+
+        $certificatesData = $certificates->map(function ($certificate) {
+            $url = route('certificates.public.download', [
+                'token' => $certificate->public_token,
+            ]);
+
+            $qrSvg = QrCode::format('svg')
+                ->size(180)
+                ->margin(1)
+                ->generate($url);
+
+            return [
+                'certificate'   => $certificate,
+                'qrCodeBase64'  => base64_encode($qrSvg),
+                'qrUrl'         => $url,
+            ];
+        });
+
+        $pdf = Pdf::loadView('backoffice.certificates.pdf-bulk', [
+                'certificatesData' => $certificatesData,
+            ])
+            ->setPaper('a4')
+            ->setOption('isHtml5ParserEnabled', true)
+            ->setOption('isRemoteEnabled', true);
+
+        $filename = 'certificates-' . $request->from_id . '-to-' . $request->to_id . '.pdf';
+
+        return $pdf->download($filename);
     }
 
     /**

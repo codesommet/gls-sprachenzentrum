@@ -18,7 +18,10 @@ use App\Models\{
     GlsInscription,
     Consultation,
     NewsletterSubscriber,
-    GroupApplication
+    GroupApplication,
+    Quiz,
+    QuizQuestion,
+    User
 };
 
 class DashboardController extends Controller
@@ -75,6 +78,14 @@ class DashboardController extends Controller
             // Studienkollegs
             'totalStudienkollegs'    => Studienkolleg::count(),
             'featuredStudienkollegs' => Studienkolleg::where('featured', true)->count(),
+
+            // Quizzes
+            'totalQuizzes'      => Quiz::count(),
+            'activeQuizzes'     => Quiz::where('is_active', true)->count(),
+            'totalQuestions'    => QuizQuestion::count(),
+
+            // Users
+            'totalUsers' => User::count(),
         ];
 
         /* ===============================
@@ -101,6 +112,8 @@ class DashboardController extends Controller
 
         $inscriptionsByMonth = $this->chartCountByMonth('gls_inscriptions', 'created_at', 12);
 
+        $consultationsByMonth = $this->chartCountByMonth('consultations', 'created_at', 12);
+
         // Group applications by status (donut)
         $groupAppsByStatus = [
             'En attente' => GroupApplication::where('status', 'pending')->count(),
@@ -114,6 +127,7 @@ class DashboardController extends Controller
             'postsByMonth',
             'certificatesByMonth',
             'inscriptionsByMonth',
+            'consultationsByMonth',
             'groupAppsByStatus'
         ));
     }
