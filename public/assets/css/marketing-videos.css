@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════════
-   GLS Marketing Videos — matches testimonials-video.css design
+   GLS Marketing Videos — Grid carousel (5 visible, arrows to page)
    ══════════════════════════════════════════════════════════════ */
 
 .gls-mv-section {
@@ -36,11 +36,27 @@
   letter-spacing: 0.02em;
 }
 
-/* ── Desktop Grid: 5 equal columns ── */
+/* ── Carousel wrapper ── */
+.gls-mv-carousel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ── Grid as a sliding track ── */
 .gls-mv-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  display: flex;
   gap: 18px;
+  overflow: hidden;
+  flex: 1;
+  min-width: 0;
+}
+
+.gls-mv-grid .gls-mv-card {
+  flex: 0 0 calc((100% - 18px * 4) / 5);
+  min-width: 0;
+  transition: transform 0.45s cubic-bezier(.4,0,.2,1), box-shadow 0.3s ease;
 }
 
 /* ── Card ── */
@@ -60,15 +76,13 @@
   z-index: 2;
 }
 
-/* Card color accents — matching GLS brand gradients */
+/* Card color accents */
 .gls-mv-card--blue {
   border-color: var(--blue, #1c45db);
 }
-
 .gls-mv-card--blue .gls-mv-label {
   background: linear-gradient(135deg, var(--blue, #1c45db), var(--light--blue, #3577f4));
 }
-
 .gls-mv-card--blue .gls-mv-dot {
   background: var(--light--blue, #3577f4);
 }
@@ -76,11 +90,9 @@
 .gls-mv-card--orange {
   border-color: var(--orange, #ff7a08);
 }
-
 .gls-mv-card--orange .gls-mv-label {
   background: linear-gradient(135deg, var(--orange, #ff7a08), var(--light--orange, #ffb90e));
 }
-
 .gls-mv-card--orange .gls-mv-dot {
   background: var(--light--orange, #ffb90e);
 }
@@ -88,11 +100,9 @@
 .gls-mv-card--green {
   border-color: var(--green, #009d5a);
 }
-
 .gls-mv-card--green .gls-mv-label {
   background: linear-gradient(135deg, var(--green, #009d5a), var(--light--green, #00d98a));
 }
-
 .gls-mv-card--green .gls-mv-dot {
   background: var(--light--green, #00d98a);
 }
@@ -100,13 +110,21 @@
 .gls-mv-card--purple {
   border-color: var(--purple, #9767f8);
 }
-
 .gls-mv-card--purple .gls-mv-label {
   background: linear-gradient(135deg, var(--purple, #9767f8), var(--light--purple, #d5a4fe));
 }
-
 .gls-mv-card--purple .gls-mv-dot {
   background: var(--light--purple, #d5a4fe);
+}
+
+.gls-mv-card--yellow {
+  border-color: #f5c518;
+}
+.gls-mv-card--yellow .gls-mv-label {
+  background: linear-gradient(135deg, #e6b800, #f5d442);
+}
+.gls-mv-card--yellow .gls-mv-dot {
+  background: #f5d442;
 }
 
 /* ── Video container (9:16 vertical) ── */
@@ -145,46 +163,81 @@
   flex-shrink: 0;
 }
 
+/* ── Carousel buttons ── */
+.gls-mv-carousel-btn {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  z-index: 3;
+}
+
+.gls-mv-carousel-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: scale(1.1);
+}
+
+.gls-mv-carousel-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+  transform: none;
+}
+
+/* ── Dots ── */
+.gls-mv-carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.gls-mv-carousel-dots .gls-mv-dot-btn {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.25s, transform 0.25s;
+}
+
+.gls-mv-carousel-dots .gls-mv-dot-btn.active {
+  background: #fff;
+  transform: scale(1.3);
+}
+
+.gls-mv-carousel-dots .gls-mv-dot-btn:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.5);
+}
+
 /* ══════════════════════════════════════════════════════════════
    Responsive
    ══════════════════════════════════════════════════════════════ */
 
-/* Tablet: 3 columns top + 2 centered bottom */
 @media (max-width: 1100px) {
-  .gls-mv-grid {
-    grid-template-columns: repeat(3, 1fr);
-    max-width: 720px;
-    margin: 0 auto;
-  }
-
-  /* Center the last 2 cards when they wrap to a new row */
-  .gls-mv-card:nth-child(4),
-  .gls-mv-card:nth-child(5) {
-    justify-self: center;
+  .gls-mv-grid .gls-mv-card {
+    flex: 0 0 calc((100% - 18px * 2) / 3);
   }
 }
 
-/* Mobile: horizontal scroll */
 @media (max-width: 768px) {
-  .gls-mv-grid {
-    display: flex;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    padding-bottom: 12px;
-    max-width: none;
-    gap: 14px;
+  .gls-mv-grid .gls-mv-card {
+    flex: 0 0 calc((100% - 18px) / 2);
   }
 
-  .gls-mv-grid::-webkit-scrollbar {
-    display: none;
-  }
-
-  .gls-mv-card {
-    flex: 0 0 auto;
-    width: 240px;
-    scroll-snap-align: center;
+  .gls-mv-carousel-btn {
+    width: 36px;
+    height: 36px;
   }
 }
 
@@ -197,8 +250,11 @@
     font-size: 24px;
   }
 
+  .gls-mv-grid .gls-mv-card {
+    flex: 0 0 100%;
+  }
+
   .gls-mv-card {
-    width: 200px;
     border-radius: 22px;
   }
 

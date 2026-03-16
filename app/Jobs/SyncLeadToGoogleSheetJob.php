@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\Middleware\RateLimited;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
@@ -15,8 +16,13 @@ class SyncLeadToGoogleSheetJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public int $tries = 3;
-    public array $backoff = [10, 60, 300];
+    public int $tries = 5;
+    public array $backoff = [15, 30, 60, 120, 300];
+
+    public function middleware(): array
+    {
+        return [new RateLimited('google-sheets')];
+    }
 
     public function __construct(
         public Model $lead
