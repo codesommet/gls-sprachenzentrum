@@ -20,9 +20,12 @@
         }
 
         .certificate-page {
-            padding: 45px 55px 40px 55px;
+            width: 100%;
+            height: 1122px; /* A4 height in px at 96dpi */
+            padding: 45px 55px 0 55px;
             page-break-after: always;
             position: relative;
+            box-sizing: border-box;
         }
 
         .certificate-page:last-child {
@@ -245,18 +248,22 @@
             margin: 0 auto 5px auto;
         }
 
-        /* FOOTER */
+        /* FOOTER — pinned to bottom of the page */
         .footer-address {
+            position: absolute;
+            left: 55px;
+            bottom: 35px;
             font-size: 8px;
             color: #888;
             line-height: 1.3;
-            margin-top: 30px;
         }
 
-        /* QR CODE */
+        /* QR CODE — pinned to bottom-right of the page */
         .qr-block {
-            text-align: right;
-            margin-top: -40px;
+            position: absolute;
+            right: 40px;
+            bottom: 35px;
+            text-align: center;
         }
 
         .qr-block img {
@@ -484,11 +491,12 @@
                 </tr>
             </table>
 
-            <!-- FOOTER ADDRESS + QR -->
+            <!-- FOOTER ADDRESS -->
             <div class="footer-address">
                 Avenue Fal Ould Oumeir, Immeuble 77, 1er étage numéro 1, Rabat 10000
             </div>
 
+            <!-- QR CODE -->
             @if (!empty($qrCodeBase64))
                 <div class="qr-block">
                     <img src="data:image/svg+xml;base64,{{ $qrCodeBase64 }}" alt="QR">
