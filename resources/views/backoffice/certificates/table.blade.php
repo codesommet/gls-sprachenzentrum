@@ -65,6 +65,12 @@
                             <i class="ti ti-eye f-20"></i>
                         </a>
 
+                        {{-- EXPORT PDF --}}
+                        <a href="{{ route('backoffice.certificates.pdf', $cert->id) }}"
+                            class="avtar avtar-xs btn-link-danger me-2" title="Exporter PDF" aria-label="Exporter PDF">
+                            <i class="ti ti-download f-20"></i>
+                        </a>
+
                         {{-- EDIT --}}
                         <a href="{{ route('backoffice.certificates.edit', $cert->id) }}"
                             class="avtar avtar-xs btn-link-secondary me-2" title="Modifier" aria-label="Modifier">
