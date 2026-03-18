@@ -712,7 +712,5 @@ SITES — Images only (NO iframe, NO yt-holder, NO video)
             </div>
         </section>
 
-
-
     </main>
 @endsection
