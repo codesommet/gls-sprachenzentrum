@@ -123,18 +123,15 @@ class GoogleSheetsLeadSyncService
             return config('google-sheets.consultation_sheet', 'Consultation');
         }
 
-        // Inscriptions/Forms go by centre
-        $centreId = $lead->getSheetCentreId();
+        // Inscriptions/Forms — resolve sheet name from the site's city
+        $sheetName = $lead->getSheetCenter();
 
-        if ($centreId === null) {
-            Log::warning("Google Sheets: {$this->label($lead)} has no centre ID");
+        if (!$sheetName) {
+            Log::warning("Google Sheets: {$this->label($lead)} has no centre name (centreId={$lead->getSheetCentreId()})");
             return null;
         }
 
-        $sheetMap = config('google-sheets.sheet_map', []);
-        $sheetName = $sheetMap[(string) $centreId] ?? null;
-
-        Log::debug("Google Sheets: resolveSheetName for {$this->label($lead)} — centreId={$centreId}, sheetName=" . ($sheetName ?? 'NULL'));
+        Log::debug("Google Sheets: resolveSheetName for {$this->label($lead)} — sheetName={$sheetName}");
 
         return $sheetName;
     }

@@ -80,9 +80,8 @@ class GroupApplication extends Model implements HasMedia, SyncableToGoogleSheet
 
     public function getSheetCenter(): ?string
     {
-        $sheetMap = config('google-sheets.sheet_map', []);
-        $centreId = $this->getSheetCentreId();
-        return $centreId !== null ? ($sheetMap[(string) $centreId] ?? null) : null;
+        $this->loadMissing('group.site');
+        return $this->group?->site?->city;
     }
 
     public function getSheetGroup(): string

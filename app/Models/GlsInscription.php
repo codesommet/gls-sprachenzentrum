@@ -79,8 +79,11 @@ class GlsInscription extends Model implements SyncableToGoogleSheet
 
     public function getSheetCenter(): ?string
     {
-        $sheetMap = config('google-sheets.sheet_map', []);
-        return $sheetMap[(string) $this->centre] ?? null;
+        if ($this->type_cours === 'en_ligne') {
+            return 'Online';
+        }
+
+        return $this->site?->city;
     }
 
     public function getSheetGroup(): string
