@@ -77,6 +77,14 @@
     </a>
 </li>
 
+<!-- LEADS -->
+<li class="pc-item">
+    <a href="{{ route('backoffice.leads.index') }}" class="pc-link">
+        <span class="pc-micon"><i class="ph-duotone ph-address-book"></i></span>
+        <span class="pc-mtext">Leads</span>
+    </a>
+</li>
+
 <!-- USERS -->
 <li class="pc-item">
     <a href="{{ route('backoffice.users.index') }}" class="pc-link">

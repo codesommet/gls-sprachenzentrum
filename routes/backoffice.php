@@ -20,6 +20,7 @@ use App\Http\Controllers\Backoffice\QuizQuestionController;
 use App\Http\Controllers\Backoffice\HelpController;
 use App\Http\Controllers\Backoffice\UserController;
 
+use App\Http\Controllers\Backoffice\LeadController;
 use App\Http\Controllers\Backoffice\GroupApplicationController as BackofficeGroupApplicationController;
 use App\Http\Controllers\Frontoffice\GroupApplicationController as GroupApplicationController;
 
@@ -189,6 +190,20 @@ Route::prefix('backoffice')
                 Route::get('/{quiz}/questions/{question}/edit', [QuizQuestionController::class, 'edit'])->name('questions.edit');
                 Route::put('/{quiz}/questions/{question}', [QuizQuestionController::class, 'update'])->name('questions.update');
                 Route::delete('/{quiz}/questions/{question}', [QuizQuestionController::class, 'destroy'])->name('questions.destroy');
+            });
+
+        /*
+        |----------------------------------------------------------------------
+        | LEADS (Consultations, Inscriptions, Applications)
+        |----------------------------------------------------------------------
+        */
+        Route::prefix('leads')
+            ->name('leads.')
+            ->group(function () {
+                Route::get('/', [LeadController::class, 'index'])->name('index');
+                Route::delete('/consultation/{consultation}', [LeadController::class, 'destroyConsultation'])->name('consultation.destroy');
+                Route::delete('/inscription/{inscription}', [LeadController::class, 'destroyInscription'])->name('inscription.destroy');
+                Route::delete('/application/{application}', [LeadController::class, 'destroyApplication'])->name('application.destroy');
             });
 
         /*
