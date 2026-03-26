@@ -13,6 +13,7 @@ use App\Models\{
     Site,
     Teacher,
     Group,
+    GroupLevelFollowup,
     Certificate,
     Studienkolleg,
     GlsInscription,
@@ -121,6 +122,29 @@ class DashboardController extends Controller
             'Rejetées'   => GroupApplication::where('status', 'rejected')->count(),
         ];
 
+        /* ===============================
+         * SUIVI NIVEAU (Rappels)
+         * =============================== */
+        $levelFollowupsDue = GroupLevelFollowup::query()
+            ->with(['group.teacher'])
+            ->where('status', 'pending')
+            ->whereDate('due_date', '<=', $now->toDateString())
+            ->orderBy('due_date')
+            ->get()
+            // de-duplicate: keep earliest due followup per group
+            ->groupBy('group_id')
+            ->map(fn ($items) => $items->sortBy('due_date')->first())
+            ->values();
+
+        $groupIds = $levelFollowupsDue->pluck('group_id')->unique()->values();
+
+        $levelFollowupsByGroup = $groupIds->isNotEmpty()
+            ? GroupLevelFollowup::query()
+                ->whereIn('group_id', $groupIds)
+                ->get()
+                ->groupBy('group_id')
+            : collect();
+
         return view('backoffice.dashboard.index', compact(
             'stats',
             'analytics',
@@ -128,7 +152,9 @@ class DashboardController extends Controller
             'certificatesByMonth',
             'inscriptionsByMonth',
             'consultationsByMonth',
-            'groupAppsByStatus'
+            'groupAppsByStatus',
+            'levelFollowupsDue',
+            'levelFollowupsByGroup'
         ));
     }
 

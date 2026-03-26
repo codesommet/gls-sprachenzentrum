@@ -95,8 +95,12 @@
             if (selectedDates.length === 2) {
                 let start = selectedDates[0].toISOString().split('T')[0];
                 let end = selectedDates[1].toISOString().split('T')[0];
-                document.getElementById('date_debut_value').value = start;
-                document.getElementById('date_fin_value').value = end;
+                if (typeof window.__syncGroupDatesFromRange === 'function') {
+                    window.__syncGroupDatesFromRange(start, end);
+                } else {
+                    document.getElementById('date_debut_value').value = start;
+                    document.getElementById('date_fin_value').value = end;
+                }
             }
         }
     });

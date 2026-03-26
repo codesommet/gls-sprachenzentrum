@@ -14,6 +14,7 @@ use App\Http\Controllers\Backoffice\BlogPostController;
 use App\Http\Controllers\Backoffice\SiteController;
 use App\Http\Controllers\Backoffice\TeacherController;
 use App\Http\Controllers\Backoffice\GroupController;
+use App\Http\Controllers\Backoffice\LevelFollowupController;
 use App\Http\Controllers\Backoffice\CertificateController;
 use App\Http\Controllers\Backoffice\QuizController;
 use App\Http\Controllers\Backoffice\QuizQuestionController;
@@ -250,6 +251,23 @@ Route::prefix('backoffice')
             ->group(function () {
                 Route::get('/documentation', [HelpController::class, 'documentation'])->name('documentation');
             });
+
+        /*
+        |----------------------------------------------------------------------
+        | LEVEL FOLLOWUPS (Suivi niveau)
+        |----------------------------------------------------------------------
+        */
+        Route::get('/level-followups', [LevelFollowupController::class, 'index'])
+            ->name('level_followups.index');
+
+        Route::get('/level-followups/pdf', [LevelFollowupController::class, 'pdf'])
+            ->name('level_followups.pdf');
+
+        Route::get('/level-followups/group/{group}/pdf', [LevelFollowupController::class, 'pdfByGroup'])
+            ->name('level_followups.group_pdf');
+
+        Route::post('/level-followups/{followup}/complete', [LevelFollowupController::class, 'complete'])
+            ->name('level_followups.complete');
     });
 
 /*

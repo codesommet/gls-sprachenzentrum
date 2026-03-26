@@ -220,7 +220,8 @@
 
   const parseYMD = (s) => {
     if (!s) return null;
-    const [y, m, d] = s.split('-').map(Number);
+    const clean = String(s).trim();
+    const [y, m, d] = clean.split('-').map(Number);
     if (!y || !m || !d) return null;
     return new Date(y, m - 1, d);
   };

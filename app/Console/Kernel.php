@@ -18,6 +18,12 @@ class Kernel extends ConsoleKernel
             ->at('03:00')
             ->withoutOverlapping()
             ->appendOutputTo(storage_path('logs/sitemap-schedule.log'));
+
+        // ✅ Suivi niveau: génération quotidienne (idempotent)
+        $schedule->command('gls:generate-level-followups')
+            ->dailyAt('00:15')
+            ->withoutOverlapping()
+            ->appendOutputTo(storage_path('logs/level-followups-schedule.log'));
     }
 
     /**

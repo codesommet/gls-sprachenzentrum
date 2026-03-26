@@ -365,6 +365,116 @@ THIRD ROW (MODULES GLS)
 
 </div>
 
+{{-- =========================
+SUIVI NIVEAU (Rappels profs)
+========================= --}}
+<div class="row mt-3">
+    <div class="col-12">
+        <div class="card" id="suivi-niveau">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <h5 class="mb-0">Suivi niveau (rappels profs)</h5>
+                <span class="badge bg-light-primary">{{ $levelFollowupsDue->count() }} rappel(s) dû(s)</span>
+            </div>
+
+            <div class="card-body">
+                @if($levelFollowupsDue->isEmpty())
+                    <div class="alert alert-info mb-0">
+                        Aucun rappel de suivi niveau pour aujourd'hui.
+                    </div>
+                @else
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Groupe</th>
+                                    <th>Prof</th>
+                                    <th>Niveaux</th>
+                                    <th>Échéance</th>
+                                    <th class="text-end">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($levelFollowupsDue as $followup)
+                                    @php
+                                        $order = ['A1', 'A2', 'B1', 'B2'];
+                                        $startLevel = $followup->group?->level;
+                                        $startIndex = is_string($startLevel) ? array_search($startLevel, $order, true) : 0;
+                                        $allForGroup = $levelFollowupsByGroup[$followup->group_id] ?? collect();
+                                        $doneLevels = $allForGroup->where('status', 'done')->pluck('level')->all();
+
+                                        $lastDoneIndex = -1;
+                                        foreach ($order as $idx => $lvl) {
+                                            if ($idx < $startIndex) continue;
+                                            if (in_array($lvl, $doneLevels, true)) {
+                                                $lastDoneIndex = $idx;
+                                            }
+                                        }
+
+                                        $totalSteps = max(1, count(array_slice($order, $startIndex)));
+                                        $doneSteps = max(0, ($lastDoneIndex - $startIndex + 1));
+                                        $percent = (int) round(($doneSteps / $totalSteps) * 100);
+
+                                    @endphp
+
+                                    <tr>
+                                        <td class="fw-semibold">{{ $followup->group?->name }}</td>
+                                        <td>{{ $followup->group?->teacher?->name ?? '-' }}</td>
+                                        <td style="min-width:260px;">
+                                            <div class="d-flex flex-column gap-2">
+                                                <div class="progress" style="height:6px;">
+                                                    <div class="progress-bar bg-success" role="progressbar"
+                                                        style="width: {{ $percent }}%;">
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex align-items-center gap-2">
+                                                    @foreach($order as $idx => $lvl)
+                                                        @php
+                                                            $inactive = $idx < $startIndex;
+                                                            $isDone = (!$inactive && $idx <= $lastDoneIndex);
+                                                            $circleClass = $inactive
+                                                                ? 'bg-light-secondary'
+                                                                : ($isDone ? 'bg-light-success' : 'bg-light-warning');
+                                                        @endphp
+                                                        <span class="avtar rounded-circle {{ $circleClass }}"
+                                                            style="min-width:44px;text-align:center;">
+                                                            {{ $lvl }}
+                                                        </span>
+                                                    @endforeach
+                                                </div>
+
+                                                <div class="text-muted text-sm">
+                                                    Niveau actuel : <strong>{{ $followup->level }}</strong>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {{ \Carbon\Carbon::parse($followup->due_date)->format('d/m/Y') }}
+                                        </td>
+                                        <td class="text-end">
+                                            <form method="POST"
+                                                action="{{ route('backoffice.level_followups.complete', $followup) }}">
+                                                @csrf
+                                                <textarea name="done_notes"
+                                                    class="form-control form-control-sm"
+                                                    rows="2"
+                                                    placeholder="Notes (facultatif)"></textarea>
+                                                <button type="submit" class="btn btn-success btn-sm mt-2">
+                                                    Marquer terminé
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
+
 <hr>
 
 {{-- =========================

@@ -120,8 +120,14 @@
             }
 
             // Set hidden inputs
-            document.getElementById('date_debut_value').value = start.toISOString().split('T')[0];
-            document.getElementById('date_fin_value').value = end.toISOString().split('T')[0];
+            const startYMD = start.toISOString().split('T')[0];
+            const endYMD = end.toISOString().split('T')[0];
+            if (typeof window.__syncGroupDatesFromRange === 'function') {
+                window.__syncGroupDatesFromRange(startYMD, endYMD);
+            } else {
+                document.getElementById('date_debut_value').value = startYMD;
+                document.getElementById('date_fin_value').value = endYMD;
+            }
         }
     },
 });

@@ -8,6 +8,7 @@ use App\Http\Requests\Backoffice\Groups\UpdateGroupRequest;
 use App\Models\Group;
 use App\Models\Site;
 use App\Models\Teacher;
+use App\Services\LevelFollowupGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
@@ -41,9 +42,12 @@ class GroupController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreGroupRequest $request)
+    public function store(StoreGroupRequest $request, LevelFollowupGenerator $generator)
     {
-        Group::create($request->validated());
+        $group = Group::create($request->validated());
+
+        // Auto-generate suivi niveau followups right after creation (no manual command needed)
+        $generator->generateForGroup($group);
 
         return redirect()->route('backoffice.groups.index')->with('success', 'Le groupe a été créé avec succès.');
     }
@@ -74,10 +78,13 @@ class GroupController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateGroupRequest $request, string $id)
+    public function update(UpdateGroupRequest $request, string $id, LevelFollowupGenerator $generator)
     {
         $group = Group::findOrFail($id);
         $group->update($request->validated());
+
+        // Auto-refresh followups when dates/level/teacher change
+        $generator->generateForGroup($group);
 
         return redirect()->route('backoffice.groups.index')->with('success', 'Le groupe a été mis à jour avec succès.');
     }

@@ -12,6 +12,14 @@
     </a>
 </li>
 
+<!-- SUIVI NIVEAU -->
+<li class="pc-item">
+    <a href="{{ route('backoffice.level_followups.index') }}" class="pc-link">
+        <span class="pc-micon"><i class="ph-duotone ph-chart-line-up"></i></span>
+        <span class="pc-mtext">Suivi niveau</span>
+    </a>
+</li>
+
 <!-- BLOG CATEGORIES -->
 <li class="pc-item">
     <a href="{{ route('backoffice.blog.categories.index') }}" class="pc-link">
