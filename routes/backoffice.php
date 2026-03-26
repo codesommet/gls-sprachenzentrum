@@ -266,8 +266,14 @@ Route::prefix('backoffice')
         Route::get('/level-followups/group/{group}/pdf', [LevelFollowupController::class, 'pdfByGroup'])
             ->name('level_followups.group_pdf');
 
+        Route::get('/level-followups/group/{group}', [LevelFollowupController::class, 'showGroup'])
+            ->name('level_followups.group_show');
+
         Route::post('/level-followups/{followup}/complete', [LevelFollowupController::class, 'complete'])
             ->name('level_followups.complete');
+
+        Route::patch('/level-followups/{followup}/notes', [LevelFollowupController::class, 'updateNotes'])
+            ->name('level_followups.update_notes');
 
         Route::delete('/level-followups/{followup}', [LevelFollowupController::class, 'destroy'])
             ->name('level_followups.destroy');

@@ -5,21 +5,30 @@ namespace App\Http\Controllers\Backoffice;
 use App\Http\Controllers\Controller;
 use App\Models\Group;
 use App\Models\GroupLevelFollowup;
+use App\Models\Site;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class LevelFollowupController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $now = Carbon::now();
 
-        $followups = GroupLevelFollowup::query()
-            ->with(['group.teacher'])
+        $query = GroupLevelFollowup::query()
+            ->with(['group.teacher', 'group.site'])
             ->orderBy('status')
-            ->orderBy('due_date')
-            ->get();
+            ->orderBy('due_date');
+
+        if ($request->filled('center')) {
+            $query->whereHas('group.site', function ($siteQuery) use ($request) {
+                $siteQuery->where('id', $request->center);
+            });
+        }
+
+        $followups = $query->get();
+        $sites = Site::query()->orderBy('name')->get();
 
         $rows = $followups
             ->groupBy('group_id')
@@ -31,10 +40,10 @@ class LevelFollowupController extends Controller
                         return false;
                     }
 
-                    $s = Carbon::parse($f->level_start_date)->startOfDay();
-                    $e = Carbon::parse($f->level_end_date)->startOfDay();
+                    $start = Carbon::parse($f->level_start_date)->startOfDay();
+                    $end = Carbon::parse($f->level_end_date)->startOfDay();
 
-                    return $now->betweenIncluded($s, $e);
+                    return $now->betweenIncluded($start, $end);
                 });
 
                 if ($current) {
@@ -46,9 +55,7 @@ class LevelFollowupController extends Controller
                         return false;
                     }
 
-                    $s = Carbon::parse($f->level_start_date)->startOfDay();
-
-                    return $s->gt($now);
+                    return Carbon::parse($f->level_start_date)->startOfDay()->gt($now);
                 });
 
                 if ($future) {
@@ -66,12 +73,24 @@ class LevelFollowupController extends Controller
                 && Carbon::parse($f->due_date)->lte($now);
         });
 
-        $levelFollowupsByGroup = $followups->groupBy('group_id');
-
         return view('backoffice.level_followups.index', [
             'followups' => $rows,
             'dueFollowups' => $dueRows,
-            'levelFollowupsByGroup' => $levelFollowupsByGroup,
+            'levelFollowupsByGroup' => $followups->groupBy('group_id'),
+            'sites' => $sites,
+            'now' => $now,
+        ]);
+    }
+
+    public function showGroup(Group $group)
+    {
+        $now = Carbon::now();
+        $group->loadMissing(['teacher', 'site']);
+        $followups = $this->getGroupFollowups($group);
+
+        return view('backoffice.level_followups.show', [
+            'group' => $group,
+            'followups' => $followups,
             'now' => $now,
         ]);
     }
@@ -96,10 +115,10 @@ class LevelFollowupController extends Controller
                         return false;
                     }
 
-                    $s = Carbon::parse($f->level_start_date)->startOfDay();
-                    $e = Carbon::parse($f->level_end_date)->startOfDay();
+                    $start = Carbon::parse($f->level_start_date)->startOfDay();
+                    $end = Carbon::parse($f->level_end_date)->startOfDay();
 
-                    return $now->betweenIncluded($s, $e);
+                    return $now->betweenIncluded($start, $end);
                 });
 
                 if ($current) {
@@ -111,9 +130,7 @@ class LevelFollowupController extends Controller
                         return false;
                     }
 
-                    $s = Carbon::parse($f->level_start_date)->startOfDay();
-
-                    return $s->gt($now);
+                    return Carbon::parse($f->level_start_date)->startOfDay()->gt($now);
                 });
 
                 if ($future) {
@@ -125,11 +142,9 @@ class LevelFollowupController extends Controller
             ->filter()
             ->values();
 
-        $levelFollowupsByGroup = $followups->groupBy('group_id');
-
         $pdf = Pdf::loadView('backoffice.level_followups.pdf', [
                 'rows' => $rows,
-                'levelFollowupsByGroup' => $levelFollowupsByGroup,
+                'levelFollowupsByGroup' => $followups->groupBy('group_id'),
                 'now' => $now,
             ])
             ->setPaper('a4')
@@ -142,12 +157,8 @@ class LevelFollowupController extends Controller
     public function pdfByGroup(Group $group)
     {
         $now = Carbon::now();
-
-        $groupFollowups = GroupLevelFollowup::query()
-            ->with(['group.teacher'])
-            ->where('group_id', $group->id)
-            ->orderBy('level_start_date')
-            ->get();
+        $group->loadMissing(['teacher', 'site']);
+        $groupFollowups = $this->getGroupFollowups($group);
 
         $pdf = Pdf::loadView('backoffice.level_followups.pdf_group', [
                 'group' => $group,
@@ -178,6 +189,19 @@ class LevelFollowupController extends Controller
         return back()->with('success', "Niveau {$followup->level} marque comme termine.");
     }
 
+    public function updateNotes(GroupLevelFollowup $followup, Request $request)
+    {
+        $validated = $request->validate([
+            'done_notes' => ['nullable', 'string', 'max:5000'],
+        ]);
+
+        $followup->update([
+            'done_notes' => $validated['done_notes'] ?? null,
+        ]);
+
+        return back()->with('success', "Note du niveau {$followup->level} enregistree.");
+    }
+
     public function destroy(GroupLevelFollowup $followup)
     {
         $level = $followup->level;
@@ -185,5 +209,14 @@ class LevelFollowupController extends Controller
         $followup->delete();
 
         return back()->with('success', "Suivi niveau {$level} supprime.");
+    }
+
+    private function getGroupFollowups(Group $group)
+    {
+        return GroupLevelFollowup::query()
+            ->with(['group.teacher', 'group.site'])
+            ->where('group_id', $group->id)
+            ->orderBy('level_start_date')
+            ->get();
     }
 }
