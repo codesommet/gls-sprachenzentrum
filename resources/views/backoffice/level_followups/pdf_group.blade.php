@@ -15,10 +15,16 @@
         .grid td { padding: 4px 8px 4px 0; vertical-align: top; }
         .label { color: #6b7280; width: 130px; }
         .value { font-weight: 600; }
-        .progress-wrap { margin-top: 8px; }
-        .progress-outer { width: 100%; height: 8px; background: #e5e7eb; border-radius: 99px; }
-        .progress-inner { height: 8px; background: #10b981; border-radius: 99px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .progress-wrap { margin-top: 10px; width: 100%; text-align: center; }
+        .progress-outer { width: 100%; height: 6px; background: #e5e7eb; border-radius: 99px; margin: 0 auto 10px auto; }
+        .progress-inner { height: 6px; background: #10b981; border-radius: 99px; }
+        .levels-container { display: block; width: 100%; text-align: center; }
+        .level-circle { display: inline-block; width: 34px; height: 34px; line-height: 34px; border-radius: 50%; text-align: center; font-size: 11px; font-weight: bold; margin: 0 6px; }
+        .circle-done { background: #d1fae5; color: #065f46; border: 1px solid #10b981; }
+        .circle-current { background: #dbeafe; color: #1d4ed8; border: 1px solid #3b82f6; }
+        .circle-pending { background: #fef3c7; color: #92400e; border: 1px solid #f59e0b; }
+        .circle-inactive { background: #f3f4f6; color: #9ca3af; border: 1px solid #d1d5db; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         th, td { border: 1px solid #e5e7eb; padding: 8px; text-align: left; vertical-align: top; }
         th { background: #f9fafb; font-size: 11px; text-transform: uppercase; color: #374151; }
         .badge { display: inline-block; border-radius: 999px; padding: 2px 8px; font-size: 10px; }

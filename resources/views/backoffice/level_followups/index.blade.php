@@ -6,6 +6,110 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ URL::asset('build/css/plugins/style.css') }}">
+    <style>
+        .level-stepper {
+            --circle-size: 44px;
+            --track-size: 10px;
+            --track-color: #e4e4e4;
+            --fill-color: #2f7ed8;
+            --done-color: #09b10f;
+            --current-color: #2f7ed8;
+            position: relative;
+            padding-top: 8px;
+        }
+
+        .level-stepper__track,
+        .level-stepper__fill {
+            position: absolute;
+            top: calc((var(--circle-size) / 2) - (var(--track-size) / 2) + 8px);
+            height: var(--track-size);
+            border-radius: 999px;
+        }
+
+        .level-stepper__track {
+            left: calc(var(--circle-size) / 2);
+            right: calc(var(--circle-size) / 2);
+            background: var(--track-color);
+        }
+
+        .level-stepper__fill {
+            left: calc(var(--circle-size) / 2 + ((100% - var(--circle-size)) * var(--level-fill-start) / 100));
+            width: calc((100% - var(--circle-size)) * var(--level-fill-width) / 100);
+            background: var(--fill-color);
+        }
+
+        .level-stepper__steps {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 0;
+        }
+
+        .level-stepper__step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .level-stepper__circle {
+            width: var(--circle-size);
+            height: var(--circle-size);
+            border-radius: 50%;
+            border: 4px solid #8d8d8d;
+            background: #fff;
+            position: relative;
+            box-shadow: 0 0 0 4px #fff;
+        }
+
+        .level-stepper__label {
+            margin-top: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #121212;
+            line-height: 1.2;
+        }
+
+        .level-stepper__step--done .level-stepper__circle {
+            background: var(--done-color);
+            border-color: var(--done-color);
+        }
+
+        .level-stepper__step--done .level-stepper__circle::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 13px;
+            height: 7px;
+            border-left: 4px solid #fff;
+            border-bottom: 4px solid #fff;
+            transform: translate(-50%, -65%) rotate(-45deg);
+        }
+
+        .level-stepper__step--done .level-stepper__label {
+            color: var(--done-color);
+        }
+
+        .level-stepper__step--current .level-stepper__label {
+            color: var(--current-color);
+        }
+
+        .level-stepper__step--inactive .level-stepper__circle {
+            border-color: #cfcfcf;
+            background: #f7f7f7;
+        }
+
+        .level-stepper__step--inactive .level-stepper__label {
+            color: #999;
+        }
+
+        .level-stepper__meta {
+            margin-top: 10px;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -100,6 +204,9 @@
                                         }
 
                                         $percent = $totalDays > 0 ? (int) round(($elapsedDays / $totalDays) * 100) : 0;
+                                        $stepCount = count($order);
+                                        $fillStartPercent = $stepCount > 1 ? ($startIndex / ($stepCount - 1)) * 100 : 0;
+                                        $fillWidthPercent = (($stepCount > 1 ? (100 - $fillStartPercent) : 0) * $percent) / 100;
 
                                         // Determine visual state for each level circle based on dates (not manual done)
                                         $levelState = [];
@@ -123,35 +230,27 @@
                                     <tr>
                                         <td class="fw-semibold">{{ $followup->group?->name }}</td>
                                         <td>{{ $followup->group?->teacher?->name ?? '-' }}</td>
-                                        <td style="min-width:260px;">
-                                            <div class="d-flex flex-column gap-2">
-                                                <div class="progress" style="height:6px;">
-                                                    <div class="progress-bar bg-success" role="progressbar"
-                                                         style="width: {{ $percent }}%;">
-                                                    </div>
-                                                </div>
+                                        <td style="min-width:320px;">
+                                            <div class="level-stepper"
+                                                 style="--level-fill-start: {{ $fillStartPercent }}; --level-fill-width: {{ $fillWidthPercent }};">
+                                                <div class="level-stepper__track" aria-hidden="true"></div>
+                                                <div class="level-stepper__fill" aria-hidden="true"></div>
 
-                                                <div class="d-flex align-items-center gap-2 flex-wrap">
+                                                <div class="level-stepper__steps">
                                                     @foreach($order as $idx => $lvl)
                                                         @php
                                                             $inactive = $idx < $startIndex;
                                                             $state = $inactive ? 'inactive' : ($levelState[$lvl] ?? 'pending');
-                                                            $circleClass = match ($state) {
-                                                                'inactive' => 'bg-light-secondary',
-                                                                'done' => 'bg-light-success',
-                                                                'current' => 'bg-light-primary',
-                                                                default => 'bg-light-warning',
-                                                            };
                                                         @endphp
-                                                        <span class="avtar rounded-circle {{ $circleClass }}"
-                                                              style="min-width:44px;text-align:center;">
-                                                            {{ $lvl }}
-                                                        </span>
+                                                        <div class="level-stepper__step level-stepper__step--{{ $state }}">
+                                                            <span class="level-stepper__circle" aria-hidden="true"></span>
+                                                            <span class="level-stepper__label">{{ $lvl }}</span>
+                                                        </div>
                                                     @endforeach
                                                 </div>
 
-                                                <div class="text-muted text-sm">
-                                                    Niveau : <strong>{{ $currentLevel ?? $followup->level }}</strong>
+                                                <div class="level-stepper__meta text-muted text-sm">
+                                                    Niveau actuel : <strong>{{ $currentLevel ?? $followup->level }}</strong>
                                                 </div>
                                             </div>
                                         </td>
@@ -209,4 +308,3 @@
         </div>
     </div>
 @endsection
-
