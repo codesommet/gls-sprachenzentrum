@@ -328,193 +328,197 @@
                             <a href="{{ route('backoffice.level_followups.index') }}" class="btn btn-light-secondary">Reset</a>
                         </div>
                     </form>
-
-                    @if($followups->isEmpty())
-                        <div class="alert alert-info mb-0">
-                            Aucun suivi niveau genere.
-                        </div>
-                    @else
-                        <div class="followup-grid">
-                            @foreach($followups as $followup)
-                                @php
-                                    $order = ['A1', 'A2', 'B1', 'B2'];
-                                    $startLevel = $followup->group?->level;
-                                    $startIndex = is_string($startLevel) ? array_search($startLevel, $order, true) : 0;
-                                    $startIndex = ($startIndex === false) ? 0 : $startIndex;
-
-                                    $allForGroup = $levelFollowupsByGroup[$followup->group_id] ?? collect();
-                                    $activeSegments = $allForGroup
-                                        ->whereIn('level', array_slice($order, $startIndex))
-                                        ->sortBy('level_start_date')
-                                        ->values();
-
-                                    $totalDays = 0;
-                                    $elapsedDays = 0;
-                                    $currentLevel = null;
-
-                                    foreach ($activeSegments as $seg) {
-                                        $segStart = $seg->level_start_date ? \Carbon\Carbon::parse($seg->level_start_date)->startOfDay() : null;
-                                        $segEnd = $seg->level_end_date ? \Carbon\Carbon::parse($seg->level_end_date)->startOfDay() : null;
-                                        if (!$segStart || !$segEnd || $segEnd->lt($segStart)) continue;
-
-                                        $segDays = $segStart->diffInDays($segEnd) + 1;
-                                        $totalDays += $segDays;
-
-                                        if ($now->lt($segStart)) {
-                                            continue;
-                                        }
-
-                                        if ($now->gt($segEnd)) {
-                                            $elapsedDays += $segDays;
-                                            continue;
-                                        }
-
-                                        $currentLevel = $seg->level;
-                                        $elapsedDays += $segStart->diffInDays($now) + 1;
-                                    }
-
-                                    $percent = $totalDays > 0 ? (int) round(($elapsedDays / $totalDays) * 100) : 0;
-                                    $stepCount = count($order);
-                                    $fillStartPercent = $stepCount > 1 ? ($startIndex / ($stepCount - 1)) * 100 : 0;
-                                    $fillWidthPercent = (($stepCount > 1 ? (100 - $fillStartPercent) : 0) * $percent) / 100;
-
-                                    $levelState = [];
-                                    foreach ($order as $lvl) {
-                                        $levelState[$lvl] = 'inactive';
-                                    }
-
-                                    foreach ($activeSegments as $seg) {
-                                        $lvl = $seg->level;
-                                        $segStart = $seg->level_start_date ? \Carbon\Carbon::parse($seg->level_start_date)->startOfDay() : null;
-                                        $segEnd = $seg->level_end_date ? \Carbon\Carbon::parse($seg->level_end_date)->startOfDay() : null;
-                                        if (!$segStart || !$segEnd) continue;
-
-                                        if ($now->gt($segEnd)) {
-                                            $levelState[$lvl] = 'done';
-                                        } elseif ($now->betweenIncluded($segStart, $segEnd)) {
-                                            $levelState[$lvl] = 'current';
-                                        } else {
-                                            $levelState[$lvl] = 'pending';
-                                        }
-                                    }
-
-                                    $isDue = ($followup->status === 'pending') && $followup->due_date && \Carbon\Carbon::parse($followup->due_date)->lte($now);
-                                    $isCurrentStatus = $followup->status !== 'done' && $currentLevel !== null;
-                                    $statusClass = $followup->status === 'done'
-                                        ? 'bg-light-success text-success'
-                                        : ($isCurrentStatus ? 'bg-light-primary text-primary' : 'bg-light-warning text-warning');
-                                    $statusLabel = $followup->status === 'done' ? 'Termine' : ($isCurrentStatus ? 'En cours' : 'En attente');
-                                    $centerName = $followup->group?->site?->name ?? 'Centre non defini';
-                                    $teacherName = $followup->group?->teacher?->name ?? 'Prof non assigne';
-                                @endphp
-
-                                <article class="followup-card">
-                                    <div class="followup-card__header">
-                                        <h3 class="followup-card__title">{{ $followup->group?->name ?? 'Groupe sans nom' }}</h3>
-                                        <div class="followup-card__subtitle">Vision rapide du suivi de progression</div>
-
-                                        <div class="followup-card__chips">
-                                            <span class="followup-chip followup-chip--center">
-                                                <i class="ti ti-building f-16"></i>{{ $centerName }}
-                                            </span>
-                                            <span class="followup-chip followup-chip--teacher">
-                                                <i class="ti ti-user f-16"></i>{{ $teacherName }}
-                                            </span>
-                                            <span class="followup-chip followup-chip--due">
-                                                <i class="ti ti-calendar-event f-16"></i>
-                                                {{ $followup->due_date ? \Carbon\Carbon::parse($followup->due_date)->format('d/m/Y') : 'Aucune echeance' }}
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <div class="followup-card__body">
-                                        <div class="followup-card__stats">
-                                            <div class="followup-stat">
-                                                <span class="followup-stat__label">Niveau actuel</span>
-                                                <div class="followup-stat__value">{{ $currentLevel ?? $followup->level }}</div>
-                                            </div>
-                                            <div class="followup-stat">
-                                                <span class="followup-stat__label">Progression</span>
-                                                <div class="followup-stat__value">{{ $percent }}%</div>
-                                            </div>
-                                        </div>
-
-                                        <div class="followup-stepper-wrap">
-                                            <div class="level-stepper"
-                                                 style="--level-fill-start: {{ $fillStartPercent }}; --level-fill-width: {{ $fillWidthPercent }};">
-                                                <div class="level-stepper__track" aria-hidden="true"></div>
-                                                <div class="level-stepper__fill" aria-hidden="true"></div>
-
-                                                <div class="level-stepper__steps">
-                                                    @foreach($order as $idx => $lvl)
-                                                        @php
-                                                            $inactive = $idx < $startIndex;
-                                                            $state = $inactive ? 'inactive' : ($levelState[$lvl] ?? 'pending');
-                                                        @endphp
-                                                        <div class="level-stepper__step level-stepper__step--{{ $state }}">
-                                                            <span class="level-stepper__circle" aria-hidden="true"></span>
-                                                            <span class="level-stepper__label">{{ $lvl }}</span>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-
-                                                <div class="level-stepper__meta text-muted text-sm">
-                                                    Parcours actif depuis <strong>{{ $startLevel ?? 'A1' }}</strong>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="followup-card__footer">
-                                            <div class="followup-card__status">
-                                                <span class="badge {{ $statusClass }}">{{ $statusLabel }}</span>
-                                                @if($followup->status === 'done')
-                                                    <span class="followup-meta-note">
-                                                        Termine le {{ $followup->done_at ? \Carbon\Carbon::parse($followup->done_at)->format('d/m/Y H:i') : '-' }}
-                                                    </span>
-                                                @endif
-                                            </div>
-
-                                            <div class="followup-card__actions">
-                                                <a href="{{ route('backoffice.level_followups.group_show', $followup->group_id) }}"
-                                                   class="avtar avtar-xs btn-link-secondary"
-                                                   title="Voir details">
-                                                    <i class="ti ti-eye f-20"></i>
-                                                </a>
-
-                                                <a href="{{ route('backoffice.level_followups.group_pdf', $followup->group_id) }}"
-                                                   class="avtar avtar-xs btn-link-danger"
-                                                   title="Exporter PDF">
-                                                    <i class="ti ti-download f-20"></i>
-                                                </a>
-
-                                                @if($followup->status !== 'done')
-                                                    <form method="POST" action="{{ route('backoffice.level_followups.complete', $followup) }}" class="d-inline-block">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-success btn-sm">
-                                                            <i class="ti ti-check me-1"></i>Marquer termine
-                                                        </button>
-                                                    </form>
-                                                @endif
-
-                                                <form action="{{ route('backoffice.level_followups.destroy', $followup) }}" method="POST" class="d-inline-block">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                            class="avtar avtar-xs btn-link-secondary border-0 bg-transparent p-0"
-                                                            onclick="return confirm('Supprimer ce suivi niveau ?')"
-                                                            title="Supprimer">
-                                                        <i class="ti ti-trash f-20"></i>
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </article>
-                            @endforeach
-                        </div>
-                    @endif
                 </div>
             </div>
+
+            @if($followups->isEmpty())
+                <div class="alert alert-info mt-4 mb-0">
+                    Aucun suivi niveau genere.
+                </div>
+            @endif
+
+            @if($followups->isNotEmpty())
+                <section class="mt-4">
+                    <div class="followup-grid">
+                    @foreach($followups as $followup)
+                        @php
+                            $order = ['A1', 'A2', 'B1', 'B2'];
+                            $startLevel = $followup->group?->level;
+                            $startIndex = is_string($startLevel) ? array_search($startLevel, $order, true) : 0;
+                            $startIndex = ($startIndex === false) ? 0 : $startIndex;
+
+                            $allForGroup = $levelFollowupsByGroup[$followup->group_id] ?? collect();
+                            $activeSegments = $allForGroup
+                                ->whereIn('level', array_slice($order, $startIndex))
+                                ->sortBy('level_start_date')
+                                ->values();
+
+                            $totalDays = 0;
+                            $elapsedDays = 0;
+                            $currentLevel = null;
+
+                            foreach ($activeSegments as $seg) {
+                                $segStart = $seg->level_start_date ? \Carbon\Carbon::parse($seg->level_start_date)->startOfDay() : null;
+                                $segEnd = $seg->level_end_date ? \Carbon\Carbon::parse($seg->level_end_date)->startOfDay() : null;
+                                if (!$segStart || !$segEnd || $segEnd->lt($segStart)) continue;
+
+                                $segDays = $segStart->diffInDays($segEnd) + 1;
+                                $totalDays += $segDays;
+
+                                if ($now->lt($segStart)) {
+                                    continue;
+                                }
+
+                                if ($now->gt($segEnd)) {
+                                    $elapsedDays += $segDays;
+                                    continue;
+                                }
+
+                                $currentLevel = $seg->level;
+                                $elapsedDays += $segStart->diffInDays($now) + 1;
+                            }
+
+                            $percent = $totalDays > 0 ? (int) round(($elapsedDays / $totalDays) * 100) : 0;
+                            $stepCount = count($order);
+                            $fillStartPercent = $stepCount > 1 ? ($startIndex / ($stepCount - 1)) * 100 : 0;
+                            $fillWidthPercent = (($stepCount > 1 ? (100 - $fillStartPercent) : 0) * $percent) / 100;
+
+                            $levelState = [];
+                            foreach ($order as $lvl) {
+                                $levelState[$lvl] = 'inactive';
+                            }
+
+                            foreach ($activeSegments as $seg) {
+                                $lvl = $seg->level;
+                                $segStart = $seg->level_start_date ? \Carbon\Carbon::parse($seg->level_start_date)->startOfDay() : null;
+                                $segEnd = $seg->level_end_date ? \Carbon\Carbon::parse($seg->level_end_date)->startOfDay() : null;
+                                if (!$segStart || !$segEnd) continue;
+
+                                if ($now->gt($segEnd)) {
+                                    $levelState[$lvl] = 'done';
+                                } elseif ($now->betweenIncluded($segStart, $segEnd)) {
+                                    $levelState[$lvl] = 'current';
+                                } else {
+                                    $levelState[$lvl] = 'pending';
+                                }
+                            }
+
+                            $isDue = ($followup->status === 'pending') && $followup->due_date && \Carbon\Carbon::parse($followup->due_date)->lte($now);
+                            $isCurrentStatus = $followup->status !== 'done' && $currentLevel !== null;
+                            $statusClass = $followup->status === 'done'
+                                ? 'bg-light-success text-success'
+                                : ($isCurrentStatus ? 'bg-light-primary text-primary' : 'bg-light-warning text-warning');
+                            $statusLabel = $followup->status === 'done' ? 'Termine' : ($isCurrentStatus ? 'En cours' : 'En attente');
+                            $centerName = $followup->group?->site?->name ?? 'Centre non defini';
+                            $teacherName = $followup->group?->teacher?->name ?? 'Prof non assigne';
+                        @endphp
+
+                        <article class="followup-card">
+                            <div class="followup-card__header">
+                                <h3 class="followup-card__title">{{ $followup->group?->name ?? 'Groupe sans nom' }}</h3>
+                                <div class="followup-card__subtitle">Vision rapide du suivi de progression</div>
+
+                                <div class="followup-card__chips">
+                                    <span class="followup-chip followup-chip--center">
+                                        <i class="ti ti-building f-16"></i>{{ $centerName }}
+                                    </span>
+                                    <span class="followup-chip followup-chip--teacher">
+                                        <i class="ti ti-user f-16"></i>{{ $teacherName }}
+                                    </span>
+                                    <span class="followup-chip followup-chip--due">
+                                        <i class="ti ti-calendar-event f-16"></i>
+                                        {{ $followup->due_date ? \Carbon\Carbon::parse($followup->due_date)->format('d/m/Y') : 'Aucune echeance' }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="followup-card__body">
+                                <div class="followup-card__stats">
+                                    <div class="followup-stat">
+                                        <span class="followup-stat__label">Niveau actuel</span>
+                                        <div class="followup-stat__value">{{ $currentLevel ?? $followup->level }}</div>
+                                    </div>
+                                    <div class="followup-stat">
+                                        <span class="followup-stat__label">Progression</span>
+                                        <div class="followup-stat__value">{{ $percent }}%</div>
+                                    </div>
+                                </div>
+
+                                <div class="followup-stepper-wrap">
+                                    <div class="level-stepper"
+                                         style="--level-fill-start: {{ $fillStartPercent }}; --level-fill-width: {{ $fillWidthPercent }};">
+                                        <div class="level-stepper__track" aria-hidden="true"></div>
+                                        <div class="level-stepper__fill" aria-hidden="true"></div>
+
+                                        <div class="level-stepper__steps">
+                                            @foreach($order as $idx => $lvl)
+                                                @php
+                                                    $inactive = $idx < $startIndex;
+                                                    $state = $inactive ? 'inactive' : ($levelState[$lvl] ?? 'pending');
+                                                @endphp
+                                                <div class="level-stepper__step level-stepper__step--{{ $state }}">
+                                                    <span class="level-stepper__circle" aria-hidden="true"></span>
+                                                    <span class="level-stepper__label">{{ $lvl }}</span>
+                                                </div>
+                                            @endforeach
+                                        </div>
+
+                                        <div class="level-stepper__meta text-muted text-sm">
+                                            Parcours actif depuis <strong>{{ $startLevel ?? 'A1' }}</strong>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="followup-card__footer">
+                                    <div class="followup-card__status">
+                                        <span class="badge {{ $statusClass }}">{{ $statusLabel }}</span>
+                                        @if($followup->status === 'done')
+                                            <span class="followup-meta-note">
+                                                Termine le {{ $followup->done_at ? \Carbon\Carbon::parse($followup->done_at)->format('d/m/Y H:i') : '-' }}
+                                            </span>
+                                        @endif
+                                    </div>
+
+                                    <div class="followup-card__actions">
+                                        <a href="{{ route('backoffice.level_followups.group_show', $followup->group_id) }}"
+                                           class="avtar avtar-xs btn-link-secondary"
+                                           title="Voir details">
+                                            <i class="ti ti-eye f-20"></i>
+                                        </a>
+
+                                        <a href="{{ route('backoffice.level_followups.group_pdf', $followup->group_id) }}"
+                                           class="avtar avtar-xs btn-link-danger"
+                                           title="Exporter PDF">
+                                            <i class="ti ti-download f-20"></i>
+                                        </a>
+
+                                        @if($followup->status !== 'done')
+                                            <form method="POST" action="{{ route('backoffice.level_followups.complete', $followup) }}" class="d-inline-block">
+                                                @csrf
+                                                <button type="submit" class="btn btn-success btn-sm">
+                                                    <i class="ti ti-check me-1"></i>Marquer termine
+                                                </button>
+                                            </form>
+                                        @endif
+
+                                        <form action="{{ route('backoffice.level_followups.destroy', $followup) }}" method="POST" class="d-inline-block">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                    class="avtar avtar-xs btn-link-secondary border-0 bg-transparent p-0"
+                                                    onclick="return confirm('Supprimer ce suivi niveau ?')"
+                                                    title="Supprimer">
+                                                <i class="ti ti-trash f-20"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    @endforeach
+                    </div>
+                </section>
+            @endif
         </div>
     </div>
 @endsection

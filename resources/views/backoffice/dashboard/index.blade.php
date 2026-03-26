@@ -475,7 +475,7 @@ SUIVI NIVEAU (Rappels profs)
     </div>
 </div>
 
-<hr>
+<hr id="suivi-niveau-separator">
 
 {{-- =========================
 APEX CHARTS (USING THEME chart-apex.js)
@@ -692,6 +692,23 @@ APEX DASHBOARD INIT
     renderBar('bar-chart-3', 'bar3', 'Inscriptions');
     renderBar('bar-chart-4', 'bar4', 'Consultations');
     renderDonut('pie-chart-2', 'donut1');
+})();
+
+(function () {
+    const suivi = document.getElementById('suivi-niveau');
+    if (!suivi) return;
+
+    const row = suivi.closest('.row');
+    const separator = document.getElementById('suivi-niveau-separator');
+    const content = document.querySelector('.pc-container .pc-content');
+
+    if (!row || !content) return;
+
+    if (separator) {
+        content.appendChild(separator);
+    }
+
+    content.appendChild(row);
 })();
 </script>
 @endsection
