@@ -268,6 +268,9 @@ Route::prefix('backoffice')
 
         Route::post('/level-followups/{followup}/complete', [LevelFollowupController::class, 'complete'])
             ->name('level_followups.complete');
+
+        Route::delete('/level-followups/{followup}', [LevelFollowupController::class, 'destroy'])
+            ->name('level_followups.destroy');
     });
 
 /*

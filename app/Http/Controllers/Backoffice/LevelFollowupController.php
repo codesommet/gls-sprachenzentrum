@@ -21,29 +21,39 @@ class LevelFollowupController extends Controller
             ->orderBy('due_date')
             ->get();
 
-        // Build one "current row" per group to avoid duplication
         $rows = $followups
             ->groupBy('group_id')
             ->map(function ($items) use ($now) {
                 $items = $items->sortBy('level_start_date')->values();
 
-                // Prefer segment that contains today
                 $current = $items->first(function ($f) use ($now) {
-                    if (!$f->level_start_date || !$f->level_end_date) return false;
+                    if (!$f->level_start_date || !$f->level_end_date) {
+                        return false;
+                    }
+
                     $s = Carbon::parse($f->level_start_date)->startOfDay();
                     $e = Carbon::parse($f->level_end_date)->startOfDay();
+
                     return $now->betweenIncluded($s, $e);
                 });
 
-                if ($current) return $current;
+                if ($current) {
+                    return $current;
+                }
 
-                // If no segment matches, pick next future segment, else last past segment
                 $future = $items->first(function ($f) use ($now) {
-                    if (!$f->level_start_date) return false;
+                    if (!$f->level_start_date) {
+                        return false;
+                    }
+
                     $s = Carbon::parse($f->level_start_date)->startOfDay();
+
                     return $s->gt($now);
                 });
-                if ($future) return $future;
+
+                if ($future) {
+                    return $future;
+                }
 
                 return $items->last();
             })
@@ -82,19 +92,33 @@ class LevelFollowupController extends Controller
                 $items = $items->sortBy('level_start_date')->values();
 
                 $current = $items->first(function ($f) use ($now) {
-                    if (!$f->level_start_date || !$f->level_end_date) return false;
+                    if (!$f->level_start_date || !$f->level_end_date) {
+                        return false;
+                    }
+
                     $s = Carbon::parse($f->level_start_date)->startOfDay();
                     $e = Carbon::parse($f->level_end_date)->startOfDay();
+
                     return $now->betweenIncluded($s, $e);
                 });
-                if ($current) return $current;
+
+                if ($current) {
+                    return $current;
+                }
 
                 $future = $items->first(function ($f) use ($now) {
-                    if (!$f->level_start_date) return false;
+                    if (!$f->level_start_date) {
+                        return false;
+                    }
+
                     $s = Carbon::parse($f->level_start_date)->startOfDay();
+
                     return $s->gt($now);
                 });
-                if ($future) return $future;
+
+                if ($future) {
+                    return $future;
+                }
 
                 return $items->last();
             })
@@ -139,9 +163,6 @@ class LevelFollowupController extends Controller
         return $pdf->download('suivi-niveau-' . $safeName . '-' . $now->format('Y-m-d') . '.pdf');
     }
 
-    /**
-     * Mark a given group/level followup as completed.
-     */
     public function complete(GroupLevelFollowup $followup, Request $request)
     {
         $validated = $request->validate([
@@ -154,7 +175,15 @@ class LevelFollowupController extends Controller
             'done_notes' => $validated['done_notes'] ?? null,
         ]);
 
-        return back()->with('success', "Niveau {$followup->level} marqué comme terminé.");
+        return back()->with('success', "Niveau {$followup->level} marque comme termine.");
+    }
+
+    public function destroy(GroupLevelFollowup $followup)
+    {
+        $level = $followup->level;
+
+        $followup->delete();
+
+        return back()->with('success', "Suivi niveau {$level} supprime.");
     }
 }
-

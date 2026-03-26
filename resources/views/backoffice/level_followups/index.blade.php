@@ -268,11 +268,24 @@
                                         </td>
                                         <td class="text-end" style="min-width:260px;">
                                             @if($followup->status === 'done')
-                                                <a href="{{ route('backoffice.level_followups.group_pdf', $followup->group_id) }}"
-                                                   class="btn btn-sm btn-outline-primary mb-2"
-                                                   title="Exporter PDF du groupe">
-                                                    <i class="ph-duotone ph-file-pdf"></i>
-                                                </a>
+                                                <div class="d-flex justify-content-end gap-2 mb-2">
+                                                    <a href="{{ route('backoffice.level_followups.group_pdf', $followup->group_id) }}"
+                                                       class="btn btn-sm btn-outline-primary"
+                                                       title="Exporter PDF du groupe">
+                                                        <i class="ph-duotone ph-file-pdf"></i>
+                                                    </a>
+                                                    <form method="POST"
+                                                          action="{{ route('backoffice.level_followups.destroy', $followup) }}"
+                                                          onsubmit="return confirm('Supprimer ce suivi niveau ?')">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                                class="btn btn-sm btn-outline-danger"
+                                                                title="Supprimer">
+                                                            <i class="ph-duotone ph-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
                                                 <div class="text-muted text-sm">
                                                     Terminé le {{ $followup->done_at ? \Carbon\Carbon::parse($followup->done_at)->format('d/m/Y H:i') : '-' }}
                                                 </div>
@@ -280,12 +293,18 @@
                                                 <form method="POST"
                                                       action="{{ route('backoffice.level_followups.complete', $followup) }}">
                                                     @csrf
-                                                    <div class="text-end mb-2">
+                                                    <div class="d-flex justify-content-end gap-2 mb-2">
                                                         <a href="{{ route('backoffice.level_followups.group_pdf', $followup->group_id) }}"
                                                            class="btn btn-sm btn-outline-primary"
                                                            title="Exporter PDF du groupe">
                                                             <i class="ph-duotone ph-file-pdf"></i>
                                                         </a>
+                                                        <button type="submit"
+                                                                form="delete-followup-{{ $followup->id }}"
+                                                                class="btn btn-sm btn-outline-danger"
+                                                                title="Supprimer">
+                                                            <i class="ph-duotone ph-trash"></i>
+                                                        </button>
                                                     </div>
                                                     <textarea name="done_notes"
                                                               class="form-control form-control-sm"
@@ -294,6 +313,14 @@
                                                     <button type="submit" class="btn btn-success btn-sm mt-2">
                                                         Marquer terminé
                                                     </button>
+                                                </form>
+                                                <form id="delete-followup-{{ $followup->id }}"
+                                                      method="POST"
+                                                      action="{{ route('backoffice.level_followups.destroy', $followup) }}"
+                                                      class="d-none"
+                                                      onsubmit="return confirm('Supprimer ce suivi niveau ?')">
+                                                    @csrf
+                                                    @method('DELETE')
                                                 </form>
                                             @endif
                                         </td>
