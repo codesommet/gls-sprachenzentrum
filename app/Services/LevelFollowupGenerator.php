@@ -79,7 +79,8 @@ class LevelFollowupGenerator
                     $segEnd->addMonthsNoOverflow(3);
                 }
 
-                $segEnd->subDay();
+                // Snap to end of month (prof payment aligned)
+                $segEnd->subDay()->endOfMonth()->startOfDay();
 
                 $isPast = $segEnd->copy()->endOfDay()->isPast();
                 $status = $isPast ? 'done' : 'pending';
