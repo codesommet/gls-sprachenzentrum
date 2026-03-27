@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Backoffice\Groups;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -44,7 +45,19 @@ class StoreGroupRequest extends FormRequest
 
             // ✅ dates required only if active
             'date_debut'    => ['nullable', 'date', 'required_if:status,active'],
-            'date_fin'      => ['nullable', 'date', 'required_if:status,active', 'after_or_equal:date_debut'],
+            'date_fin'      => ['nullable', 'date', 'required_if:status,active', 'after_or_equal:date_debut',
+                function ($attribute, $value, $fail) {
+                    if (!$value || !$this->input('date_debut') || $this->input('status') !== 'active') {
+                        return;
+                    }
+                    $start = Carbon::parse($this->input('date_debut'));
+                    $end = Carbon::parse($value);
+                    $months = $start->diffInMonths($end);
+                    if ($months < 10 || $months > 10) {
+                        $fail("La duree du groupe doit etre exactement 10 mois (actuellement {$months} mois).");
+                    }
+                },
+            ],
         ];
     }
 

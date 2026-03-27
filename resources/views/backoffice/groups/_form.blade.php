@@ -276,48 +276,13 @@
 
   $status.addEventListener('change', toggleSuiviByStatus);
 
-  // Snap to last day of the month
-  const endOfMonth = (d) => new Date(d.getFullYear(), d.getMonth() + 1, 0);
-
-  // Add months + extra days (for 2.5-month levels: 2 months + 15 days)
-  const addLevelDuration = (date, months, extraDays) => {
-    let d = addMonthsSafe(date, months);
-    if (extraDays) d.setDate(d.getDate() + extraDays);
-    return d;
-  };
-
-  // --- Auto-calculate end date by simulating per-level segments with end-of-month snapping
+  // --- Auto-calculate end date: start + 10 months
   const autoCalcEnd = (startValue) => {
     const start = parseYMD(startValue);
     if (!start) return;
 
-    const $level = document.querySelector('select[name="level"]');
-    const startLevel = $level ? $level.value : 'A1';
-    const startIdx = LEVEL_ORDER.indexOf(startLevel);
-    const levels = LEVEL_ORDER.slice(startIdx >= 0 ? startIdx : 0);
-
-    let segStart = new Date(start);
-    let segEnd;
-
-    for (const lvl of levels) {
-      segEnd = new Date(segStart);
-      if (lvl === 'A1') {
-        segEnd = addMonthsSafe(segEnd, 2);
-      } else if (lvl === 'A2' || lvl === 'B1') {
-        segEnd = addLevelDuration(segEnd, 2, 15);
-      } else if (lvl === 'B2') {
-        segEnd = addMonthsSafe(segEnd, 3);
-      }
-      // subDay then snap to end of month
-      segEnd.setDate(segEnd.getDate() - 1);
-      segEnd = endOfMonth(segEnd);
-
-      // Next segment starts the day after
-      segStart = new Date(segEnd);
-      segStart.setDate(segStart.getDate() + 1);
-    }
-
-    const endYMD = toYMD(segEnd);
+    const end = addMonthsSafe(start, 10);
+    const endYMD = toYMD(end);
 
     $dateDebut.value = startValue;
     $dateFin.value = endYMD;

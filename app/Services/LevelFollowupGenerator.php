@@ -52,6 +52,7 @@ class LevelFollowupGenerator
         }
 
         $startDate = Carbon::parse($group->date_debut)->startOfDay();
+        $endDate = $startDate->copy()->addMonthsNoOverflow(10);
 
         $startLevel = $group->level;
         $startIndex = array_search($startLevel, $this->order, true);
@@ -68,33 +69,39 @@ class LevelFollowupGenerator
             ->get()
             ->keyBy('level');
 
-        DB::transaction(function () use ($group, $levels, $segmentCount, $startDate, $existingByLevel) {
+        DB::transaction(function () use ($group, $levels, $segmentCount, $startDate, $endDate, $existingByLevel) {
             $computed = [];
+
+            // Total days in the 10-month window
+            $totalDays = $startDate->diffInDays($endDate);
+
+            // Calculate weight sum for active levels only
+            $weightSum = 0;
+            foreach ($levels as $level) {
+                $weightSum += $this->weights[$level];
+            }
+
+            // Distribute days proportionally by weight
             $segStart = $startDate->copy();
 
             for ($i = 0; $i < $segmentCount; $i++) {
                 $level = $levels[$i];
                 $existing = $existingByLevel->get($level);
 
-                $segEnd = $segStart->copy();
-
-                if ($level === 'A1') {
-                    $segEnd->addMonthsNoOverflow(2);
-                } elseif ($level === 'A2') {
-                    $segEnd->addMonthsNoOverflow(2)->addDays(15);
-                } elseif ($level === 'B1') {
-                    $segEnd->addMonthsNoOverflow(2)->addDays(15);
-                } elseif ($level === 'B2') {
-                    $segEnd->addMonthsNoOverflow(3);
+                if ($i === $segmentCount - 1) {
+                    // Last level gets remaining days to avoid rounding drift
+                    $segEnd = $endDate->copy();
+                } else {
+                    $levelDays = (int) round(($this->weights[$level] / $weightSum) * $totalDays);
+                    $segEnd = $segStart->copy()->addDays($levelDays);
                 }
 
                 $segEnd->startOfDay();
 
-                $isPast = $segEnd->copy()->endOfDay()->isPast();
-                $status = $isPast ? 'done' : 'pending';
-                $doneAt = $isPast ? $segEnd->toDateString() : null;
+                $status = 'pending';
+                $doneAt = null;
 
-                // If already manually marked done, keep that done_at
+                // Only keep manually marked done status
                 if ($existing && $existing->status === 'done' && $existing->done_at) {
                     $status = 'done';
                     $doneAt = $existing->done_at;
@@ -109,22 +116,15 @@ class LevelFollowupGenerator
                     'done_at' => $doneAt,
                 ];
 
-                // Next level starts the day after done_at (if completed early) or after segEnd
-                if ($status === 'done' && $doneAt) {
-                    $segStart = Carbon::parse($doneAt)->startOfDay()->addDay();
-                } else {
-                    $segStart = $segEnd->copy()->addDay();
-                }
+                // Next level starts day after
+                $segStart = $segEnd->copy()->addDay();
             }
 
-            // Update the group's end date to match the calculated end date of the last level segment.
-            if ($segmentCount > 0) {
-                $lastSegmentEndDate = $computed[$segmentCount - 1]['level_end_date'];
-                
-                if ($group->date_fin !== $lastSegmentEndDate && $group->status === 'active') {
-                    Group::where('id', $group->id)->update(['date_fin' => $lastSegmentEndDate]);
-                    $group->date_fin = $lastSegmentEndDate;
-                }
+            // Update the group's end date to exactly 10 months
+            $endDateStr = $endDate->toDateString();
+            if ($group->date_fin !== $endDateStr && $group->status === 'active') {
+                Group::where('id', $group->id)->update(['date_fin' => $endDateStr]);
+                $group->date_fin = $endDateStr;
             }
 
             $intendedLevels = array_column($computed, 'level');

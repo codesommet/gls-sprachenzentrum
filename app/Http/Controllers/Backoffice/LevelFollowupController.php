@@ -208,6 +208,7 @@ class LevelFollowupController extends Controller
         return back()->with('success', "Note du niveau {$followup->level} enregistree.");
     }
 
+
     public function destroy(GroupLevelFollowup $followup)
     {
         $level = $followup->level;
