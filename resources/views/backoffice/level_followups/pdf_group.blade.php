@@ -31,6 +31,7 @@
         .ok { background: #d1fae5; color: #065f46; }
         .active { background: #dbeafe; color: #1d4ed8; }
         .warn { background: #fef3c7; color: #92400e; }
+        .danger { background: #fee2e2; color: #991b1b; }
         .muted { color: #9ca3af; }
     </style>
 </head>
@@ -123,7 +124,6 @@
     <tr>
         <th>Niveau</th>
         <th>Début niveau</th>
-        <th>Fin niveau</th>
         <th>Date terminé</th>
         <th>Statut</th>
         <th>Notes</th>
@@ -137,14 +137,30 @@
             $finishedAt = $f->done_at ? \Carbon\Carbon::parse($f->done_at) : null;
             $isCurrent = $start && $end && $now->betweenIncluded($start, $end) && $f->status !== 'done';
         @endphp
+        @php
+            $daysLeft = ($isCurrent && $end) ? (int) $now->diffInDays($end, false) : null;
+            $isUrgent = $daysLeft !== null && $daysLeft <= 14 && $daysLeft >= 0;
+            $isOverdue = $f->status !== 'done' && $end && $now->gt($end->copy()->endOfDay());
+        @endphp
         <tr>
             <td><strong>{{ $f->level }}</strong></td>
             <td>{{ $start ? $start->format('d/m/Y') : '-' }}</td>
-            <td>{{ $end ? $end->format('d/m/Y') : '-' }}</td>
-            <td>{{ $finishedAt ? $finishedAt->format('d/m/Y H:i') : '-' }}</td>
+            <td>
+                @if($finishedAt)
+                    <span style="color:#065f46;">Termine le {{ $finishedAt->format('d/m/Y') }}</span>
+                @elseif($isOverdue)
+                    <span style="color:#991b1b;">En retard!</span>
+                @elseif($isUrgent)
+                    <span style="color:#92400e;">{{ $daysLeft }} jours restants</span>
+                @else
+                    {{ $end ? $end->format('d/m/Y') : '-' }}
+                @endif
+            </td>
             <td>
                 @if($f->status === 'done')
-                    <span class="badge ok">Terminé</span>
+                    <span class="badge ok">Termine</span>
+                @elseif($isOverdue)
+                    <span class="badge danger">En retard</span>
                 @elseif($isCurrent)
                     <span class="badge active">En cours</span>
                 @else
@@ -155,7 +171,7 @@
         </tr>
     @empty
         <tr>
-            <td colspan="6" class="muted">Aucun suivi niveau trouvé pour ce groupe.</td>
+            <td colspan="5" class="muted">Aucun suivi niveau trouvé pour ce groupe.</td>
         </tr>
     @endforelse
     </tbody>

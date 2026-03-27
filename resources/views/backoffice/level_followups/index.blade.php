@@ -306,9 +306,6 @@
                     <h5 class="mb-0">Suivi niveau (rappels profs)</h5>
                     <div class="d-flex align-items-center gap-2">
                         <span class="badge bg-light-primary">{{ $dueFollowups->count() }} rappel(s) du(s)</span>
-                        <a href="{{ route('backoffice.level_followups.pdf') }}" class="btn btn-sm btn-primary">
-                            Exporter PDF
-                        </a>
                     </div>
                 </div>
 
