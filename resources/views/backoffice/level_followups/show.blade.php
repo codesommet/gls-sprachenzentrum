@@ -180,7 +180,6 @@
                                 <tr>
                                     <th>Niveau</th>
                                     <th>Debut niveau</th>
-                                    <th>Fin niveau</th>
                                     <th>Date termine</th>
                                     <th>Statut</th>
                                     <th>Notes</th>
@@ -193,15 +192,28 @@
                                         $end = $f->level_end_date ? \Carbon\Carbon::parse($f->level_end_date) : null;
                                         $finishedAt = $f->done_at ? \Carbon\Carbon::parse($f->done_at) : null;
                                         $isCurrent = $f->status !== 'done' && $start && $end && $now->betweenIncluded($start->copy()->startOfDay(), $end->copy()->endOfDay());
+                                        $daysLeft = ($isCurrent && $end) ? $now->diffInDays($end, false) : null;
+                                        $isUrgent = $daysLeft !== null && $daysLeft <= 14 && $daysLeft >= 0;
+                                        $isOverdue = $f->status !== 'done' && $end && $now->gt($end->copy()->endOfDay());
                                     @endphp
                                     <tr>
                                         <td class="followup-level-cell">{{ $f->level }}</td>
                                         <td>{{ $start ? $start->format('d/m/Y') : '-' }}</td>
-                                        <td>{{ $end ? $end->format('d/m/Y') : '-' }}</td>
-                                        <td>{{ $finishedAt ? $finishedAt->format('d/m/Y H:i') : '-' }}</td>
+                                        <td>
+                                            {{ $end ? $end->format('d/m/Y') : '-' }}
+                                            @if($finishedAt)
+                                                <br><small class="text-success fw-bold">Termine le {{ $finishedAt->format('d/m/Y') }}</small>
+                                            @elseif($isOverdue)
+                                                <br><small class="text-danger fw-bold"><i class="ti ti-alert-triangle"></i> En retard!</small>
+                                            @elseif($isUrgent)
+                                                <br><small class="text-warning fw-bold"><i class="ti ti-clock"></i> {{ $daysLeft }} jours restants</small>
+                                            @endif
+                                        </td>
                                         <td>
                                             @if($f->status === 'done')
                                                 <span class="badge-soft-success">Termine</span>
+                                            @elseif($isOverdue)
+                                                <span class="badge bg-danger text-white" style="border-radius:999px;padding:8px 16px;font-size:14px;font-weight:700;">En retard</span>
                                             @elseif($isCurrent)
                                                 <span class="badge-soft-primary">En cours</span>
                                             @else
@@ -223,7 +235,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="6" class="text-center text-muted py-4">
+                                        <td colspan="5" class="text-center text-muted py-4">
                                             Aucun suivi niveau trouve pour ce groupe.
                                         </td>
                                     </tr>
