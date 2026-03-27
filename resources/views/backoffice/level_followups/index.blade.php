@@ -354,25 +354,12 @@
                             $elapsedDays = 0;
                             $currentLevel = null;
 
-                            // Count only weekdays (Mon-Fri), excluding Sat & Sun
-                            $countWeekdays = function($from, $to) {
-                                $count = 0;
-                                $cur = $from->copy();
-                                while ($cur->lte($to)) {
-                                    if (!$cur->isWeekend()) {
-                                        $count++;
-                                    }
-                                    $cur->addDay();
-                                }
-                                return $count;
-                            };
-
                             foreach ($activeSegments as $seg) {
                                 $segStart = $seg->level_start_date ? \Carbon\Carbon::parse($seg->level_start_date)->startOfDay() : null;
                                 $segEnd = $seg->level_end_date ? \Carbon\Carbon::parse($seg->level_end_date)->startOfDay() : null;
                                 if (!$segStart || !$segEnd || $segEnd->lt($segStart)) continue;
 
-                                $segDays = $countWeekdays($segStart, $segEnd);
+                                $segDays = $segStart->diffInDays($segEnd);
                                 $totalDays += $segDays;
 
                                 if ($now->lt($segStart)) {
@@ -385,7 +372,7 @@
                                 }
 
                                 $currentLevel = $seg->level;
-                                $elapsedDays += $countWeekdays($segStart, $now);
+                                $elapsedDays += $segStart->diffInDays($now);
                             }
 
                             $percent = $totalDays > 0 ? (int) round(($elapsedDays / $totalDays) * 100) : 0;

@@ -41,19 +41,6 @@
     $formationStart = $group->date_debut ? \Carbon\Carbon::parse($group->date_debut) : null;
     $formationEnd = $group->date_fin ? \Carbon\Carbon::parse($group->date_fin) : null;
 
-    // Count only weekdays (Mon-Fri)
-    $countWeekdays = function($from, $to) {
-        $count = 0;
-        $cur = $from->copy();
-        while ($cur->lte($to)) {
-            if (!$cur->isWeekend()) {
-                $count++;
-            }
-            $cur->addDay();
-        }
-        return $count;
-    };
-
     $totalDays = 0;
     $elapsedDays = 0;
 
@@ -62,7 +49,7 @@
         $segEnd = $seg->level_end_date ? \Carbon\Carbon::parse($seg->level_end_date)->startOfDay() : null;
         if (!$segStart || !$segEnd || $segEnd->lt($segStart)) continue;
 
-        $segDays = $countWeekdays($segStart, $segEnd);
+        $segDays = $segStart->diffInDays($segEnd);
         $totalDays += $segDays;
 
         if ($now->lt($segStart)) {
@@ -74,7 +61,7 @@
             continue;
         }
 
-        $elapsedDays += $countWeekdays($segStart, $now);
+        $elapsedDays += $segStart->diffInDays($now);
     }
 
     $progress = $totalDays > 0 ? (int) round(($elapsedDays / $totalDays) * 100) : 0;
