@@ -38,9 +38,44 @@
 @php
     $formationStart = $group->date_debut ? \Carbon\Carbon::parse($group->date_debut) : null;
     $formationEnd = $group->date_fin ? \Carbon\Carbon::parse($group->date_fin) : null;
-    $totalLevels = max(1, $followups->count());
-    $doneCount = $followups->where('status', 'done')->count();
-    $progress = (int) round(($doneCount / $totalLevels) * 100);
+
+    // Count only weekdays (Mon-Fri)
+    $countWeekdays = function($from, $to) {
+        $count = 0;
+        $cur = $from->copy();
+        while ($cur->lte($to)) {
+            if (!$cur->isWeekend()) {
+                $count++;
+            }
+            $cur->addDay();
+        }
+        return $count;
+    };
+
+    $totalDays = 0;
+    $elapsedDays = 0;
+
+    foreach ($followups as $seg) {
+        $segStart = $seg->level_start_date ? \Carbon\Carbon::parse($seg->level_start_date)->startOfDay() : null;
+        $segEnd = $seg->level_end_date ? \Carbon\Carbon::parse($seg->level_end_date)->startOfDay() : null;
+        if (!$segStart || !$segEnd || $segEnd->lt($segStart)) continue;
+
+        $segDays = $countWeekdays($segStart, $segEnd);
+        $totalDays += $segDays;
+
+        if ($now->lt($segStart)) {
+            continue;
+        }
+
+        if ($now->gt($segEnd)) {
+            $elapsedDays += $segDays;
+            continue;
+        }
+
+        $elapsedDays += $countWeekdays($segStart, $now);
+    }
+
+    $progress = $totalDays > 0 ? (int) round(($elapsedDays / $totalDays) * 100) : 0;
 @endphp
 
 <div class="header-container">
