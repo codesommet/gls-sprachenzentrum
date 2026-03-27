@@ -41,17 +41,6 @@ class LevelFollowupGenerator
             });
     }
 
-    /**
-     * Advance to the next weekday (skip Saturday/Sunday).
-     */
-    private function nextWeekday(Carbon $date): Carbon
-    {
-        $d = $date->copy();
-        while ($d->isWeekend()) {
-            $d->addDay();
-        }
-        return $d;
-    }
 
     /**
      * Generate followups for a single group (idempotent).
@@ -86,9 +75,6 @@ class LevelFollowupGenerator
             for ($i = 0; $i < $segmentCount; $i++) {
                 $level = $levels[$i];
                 $existing = $existingByLevel->get($level);
-
-                // If previous level was completed early, segStart may fall on a weekend
-                $segStart = $this->nextWeekday($segStart);
 
                 $segEnd = $segStart->copy();
 
