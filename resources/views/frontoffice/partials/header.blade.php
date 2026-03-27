@@ -190,9 +190,11 @@
                         <a class="dropdown-item" href="#">{{ __('header.our_centers') }}</a>
                         <ul class="dropdown-menu">
                             @php
-                                $sitesMenu = \App\Models\Site::where('slug', '!=', 'gls-online')
-                                    ->orderBy('name')
-                                    ->get();
+                                $sitesMenu = cache()->remember('sites_menu', 3600, function () {
+                                    return \App\Models\Site::where('slug', '!=', 'gls-online')
+                                        ->orderBy('name')
+                                        ->get();
+                                });
                             @endphp
 
                             @foreach ($sitesMenu as $site)
@@ -393,9 +395,11 @@
                         <div class="submenu-content">
 
                             @php
-                                $sitesMenu = \App\Models\Site::where('slug', '!=', 'gls-online')
-                                    ->orderBy('name')
-                                    ->get();
+                                $sitesMenu = cache()->remember('sites_menu', 3600, function () {
+                                    return \App\Models\Site::where('slug', '!=', 'gls-online')
+                                        ->orderBy('name')
+                                        ->get();
+                                });
                             @endphp
 
                             @foreach ($sitesMenu as $site)
