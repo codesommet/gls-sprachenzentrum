@@ -11,9 +11,10 @@
         h2 { margin: 0 0 6px; font-size: 15px; }
         .meta { color: #6b7280; font-size: 11px; margin-top: 4px; }
         .card { border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px 12px; margin: 14px 0; }
-        .grid { width: 100%; }
-        .grid td { padding: 4px 8px 4px 0; vertical-align: top; }
-        .label { color: #6b7280; width: 130px; }
+        .grid { width: 100%; border-collapse: collapse; table-layout: fixed; }
+        .grid td { padding: 6px 10px; vertical-align: top; border: 1px solid #e5e7eb; }
+        .grid .label { color: #6b7280; width: 25%; background: #f9fafb; }
+        .grid .value { width: 25%; }
         .value { font-weight: 600; }
         .progress-wrap { margin-top: 10px; width: 100%; text-align: center; }
         .progress-outer { width: 100%; height: 6px; background: #e5e7eb; border-radius: 99px; margin: 0 auto 10px auto; }
