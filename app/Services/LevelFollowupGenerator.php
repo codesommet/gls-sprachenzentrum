@@ -52,7 +52,6 @@ class LevelFollowupGenerator
         }
 
         $startDate = Carbon::parse($group->date_debut)->startOfDay();
-        $endDate = $startDate->copy()->addMonthsNoOverflow(10);
 
         $startLevel = $group->level;
         $startIndex = array_search($startLevel, $this->order, true);
@@ -69,33 +68,25 @@ class LevelFollowupGenerator
             ->get()
             ->keyBy('level');
 
-        DB::transaction(function () use ($group, $levels, $segmentCount, $startDate, $endDate, $existingByLevel) {
+        DB::transaction(function () use ($group, $levels, $segmentCount, $startDate, $existingByLevel) {
             $computed = [];
-
-            // Total days in the 10-month window
-            $totalDays = $startDate->diffInDays($endDate);
-
-            // Calculate weight sum for active levels only
-            $weightSum = 0;
-            foreach ($levels as $level) {
-                $weightSum += $this->weights[$level];
-            }
-
-            // Distribute days proportionally by weight
             $segStart = $startDate->copy();
 
             for ($i = 0; $i < $segmentCount; $i++) {
                 $level = $levels[$i];
                 $existing = $existingByLevel->get($level);
 
-                if ($i === $segmentCount - 1) {
-                    // Last level gets remaining days to avoid rounding drift
-                    $segEnd = $endDate->copy();
-                } else {
-                    $levelDays = (int) round(($this->weights[$level] / $weightSum) * $totalDays);
-                    $segEnd = $segStart->copy()->addDays($levelDays);
+                // Strict durations: A1=2m, A2=2m+15d, B1=2m+15d, B2=3m
+                $segEnd = $segStart->copy();
+                if ($level === 'A1') {
+                    $segEnd->addMonthsNoOverflow(2);
+                } elseif ($level === 'A2') {
+                    $segEnd->addMonthsNoOverflow(2)->addDays(15);
+                } elseif ($level === 'B1') {
+                    $segEnd->addMonthsNoOverflow(2)->addDays(15);
+                } elseif ($level === 'B2') {
+                    $segEnd->addMonthsNoOverflow(3);
                 }
-
                 $segEnd->startOfDay();
 
                 $status = 'pending';
@@ -120,11 +111,13 @@ class LevelFollowupGenerator
                 $segStart = $segEnd->copy()->addDay();
             }
 
-            // Update the group's end date to exactly 10 months
-            $endDateStr = $endDate->toDateString();
-            if ($group->date_fin !== $endDateStr && $group->status === 'active') {
-                Group::where('id', $group->id)->update(['date_fin' => $endDateStr]);
-                $group->date_fin = $endDateStr;
+            // Update the group's end date from the last level
+            if ($segmentCount > 0) {
+                $lastEndDate = $computed[$segmentCount - 1]['level_end_date'];
+                if ($group->date_fin !== $lastEndDate && $group->status === 'active') {
+                    Group::where('id', $group->id)->update(['date_fin' => $lastEndDate]);
+                    $group->date_fin = $lastEndDate;
+                }
             }
 
             $intendedLevels = array_column($computed, 'level');

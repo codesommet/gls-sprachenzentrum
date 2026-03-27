@@ -52,9 +52,11 @@ class StoreGroupRequest extends FormRequest
                     }
                     $start = Carbon::parse($this->input('date_debut'));
                     $end = Carbon::parse($value);
-                    $months = $start->diffInMonths($end);
-                    if ($months < 10 || $months > 10) {
-                        $fail("La duree du groupe doit etre exactement 10 mois (actuellement {$months} mois).");
+                    $days = $start->diffInDays($end);
+                    // 10 months = ~304 days, allow ±5 days tolerance for month length variations
+                    if ($days < 299 || $days > 309) {
+                        $months = round($days / 30.44, 1);
+                        $fail("La duree du groupe doit etre environ 10 mois (actuellement ~{$months} mois).");
                     }
                 },
             ],
