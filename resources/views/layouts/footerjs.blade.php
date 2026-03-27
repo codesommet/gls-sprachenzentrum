@@ -52,6 +52,29 @@
     </script>
 @endif
 
+{{-- ===== Choices.js — searchable dropdowns for all backoffice selects ===== --}}
+<script src="{{ URL::asset('build/js/plugins/choices.min.js') }}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.form-select').forEach(function (el) {
+        // Skip already initialized or disabled selects
+        if (el.dataset.choicesInit) return;
+
+        el.dataset.choicesInit = 'true';
+
+        new Choices(el, {
+            searchEnabled: true,
+            searchPlaceholderValue: 'Rechercher...',
+            itemSelectText: '',
+            noResultsText: 'Aucun résultat',
+            shouldSort: false,
+            allowHTML: false,
+            removeItemButton: el.hasAttribute('multiple'),
+        });
+    });
+});
+</script>
+
 {{-- ===== Stack scripts from child templates (e.g., form JS) ===== --}}
 @stack('scripts')
 

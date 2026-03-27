@@ -67,7 +67,6 @@
 @endsection
 
 @section('scripts')
-<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 <script src="{{ asset('build/js/plugins/ckeditor/classic/ckeditor.js') }}"></script>
 
 <script>
@@ -81,25 +80,6 @@
     ClassicEditor
         .create(document.querySelector('#editor-en'))
         .catch(error => console.error(error));
-
-
-    // ===============================
-    // Choices.js – Fix select category
-    // ===============================
-    document.addEventListener("DOMContentLoaded", function () {
-        const element = document.getElementById('blog_category_id');
-
-        if (element) {
-            new Choices(element, {
-                searchPlaceholderValue: 'Rechercher...',
-                itemSelectText: 'Sélectionner',
-                shouldSort: false,
-            });
-
-            // HARD FIX : keep correct name="category_id"
-            element.setAttribute('name', 'category_id');
-        }
-    });
 
 
     // ===============================

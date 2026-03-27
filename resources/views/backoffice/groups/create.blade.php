@@ -8,7 +8,7 @@
 @section('css')
     <link rel="stylesheet" href="{{ URL::asset('build/css/plugins/style.css') }}">
     <link rel="stylesheet" href="{{ URL::asset('build/css/plugins/animate.min.css') }}">
-    <link rel="stylesheet" href="{{ URL::asset('build/css/plugins/flatpickr.min.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('build/css/plugins/datepicker-bs5.min.css') }}">
 @endsection
 
 @section('content')
@@ -73,7 +73,7 @@
 
 @section('scripts')
 <script src="{{ asset('build/js/plugins/ckeditor/classic/ckeditor.js') }}"></script>
-<script src="{{ URL::asset('build/js/plugins/flatpickr.min.js') }}"></script>
+<script src="{{ URL::asset('build/js/plugins/datepicker-full.min.js') }}"></script>
 
 <script>
     // CKEditor Init
@@ -81,57 +81,28 @@
         .create(document.querySelector('#group-description'))
         .catch(error => console.error(error));
 
-    // Date Range Picker Init
-    flatpickr("#date_range_picker", {
-    mode: "range",
-    dateFormat: "Y-m-d",
+    // Date Picker Init — BS5 datepicker, single start date, end auto-calculated (+10 months)
+    const dpEl = document.querySelector('#date_range_picker');
+    if (dpEl) {
+        const dp = new Datepicker(dpEl, {
+            buttonClass: 'btn',
+            format: 'yyyy-mm-dd',
+            autohide: true,
+            daysOfWeekDisabled: [0, 6],
+            todayHighlight: true,
+        });
 
-    // Style weekends visually
-    onDayCreate: function(dObj, dStr, fp, dayElem) {
-        const date = dayElem.dateObj;
-        const day = date.getDay();
-
-        if (day === 0 || day === 6) {
-            dayElem.classList.add("flatpickr-disabled-day"); 
-        }
-    },
-
-    // Prevent selecting weekend as start or end
-    onChange: function(selectedDates, dateStr, instance) {
-        if (selectedDates.length === 1) {
-            const day = selectedDates[0].getDay();
-
-            if (day === 0 || day === 6) {
-                alert("Vous ne pouvez pas choisir un weekend comme date de début.");
-                instance.clear();
-                return;
+        dpEl.addEventListener('changeDate', function (e) {
+            if (e.detail && e.detail.date) {
+                const d = e.detail.date;
+                const pad = n => String(n).padStart(2, '0');
+                const startYMD = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+                if (typeof window.__syncGroupDatesFromPicker === 'function') {
+                    window.__syncGroupDatesFromPicker(startYMD);
+                }
             }
-        }
-
-        if (selectedDates.length === 2) {
-            const start = selectedDates[0];
-            const end = selectedDates[1];
-
-            // Prevent weekend END date
-            if (end.getDay() === 0 || end.getDay() === 6) {
-                alert("Vous ne pouvez pas choisir un weekend comme date de fin.");
-                instance.setDate([start]); // reset end
-                return;
-            }
-
-            // Set hidden inputs
-            const startYMD = start.toISOString().split('T')[0];
-            const endYMD = end.toISOString().split('T')[0];
-            if (typeof window.__syncGroupDatesFromRange === 'function') {
-                window.__syncGroupDatesFromRange(startYMD, endYMD);
-            } else {
-                document.getElementById('date_debut_value').value = startYMD;
-                document.getElementById('date_fin_value').value = endYMD;
-            }
-        }
-    },
-});
-
+        });
+    }
 
     // Validation
     (function () {
@@ -161,12 +132,4 @@
         setTimeout(() => window.location.href = link.href, 800);
     }
 </script>
-<style>
-    .flatpickr-disabled-day {
-    background: #f5d7d7 !important;
-    color: #a33 !important;
-    border-radius: 6px;
-}
-
-</style>
 @endsection

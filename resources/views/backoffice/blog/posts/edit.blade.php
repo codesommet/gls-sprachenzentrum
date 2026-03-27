@@ -72,7 +72,6 @@
 
 
 @section('scripts')
-<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 <script src="{{ asset('build/js/plugins/ckeditor/classic/ckeditor.js') }}"></script>
 
 <script>
@@ -90,26 +89,6 @@
         .catch(error => {
             console.error('CKEditor EN error:', error);
         });
-
-
-    // =======================================
-    // Choices.js – Category select
-    // =======================================
-    document.addEventListener("DOMContentLoaded", function () {
-        const selectCategory = document.getElementById("blog_category_id");
-
-        if (selectCategory) {
-            new Choices(selectCategory, {
-                searchPlaceholderValue: 'Rechercher...',
-                noResultsText: 'Aucun résultat trouvé',
-                itemSelectText: 'Sélectionner',
-                shouldSort: false
-            });
-
-            // Force correct name (fix Choices removing it sometimes)
-            selectCategory.setAttribute('name', 'category_id');
-        }
-    });
 
 
     // =======================================

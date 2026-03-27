@@ -8,7 +8,7 @@
 @section('css')
     <link rel="stylesheet" href="{{ URL::asset('build/css/plugins/style.css') }}">
     <link rel="stylesheet" href="{{ URL::asset('build/css/plugins/animate.min.css') }}">
-    <link rel="stylesheet" href="{{ URL::asset('build/css/plugins/flatpickr.min.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('build/css/plugins/datepicker-bs5.min.css') }}">
 @endsection
 
 @section('content')
@@ -70,40 +70,35 @@
 
 @section('scripts')
 <script src="{{ asset('build/js/plugins/ckeditor/classic/ckeditor.js') }}"></script>
-<script src="{{ URL::asset('build/js/plugins/flatpickr.min.js') }}"></script>
+<script src="{{ URL::asset('build/js/plugins/datepicker-full.min.js') }}"></script>
 
 <script>
     ClassicEditor
         .create(document.querySelector('#group-description'))
         .catch(error => console.error(error));
 
-    // Date Range Picker Init for Edit
-    flatpickr("#date_range_picker", {
-        mode: "range",
-        dateFormat: "Y-m-d",
+    // Date Picker Init for Edit — BS5 datepicker, end auto-calculated (+10 months)
+    const dpEl = document.querySelector('#date_range_picker');
+    if (dpEl) {
+        const dp = new Datepicker(dpEl, {
+            buttonClass: 'btn',
+            format: 'yyyy-mm-dd',
+            autohide: true,
+            daysOfWeekDisabled: [0, 6],
+            todayHighlight: true,
+        });
 
-        disable: [
-            date => (date.getDay() === 0 || date.getDay() === 6)
-        ],
-
-        defaultDate: [
-            "{{ old('date_debut', $group->date_debut) }}",
-            "{{ old('date_fin', $group->date_fin) }}"
-        ].filter(Boolean),
-
-        onChange: function(selectedDates) {
-            if (selectedDates.length === 2) {
-                let start = selectedDates[0].toISOString().split('T')[0];
-                let end = selectedDates[1].toISOString().split('T')[0];
-                if (typeof window.__syncGroupDatesFromRange === 'function') {
-                    window.__syncGroupDatesFromRange(start, end);
-                } else {
-                    document.getElementById('date_debut_value').value = start;
-                    document.getElementById('date_fin_value').value = end;
+        dpEl.addEventListener('changeDate', function (e) {
+            if (e.detail && e.detail.date) {
+                const d = e.detail.date;
+                const pad = n => String(n).padStart(2, '0');
+                const startYMD = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+                if (typeof window.__syncGroupDatesFromPicker === 'function') {
+                    window.__syncGroupDatesFromPicker(startYMD);
                 }
             }
-        }
-    });
+        });
+    }
 
     // Validation
     (() => {
