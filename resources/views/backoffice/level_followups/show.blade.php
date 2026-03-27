@@ -200,8 +200,8 @@
                                         <td class="followup-level-cell">{{ $f->level }}</td>
                                         <td>{{ $start ? $start->format('d/m/Y') : '-' }}</td>
                                         <td>
-                                            @if($finishedAt)
-                                                <small class="text-success fw-bold">Termine le {{ $finishedAt->format('d/m/Y') }}</small>
+                                            @if($f->status === 'done')
+                                                <small class="text-success fw-bold">Termine le {{ $end ? $end->format('d/m/Y') : '-' }}</small>
                                             @elseif($isOverdue)
                                                 <small class="text-danger fw-bold"><i class="ti ti-alert-triangle"></i> En retard!</small>
                                             @elseif($isUrgent)

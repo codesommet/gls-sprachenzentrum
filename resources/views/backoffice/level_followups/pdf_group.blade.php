@@ -134,8 +134,8 @@
             <td><strong>{{ $f->level }}</strong></td>
             <td>{{ $start ? $start->format('d/m/Y') : '-' }}</td>
             <td>
-                @if($finishedAt)
-                    <span style="color:#065f46;">Termine le {{ $finishedAt->format('d/m/Y') }}</span>
+                @if($f->status === 'done')
+                    <span style="color:#065f46;">Termine le {{ $end ? $end->format('d/m/Y') : '-' }}</span>
                 @elseif($isOverdue)
                     <span style="color:#991b1b;">En retard!</span>
                 @elseif($isUrgent)

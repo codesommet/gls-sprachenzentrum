@@ -306,6 +306,9 @@
       } else if (lvl === 'B2') {
         segEnd = addMonthsSafe(segEnd, 3);
       }
+      // Inclusive end: start + duration - 1 day
+      segEnd.setDate(segEnd.getDate() - 1);
+      // Next level starts the day after end
       segStart = new Date(segEnd);
       segStart.setDate(segStart.getDate() + 1);
     }
