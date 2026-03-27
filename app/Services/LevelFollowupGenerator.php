@@ -42,6 +42,18 @@ class LevelFollowupGenerator
     }
 
     /**
+     * Advance to the next weekday (skip Saturday/Sunday).
+     */
+    private function nextWeekday(Carbon $date): Carbon
+    {
+        $d = $date->copy();
+        while ($d->isWeekend()) {
+            $d->addDay();
+        }
+        return $d;
+    }
+
+    /**
      * Generate followups for a single group (idempotent).
      */
     public function generateForGroup(Group $group): void
@@ -61,12 +73,23 @@ class LevelFollowupGenerator
         $levels = array_slice($this->order, $startIndex);
         $segmentCount = count($levels);
 
-        DB::transaction(function () use ($group, $levels, $segmentCount, $startDate) {
+        // Load existing done records to respect early completions
+        $existingByLevel = GroupLevelFollowup::query()
+            ->where('group_id', $group->id)
+            ->get()
+            ->keyBy('level');
+
+        DB::transaction(function () use ($group, $levels, $segmentCount, $startDate, $existingByLevel) {
             $computed = [];
             $segStart = $startDate->copy();
 
             for ($i = 0; $i < $segmentCount; $i++) {
                 $level = $levels[$i];
+                $existing = $existingByLevel->get($level);
+
+                // If previous level was completed early, segStart may fall on a weekend
+                $segStart = $this->nextWeekday($segStart);
+
                 $segEnd = $segStart->copy();
 
                 if ($level === 'A1') {
@@ -86,6 +109,12 @@ class LevelFollowupGenerator
                 $status = $isPast ? 'done' : 'pending';
                 $doneAt = $isPast ? $segEnd->toDateString() : null;
 
+                // If already manually marked done, keep that done_at
+                if ($existing && $existing->status === 'done' && $existing->done_at) {
+                    $status = 'done';
+                    $doneAt = $existing->done_at;
+                }
+
                 $computed[] = [
                     'level' => $level,
                     'level_start_date' => $segStart->toDateString(),
@@ -95,7 +124,12 @@ class LevelFollowupGenerator
                     'done_at' => $doneAt,
                 ];
 
-                $segStart = $segEnd->copy()->addDay();
+                // Next level starts the day after done_at (if completed early) or after segEnd
+                if ($status === 'done' && $doneAt) {
+                    $segStart = Carbon::parse($doneAt)->startOfDay()->addDay();
+                } else {
+                    $segStart = $segEnd->copy()->addDay();
+                }
             }
 
             // Update the group's end date to match the calculated end date of the last level segment.

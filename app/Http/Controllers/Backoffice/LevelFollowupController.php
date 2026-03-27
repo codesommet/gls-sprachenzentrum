@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Group;
 use App\Models\GroupLevelFollowup;
 use App\Models\Site;
+use App\Services\LevelFollowupGenerator;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -185,6 +186,11 @@ class LevelFollowupController extends Controller
             'done_at' => now(),
             'done_notes' => $validated['done_notes'] ?? null,
         ]);
+
+        // Recalculate subsequent levels so the next one starts the day after done_at
+        if ($followup->group) {
+            (new LevelFollowupGenerator())->generateForGroup($followup->group);
+        }
 
         return back()->with('success', "Niveau {$followup->level} marque comme termine.");
     }
