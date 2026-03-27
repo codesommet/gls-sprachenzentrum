@@ -200,13 +200,14 @@
                                         <td class="followup-level-cell">{{ $f->level }}</td>
                                         <td>{{ $start ? $start->format('d/m/Y') : '-' }}</td>
                                         <td>
-                                            {{ $end ? $end->format('d/m/Y') : '-' }}
                                             @if($finishedAt)
-                                                <br><small class="text-success fw-bold">Termine le {{ $finishedAt->format('d/m/Y') }}</small>
+                                                <small class="text-success fw-bold">Termine le {{ $finishedAt->format('d/m/Y') }}</small>
                                             @elseif($isOverdue)
-                                                <br><small class="text-danger fw-bold"><i class="ti ti-alert-triangle"></i> En retard!</small>
+                                                <small class="text-danger fw-bold"><i class="ti ti-alert-triangle"></i> En retard!</small>
                                             @elseif($isUrgent)
-                                                <br><small class="text-warning fw-bold"><i class="ti ti-clock"></i> {{ $daysLeft }} jours restants</small>
+                                                <small class="text-warning fw-bold"><i class="ti ti-clock"></i> {{ (int) $daysLeft }} jours restants</small>
+                                            @else
+                                                {{ $end ? $end->format('d/m/Y') : '-' }}
                                             @endif
                                         </td>
                                         <td>
