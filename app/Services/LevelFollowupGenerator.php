@@ -15,17 +15,6 @@ class LevelFollowupGenerator
     private array $order = ['A1', 'A2', 'B1', 'B2'];
 
     /**
-     * Base "month weights" for each level segment.
-     * (2 / 2.5 / 2.5 / 3)
-     */
-    private array $weights = [
-        'A1' => 2.0,
-        'A2' => 2.5,
-        'B1' => 2.5,
-        'B2' => 3.0,
-    ];
-
-    /**
      * Generate followups for all active groups (idempotent).
      */
     public function generateAllActive(): void
@@ -76,16 +65,16 @@ class LevelFollowupGenerator
                 $level = $levels[$i];
                 $existing = $existingByLevel->get($level);
 
-                // Strict durations: A1=2m, A2=2m+15d, B1=2m+15d, B2=3m
+                // Inclusive end date = start + duration - 1 day
                 $segEnd = $segStart->copy();
                 if ($level === 'A1') {
-                    $segEnd->addMonthsNoOverflow(2);
+                    $segEnd->addMonthsNoOverflow(2)->subDay();
                 } elseif ($level === 'A2') {
-                    $segEnd->addMonthsNoOverflow(2)->addDays(15);
+                    $segEnd->addMonthsNoOverflow(2)->addDays(15)->subDay();
                 } elseif ($level === 'B1') {
-                    $segEnd->addMonthsNoOverflow(2)->addDays(15);
+                    $segEnd->addMonthsNoOverflow(2)->addDays(15)->subDay();
                 } elseif ($level === 'B2') {
-                    $segEnd->addMonthsNoOverflow(3);
+                    $segEnd->addMonthsNoOverflow(3)->subDay();
                 }
                 $segEnd->startOfDay();
 
