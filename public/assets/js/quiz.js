@@ -421,6 +421,12 @@
       if ($hero) $hero.style.display = 'none';
       if ($startTitle) $startTitle.style.display = 'none';
       if ($startSubtitle) $startSubtitle.style.display = 'none';
+      // Track quiz start via gtag
+      if (window.gtag && window.__QUIZ_LEVEL__) {
+        gtag('event', 'niveau_test_started', {
+          quiz_level: window.__QUIZ_LEVEL__,
+        });
+      }
       goToStep(0);
     });
   }

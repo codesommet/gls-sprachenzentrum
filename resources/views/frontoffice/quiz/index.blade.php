@@ -251,12 +251,24 @@
             secondsPerQuestion: {{ $perQuestion }},
             autoNextOnTimeout: true
         };
+        window.__QUIZ_LEVEL__ = @json($quizLevel ?? 'A1');
         window.__QUIZ_I18N__ = {
             placeholder: @json(__('quiz/level_test.interface.shortcut_select')),
             flagAdd: @json(__('quiz/level_test.interface.flag_btn')),
         };
         @if(!empty($quizResult))
             window.__QUIZ_HAS_RESULT__ = true;
+            {{-- Track quiz completion via Google Ads gtag --}}
+            document.addEventListener('DOMContentLoaded', function () {
+                if (window.gtag) {
+                    gtag('event', 'niveau_test_completed', {
+                        quiz_level: @json($quizResult['quiz_level'] ?? $quizLevel),
+                        score_correct: {{ $quizResult['correct'] ?? 0 }},
+                        score_total: {{ $quizResult['total'] ?? 0 }},
+                        score_percent: {{ $quizResult['percent'] ?? 0 }},
+                    });
+                }
+            });
         @endif
     </script>
 
