@@ -111,6 +111,42 @@
     @php
         $formationStart = $group->date_debut ? \Carbon\Carbon::parse($group->date_debut) : null;
         $formationEnd = $group->date_fin ? \Carbon\Carbon::parse($group->date_fin) : null;
+
+        // Count only weekdays (Mon-Fri)
+        $countWeekdays = function($from, $to) {
+            $count = 0;
+            $cur = $from->copy();
+            while ($cur->lte($to)) {
+                if (!$cur->isWeekend()) {
+                    $count++;
+                }
+                $cur->addDay();
+            }
+            return $count;
+        };
+
+        $totalDays = 0;
+        $elapsedDays = 0;
+
+        foreach ($followups as $seg) {
+            $segStart = $seg->level_start_date ? \Carbon\Carbon::parse($seg->level_start_date)->startOfDay() : null;
+            $segEnd = $seg->level_end_date ? \Carbon\Carbon::parse($seg->level_end_date)->startOfDay() : null;
+            if (!$segStart || !$segEnd || $segEnd->lt($segStart)) continue;
+
+            $segDays = $countWeekdays($segStart, $segEnd);
+            $totalDays += $segDays;
+
+            if ($now->lt($segStart)) continue;
+
+            if ($now->gt($segEnd)) {
+                $elapsedDays += $segDays;
+                continue;
+            }
+
+            $elapsedDays += $countWeekdays($segStart, $now->copy()->startOfDay());
+        }
+
+        $progress = $totalDays > 0 ? (int) round(($elapsedDays / $totalDays) * 100) : 0;
     @endphp
 
     <div class="row">
@@ -165,8 +201,11 @@
                             <div class="followup-meta-value">{{ $formationEnd ? $formationEnd->format('d/m/Y') : '-' }}</div>
                         </div>
                         <div class="followup-meta-item">
-                            <span class="followup-meta-label">Total niveaux</span>
-                            <div class="followup-meta-value">{{ $followups->count() }}</div>
+                            <span class="followup-meta-label">Progression</span>
+                            <div class="followup-meta-value">{{ $progress }}%</div>
+                            <div style="height:6px;background:#e5e7eb;border-radius:99px;margin-top:8px;">
+                                <div style="height:6px;background:#10b981;border-radius:99px;width:{{ $progress }}%;"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -180,7 +219,8 @@
                                 <tr>
                                     <th>Niveau</th>
                                     <th>Debut niveau</th>
-                                    <th>Date termine</th>
+                                    <th>Fin niveau</th>
+                                    <th>Jours restants</th>
                                     <th>Statut</th>
                                     <th>Notes</th>
                                 </tr>
@@ -192,22 +232,23 @@
                                         $end = $f->level_end_date ? \Carbon\Carbon::parse($f->level_end_date) : null;
                                         $finishedAt = $f->done_at ? \Carbon\Carbon::parse($f->done_at) : null;
                                         $isCurrent = $f->status !== 'done' && $start && $end && $now->betweenIncluded($start->copy()->startOfDay(), $end->copy()->endOfDay());
-                                        $daysLeft = ($isCurrent && $end) ? $now->diffInDays($end, false) : null;
+                                        $daysLeft = ($isCurrent && $end) ? (int) $now->copy()->startOfDay()->diffInDays($end->copy()->startOfDay()) : null;
                                         $isUrgent = $daysLeft !== null && $daysLeft <= 14 && $daysLeft >= 0;
                                         $isOverdue = $f->status !== 'done' && $end && $now->gt($end->copy()->endOfDay());
                                     @endphp
                                     <tr>
                                         <td class="followup-level-cell">{{ $f->level }}</td>
                                         <td>{{ $start ? $start->format('d/m/Y') : '-' }}</td>
+                                        <td>{{ $end ? $end->format('d/m/Y') : '-' }}</td>
                                         <td>
                                             @if($f->status === 'done')
-                                                <small class="text-success fw-bold">Termine le {{ $end ? $end->format('d/m/Y') : '-' }}</small>
+                                                <small class="text-success fw-bold">Termine le {{ $finishedAt ? $finishedAt->format('d/m/Y') : ($end ? $end->format('d/m/Y') : '-') }}</small>
                                             @elseif($isOverdue)
                                                 <small class="text-danger fw-bold"><i class="ti ti-alert-triangle"></i> En retard!</small>
-                                            @elseif($isUrgent)
-                                                <small class="text-warning fw-bold"><i class="ti ti-clock"></i> {{ (int) $daysLeft }} jours restants</small>
+                                            @elseif($isCurrent)
+                                                <small class="text-warning fw-bold"><i class="ti ti-clock"></i> {{ $daysLeft }} jour(s) restant(s)</small>
                                             @else
-                                                {{ $end ? $end->format('d/m/Y') : '-' }}
+                                                -
                                             @endif
                                         </td>
                                         <td>
@@ -236,7 +277,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5" class="text-center text-muted py-4">
+                                        <td colspan="6" class="text-center text-muted py-4">
                                             Aucun suivi niveau trouve pour ce groupe.
                                         </td>
                                     </tr>

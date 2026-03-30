@@ -41,6 +41,19 @@
     $formationStart = $group->date_debut ? \Carbon\Carbon::parse($group->date_debut) : null;
     $formationEnd = $group->date_fin ? \Carbon\Carbon::parse($group->date_fin) : null;
 
+    // Count only weekdays (Mon-Fri)
+    $countWeekdays = function($from, $to) {
+        $count = 0;
+        $cur = $from->copy();
+        while ($cur->lte($to)) {
+            if (!$cur->isWeekend()) {
+                $count++;
+            }
+            $cur->addDay();
+        }
+        return $count;
+    };
+
     $totalDays = 0;
     $elapsedDays = 0;
 
@@ -49,7 +62,7 @@
         $segEnd = $seg->level_end_date ? \Carbon\Carbon::parse($seg->level_end_date)->startOfDay() : null;
         if (!$segStart || !$segEnd || $segEnd->lt($segStart)) continue;
 
-        $segDays = $segStart->diffInDays($segEnd);
+        $segDays = $countWeekdays($segStart, $segEnd);
         $totalDays += $segDays;
 
         if ($now->lt($segStart)) {
@@ -61,7 +74,7 @@
             continue;
         }
 
-        $elapsedDays += $segStart->diffInDays($now);
+        $elapsedDays += $countWeekdays($segStart, $now->copy()->startOfDay());
     }
 
     $progress = $totalDays > 0 ? (int) round(($elapsedDays / $totalDays) * 100) : 0;
@@ -112,6 +125,7 @@
     <tr>
         <th>Niveau</th>
         <th>Début niveau</th>
+        <th>Fin niveau</th>
         <th>Date terminé</th>
         <th>Statut</th>
         <th>Notes</th>
@@ -126,22 +140,23 @@
             $isCurrent = $start && $end && $now->betweenIncluded($start, $end) && $f->status !== 'done';
         @endphp
         @php
-            $daysLeft = ($isCurrent && $end) ? (int) $now->diffInDays($end, false) : null;
+            $daysLeft = ($isCurrent && $end) ? (int) $now->copy()->startOfDay()->diffInDays($end->copy()->startOfDay()) : null;
             $isUrgent = $daysLeft !== null && $daysLeft <= 14 && $daysLeft >= 0;
             $isOverdue = $f->status !== 'done' && $end && $now->gt($end->copy()->endOfDay());
         @endphp
         <tr>
             <td><strong>{{ $f->level }}</strong></td>
             <td>{{ $start ? $start->format('d/m/Y') : '-' }}</td>
+            <td>{{ $end ? $end->format('d/m/Y') : '-' }}</td>
             <td>
                 @if($f->status === 'done')
-                    <span style="color:#065f46;">Termine le {{ $end ? $end->format('d/m/Y') : '-' }}</span>
+                    <span style="color:#065f46;">Termine le {{ $finishedAt ? $finishedAt->format('d/m/Y') : ($end ? $end->format('d/m/Y') : '-') }}</span>
                 @elseif($isOverdue)
                     <span style="color:#991b1b;">En retard!</span>
-                @elseif($isUrgent)
-                    <span style="color:#92400e;">{{ $daysLeft }} jours restants</span>
+                @elseif($isCurrent)
+                    <span style="color:#92400e;">{{ $daysLeft }} jour(s) restant(s)</span>
                 @else
-                    {{ $end ? $end->format('d/m/Y') : '-' }}
+                    -
                 @endif
             </td>
             <td>
@@ -159,7 +174,7 @@
         </tr>
     @empty
         <tr>
-            <td colspan="5" class="muted">Aucun suivi niveau trouvé pour ce groupe.</td>
+            <td colspan="6" class="muted">Aucun suivi niveau trouvé pour ce groupe.</td>
         </tr>
     @endforelse
     </tbody>
