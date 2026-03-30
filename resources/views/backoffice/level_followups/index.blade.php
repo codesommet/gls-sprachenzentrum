@@ -320,6 +320,15 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="col-md-4 col-lg-3">
+                            <label class="form-label">Prof</label>
+                            <select name="teacher" class="form-select">
+                                <option value="">Tous les profs</option>
+                                @foreach($teachers as $teacher)
+                                    <option value="{{ $teacher->id }}" @selected((string) request('teacher') === (string) $teacher->id)>{{ $teacher->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="col-md-auto">
                             <button type="submit" class="btn btn-primary">Filtrer</button>
                             <a href="{{ route('backoffice.level_followups.index') }}" class="btn btn-light-secondary">Reset</a>

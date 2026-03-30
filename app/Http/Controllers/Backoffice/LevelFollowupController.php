@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Group;
 use App\Models\GroupLevelFollowup;
 use App\Models\Site;
+use App\Models\Teacher;
 use App\Services\LevelFollowupGenerator;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -28,8 +29,15 @@ class LevelFollowupController extends Controller
             });
         }
 
+        if ($request->filled('teacher')) {
+            $query->whereHas('group.teacher', function ($teacherQuery) use ($request) {
+                $teacherQuery->where('id', $request->teacher);
+            });
+        }
+
         $followups = $query->get();
         $sites = Site::query()->orderBy('name')->get();
+        $teachers = Teacher::query()->orderBy('name')->get();
 
         $rows = $followups
             ->groupBy('group_id')
@@ -79,6 +87,7 @@ class LevelFollowupController extends Controller
             'dueFollowups' => $dueRows,
             'levelFollowupsByGroup' => $followups->groupBy('group_id'),
             'sites' => $sites,
+            'teachers' => $teachers,
             'now' => $now,
         ]);
     }
