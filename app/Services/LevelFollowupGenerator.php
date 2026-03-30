@@ -78,10 +78,11 @@ class LevelFollowupGenerator
                 }
                 $segEnd->startOfDay();
 
-                $status = 'pending';
-                $doneAt = null;
+                // Auto-mark past levels as done; keep manual done_at if exists
+                $isPast = $segEnd->copy()->endOfDay()->isPast();
+                $status = $isPast ? 'done' : 'pending';
+                $doneAt = $isPast ? $segEnd->toDateString() : null;
 
-                // Only keep manually marked done status
                 if ($existing && $existing->status === 'done' && $existing->done_at) {
                     $status = 'done';
                     $doneAt = $existing->done_at;
@@ -96,8 +97,12 @@ class LevelFollowupGenerator
                     'done_at' => $doneAt,
                 ];
 
-                // Next level starts day after
-                $segStart = $segEnd->copy()->addDay();
+                // Next level starts day after done_at (if completed early) or after segEnd
+                if ($status === 'done' && $doneAt) {
+                    $segStart = Carbon::parse($doneAt)->startOfDay()->addDay();
+                } else {
+                    $segStart = $segEnd->copy()->addDay();
+                }
             }
 
             // Update the group's end date from the last level
