@@ -41,7 +41,7 @@ class ConsultationController extends Controller
         SyncLeadToGoogleSheetJob::dispatch($consultation);
 
         // Admin email
-        Mail::to('mehdivermittlung@gmail.com')
+        Mail::to('info@glssprachenzentrum.ma')
             ->send(new ConsultationAdminMail($consultation));
 
         // Client confirmation email
