@@ -50,6 +50,24 @@ class GlsController extends Controller
         try {
             $inscription = GlsInscription::create($validated);
         } catch (QueryException $e) {
+            // Handle duplicate email constraint violation gracefully
+            if ($e->errorInfo[1] == 1062) {
+                Log::info('GLS inscription duplicate email', ['email' => $validated['email']]);
+
+                $dupMsg = 'Vous êtes déjà inscrit(e) avec cet email. Veuillez nous contacter directement pour toute modification.';
+
+                if ($request->expectsJson()) {
+                    return response()->json([
+                        'success' => false,
+                        'status'  => 'duplicate',
+                        'message' => $dupMsg,
+                        'errors'  => ['email' => [$dupMsg]],
+                    ], 409);
+                }
+
+                return back()->withInput()->withErrors(['email' => $dupMsg]);
+            }
+
             Log::error('GLS inscription error', [
                 'message'    => $e->getMessage(),
                 'email'      => $validated['email'] ?? null,
