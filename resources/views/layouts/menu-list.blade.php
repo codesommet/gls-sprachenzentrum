@@ -91,9 +91,14 @@
                 <span class="pc-mtext">Applications</span>
             </a>
         </li>
-        <li class="pc-item {{ request()->routeIs('backoffice.leads.*') ? 'active' : '' }}">
-            <a href="{{ route('backoffice.leads.index') }}" class="pc-link {{ request()->routeIs('backoffice.leads.*') ? 'active' : '' }}">
+        <li class="pc-item {{ request()->routeIs('backoffice.leads.index') ? 'active' : '' }}">
+            <a href="{{ route('backoffice.leads.index') }}" class="pc-link {{ request()->routeIs('backoffice.leads.index') ? 'active' : '' }}">
                 <span class="pc-mtext">Leads</span>
+            </a>
+        </li>
+        <li class="pc-item {{ request()->routeIs('backoffice.leads.stats') ? 'active' : '' }}">
+            <a href="{{ route('backoffice.leads.stats') }}" class="pc-link {{ request()->routeIs('backoffice.leads.stats') ? 'active' : '' }}">
+                <span class="pc-mtext">Statistiques Leads</span>
             </a>
         </li>
     </ul>

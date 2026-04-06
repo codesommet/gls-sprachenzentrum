@@ -6,7 +6,6 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ URL::asset('build/css/plugins/style.css') }}">
-    <link rel="stylesheet" href="{{ URL::asset('build/css/plugins/apexcharts.css') }}">
 @endsection
 
 @php
@@ -39,27 +38,40 @@
             {{-- Centre Filter --}}
             <div class="card mb-4">
                 <div class="card-body py-3">
-                    <form method="GET" action="{{ route('backoffice.leads.index') }}" class="d-flex align-items-center gap-3 flex-wrap">
+                    <form method="GET" action="{{ route('backoffice.leads.index') }}">
                         <input type="hidden" name="tab" value="{{ $tab }}">
-                        <label class="fw-semibold mb-0"><i class="ti ti-filter me-1"></i> Filtrer par centre :</label>
-                        <select name="centre" class="form-select" style="width: auto; min-width: 200px;" onchange="this.form.submit()">
-                            <option value="all" {{ $centreFilter === 'all' ? 'selected' : '' }}>
-                                Tous les centres
-                            </option>
-                            <option value="online" {{ $centreFilter === 'online' ? 'selected' : '' }}>
-                                En ligne ({{ $centreCounts[0] ?? 0 }})
-                            </option>
-                            @foreach($sites as $site)
-                                <option value="{{ $site->id }}" {{ $centreFilter == $site->id ? 'selected' : '' }}>
-                                    {{ $site->name }} ({{ $centreCounts[$site->id] ?? 0 }})
-                                </option>
-                            @endforeach
-                        </select>
-                        @if($centreFilter !== 'all')
-                            <a href="{{ route('backoffice.leads.index', ['tab' => $tab]) }}" class="btn btn-outline-secondary btn-sm">
-                                <i class="ti ti-x me-1"></i> Reset
-                            </a>
-                        @endif
+                        <div class="row g-2 align-items-end">
+                            <div class="col-12 col-sm-auto">
+                                <label class="form-label fw-semibold mb-1"><i class="ti ti-filter me-1"></i> Filtrer par centre</label>
+                            </div>
+                            <div class="col-12 col-sm">
+                                <select name="centre" class="form-select" onchange="this.form.submit()">
+                                    <option value="all" {{ $centreFilter === 'all' ? 'selected' : '' }}>
+                                        Tous les centres
+                                    </option>
+                                    <option value="online" {{ $centreFilter === 'online' ? 'selected' : '' }}>
+                                        En ligne ({{ $centreCounts[0] ?? 0 }})
+                                    </option>
+                                    @foreach($sites as $site)
+                                        <option value="{{ $site->id }}" {{ $centreFilter == $site->id ? 'selected' : '' }}>
+                                            {{ $site->name }} ({{ $centreCounts[$site->id] ?? 0 }})
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @if($centreFilter !== 'all')
+                                <div class="col-12 col-sm-auto">
+                                    <a href="{{ route('backoffice.leads.index', ['tab' => $tab]) }}" class="btn btn-outline-secondary w-100">
+                                        <i class="ti ti-x me-1"></i> Reset
+                                    </a>
+                                </div>
+                            @endif
+                            <div class="col-12 col-sm-auto">
+                                <a href="{{ route('backoffice.leads.stats', ['centre' => $centreFilter]) }}" class="btn btn-primary w-100">
+                                    <i class="ti ti-chart-bar me-1"></i> Statistiques
+                                </a>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -125,23 +137,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            {{-- Monthly Leads Chart --}}
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h5 class="mb-0">
-                        <i class="ti ti-chart-bar me-1"></i> Statistiques des Leads par Mois
-                        @if($centreFilter !== 'all')
-                            <span class="badge bg-primary ms-2">
-                                {{ $centreFilter === 'online' ? 'En ligne' : $sites->firstWhere('id', $centreFilter)?->name }}
-                            </span>
-                        @endif
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <div id="leads-monthly-chart" style="min-height: 350px;"></div>
                 </div>
             </div>
 
@@ -382,7 +377,6 @@
 
 @section('scripts')
     <script src="{{ URL::asset('build/js/plugins/simple-datatables.js') }}"></script>
-    <script src="{{ URL::asset('build/js/plugins/apexcharts.min.js') }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const el = document.getElementById('pc-dt-simple');
@@ -390,63 +384,6 @@
 
             const toastEl = document.getElementById('liveToast');
             if (toastEl) new bootstrap.Toast(toastEl).show();
-
-            // Monthly Leads Chart
-            var chartEl = document.getElementById('leads-monthly-chart');
-            if (chartEl && typeof ApexCharts !== 'undefined') {
-                var monthlyData = @json($monthlyStats);
-                var options = {
-                    chart: {
-                        type: 'bar',
-                        height: 350,
-                        toolbar: { show: true },
-                        stacked: false,
-                    },
-                    series: [
-                        {
-                            name: 'Inscriptions',
-                            data: monthlyData.map(function(m) { return m.inscriptions; }),
-                            color: '#2ca87f',
-                        },
-                        {
-                            name: 'Consultations',
-                            data: monthlyData.map(function(m) { return m.consultations; }),
-                            color: '#3ec9d6',
-                        },
-                        {
-                            name: 'Applications',
-                            data: monthlyData.map(function(m) { return m.applications; }),
-                            color: '#e58a00',
-                        }
-                    ],
-                    xaxis: {
-                        categories: monthlyData.map(function(m) { return m.label; }),
-                    },
-                    yaxis: {
-                        title: { text: 'Nombre de Leads' },
-                        forceNiceScale: true,
-                        min: 0,
-                    },
-                    plotOptions: {
-                        bar: {
-                            columnWidth: '50%',
-                            borderRadius: 4,
-                        }
-                    },
-                    dataLabels: {
-                        enabled: true,
-                        style: { fontSize: '12px' },
-                    },
-                    legend: {
-                        position: 'top',
-                    },
-                    tooltip: {
-                        shared: true,
-                        intersect: false,
-                    },
-                };
-                new ApexCharts(chartEl, options).render();
-            }
         });
     </script>
 @endsection

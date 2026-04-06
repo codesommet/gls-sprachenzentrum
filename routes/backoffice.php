@@ -202,6 +202,7 @@ Route::prefix('backoffice')
             ->name('leads.')
             ->group(function () {
                 Route::get('/', [LeadController::class, 'index'])->name('index');
+                Route::get('/statistiques', [LeadController::class, 'stats'])->name('stats');
                 Route::delete('/consultation/{consultation}', [LeadController::class, 'destroyConsultation'])->name('consultation.destroy');
                 Route::delete('/inscription/{inscription}', [LeadController::class, 'destroyInscription'])->name('inscription.destroy');
                 Route::delete('/application/{application}', [LeadController::class, 'destroyApplication'])->name('application.destroy');

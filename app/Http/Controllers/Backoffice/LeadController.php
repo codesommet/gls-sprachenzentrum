@@ -48,11 +48,31 @@ class LeadController extends Controller
             ->groupBy('centre')
             ->pluck('total', 'centre');
 
-        // Monthly stats for chart (last 6 months)
+        return view('backoffice.leads.index', compact(
+            'tab',
+            'consultations',
+            'inscriptions',
+            'applications',
+            'sites',
+            'centreFilter',
+            'centreCounts',
+        ));
+    }
+
+    public function stats(Request $request)
+    {
+        $centreFilter = $request->get('centre', 'all');
+        $sites = Site::where('is_active', true)->orderBy('name')->get();
+
+        // Counts per centre
+        $centreCounts = GlsInscription::selectRaw('centre, COUNT(*) as total')
+            ->groupBy('centre')
+            ->pluck('total', 'centre');
+
+        // Monthly stats (last 12 months)
         $monthlyStats = [];
-        for ($i = 5; $i >= 0; $i--) {
+        for ($i = 11; $i >= 0; $i--) {
             $date = Carbon::now()->subMonths($i);
-            $month = $date->format('Y-m');
             $label = $date->translatedFormat('M Y');
 
             $inscQuery = GlsInscription::whereYear('created_at', $date->year)
@@ -84,15 +104,33 @@ class LeadController extends Controller
             ];
         }
 
-        return view('backoffice.leads.index', compact(
-            'tab',
-            'consultations',
-            'inscriptions',
-            'applications',
+        // Per-centre breakdown
+        $centreStats = [];
+        foreach ($sites as $site) {
+            $centreStats[] = [
+                'name' => $site->name,
+                'total' => $centreCounts[$site->id] ?? 0,
+            ];
+        }
+        $centreStats[] = [
+            'name' => 'En ligne',
+            'total' => $centreCounts[0] ?? 0,
+        ];
+
+        // Totals
+        $totalInscriptions = GlsInscription::count();
+        $totalConsultations = Consultation::count();
+        $totalApplications = GroupApplication::count();
+
+        return view('backoffice.leads.stats', compact(
             'sites',
             'centreFilter',
             'centreCounts',
             'monthlyStats',
+            'centreStats',
+            'totalInscriptions',
+            'totalConsultations',
+            'totalApplications',
         ));
     }
 
