@@ -17,8 +17,10 @@ class LeadController extends Controller
         $tab = $request->get('tab', 'consultations');
         $centreFilter = $request->get('centre', 'all');
 
-        // Get all active sites for the filter dropdown
-        $sites = Site::where('is_active', true)->orderBy('name')->get();
+        // Get all active sites for the filter dropdown (exclude "Online" site — handled separately as "En ligne")
+        $sites = Site::where('is_active', true)
+            ->where('slug', 'not like', '%online%')
+            ->orderBy('name')->get();
 
         // Build queries with optional centre filter
         $inscriptionsQuery = GlsInscription::with('site')->latest();
@@ -62,7 +64,9 @@ class LeadController extends Controller
     public function stats(Request $request)
     {
         $centreFilter = $request->get('centre', 'all');
-        $sites = Site::where('is_active', true)->orderBy('name')->get();
+        $sites = Site::where('is_active', true)
+            ->where('slug', 'not like', '%online%')
+            ->orderBy('name')->get();
 
         // Counts per centre
         $centreCounts = GlsInscription::selectRaw('centre, COUNT(*) as total')
@@ -104,18 +108,21 @@ class LeadController extends Controller
             ];
         }
 
-        // Per-centre breakdown
+        // Per-centre breakdown (exclude the "Online" site to avoid duplicate with "En ligne")
         $centreStats = [];
+        $centreStats[] = [
+            'name' => 'En ligne',
+            'total' => $centreCounts[0] ?? 0,
+        ];
         foreach ($sites as $site) {
+            if (str_contains(strtolower($site->slug ?? $site->name), 'online')) {
+                continue;
+            }
             $centreStats[] = [
                 'name' => $site->name,
                 'total' => $centreCounts[$site->id] ?? 0,
             ];
         }
-        $centreStats[] = [
-            'name' => 'En ligne',
-            'total' => $centreCounts[0] ?? 0,
-        ];
 
         // Totals
         $totalInscriptions = GlsInscription::count();
