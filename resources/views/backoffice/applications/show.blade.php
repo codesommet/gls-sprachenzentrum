@@ -2,6 +2,7 @@
 
 @section('title', 'Détails Application')
 @section('breadcrumb-item', 'Applications')
+@section('breadcrumb-item-link', route('backoffice.applications.index'))
 @section('breadcrumb-item-active', 'Détails')
 
 @section('css')

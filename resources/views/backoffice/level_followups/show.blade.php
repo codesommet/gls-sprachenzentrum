@@ -1,7 +1,8 @@
 @extends('layouts.main')
 
 @section('title', 'Detail suivi niveau')
-@section('breadcrumb-item', 'Dashboard')
+@section('breadcrumb-item', 'Suivi niveau')
+@section('breadcrumb-item-link', route('backoffice.level_followups.index'))
 @section('breadcrumb-item-active', 'Detail suivi niveau')
 
 @section('css')

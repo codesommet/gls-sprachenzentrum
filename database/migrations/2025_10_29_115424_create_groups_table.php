@@ -12,7 +12,7 @@ return new class extends Migration {
 
             // Relations
             $table->foreignId('site_id')->constrained('sites')->cascadeOnDelete();
-            $table->foreignId('teacher_id')->constrained('teachers')->cascadeOnDelete();
+            $table->foreignId('teacher_id')->nullable()->constrained('teachers')->nullOnDelete();
 
             // Default name
             $table->string('name'); // fallback
@@ -20,8 +20,8 @@ return new class extends Migration {
             // Multi-lang names
             $table->string('name_fr')->nullable();
             $table->string('name_en')->nullable();
-            $table->string('name_ar')->nullable(); // future
-            $table->string('name_de')->nullable(); // future
+            $table->string('name_ar')->nullable();
+            $table->string('name_de')->nullable();
 
             // Level (FIXED: A1 → B2 ONLY)
             $table->enum('level', ['A1', 'A2', 'B1', 'B2']);
@@ -41,9 +41,7 @@ return new class extends Migration {
             $table->index('site_id');
             $table->index('teacher_id');
 
-            /********************************************
-             * SUIVI DU GROUPE (new section added)
-             ********************************************/
+            // Suivi du groupe
             $table->date('date_debut')->nullable();
             $table->date('date_fin')->nullable();
         });

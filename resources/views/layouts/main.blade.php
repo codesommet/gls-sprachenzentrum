@@ -26,8 +26,8 @@
 
     <style>
         .logo-lg {
-            width: 160px !important;
-            height: 60px !important;
+            width: 140px !important;
+            height: 50px !important;
             object-fit: contain !important;
             display: block !important;
         }
@@ -41,9 +41,95 @@
 
         img[src*="assets/images/logo/gls.png"],
         img[src$="gls.png"] {
-            width: 160px !important;
-            height: 60px !important;
+            width: 140px !important;
+            height: 50px !important;
             object-fit: contain !important;
+        }
+
+        /* Compact layout overrides */
+        .pc-sidebar {
+            width: 250px;
+        }
+        .pc-sidebar .navbar-wrapper {
+            width: 250px;
+        }
+        .pc-sidebar .pc-link {
+            padding: 9px 18px;
+            font-size: 13px;
+        }
+        .pc-sidebar .pc-micon {
+            margin-right: 10px;
+            height: 20px;
+            width: 20px;
+        }
+        .pc-sidebar .pc-micon i {
+            font-size: 18px;
+        }
+        .pc-sidebar .pc-caption {
+            padding: 12px 20px 6px !important;
+            font-size: 11px;
+        }
+        .pc-sidebar .pc-caption span:not(.badge) {
+            font-size: 13px;
+        }
+        .pc-sidebar .pc-navbar > .pc-item {
+            margin: 0 8px;
+        }
+        .pc-sidebar .pc-submenu .pc-link {
+            padding: 7px 18px 7px 52px;
+            font-size: 13px;
+        }
+        .pc-sidebar .m-header {
+            height: 64px;
+        }
+        .pc-sidebar .card.pc-user-card .dropdown-menu {
+            width: 220px;
+        }
+
+        /* Compact header */
+        .pc-header {
+            min-height: 64px;
+            left: 250px;
+        }
+        .pc-header .m-header {
+            width: 250px;
+            height: 64px;
+        }
+        .pc-header .pc-h-item {
+            min-height: 64px;
+        }
+
+        /* Adjust content & footer offset */
+        .pc-footer {
+            margin-left: 250px;
+            margin-top: 64px;
+        }
+
+        /* Compact Choices.js dropdowns */
+        .choices {
+            font-size: 13px;
+        }
+        .choices__list--dropdown .choices__item,
+        .choices__list[aria-expanded] .choices__item {
+            padding: 6px 10px;
+            font-size: 13px;
+        }
+        .choices__inner {
+            padding: 4px 8px;
+            min-height: 36px;
+            font-size: 13px;
+        }
+        .choices__input {
+            font-size: 13px;
+        }
+
+        @media (max-width: 1024px) {
+            .pc-header {
+                left: 0;
+            }
+            .pc-footer {
+                margin-left: 0;
+            }
         }
     </style>
     @include('layouts.loader')

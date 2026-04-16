@@ -2,6 +2,7 @@
 
 @section('title', 'Ajouter un Enseignant')
 @section('breadcrumb-item', 'GLS Centres')
+@section('breadcrumb-item-link', route('backoffice.teachers.index'))
 @section('breadcrumb-item-active', 'Nouvel Enseignant')
 @section('page-animation', 'animate__rollIn')
 

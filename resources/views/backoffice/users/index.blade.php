@@ -40,7 +40,9 @@
                 <div class="card-header">
                     <div class="d-sm-flex align-items-center justify-content-between">
                         <h5 class="mb-3 mb-sm-0">Utilisateurs</h5>
+                        @can('users.create')
                         <a href="{{ route('backoffice.users.create') }}" class="btn btn-primary">Ajouter utilisateur</a>
+                        @endcan
                     </div>
                 </div>
 

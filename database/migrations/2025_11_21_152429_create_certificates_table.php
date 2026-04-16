@@ -26,51 +26,56 @@ return new class extends Migration
             $table->date('exam_date');
             $table->date('issue_date');
             $table->string('certificate_number')->unique();
+            $table->string('public_token', 64)->unique()->nullable();
+            $table->string('certificate_type', 10)->default('b2');
 
             /**
              * Schriftliche Prüfung (Written Exam)
              */
-            $table->integer('reading_score');       // Leseverstehen
-            $table->integer('grammar_score');       // Sprachbausteine
-            $table->integer('listening_score');     // Hörverstehen
-            $table->integer('writing_score');       // Schriftlicher Ausdruck
+            $table->integer('reading_score');           // Leseverstehen
+            $table->integer('grammar_score')->nullable(); // Sprachbausteine (B2 only)
+            $table->integer('listening_score');          // Hörverstehen
+            $table->integer('writing_score');            // Schriftlicher Ausdruck
+            $table->integer('speaking_score')->nullable(); // Sprechen (A2 only)
 
-            $table->integer('written_total');       // stored total
+            $table->integer('written_total')->nullable();
 
             /**
-             * Mündliche Prüfung (Oral Exam)
+             * Mündliche Prüfung (Oral Exam) — B2 only
              */
-            $table->integer('presentation_score');  // Präsentation
-            $table->integer('discussion_score');    // Diskussion
-            $table->integer('problemsolving_score');// Problemlösung
+            $table->integer('presentation_score')->nullable();  // Präsentation
+            $table->integer('discussion_score')->nullable();     // Diskussion
+            $table->integer('problemsolving_score')->nullable(); // Problemlösung
 
-            $table->integer('oral_total');          // stored total
+            $table->integer('oral_total')->nullable();
 
             /**
              * Final Result
              */
             $table->string('final_result'); // Befriedigend / Gut / Sehr gut etc.
+            $table->text('ergebnis_note')->nullable();
 
             /**
              * MAX VALUES (Written)
              */
             $table->integer('reading_max')->default(75);
-            $table->integer('grammar_max')->default(30);
+            $table->integer('grammar_max')->nullable()->default(30);
             $table->integer('listening_max')->default(75);
             $table->integer('writing_max')->default(45);
+            $table->integer('speaking_max')->nullable();
 
             /**
              * MAX VALUES (Oral)
              */
-            $table->integer('presentation_max')->default(25);
-            $table->integer('discussion_max')->default(25);
-            $table->integer('problemsolving_max')->default(25);
+            $table->integer('presentation_max')->nullable()->default(25);
+            $table->integer('discussion_max')->nullable()->default(25);
+            $table->integer('problemsolving_max')->nullable()->default(25);
 
             /**
              * TOTALS MAX
              */
-            $table->integer('written_max')->default(225);
-            $table->integer('oral_max')->default(75);
+            $table->integer('written_max')->nullable()->default(225);
+            $table->integer('oral_max')->nullable()->default(75);
 
             $table->timestamps();
         });

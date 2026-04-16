@@ -50,6 +50,26 @@ class Group extends Model
         return $this->hasMany(GroupApplication::class);
     }
 
+    public function imports()
+    {
+        return $this->hasMany(GroupImport::class)->orderByDesc('version');
+    }
+
+    public function latestImport()
+    {
+        return $this->hasOne(GroupImport::class)->latestOfMany('version');
+    }
+
+    public function presenceImports()
+    {
+        return $this->hasMany(PresenceImport::class)->orderByDesc('version');
+    }
+
+    public function latestPresenceImport()
+    {
+        return $this->hasOne(PresenceImport::class)->latestOfMany('version');
+    }
+
     /**
      * Auto-detect period from time_range
      */

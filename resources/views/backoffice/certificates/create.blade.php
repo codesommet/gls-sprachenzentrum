@@ -2,6 +2,7 @@
 
 @section('title', 'Ajouter un Certificat')
 @section('breadcrumb-item', 'Examens')
+@section('breadcrumb-item-link', route('backoffice.certificates.index'))
 @section('breadcrumb-item-active', 'Nouveau Certificat')
 @section('page-animation', 'animate__rollIn')
 

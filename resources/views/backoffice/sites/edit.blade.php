@@ -2,6 +2,7 @@
 
 @section('title', 'Modifier un Site')
 @section('breadcrumb-item', 'GLS Centres')
+@section('breadcrumb-item-link', route('backoffice.sites.index'))
 @section('breadcrumb-item-active', 'Modifier le Site')
 @section('page-animation', 'animate__rollIn')
 

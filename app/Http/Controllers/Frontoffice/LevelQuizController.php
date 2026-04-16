@@ -130,7 +130,8 @@ class LevelQuizController extends Controller
                     ],
 
                     // ===== Render choices with image URLs for image-options mode =====
-                    'choices' => $q->options->values()->map(function ($opt) {
+                    // ✅ Shuffle options so the correct answer isn't always first
+                    'choices' => $q->options->shuffle()->values()->map(function ($opt) {
                         return [
                             'id' => (string) $opt->id,
                             'label' => $opt->option_text,

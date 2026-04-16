@@ -2,6 +2,7 @@
 
 @section('title', 'Inscriptions du Groupe')
 @section('breadcrumb-item', 'Groupes')
+@section('breadcrumb-item-link', route('backoffice.groups.index'))
 @section('breadcrumb-item-active', 'Inscriptions')
 
 @section('page-animation', 'animate__fadeIn')

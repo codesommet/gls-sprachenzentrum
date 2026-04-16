@@ -2,6 +2,7 @@
 
 @section('title', 'Modifier un Studienkolleg')
 @section('breadcrumb-item', 'Gestion GLS')
+@section('breadcrumb-item-link', route('backoffice.studienkollegs.index'))
 @section('breadcrumb-item-active', 'Modifier Studienkolleg')
 @section('page-animation', 'animate__rollIn')
 

@@ -2,6 +2,7 @@
 
 @section('title', 'Modifier Application')
 @section('breadcrumb-item', 'Applications')
+@section('breadcrumb-item-link', route('backoffice.applications.index'))
 @section('breadcrumb-item-active', 'Modifier')
 @section('page-animation', 'animate__rollIn')
 

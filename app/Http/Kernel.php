@@ -68,5 +68,12 @@ class Kernel extends HttpKernel
          * Custom locale middleware (optional)
          */
         'locale.url' => \App\Http\Middleware\SetLocaleFromUrl::class,
+
+        /**
+         * Spatie Permission Middlewares
+         */
+        'role'       => \Spatie\Permission\Middleware\RoleMiddleware::class,
+        'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
+        'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
     ];
 }

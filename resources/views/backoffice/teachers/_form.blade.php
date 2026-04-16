@@ -69,10 +69,21 @@
                placeholder="Ex: A1, A2, B1, Grammaire">
     </div>
 
+    {{-- PAYMENT PER STUDENT --}}
+    <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">Paiement par étudiant (DH)</label>
+        <input type="number" name="payment_per_student"
+               class="form-control"
+               value="{{ old('payment_per_student', $teacher->payment_per_student ?? '') }}"
+               step="0.01" min="0"
+               placeholder="Ex: 300.00 ou 500.00">
+        <small class="text-muted">Taux par défaut pour le calcul de la paie enseignant</small>
+    </div>
+
     {{-- BIO --}}
     <div class="col-md-12 mb-3">
         <label class="form-label fw-bold">Biographie</label>
-        <textarea 
+        <textarea
             name="bio"
             id="bio-editor"
             class="form-control"

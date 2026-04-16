@@ -2,6 +2,7 @@
 
 @section('title', 'Créer un Groupe')
 @section('breadcrumb-item', 'GLS Centres')
+@section('breadcrumb-item-link', route('backoffice.groups.index'))
 @section('breadcrumb-item-active', 'Nouveau Groupe')
 @section('page-animation', 'animate__rollIn')
 

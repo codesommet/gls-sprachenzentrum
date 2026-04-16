@@ -100,92 +100,41 @@
 <div class="row mt-4 pt-3 border-top" id="suivi_block">
     <h5 class="fw-bold mb-3">📅 Suivi du groupe</h5>
 
-    {{-- MODE CHOIX --}}
-    {{-- <div class=”col-md-12 mb-3”>
-        <label class=”form-label fw-bold”>Mode de saisie</label>
-
-        <div class=”d-flex gap-4 flex-wrap”>
-            <div class=”form-check”>
-                <input class=”form-check-input” type=”radio” name=”date_mode” id=”mode_picker” value=”picker”
-                       {{ old('date_mode', 'picker') === 'picker' ? 'checked' : '' }}>
-                <label class=”form-check-label” for=”mode_picker”>Date picker (Début → Fin)</label>
-            </div>
-
-            <div class=”form-check”>
-                <input class=”form-check-input” type=”radio” name=”date_mode” id=”mode_manual” value=”manual”
-                       {{ old('date_mode') === 'manual' ? 'checked' : '' }}>
-                <label class=”form-check-label” for=”mode_manual”>Manuel (Début + Fin / Durée)</label>
-            </div>
-        </div>
-
-        <small class=”text-muted”>
-            Astuce : pour un nouveau parcours A1 → B2, utilise “Début + 10 mois”.
+    {{-- DATE DE DÉBUT --}}
+    <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">Date de début</label>
+        <input
+            type="text"
+            id="date_range_picker"
+            class="form-control"
+            placeholder="Sélectionner la date de début"
+            value="{{ old('date_debut', $group->date_debut ?? '') }}"
+        >
+        <small class="text-muted">
+            Les week-ends sont automatiquement désactivés.
         </small>
-    </div> --}}
-
-    {{-- MODE 1: PICKER --}}
-    <div class="col-md-12 mb-3" id="picker_block">
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Date de début</label>
-                <input
-                    type="text"
-                    id="date_range_picker"
-                    class="form-control"
-                    placeholder="Sélectionner la date de début"
-                    value="{{ old('date_debut', $group->date_debut ?? '') }}"
-                >
-                <small class="text-muted">
-                    Les week-ends sont automatiquement désactivés.
-                </small>
-            </div>
-
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Date de fin (auto — 10 mois)</label>
-                <input type="text" id="picker_end_display" class="form-control" readonly
-                       value="{{ old('date_fin', $group->date_fin ?? '') }}">
-                <small class="text-muted">
-                    Calculée automatiquement : A1 (2m) + A2 (2.5m) + B1 (2.5m) + B2 (3m) = 10 mois.
-                </small>
-            </div>
-        </div>
     </div>
 
-    {{-- MODE 2: MANUEL (commenté — plus nécessaire) --}}
-    {{-- <div class="col-md-12 mb-3" id="manual_block" style="display:none;">
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Date de début</label>
-                <input type="date" id="manual_start" class="form-control"
-                       value="{{ old('date_debut', $group->date_debut ?? '') }}">
-            </div>
-
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Date de fin (auto — 10 mois)</label>
-                <input type="date" id="manual_end" class="form-control" readonly
-                       value="{{ old('date_fin', $group->date_fin ?? '') }}">
-                <small class="text-muted">
-                    Calculée automatiquement : A1 (2m) + A2 (2.5m) + B1 (2.5m) + B2 (3m) = 10 mois.
-                </small>
-            </div>
-        </div>
-    </div> --}}
+    {{-- DATE DE FIN (editable, auto-calculated to +10 months) --}}
+    <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">Date de fin</label>
+        <input type="date" id="picker_end_display" name="date_fin" class="form-control"
+               value="{{ old('date_fin', $group->date_fin ?? '') }}">
+        <small class="text-muted">
+            Calculée automatiquement à 10 mois. Vous pouvez la modifier manuellement.
+        </small>
+    </div>
 
     {{-- INFO DURÉE --}}
     <div class="col-md-12 mb-2">
         <div class="text-muted">
             Durée détectée : <strong id="duration_label">—</strong>
-            <br>
-            <small>A1 (2 mois) + A2 (2.5 mois) + B1 (2.5 mois) + B2 (3 mois) = <strong>10 mois</strong></small>
         </div>
     </div>
 
-    {{-- HIDDEN FIELDS (Sent to Backend) --}}
+    {{-- HIDDEN FIELD for date_debut (Sent to Backend) --}}
     <input type="hidden" name="date_debut" id="date_debut_value"
            value="{{ old('date_debut', $group->date_debut ?? '') }}">
-
-    <input type="hidden" name="date_fin" id="date_fin_value"
-           value="{{ old('date_fin', $group->date_fin ?? '') }}">
 
 </div>
 
@@ -193,20 +142,14 @@
 (function () {
   const $status = document.getElementById('group_status');
   const $suiviBlock = document.getElementById('suivi_block');
-
-  const $pickerBlock = document.getElementById('picker_block');
-
   const $rangeInput = document.getElementById('date_range_picker');
   const $pickerEndDisplay = document.getElementById('picker_end_display');
-
   const $dateDebut = document.getElementById('date_debut_value');
-  const $dateFin = document.getElementById('date_fin_value');
   const $durationLabel = document.getElementById('duration_label');
 
-  const LEVEL_WEIGHTS = { A1: 2, A2: 2.5, B1: 2.5, B2: 3 };
-  const LEVEL_ORDER = ['A1', 'A2', 'B1', 'B2'];
+  const FORMATION_MONTHS = 10;
 
-  if (!$status || !$suiviBlock || !$dateDebut || !$dateFin || !$durationLabel) return;
+  if (!$status || !$suiviBlock || !$dateDebut || !$durationLabel) return;
 
   const pad2 = (n) => String(n).padStart(2, '0');
   const toYMD = (d) => `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
@@ -219,21 +162,10 @@
     return new Date(y, m - 1, d);
   };
 
-  const lastDayOfMonth = (year, monthIndex) => new Date(year, monthIndex + 1, 0).getDate();
-
-  const addMonthsSafe = (date, months) => {
-    const y = date.getFullYear();
-    const m = date.getMonth();
-    const day = date.getDate();
-
-    const targetMonth = m + months;
-    const ty = y + Math.floor(targetMonth / 12);
-    const tm = ((targetMonth % 12) + 12) % 12;
-
-    const ld = lastDayOfMonth(ty, tm);
-    const td = Math.min(day, ld);
-
-    return new Date(ty, tm, td);
+  const addMonths = (date, months) => {
+    const result = new Date(date);
+    result.setMonth(result.getMonth() + months);
+    return result;
   };
 
   const diffMonths = (start, end) => {
@@ -245,27 +177,23 @@
 
   const updateDurationLabel = () => {
     const s = parseYMD($dateDebut.value);
-    const e = parseYMD($dateFin.value);
+    const e = parseYMD($pickerEndDisplay ? $pickerEndDisplay.value : '');
     if (!s || !e) {
       $durationLabel.textContent = '—';
       return;
     }
-    const m = diffMonths(s, e);
-    $durationLabel.textContent = `${m} mois`;
+    $durationLabel.textContent = diffMonths(s, e) + ' mois';
   };
 
   const clearDates = () => {
     $dateDebut.value = '';
-    $dateFin.value = '';
     if ($rangeInput) $rangeInput.value = '';
     if ($pickerEndDisplay) $pickerEndDisplay.value = '';
     $durationLabel.textContent = '—';
   };
 
   const toggleSuiviByStatus = () => {
-    const upcoming = ($status.value === 'upcoming');
-
-    if (upcoming) {
+    if ($status.value === 'upcoming') {
       $suiviBlock.style.display = 'none';
       clearDates();
     } else {
@@ -276,62 +204,56 @@
 
   $status.addEventListener('change', toggleSuiviByStatus);
 
-  // Add months + extra days
-  const addLevelDuration = (date, months, extraDays) => {
-    let d = addMonthsSafe(date, months);
-    if (extraDays) d.setDate(d.getDate() + extraDays);
-    return d;
-  };
-
-  // --- Auto-calculate end date by chaining strict level durations
-  // A1=2m, A2=2m+15d, B1=2m+15d, B2=3m
+  // Auto-calculate end date: start + 10 months
   const autoCalcEnd = (startValue) => {
     const start = parseYMD(startValue);
     if (!start) return;
 
-    const $level = document.querySelector('select[name="level"]');
-    const startLevel = $level ? $level.value : 'A1';
-    const startIdx = LEVEL_ORDER.indexOf(startLevel);
-    const levels = LEVEL_ORDER.slice(startIdx >= 0 ? startIdx : 0);
-
-    let segStart = new Date(start);
-    let segEnd;
-
-    for (const lvl of levels) {
-      segEnd = new Date(segStart);
-      if (lvl === 'A1') {
-        segEnd = addMonthsSafe(segEnd, 2);
-      } else if (lvl === 'A2' || lvl === 'B1') {
-        segEnd = addLevelDuration(segEnd, 2, 15);
-      } else if (lvl === 'B2') {
-        segEnd = addMonthsSafe(segEnd, 3);
-      }
-      // Inclusive end: start + duration - 1 day
-      segEnd.setDate(segEnd.getDate() - 1);
-      // Next level starts the day after end
-      segStart = new Date(segEnd);
-      segStart.setDate(segStart.getDate() + 1);
-    }
-
-    const endYMD = toYMD(segEnd);
+    const end = addMonths(start, FORMATION_MONTHS);
+    const endYMD = toYMD(end);
 
     $dateDebut.value = startValue;
-    $dateFin.value = endYMD;
     if ($pickerEndDisplay) $pickerEndDisplay.value = endYMD;
     updateDurationLabel();
   };
 
-  // --- Picker hookup
+  // Called from the date picker when user picks a start date
   window.__syncGroupDatesFromPicker = function (startYMD) {
     if ($status.value === 'upcoming') return;
     autoCalcEnd(startYMD);
   };
 
-  // Recalc when level changes
-  const $levelSelect = document.querySelector('select[name="level"]');
-  if ($levelSelect) {
-    $levelSelect.addEventListener('change', () => {
-      if ($dateDebut.value) autoCalcEnd($dateDebut.value);
+  // When user manually edits end date, just update duration label
+  if ($pickerEndDisplay) {
+    $pickerEndDisplay.addEventListener('change', updateDurationLabel);
+  }
+
+  // Confirm popup if duration is not ~10 months on form submit
+  const form = $status.closest('form');
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      if ($status.value !== 'active') return; // no check for upcoming
+
+      const s = parseYMD($dateDebut.value);
+      const endVal = $pickerEndDisplay ? $pickerEndDisplay.value : '';
+      const en = parseYMD(endVal);
+
+      if (!s || !en) return; // dates missing, let backend validate
+
+      const days = Math.round((en - s) / (1000 * 60 * 60 * 24));
+      const months = (days / 30.44).toFixed(1);
+
+      // Allow ±15 days tolerance around 10 months (~304 days)
+      if (days < 289 || days > 319) {
+        const ok = confirm(
+          'La durée du groupe est de ' + months + ' mois au lieu des 10 mois habituels.\n\n' +
+          'Voulez-vous continuer quand même ?'
+        );
+        if (!ok) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      }
     });
   }
 

@@ -43,4 +43,18 @@
                {{ isset($user) ? '' : 'required' }}>
     </div>
 
+    {{-- ROLE --}}
+    <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">Rôle</label>
+        <select name="role" class="form-select" required>
+            <option value="">-- Sélectionner un rôle --</option>
+            @foreach($roles as $role)
+                <option value="{{ $role->name }}"
+                    {{ old('role', isset($user) ? $user->roles->first()?->name : '') === $role->name ? 'selected' : '' }}>
+                    {{ $role->name }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+
 </div>

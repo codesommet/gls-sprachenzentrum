@@ -2,6 +2,7 @@
 
 @section('title', 'Créer un Article')
 @section('breadcrumb-item', 'Blog')
+@section('breadcrumb-item-link', route('backoffice.blog.posts.index'))
 @section('breadcrumb-item-active', 'Nouvel Article')
 @section('page-animation', 'animate__rollIn')
 

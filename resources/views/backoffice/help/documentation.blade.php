@@ -269,7 +269,7 @@
             <section class="doc-hero">
                 <div class="doc-hero__body">
                     <div class="doc-eyebrow">
-                        <i class="ti ti-book-2"></i>
+                        <i class="ph-duotone ph-book-open-text"></i>
                         Guide operateur
                     </div>
                     <h1 class="doc-hero__title">Documentation d'utilisation du backoffice GLS</h1>
@@ -280,7 +280,7 @@
 
                     <div class="doc-metrics">
                         <div class="doc-metric">
-                            <div class="doc-metric__value">5</div>
+                            <div class="doc-metric__value">7</div>
                             <div class="doc-metric__label">zones du portail</div>
                         </div>
                         <div class="doc-metric">
@@ -307,18 +307,20 @@
                 <div class="doc-card">
                     <div class="doc-card__header">
                         <div class="doc-card__icon bg-doc-blue">
-                            <i class="ti ti-compass"></i>
+                            <i class="ph-duotone ph-compass"></i>
                         </div>
                         <h5 class="doc-card__title">Structure du portail</h5>
                     </div>
                     <div class="doc-card__body">
                         <div class="doc-chipline">
-                            <span class="doc-chip"><i class="ti ti-layout-dashboard"></i> Dashboard</span>
-                            <span class="doc-chip"><i class="ti ti-chart-line"></i> Pilotage</span>
-                            <span class="doc-chip"><i class="ti ti-building"></i> Gestion ecole</span>
-                            <span class="doc-chip"><i class="ti ti-address-book"></i> Admissions & leads</span>
-                            <span class="doc-chip"><i class="ti ti-news"></i> Contenu</span>
-                            <span class="doc-chip"><i class="ti ti-user-cog"></i> Administration</span>
+                            <span class="doc-chip"><i class="ph-duotone ph-squares-four"></i> Dashboard</span>
+                            <span class="doc-chip"><i class="ph-duotone ph-chart-line-up"></i> Pilotage</span>
+                            <span class="doc-chip"><i class="ph-duotone ph-buildings"></i> Gestion ecole</span>
+                            <span class="doc-chip"><i class="ph-duotone ph-address-book"></i> Admissions & leads</span>
+                            <span class="doc-chip"><i class="ph-duotone ph-wallet"></i> Suivi Paiement</span>
+                            <span class="doc-chip"><i class="ph-duotone ph-user-check"></i> Paiement Professeurs</span>
+                            <span class="doc-chip"><i class="ph-duotone ph-newspaper"></i> Contenu</span>
+                            <span class="doc-chip"><i class="ph-duotone ph-user-gear"></i> Administration</span>
                         </div>
                         <p class="doc-card__text mt-3">
                             Le menu lateral est organise par mission. Ouvrez toujours le module qui correspond a l'action
@@ -336,7 +338,7 @@
                 <div class="doc-card">
                     <div class="doc-card__header">
                         <div class="doc-card__icon bg-doc-green">
-                            <i class="ti ti-bolt"></i>
+                            <i class="ph-duotone ph-lightning"></i>
                         </div>
                         <h5 class="doc-card__title">Demarrage rapide</h5>
                     </div>
@@ -374,7 +376,7 @@
             <div class="doc-card">
                 <div class="doc-card__header">
                     <div class="doc-card__icon bg-doc-blue">
-                        <i class="ti ti-chart-line"></i>
+                        <i class="ph-duotone ph-chart-line-up"></i>
                     </div>
                     <h5 class="doc-card__title">Pilotage</h5>
                 </div>
@@ -390,7 +392,7 @@
             <div class="doc-card">
                 <div class="doc-card__header">
                     <div class="doc-card__icon bg-doc-orange">
-                        <i class="ti ti-school"></i>
+                        <i class="ph-duotone ph-graduation-cap"></i>
                     </div>
                     <h5 class="doc-card__title">Gestion ecole</h5>
                 </div>
@@ -408,7 +410,7 @@
             <div class="doc-card">
                 <div class="doc-card__header">
                     <div class="doc-card__icon bg-doc-pink">
-                        <i class="ti ti-user-heart"></i>
+                        <i class="ph-duotone ph-users"></i>
                     </div>
                     <h5 class="doc-card__title">Admissions & leads</h5>
                 </div>
@@ -424,7 +426,7 @@
             <div class="doc-card">
                 <div class="doc-card__header">
                     <div class="doc-card__icon bg-doc-yellow">
-                        <i class="ti ti-news"></i>
+                        <i class="ph-duotone ph-newspaper"></i>
                     </div>
                     <h5 class="doc-card__title">Contenu</h5>
                 </div>
@@ -440,7 +442,7 @@
             <div class="doc-card">
                 <div class="doc-card__header">
                     <div class="doc-card__icon bg-doc-purple">
-                        <i class="ti ti-shield-cog"></i>
+                        <i class="ph-duotone ph-shield-check"></i>
                     </div>
                     <h5 class="doc-card__title">Administration</h5>
                 </div>
@@ -456,7 +458,7 @@
             <div class="doc-card">
                 <div class="doc-card__header">
                     <div class="doc-card__icon bg-doc-green">
-                        <i class="ti ti-life-buoy"></i>
+                        <i class="ph-duotone ph-lifebuoy"></i>
                     </div>
                     <h5 class="doc-card__title">Support</h5>
                 </div>
@@ -476,7 +478,7 @@
             <div class="doc-card">
                 <div class="doc-card__header">
                     <div class="doc-card__icon bg-doc-blue">
-                        <i class="ti ti-list-check"></i>
+                        <i class="ph-duotone ph-list-checks"></i>
                     </div>
                     <h5 class="doc-card__title">Routine quotidienne recommandee</h5>
                 </div>
@@ -494,7 +496,7 @@
             <div class="doc-card">
                 <div class="doc-card__header">
                     <div class="doc-card__icon bg-doc-orange">
-                        <i class="ti ti-alert-circle"></i>
+                        <i class="ph-duotone ph-warning-circle"></i>
                     </div>
                     <h5 class="doc-card__title">Bonnes pratiques</h5>
                 </div>
@@ -505,6 +507,613 @@
                         <li><strong>Utiliser les filtres :</strong> ne pas travailler en liste complete si un filtre centre ou statut existe.</li>
                         <li><strong>Preferer la page detail :</strong> pour un suivi niveau, les notes restent dans la vue detail du groupe.</li>
                     </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- ================================================================== --}}
+    {{-- SUIVI PAIEMENT — Documentation complète                          --}}
+    {{-- ================================================================== --}}
+
+    <div class="doc-section">
+        <div class="row g-4">
+            <div class="col-12">
+                <section class="doc-hero" style="background: radial-gradient(circle at top right, rgba(15,138,88,0.15), transparent 28%), linear-gradient(135deg, #ffffff 0%, #f2faf6 55%, #f4f8fd 100%);">
+                    <div class="doc-hero__body">
+                        <div class="doc-eyebrow" style="background:#e9fbf3;color:#0f8a58;">
+                            <i class="ph-duotone ph-wallet"></i>
+                            Module Suivi Paiement
+                        </div>
+                        <h2 class="doc-hero__title">Suivi Paiement — Import CRM</h2>
+                        <p class="doc-hero__text">
+                            Ce module permet de suivre les paiements des etudiants vers GLS. Il importe les fichiers Excel du CRM
+                            contenant les montants payes par chaque etudiant chaque mois, et analyse leur cycle de vie
+                            (nouveau, actif, perdu, retourne, annule, transfere).
+                        </p>
+                        <div class="doc-metrics">
+                            <div class="doc-metric">
+                                <div class="doc-metric__value">Excel</div>
+                                <div class="doc-metric__label">fichier source CRM</div>
+                            </div>
+                            <div class="doc-metric">
+                                <div class="doc-metric__value">Versions</div>
+                                <div class="doc-metric__label">imports versionnés</div>
+                            </div>
+                            <div class="doc-metric">
+                                <div class="doc-metric__value">Lifecycle</div>
+                                <div class="doc-metric__label">analyse automatique</div>
+                            </div>
+                            <div class="doc-metric">
+                                <div class="doc-metric__value">Comparaison</div>
+                                <div class="doc-metric__label">entre versions</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <div class="doc-section">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="doc-card">
+                    <div class="doc-card__header">
+                        <div class="doc-card__icon bg-doc-green">
+                            <i class="ph-duotone ph-arrows-left-right"></i>
+                        </div>
+                        <h5 class="doc-card__title">Flux de donnees : Etudiant &rarr; GLS</h5>
+                    </div>
+                    <div class="doc-card__body">
+                        <p class="doc-card__text">Le Suivi Paiement traque l'argent que les <strong>etudiants versent a GLS</strong> chaque mois. C'est le sens Etudiant &rarr; GLS.</p>
+                        <div class="doc-workflow" style="margin-top:16px;">
+                            <div class="doc-step">
+                                <div class="doc-step__num">1</div>
+                                <h6 class="doc-step__title">Exporter le fichier CRM</h6>
+                                <p class="doc-step__text">Le responsable exporte le fichier Excel depuis le CRM ou Google Sheets. Il contient les noms des etudiants et leurs montants payes par mois.</p>
+                            </div>
+                            <div class="doc-step">
+                                <div class="doc-step__num">2</div>
+                                <h6 class="doc-step__title">Importer dans GLS</h6>
+                                <p class="doc-step__text">Aller dans <strong>Suivi Paiement &rarr; Importer CRM</strong>. Selectionner le groupe, le mois de debut, le taux par etudiant et le fichier Excel.</p>
+                            </div>
+                            <div class="doc-step">
+                                <div class="doc-step__num">3</div>
+                                <h6 class="doc-step__title">Analyse automatique</h6>
+                                <p class="doc-step__text">Le systeme detecte automatiquement les colonnes de mois, les frais d'inscription, les couleurs (rouge = annule, gris = transfere) et calcule le lifecycle.</p>
+                            </div>
+                            <div class="doc-step">
+                                <div class="doc-step__num">4</div>
+                                <h6 class="doc-step__title">Consulter et comparer</h6>
+                                <p class="doc-step__text">Voir le detail de chaque import, comparer avec la version precedente, analyser les mouvements etudiants mois par mois.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="doc-section">
+        <div class="doc-grid-2">
+            <div class="doc-card">
+                <div class="doc-card__header">
+                    <div class="doc-card__icon bg-doc-green">
+                        <i class="ph-duotone ph-file-xls"></i>
+                    </div>
+                    <h5 class="doc-card__title">Format du fichier Excel CRM</h5>
+                </div>
+                <div class="doc-card__body">
+                    <ul class="doc-list">
+                        <li><strong>Colonne etudiants :</strong> noms des etudiants (detecte automatiquement via les mots-cles : etudiant, nom, stagiaire, eleve).</li>
+                        <li><strong>Colonnes mensuelles :</strong> chaque colonne de mois contient le montant paye (ex: « Frais de mars », « Frais d'avril »). Formats acceptes : « 1300.00 DH », « 1300,00 », nombres simples.</li>
+                        <li><strong>Colonnes de frais :</strong> inscription A1/A2, inscription B2, etc. Detectees automatiquement.</li>
+                        <li><strong>Couleurs de cellules :</strong> rouge = etudiant annule, gris = transfere, vert/blanc = actif.</li>
+                        <li><strong>Formats acceptes :</strong> .xlsx, .xls, .csv (maximum 10 Mo).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="doc-card">
+                <div class="doc-card__header">
+                    <div class="doc-card__icon bg-doc-green">
+                        <i class="ph-duotone ph-arrows-clockwise"></i>
+                    </div>
+                    <h5 class="doc-card__title">Cycle de vie etudiant (Lifecycle)</h5>
+                </div>
+                <div class="doc-card__body">
+                    <ul class="doc-list">
+                        <li><strong>Initial :</strong> premier mois de paiement = mois de debut du groupe.</li>
+                        <li><strong>Nouveau :</strong> premier paiement apres le mois de debut (inscription tardive).</li>
+                        <li><strong>Actif :</strong> continue de payer normalement.</li>
+                        <li><strong>Perdu :</strong> a arrete de payer (pas de montant ce mois).</li>
+                        <li><strong>Retourne :</strong> a repris le paiement apres une periode d'absence.</li>
+                        <li><strong>Annule / Transfere :</strong> detecte par la couleur de la ligne dans le fichier Excel.</li>
+                        <li><strong>Inactif :</strong> jamais paye depuis le debut.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="doc-section">
+        <div class="doc-grid-3">
+            <div class="doc-card">
+                <div class="doc-card__header">
+                    <div class="doc-card__icon bg-doc-green">
+                        <i class="ph-duotone ph-squares-four"></i>
+                    </div>
+                    <h5 class="doc-card__title">Tableau de bord</h5>
+                </div>
+                <div class="doc-card__body">
+                    <ul class="doc-list">
+                        <li>Vue d'ensemble de tous les groupes avec imports.</li>
+                        <li>Nombre de versions, dernier import, taux par etudiant.</li>
+                        <li>Acces rapide vers l'historique, l'analyse mensuelle et le suivi etudiants.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="doc-card">
+                <div class="doc-card__header">
+                    <div class="doc-card__icon bg-doc-green">
+                        <i class="ph-duotone ph-git-diff"></i>
+                    </div>
+                    <h5 class="doc-card__title">Comparaison de versions</h5>
+                </div>
+                <div class="doc-card__body">
+                    <ul class="doc-list">
+                        <li>Compare deux imports successifs pour le meme groupe.</li>
+                        <li>Met en evidence : etudiants ajoutes, supprimes, changements de montants, changements de statut.</li>
+                        <li>Utile pour verifier les corrections apportees entre deux exports CRM.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="doc-card">
+                <div class="doc-card__header">
+                    <div class="doc-card__icon bg-doc-green">
+                        <i class="ph-duotone ph-chart-bar"></i>
+                    </div>
+                    <h5 class="doc-card__title">Analyse mensuelle</h5>
+                </div>
+                <div class="doc-card__body">
+                    <ul class="doc-list">
+                        <li>Resume par mois : combien d'etudiants initiaux, nouveaux, actifs, perdus, retournes.</li>
+                        <li>Montant total encaisse par mois.</li>
+                        <li>Timeline complete du groupe depuis son ouverture.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- ================================================================== --}}
+    {{-- PAIEMENT PROFESSEURS — Documentation complète                     --}}
+    {{-- ================================================================== --}}
+
+    <div class="doc-section">
+        <div class="row g-4">
+            <div class="col-12">
+                <section class="doc-hero" style="background: radial-gradient(circle at top right, rgba(109,68,216,0.15), transparent 28%), linear-gradient(135deg, #ffffff 0%, #f5f1ff 55%, #f4f8fd 100%);">
+                    <div class="doc-hero__body">
+                        <div class="doc-eyebrow" style="background:#f1ebff;color:#6d44d8;">
+                            <i class="ph-duotone ph-user-check"></i>
+                            Module Paiement Professeurs
+                        </div>
+                        <h2 class="doc-hero__title">Paiement Professeurs — Import Presence</h2>
+                        <p class="doc-hero__text">
+                            Ce module calcule automatiquement le salaire du professeur en se basant sur la presence des etudiants.
+                            Chaque etudiant est classe dans une categorie (Complet, 3/4, 1/2, 1/4, Zero) selon le nombre de semaines
+                            ou il etait present. Le salaire du professeur = somme de toutes les contributions ponderees.
+                        </p>
+                        <div class="doc-metrics">
+                            <div class="doc-metric">
+                                <div class="doc-metric__value">Pro-rata</div>
+                                <div class="doc-metric__label">calcul proportionnel</div>
+                            </div>
+                            <div class="doc-metric">
+                                <div class="doc-metric__value">5</div>
+                                <div class="doc-metric__label">categories etudiants</div>
+                            </div>
+                            <div class="doc-metric">
+                                <div class="doc-metric__value">Auto</div>
+                                <div class="doc-metric__label">detection presence</div>
+                            </div>
+                            <div class="doc-metric">
+                                <div class="doc-metric__value">Override</div>
+                                <div class="doc-metric__label">ajustement manuel</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <div class="doc-section">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="doc-card">
+                    <div class="doc-card__header">
+                        <div class="doc-card__icon bg-doc-purple">
+                            <i class="ph-duotone ph-arrows-left-right"></i>
+                        </div>
+                        <h5 class="doc-card__title">Flux de donnees : GLS &rarr; Professeur</h5>
+                    </div>
+                    <div class="doc-card__body">
+                        <p class="doc-card__text">Le Paiement Professeurs calcule l'argent que <strong>GLS verse au professeur</strong>. C'est le sens inverse : GLS &rarr; Professeur. Il se base sur la feuille de presence.</p>
+                        <div class="doc-workflow" style="margin-top:16px;">
+                            <div class="doc-step">
+                                <div class="doc-step__num">1</div>
+                                <h6 class="doc-step__title">Remplir la feuille de presence</h6>
+                                <p class="doc-step__text">Le responsable remplit la feuille de presence (papier ou tableur) chaque jour avec P (Present) et Q (Absent) pour chaque etudiant.</p>
+                            </div>
+                            <div class="doc-step">
+                                <div class="doc-step__num">2</div>
+                                <h6 class="doc-step__title">Importer le fichier</h6>
+                                <p class="doc-step__text">Aller dans <strong>Paiement Professeurs &rarr; Importer Presence</strong>. Selectionner le groupe, le mois, le taux par etudiant et le fichier Excel.</p>
+                            </div>
+                            <div class="doc-step">
+                                <div class="doc-step__num">3</div>
+                                <h6 class="doc-step__title">Calcul automatique</h6>
+                                <p class="doc-step__text">Le systeme classe chaque etudiant (Complet, 3/4, 1/2, 1/4, Zero), calcule le montant par etudiant et affiche le total du paiement professeur.</p>
+                            </div>
+                            <div class="doc-step">
+                                <div class="doc-step__num">4</div>
+                                <h6 class="doc-step__title">Verifier et approuver</h6>
+                                <p class="doc-step__text">Le responsable peut ajuster la categorie d'un etudiant si necessaire, puis approuver le paiement final.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="doc-section">
+        <div class="doc-grid-2">
+            <div class="doc-card">
+                <div class="doc-card__header">
+                    <div class="doc-card__icon bg-doc-purple">
+                        <i class="ph-duotone ph-calculator"></i>
+                    </div>
+                    <h5 class="doc-card__title">Logique de calcul</h5>
+                </div>
+                <div class="doc-card__body">
+                    <p class="doc-card__text"><strong>Principe :</strong> Le professeur est paye en fonction du nombre d'etudiants et de leur taux de presence. Chaque etudiant contribue differemment selon le nombre de semaines ou il etait present.</p>
+
+                    <p class="doc-card__text mt-3"><strong>Etape 1 — Diviser le mois en 4 quartiers (semaines) :</strong></p>
+                    <ul class="doc-list">
+                        <li><strong>Quartier 1 :</strong> Jours 1 a 5 (Semaine 1)</li>
+                        <li><strong>Quartier 2 :</strong> Jours 6 a 10 (Semaine 2)</li>
+                        <li><strong>Quartier 3 :</strong> Jours 11 a 15 (Semaine 3)</li>
+                        <li><strong>Quartier 4 :</strong> Jours 16 a 20+ (Semaine 4)</li>
+                    </ul>
+
+                    <p class="doc-card__text mt-3"><strong>Etape 2 — Classer chaque etudiant :</strong> Un etudiant est « actif » dans un quartier s'il a au moins 1 jour de presence.</p>
+                    <ul class="doc-list">
+                        <li><strong>4 quartiers actifs</strong> &rarr; Complet (100%)</li>
+                        <li><strong>3 quartiers actifs</strong> &rarr; 3/4 (75%)</li>
+                        <li><strong>2 quartiers actifs</strong> &rarr; 1/2 (50%)</li>
+                        <li><strong>1 quartier actif</strong> &rarr; 1/4 (25%)</li>
+                        <li><strong>0 quartier actif</strong> &rarr; Zero (0%)</li>
+                    </ul>
+
+                    <p class="doc-card__text mt-3"><strong>Etape 3 — Calculer le montant :</strong></p>
+                    <ul class="doc-list">
+                        <li>Montant par etudiant = <strong>floor(prix_base x fraction)</strong></li>
+                        <li>Total professeur = somme de tous les montants etudiants</li>
+                    </ul>
+
+                    <div class="doc-note mt-3">
+                        <strong>Arrondi :</strong> Le systeme utilise floor() (arrondi vers le bas). Exemple : 550 x 0.75 = 412.5 &rarr; <strong>412 DH</strong> (pas 413).
+                    </div>
+                </div>
+            </div>
+
+            <div class="doc-card">
+                <div class="doc-card__header">
+                    <div class="doc-card__icon bg-doc-purple">
+                        <i class="ph-duotone ph-coins"></i>
+                    </div>
+                    <h5 class="doc-card__title">Grille de tarifs</h5>
+                </div>
+                <div class="doc-card__body">
+                    <p class="doc-card__text"><strong>Groupes A1 — Prix de base : 500 DH</strong></p>
+                    <table class="table table-sm table-bordered mt-2" style="max-width:320px;">
+                        <thead class="table-light"><tr><th>Categorie</th><th class="text-end">Montant</th></tr></thead>
+                        <tbody>
+                            <tr><td>Complet (1/1)</td><td class="text-end">500 DH</td></tr>
+                            <tr><td>3/4</td><td class="text-end">375 DH</td></tr>
+                            <tr><td>1/2</td><td class="text-end">250 DH</td></tr>
+                            <tr><td>1/4</td><td class="text-end">125 DH</td></tr>
+                            <tr><td>Zero</td><td class="text-end">0 DH</td></tr>
+                        </tbody>
+                    </table>
+
+                    <p class="doc-card__text mt-3"><strong>Groupes B1 — Prix de base : 550 DH</strong></p>
+                    <table class="table table-sm table-bordered mt-2" style="max-width:320px;">
+                        <thead class="table-light"><tr><th>Categorie</th><th class="text-end">Montant</th></tr></thead>
+                        <tbody>
+                            <tr><td>Complet (1/1)</td><td class="text-end">550 DH</td></tr>
+                            <tr><td>3/4</td><td class="text-end">412 DH</td></tr>
+                            <tr><td>1/2</td><td class="text-end">275 DH</td></tr>
+                            <tr><td>1/4</td><td class="text-end">137 DH</td></tr>
+                            <tr><td>Zero</td><td class="text-end">0 DH</td></tr>
+                        </tbody>
+                    </table>
+
+                    <div class="doc-note mt-3">
+                        <strong>Note :</strong> Le taux par etudiant est configurable dans le profil de l'enseignant ou lors de l'import. Les tarifs ci-dessus sont des exemples courants pour les centres GLS.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="doc-section">
+        <div class="doc-grid-2">
+            <div class="doc-card">
+                <div class="doc-card__header">
+                    <div class="doc-card__icon bg-doc-purple">
+                        <i class="ph-duotone ph-file-xls"></i>
+                    </div>
+                    <h5 class="doc-card__title">Format du fichier de presence</h5>
+                </div>
+                <div class="doc-card__body">
+                    <p class="doc-card__text"><strong>Le fichier Excel doit contenir :</strong></p>
+                    <ul class="doc-list">
+                        <li><strong>Colonne etudiants :</strong> Les noms des etudiants (detectee automatiquement via : Etudiant, Nom, Prenom, Stagiaire, Eleve).</li>
+                        <li><strong>Colonnes de dates :</strong> Une colonne par jour de cours. Les dates peuvent etre au format dd/mm/yyyy, des numeros de jours (1, 2, 3...) ou des abbreviations (MO, DI, MI, DO, FR).</li>
+                        <li><strong>Valeurs de presence :</strong>
+                            <br>&bull; <span style="color:#155724;font-weight:700;">P</span> ou <span style="color:#155724;font-weight:700;">V</span> = Present
+                            <br>&bull; <span style="color:#721c24;font-weight:700;">Q</span> ou <span style="color:#721c24;font-weight:700;">A</span> = Absent
+                            <br>&bull; Cellule vide = pas de donnee
+                        </li>
+                        <li><strong>Couleurs :</strong> Lignes rouges = etudiant annule, lignes grises = transfere.</li>
+                        <li><strong>Formats acceptes :</strong> .xlsx, .xls, .csv (maximum 10 Mo).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="doc-card">
+                <div class="doc-card__header">
+                    <div class="doc-card__icon bg-doc-purple">
+                        <i class="ph-duotone ph-sliders-horizontal"></i>
+                    </div>
+                    <h5 class="doc-card__title">Ajustement manuel et approbation</h5>
+                </div>
+                <div class="doc-card__body">
+                    <ul class="doc-list">
+                        <li><strong>Categorie automatique :</strong> Le systeme calcule automatiquement la categorie de chaque etudiant en analysant ses jours de presence par semaine.</li>
+                        <li><strong>Override manuel :</strong> Le responsable peut changer la categorie d'un etudiant via le menu deroulant dans la colonne « Categorie ». Les etudiants modifies sont marques avec un badge « modifie ».</li>
+                        <li><strong>Recalcul :</strong> Apres un ajustement, le systeme recalcule automatiquement le montant total du paiement professeur.</li>
+                        <li><strong>Approbation :</strong> Cliquer sur « Approuver » pour valider definitivement le paiement. Le statut passe a « Approuve » et ne peut plus etre modifie sans recalcul.</li>
+                        <li><strong>Historique :</strong> Chaque import cree une version (v1, v2, v3...). Les anciennes versions restent consultables.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="doc-section">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="doc-card">
+                    <div class="doc-card__header">
+                        <div class="doc-card__icon bg-doc-purple">
+                            <i class="ph-duotone ph-math-operations"></i>
+                        </div>
+                        <h5 class="doc-card__title">Exemples de calcul</h5>
+                    </div>
+                    <div class="doc-card__body">
+                        <div class="doc-grid-3">
+                            <div class="doc-step">
+                                <h6 class="doc-step__title">Groupe B1 — 10h00</h6>
+                                <p class="doc-step__text">
+                                    25 x 550 = 13 750 DH<br>
+                                    3 x 412 = 1 236 DH<br>
+                                    <strong>Total = 14 986 DH</strong>
+                                </p>
+                            </div>
+                            <div class="doc-step">
+                                <h6 class="doc-step__title">Groupe B1 — 16h00</h6>
+                                <p class="doc-step__text">
+                                    21 x 550 = 11 550 DH<br>
+                                    2 x 412 = 824 DH<br>
+                                    1 x 0 = 0 DH<br>
+                                    <strong>Total = 12 374 DH</strong>
+                                </p>
+                            </div>
+                            <div class="doc-step">
+                                <h6 class="doc-step__title">Groupe A1 — 18h30</h6>
+                                <p class="doc-step__text">
+                                    10 x 500 = 5 000 DH<br>
+                                    2 x 250 = 500 DH<br>
+                                    1 x 375 = 375 DH<br>
+                                    <strong>Total = 5 875 DH</strong>
+                                </p>
+                            </div>
+                            <div class="doc-step">
+                                <h6 class="doc-step__title">Groupe A1 — 18h30</h6>
+                                <p class="doc-step__text">
+                                    9 x 500 = 4 500 DH<br>
+                                    2 x 375 = 750 DH<br>
+                                    2 x 250 = 500 DH<br>
+                                    <strong>Total = 5 750 DH</strong>
+                                </p>
+                            </div>
+                            <div class="doc-step">
+                                <h6 class="doc-step__title">Groupe B1 — 18h30</h6>
+                                <p class="doc-step__text">
+                                    19 x 550 = 10 450 DH<br>
+                                    1 x 275 = 275 DH<br>
+                                    1 x 137 = 137 DH<br>
+                                    <strong>Total = 10 862 DH</strong>
+                                </p>
+                            </div>
+                            <div class="doc-step">
+                                <h6 class="doc-step__title">Groupe A1 — 16h00</h6>
+                                <p class="doc-step__text">
+                                    14 x 500 = 7 000 DH<br>
+                                    2 x 375 = 750 DH<br>
+                                    <strong>Total = 7 750 DH</strong>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- ================================================================== --}}
+    {{-- COMPARAISON DES DEUX MODULES                                      --}}
+    {{-- ================================================================== --}}
+
+    <div class="doc-section">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="doc-card">
+                    <div class="doc-card__header">
+                        <div class="doc-card__icon bg-doc-blue">
+                            <i class="ph-duotone ph-swap"></i>
+                        </div>
+                        <h5 class="doc-card__title">Difference entre les deux modules</h5>
+                    </div>
+                    <div class="doc-card__body">
+                        <table class="table table-bordered table-sm">
+                            <thead class="table-light">
+                                <tr>
+                                    <th></th>
+                                    <th class="text-center" style="background:#e9fbf3;">Suivi Paiement</th>
+                                    <th class="text-center" style="background:#f1ebff;">Paiement Professeurs</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Direction de l'argent</strong></td>
+                                    <td class="text-center">Etudiant &rarr; GLS</td>
+                                    <td class="text-center">GLS &rarr; Professeur</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Fichier source</strong></td>
+                                    <td class="text-center">Excel CRM (montants mensuels)</td>
+                                    <td class="text-center">Excel Presence (P/Q par jour)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Donnees traquees</strong></td>
+                                    <td class="text-center">Montants payes par etudiant</td>
+                                    <td class="text-center">Jours de presence par etudiant</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Resultat</strong></td>
+                                    <td class="text-center">Lifecycle etudiant (nouveau, actif, perdu...)</td>
+                                    <td class="text-center">Salaire professeur (somme ponderee)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Calcul</strong></td>
+                                    <td class="text-center">Somme directe des montants</td>
+                                    <td class="text-center">Pro-rata : floor(prix x fraction)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Menu sidebar</strong></td>
+                                    <td class="text-center"><i class="ph-duotone ph-wallet"></i> Suivi Paiement</td>
+                                    <td class="text-center"><i class="ph-duotone ph-user-check"></i> Paiement Professeurs</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- ================================================================== --}}
+    {{-- PAGES DU MODULE PRESENCE — Guide page par page                    --}}
+    {{-- ================================================================== --}}
+
+    <div class="doc-section">
+        <div class="doc-grid-3">
+            <div class="doc-card">
+                <div class="doc-card__header">
+                    <div class="doc-card__icon bg-doc-purple">
+                        <i class="ph-duotone ph-squares-four"></i>
+                    </div>
+                    <h5 class="doc-card__title">Tableau de bord Presence</h5>
+                </div>
+                <div class="doc-card__body">
+                    <ul class="doc-list">
+                        <li>Liste tous les groupes avec au moins un import de presence.</li>
+                        <li>Affiche le taux par etudiant, le dernier paiement calcule et le statut (en attente ou approuve).</li>
+                        <li>Bouton rapide pour voir le dernier import ou l'historique complet.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="doc-card">
+                <div class="doc-card__header">
+                    <div class="doc-card__icon bg-doc-purple">
+                        <i class="ph-duotone ph-upload-simple"></i>
+                    </div>
+                    <h5 class="doc-card__title">Page d'import</h5>
+                </div>
+                <div class="doc-card__body">
+                    <ul class="doc-list">
+                        <li><strong>Groupe :</strong> selectionner le groupe concerne.</li>
+                        <li><strong>Mois :</strong> le mois couvert par la feuille de presence.</li>
+                        <li><strong>Taux :</strong> pre-rempli avec le taux de l'enseignant. Modifiable si necessaire.</li>
+                        <li><strong>Fichier :</strong> le fichier Excel de presence (.xlsx, .xls ou .csv).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="doc-card">
+                <div class="doc-card__header">
+                    <div class="doc-card__icon bg-doc-purple">
+                        <i class="ph-duotone ph-eye"></i>
+                    </div>
+                    <h5 class="doc-card__title">Page de detail</h5>
+                </div>
+                <div class="doc-card__body">
+                    <ul class="doc-list">
+                        <li><strong>Cartes resume :</strong> nombre d'etudiants par categorie avec montant unitaire.</li>
+                        <li><strong>Calcul du paiement :</strong> tableau cliquable — cliquer sur une ligne pour voir la liste des etudiants de cette categorie.</li>
+                        <li><strong>Grille de presence :</strong> vue jour par jour de chaque etudiant (P = present, A = absent).</li>
+                        <li><strong>Categorie ajustable :</strong> menu deroulant par etudiant pour modifier la categorie manuellement.</li>
+                        <li><strong>Bouton Approuver :</strong> valide le paiement final du professeur.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- ================================================================== --}}
+    {{-- FAQ                                                                --}}
+    {{-- ================================================================== --}}
+
+    <div class="doc-section">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="doc-card">
+                    <div class="doc-card__header">
+                        <div class="doc-card__icon bg-doc-yellow">
+                            <i class="ph-duotone ph-question"></i>
+                        </div>
+                        <h5 class="doc-card__title">Questions frequentes</h5>
+                    </div>
+                    <div class="doc-card__body">
+                        <ul class="doc-list">
+                            <li><strong>Comment modifier la categorie d'un etudiant ?</strong> Dans la page de detail de l'import, utiliser le menu deroulant dans la colonne « Categorie ». Le total sera recalcule automatiquement.</li>
+                            <li><strong>Un etudiant est classe « Zero » alors qu'il a paye. Que faire ?</strong> Verifier sa presence dans la grille. S'il est present mais mal classe, changer manuellement sa categorie via le menu deroulant.</li>
+                            <li><strong>Puis-je re-importer un fichier corrige ?</strong> Oui, chaque import cree une nouvelle version. L'ancienne version reste accessible dans l'historique.</li>
+                            <li><strong>Comment fonctionne l'arrondi ?</strong> Le systeme utilise floor() (arrondi vers le bas). 550 x 0.75 = 412.5 est arrondi a 412 DH. C'est le meme calcul que fait le responsable a la main.</li>
+                            <li><strong>Ou configurer le taux par etudiant ?</strong> Soit dans le profil de l'enseignant (Gestion ecole &rarr; Enseignants &rarr; Modifier), soit directement lors de l'import dans le champ « Taux par etudiant ».</li>
+                            <li><strong>Que se passe-t-il si un etudiant arrive en milieu de mois ?</strong> Il n'aura de presence que pour les semaines ou il etait inscrit. Le systeme le classera en fonction des quartiers ou il a ete present.</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

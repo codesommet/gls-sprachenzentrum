@@ -2,6 +2,7 @@
 
 @section('title', 'Modifier un Utilisateur')
 @section('breadcrumb-item', 'GLS Centres')
+@section('breadcrumb-item-link', route('backoffice.users.index'))
 @section('breadcrumb-item-active', 'Modifier l\'Utilisateur')
 @section('page-animation', 'animate__rollIn')
 

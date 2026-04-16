@@ -2,6 +2,7 @@
 
 @section('title', 'Créer un Site')
 @section('breadcrumb-item', 'GLS Centres')
+@section('breadcrumb-item-link', route('backoffice.sites.index'))
 @section('breadcrumb-item-active', 'Nouveau Site')
 @section('page-animation', 'animate__rollIn')
 

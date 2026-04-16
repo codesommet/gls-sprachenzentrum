@@ -2,6 +2,7 @@
 
 @section('title', 'Modifier une Catégorie')
 @section('breadcrumb-item', 'Blog')
+@section('breadcrumb-item-link', route('backoffice.blog.categories.index'))
 @section('breadcrumb-item-active', 'Modifier la Catégorie')
 @section('page-animation', 'animate__rollIn')
 

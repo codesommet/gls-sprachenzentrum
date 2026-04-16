@@ -2,6 +2,7 @@
 
 @section('title', 'Détails Certificat')
 @section('breadcrumb-item', 'Examens')
+@section('breadcrumb-item-link', route('backoffice.certificates.index'))
 @section('breadcrumb-item-active', 'Certificat #' . $certificate->id)
 
 @section('css')

@@ -13,7 +13,13 @@ return new class extends Migration {
             $table->string('city');
             $table->string('phone');
             $table->string('email');
-            $table->timestamps(); // created_at = date de soumission auto
+
+            // Google Sheet tracking
+            $table->string('google_sheet_name')->nullable();
+            $table->unsignedInteger('google_sheet_row')->nullable();
+            $table->timestamp('google_sheet_synced_at')->nullable();
+
+            $table->timestamps();
         });
     }
 

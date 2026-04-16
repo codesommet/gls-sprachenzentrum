@@ -19,6 +19,11 @@ class Teacher extends Model implements HasMedia
         'phone',
         'speciality',
         'bio',
+        'payment_per_student',
+    ];
+
+    protected $casts = [
+        'payment_per_student' => 'decimal:2',
     ];
 
     protected static function boot()
@@ -36,5 +41,15 @@ class Teacher extends Model implements HasMedia
     public function site()
     {
         return $this->belongsTo(Site::class);
+    }
+
+    public function groups()
+    {
+        return $this->hasMany(Group::class);
+    }
+
+    public function weeklyReports()
+    {
+        return $this->hasMany(WeeklyReport::class);
     }
 }

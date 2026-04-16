@@ -1,4 +1,4 @@
-<?php 
+ <?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -10,7 +10,12 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('question_id')->constrained('quiz_questions')->cascadeOnDelete();
 
-            $table->string('option_text');
+            // Option type & media
+            $table->string('option_type', 20)->default('text');  // text|image
+            $table->string('option_media_path')->nullable();     // image path
+            $table->string('option_caption')->nullable();        // label under image
+
+            $table->string('option_text')->nullable();
             $table->boolean('is_correct')->default(false);
             $table->unsignedInteger('sort_order')->default(0);
 

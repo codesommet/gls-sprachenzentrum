@@ -18,24 +18,27 @@ return new class extends Migration {
 
             // Applicant info
             $table->string('full_name');
-
             $table->string('whatsapp_number');
-            $table->string('email'); // ✅ ADDED (required, unique per applicant/group logic handled in controller)
-
+            $table->string('email');
             $table->date('birthday')->nullable();
-
             $table->text('note')->nullable();
 
             // Status workflow
             $table->enum('status', ['pending', 'approved', 'rejected'])
                 ->default('pending');
 
+            // Google Sheet tracking
+            $table->string('google_sheet_name')->nullable();
+            $table->unsignedInteger('google_sheet_row')->nullable();
+            $table->timestamp('google_sheet_synced_at')->nullable();
+            $table->timestamp('google_sheet_confirmed_synced_at')->nullable();
+
             $table->timestamps();
 
             // Indexes
             $table->index('group_id');
             $table->index('status');
-            $table->index('email'); // ✅ useful for search & duplicate check
+            $table->index('email');
         });
     }
 

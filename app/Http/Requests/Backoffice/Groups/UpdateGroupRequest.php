@@ -45,21 +45,7 @@ class UpdateGroupRequest extends FormRequest
 
             // ✅ dates required only if active
             'date_debut'    => ['nullable', 'date', 'required_if:status,active'],
-            'date_fin'      => ['nullable', 'date', 'required_if:status,active', 'after_or_equal:date_debut',
-                function ($attribute, $value, $fail) {
-                    if (!$value || !$this->input('date_debut') || $this->input('status') !== 'active') {
-                        return;
-                    }
-                    $start = Carbon::parse($this->input('date_debut'));
-                    $end = Carbon::parse($value);
-                    $days = $start->diffInDays($end);
-                    // 10 months = ~304 days, allow ±5 days tolerance for month length variations
-                    if ($days < 299 || $days > 309) {
-                        $months = round($days / 30.44, 1);
-                        $fail("La duree du groupe doit etre environ 10 mois (actuellement ~{$months} mois).");
-                    }
-                },
-            ],
+            'date_fin'      => ['nullable', 'date', 'required_if:status,active', 'after_or_equal:date_debut'],
         ];
     }
 

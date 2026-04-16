@@ -12,7 +12,8 @@ return new class extends Migration {
     {
         Schema::create('gls_inscriptions', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('nom');
+            $table->string('prenom')->default('');
             $table->string('email');
             $table->string('phone');
             $table->string('adresse');
@@ -26,6 +27,12 @@ return new class extends Migration {
 
             // Tracking field: which form was used (modal or page)
             $table->enum('form_source', ['modal', 'page', 'unknown'])->default('unknown');
+
+            // Google Sheet tracking
+            $table->string('google_sheet_name')->nullable();
+            $table->unsignedInteger('google_sheet_row')->nullable();
+            $table->timestamp('google_sheet_synced_at')->nullable();
+            $table->timestamp('google_sheet_confirmed_synced_at')->nullable();
 
             $table->timestamps();
         });

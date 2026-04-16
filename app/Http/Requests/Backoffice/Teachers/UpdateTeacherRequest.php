@@ -20,6 +20,7 @@ class UpdateTeacherRequest extends FormRequest
             'phone'       => 'nullable|string|max:50',
             'speciality'  => 'nullable|string|max:255',
             'bio'         => 'nullable|string',
+            'payment_per_student' => 'nullable|numeric|min:0',
 
             'image'       => 'nullable|image|max:4096',
         ];

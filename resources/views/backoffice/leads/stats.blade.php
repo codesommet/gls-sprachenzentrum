@@ -2,6 +2,7 @@
 
 @section('title', 'Statistiques des Leads')
 @section('breadcrumb-item', 'Leads')
+@section('breadcrumb-item-link', route('backoffice.leads.index'))
 @section('breadcrumb-item-active', 'Statistiques')
 
 @section('css')

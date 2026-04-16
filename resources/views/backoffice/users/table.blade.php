@@ -5,6 +5,7 @@
                 <th>#ID</th>
                 <th>Nom</th>
                 <th>Email</th>
+                <th>Rôle</th>
                 <th>Vérifié</th>
                 <th>Création</th>
                 <th>Actions</th>
@@ -21,6 +22,14 @@
                     <td>{{ $user->email }}</td>
 
                     <td>
+                        @forelse($user->roles as $role)
+                            <span class="badge bg-light-primary">{{ $role->name }}</span>
+                        @empty
+                            <span class="badge bg-light-warning">Aucun rôle</span>
+                        @endforelse
+                    </td>
+
+                    <td>
                         @if($user->email_verified_at)
                             <span class="badge bg-light-success">Oui</span>
                         @else
@@ -33,12 +42,15 @@
                     <td>
 
                         {{-- EDIT --}}
+                        @can('users.edit')
                         <a href="{{ route('backoffice.users.edit', $user->id) }}"
                             class="avtar avtar-xs btn-link-secondary me-2" title="Modifier" aria-label="Modifier">
                             <i class="ti ti-edit f-20"></i>
                         </a>
+                        @endcan
 
                         {{-- DELETE --}}
+                        @can('users.delete')
                         @if($user->id !== auth()->id())
                             <form action="{{ route('backoffice.users.destroy', $user->id) }}" method="POST"
                                 class="d-inline-block">
@@ -50,13 +62,14 @@
                                 </button>
                             </form>
                         @endif
+                        @endcan
 
                     </td>
 
                 </tr>
             @empty
                 <tr>
-                    <td colspan="6" class="text-center text-muted">Aucun utilisateur trouvé.</td>
+                    <td colspan="7" class="text-center text-muted">Aucun utilisateur trouvé.</td>
                 </tr>
             @endforelse
         </tbody>

@@ -16,7 +16,10 @@ class DatabaseSeeder extends Seeder
             DemoDataSeeder::class,
             QuizQuestionsSeeder::class,
             StudienkollegsTableSeeder::class,
+            RolePermissionSeeder::class,
             AdminUserSeeder::class,
+            EmployeeRHSeeder::class,
+            WeeklyReportSeeder::class,
         ]);
     }
 }

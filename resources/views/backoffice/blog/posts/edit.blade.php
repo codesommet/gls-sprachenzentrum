@@ -1,8 +1,9 @@
 @extends('layouts.main')
 
 @section('title', 'Modifier un Article')
-@section('breadcrumb-item', 'Blog')
-@section('breadcrumb-item-active', 'Modifier l’Article')
+@section(‘breadcrumb-item’, ‘Blog’)
+@section(‘breadcrumb-item-link’, route(‘backoffice.blog.posts.index’))
+@section(‘breadcrumb-item-active’, ‘Modifier l’Article’)
 @section('page-animation', 'animate__rollIn')
 
 @section('css')

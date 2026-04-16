@@ -40,6 +40,11 @@ class Site extends Model implements HasMedia
         return $this->hasMany(Group::class);
     }
 
+    public function employees()
+    {
+        return $this->hasMany(Employee::class);
+    }
+
     // Auto slug + validation YouTube
     protected static function boot()
     {
