@@ -14,6 +14,7 @@ class Employee extends Model
         'Commercial',
         'Manager',
         'Coordination',
+        'Caissier',
         'Autre',
     ];
 
