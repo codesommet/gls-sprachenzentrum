@@ -179,14 +179,14 @@ class EncaissementImportService
 
                 // Batch insert every 100 rows for performance
                 if (count($batch) >= 100) {
-                    Encaissement::insert($batch);
+                    Encaissement::insert($this->normalizeBatch($batch));
                     $batch = [];
                 }
             }
 
             // Insert remaining
             if (!empty($batch)) {
-                Encaissement::insert($batch);
+                Encaissement::insert($this->normalizeBatch($batch));
             }
         });
 
@@ -195,6 +195,30 @@ class EncaissementImportService
             'duplicates' => $duplicates,
             'total_amount' => round($totalAmount, 2),
         ];
+    }
+
+    /**
+     * Ensure every row in the batch shares the exact same set of columns,
+     * filling missing keys with null. Prevents "column count doesn't match
+     * value count" when Encaissement::insert() infers columns from row 0.
+     */
+    private function normalizeBatch(array $batch): array
+    {
+        $columns = [];
+        foreach ($batch as $row) {
+            foreach (array_keys($row) as $k) {
+                $columns[$k] = true;
+            }
+        }
+        $columns = array_keys($columns);
+
+        return array_map(function (array $row) use ($columns) {
+            $normalized = [];
+            foreach ($columns as $c) {
+                $normalized[$c] = $row[$c] ?? null;
+            }
+            return $normalized;
+        }, $batch);
     }
 
     /**
@@ -214,38 +238,34 @@ class EncaissementImportService
             }
         }
 
-        if (empty($distinct)) {
-            return $rows;
-        }
-
-        // Load existing employees at this site, keyed by lowercased name for case-insensitive lookup
-        $existing = Employee::where('site_id', $siteId)
-            ->get()
-            ->keyBy(fn($e) => mb_strtolower(trim($e->name)));
-
         $map = [];
-        foreach ($distinct as $key => $displayName) {
-            if (isset($existing[$key])) {
-                $map[$key] = $existing[$key]->id;
-                continue;
+
+        if (!empty($distinct)) {
+            // Load existing employees at this site, keyed by lowercased name for case-insensitive lookup
+            $existing = Employee::where('site_id', $siteId)
+                ->get()
+                ->keyBy(fn($e) => mb_strtolower(trim($e->name)));
+
+            foreach ($distinct as $key => $displayName) {
+                if (isset($existing[$key])) {
+                    $map[$key] = $existing[$key]->id;
+                    continue;
+                }
+                $employee = Employee::create([
+                    'name' => $displayName,
+                    'site_id' => $siteId,
+                    'role' => 'Caissier',
+                    'is_active' => true,
+                    'notes' => 'Auto-créé depuis import encaissement',
+                ]);
+                $map[$key] = $employee->id;
             }
-            $employee = Employee::create([
-                'name' => $displayName,
-                'site_id' => $siteId,
-                'role' => 'Caissier',
-                'is_active' => true,
-                'notes' => 'Auto-créé depuis import encaissement',
-            ]);
-            $map[$key] = $employee->id;
         }
 
         foreach ($rows as &$row) {
             $name = trim((string) ($row['operator_name'] ?? ''));
-            if ($name === '') continue;
-            $key = mb_strtolower($name);
-            if (isset($map[$key])) {
-                $row['employee_id'] = $map[$key];
-            }
+            $key = $name !== '' ? mb_strtolower($name) : null;
+            $row['employee_id'] = ($key !== null && isset($map[$key])) ? $map[$key] : null;
         }
         unset($row);
 
