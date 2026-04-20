@@ -99,7 +99,7 @@
                                 </td>
                                 <td>
                                     <span class="badge bg-light-{{ $import->source_system === 'old_crm' ? 'warning' : 'info' }}">
-                                        {{ $import->source_system === 'old_crm' ? 'Nawaat' : 'Wimsschool' }}
+                                        {{ $import->source_system === 'old_crm' ? 'Nawat' : 'Wimschool' }}
                                     </span>
                                 </td>
                                 <td>

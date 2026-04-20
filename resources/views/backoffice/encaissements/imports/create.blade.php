@@ -55,10 +55,10 @@
                                 <select name="source_system" class="form-select" required>
                                     <option value="">Selectionner le format</option>
                                     <option value="old_crm" {{ old('source_system') === 'old_crm' ? 'selected' : '' }}>
-                                        Nawaat (2023-2024)
+                                        Nawat (2023 - Oct. 2025)
                                     </option>
                                     <option value="new_crm" {{ old('source_system') === 'new_crm' ? 'selected' : '' }}>
-                                        Wimsschool (2025+)
+                                        Wimschool (Nov. 2025+)
                                     </option>
                                 </select>
                             </div>

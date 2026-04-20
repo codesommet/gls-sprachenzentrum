@@ -50,7 +50,7 @@
                                 </div>
                                 <div class="col-auto">
                                     <strong>Format :</strong>
-                                    {{ $import->source_system === 'old_crm' ? 'Nawaat (2023-2024)' : 'Wimsschool (2025+)' }}
+                                    {{ $import->source_system === 'old_crm' ? 'Nawat (2023 - Oct. 2025)' : 'Wimschool (Nov. 2025+)' }}
                                 </div>
                                 <div class="col-auto">
                                     <strong>Fichier :</strong> {{ $import->file_name }}

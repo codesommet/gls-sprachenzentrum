@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('encaissement_imports', function (Blueprint $table) {
             $table->id();
             $table->foreignId('site_id')->constrained()->cascadeOnDelete();
-            $table->enum('source_system', ['old_crm', 'new_crm'])->comment('Ancien CRM (2023-2024) ou Nouveau CRM (2025+)');
+            $table->enum('source_system', ['old_crm', 'new_crm'])->comment('Nawat (2023 - Oct. 2025) ou Wimschool (Nov. 2025+)');
             $table->enum('file_type', ['excel', 'pdf'])->comment('Type de fichier importe');
             $table->string('file_name')->comment('Nom du fichier original');
             $table->string('file_path')->comment('Chemin stockage sur disque');
