@@ -300,6 +300,9 @@
                     <li><a class="dropdown-item"
                             href="{{ LaravelLocalization::localizeUrl(route('front.certificate.check')) }}">{{ __('header.verify_certificate') }}</a>
                     </li>
+                    <li><a class="dropdown-item"
+                            href="{{ LaravelLocalization::localizeUrl(route('front.partners.fc_marokko')) }}">{{ __('header.fc_marokko') }}</a>
+                    </li>
                 </ul>
             </div>
 
@@ -484,6 +487,10 @@
 
                 <a href="{{ LaravelLocalization::localizeUrl(route('front.certificate.check')) }}">
                     {{ __('header.verify_certificate') }}
+                </a>
+
+                <a href="{{ LaravelLocalization::localizeUrl(route('front.partners.fc_marokko')) }}">
+                    {{ __('header.fc_marokko') }}
                 </a>
             </div>
 

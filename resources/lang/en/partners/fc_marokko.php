@@ -58,6 +58,12 @@ return [
         'c3_text'   => 'The partnership with GLS creates a strong link between language learning, academic success and sports commitment.',
     ],
 
+    'video' => [
+        'kicker'   => 'Watch',
+        'title'    => 'FC Marokko Herne in Germany',
+        'subtitle' => 'Meet our partner in action — sport, community and passion combined.',
+    ],
+
     'gallery' => [
         'kicker' => 'In pictures',
         'title' => 'On the field with FC Marokko',

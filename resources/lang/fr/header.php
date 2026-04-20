@@ -24,6 +24,8 @@ return [
     'blog' => 'Blog',
     'student_stories' => 'Parcours étudiants',
     'verify_certificate' => 'Vérifier certificat',
+    'partners' => 'Partenaires',
+    'fc_marokko' => 'FC Marokko',
 
     'inscription' => 'Inscription',
 
