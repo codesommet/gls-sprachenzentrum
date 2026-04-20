@@ -51,6 +51,10 @@ class RolePermissionSeeder extends Seeder
             }
         }
 
+        // Purge legacy permissions: the standalone "employees" CRUD has been merged
+        // into "users" — any lingering employees.* grants are meaningless now.
+        Permission::where('name', 'like', 'employees.%')->delete();
+
         /*
         |----------------------------------------------------------------------
         | Super Admin — gets ALL permissions

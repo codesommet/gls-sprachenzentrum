@@ -56,7 +56,6 @@
                             'presence'        => 'Paiement Professeurs',
                             'level_followups' => 'Suivi Niveau',
                             'weekly_reports'  => 'Rapport Semaine',
-                            'employees'       => 'Employés',
                             'schedules'       => 'Planning',
                             'encaissements'   => 'Encaissements',
                         ];
