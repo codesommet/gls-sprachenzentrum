@@ -33,11 +33,11 @@
                         <div class="row g-3 mb-4">
                             <div class="col-md-4">
                                 <label class="form-label">Employé <span class="text-danger">*</span></label>
-                                <select name="employee_id" class="form-select" required>
+                                <select name="user_id" class="form-select" required>
                                     <option value="">-- Choisir --</option>
                                     @foreach($employees as $emp)
-                                        <option value="{{ $emp->id }}" {{ old('employee_id') == $emp->id ? 'selected' : '' }}>
-                                            {{ $emp->name }} ({{ $emp->site->name }})
+                                        <option value="{{ $emp->id }}" {{ old('user_id') == $emp->id ? 'selected' : '' }}>
+                                            {{ $emp->name }} ({{ $emp->site?->name ?? '—' }})
                                         </option>
                                     @endforeach
                                 </select>

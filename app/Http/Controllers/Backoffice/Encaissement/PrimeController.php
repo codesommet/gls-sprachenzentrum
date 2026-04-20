@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Backoffice\Encaissement;
 use App\Http\Controllers\Controller;
 use App\Models\Prime;
 use App\Models\Site;
-use App\Models\Employee;
+use App\Models\User;
 use App\Models\SystemConfig;
 use Illuminate\Http\Request;
 
@@ -13,14 +13,17 @@ class PrimeController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Prime::with(['employee', 'site', 'approvedBy'])
+        $query = Prime::with(['user', 'site', 'approvedBy'])
             ->orderByDesc('month');
 
         if ($request->filled('site_id')) {
             $query->where('site_id', $request->site_id);
         }
-        if ($request->filled('employee_id')) {
-            $query->where('employee_id', $request->employee_id);
+        if ($request->filled('user_id')) {
+            $query->where('user_id', $request->user_id);
+        } elseif ($request->filled('employee_id')) {
+            // BC: legacy filter name
+            $query->where('user_id', $request->employee_id);
         }
         if ($request->filled('status')) {
             $request->status === 'approved' ? $query->approved() : $query->pending();
@@ -31,7 +34,7 @@ class PrimeController extends Controller
 
         $primes = $query->paginate(50)->withQueryString();
         $sites = Site::where('is_active', true)->orderBy('name')->get();
-        $employees = Employee::where('is_active', true)->orderBy('name')->get();
+        $employees = User::whereNotNull('staff_role')->where('is_active', true)->orderBy('name')->get();
 
         // Stats
         $totalAmount = (clone $query)->sum('amount');

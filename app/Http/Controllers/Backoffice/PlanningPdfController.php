@@ -3,25 +3,25 @@
 namespace App\Http\Controllers\Backoffice;
 
 use App\Http\Controllers\Controller;
-use App\Models\Employee;
-use App\Models\EmployeeSchedule;
 use App\Models\Site;
+use App\Models\User;
+use App\Models\UserSchedule;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class PlanningPdfController extends Controller
 {
     /**
-     * Generate PDF for a single employee.
+     * PDF for a single staff member (bound as User via /pdf/employee/{employee}).
      */
-    public function employee(Request $request, Employee $employee)
+    public function employee(Request $request, User $employee)
     {
         $request->validate([
             'date_from' => 'required|date',
             'date_to' => 'required|date|after_or_equal:date_from',
         ]);
 
-        $schedules = EmployeeSchedule::where('employee_id', $employee->id)
+        $schedules = UserSchedule::where('user_id', $employee->id)
             ->whereBetween('date', [$request->date_from, $request->date_to])
             ->orderBy('date')
             ->get();
@@ -43,7 +43,7 @@ class PlanningPdfController extends Controller
     }
 
     /**
-     * Generate combined PDF for all employees of a site.
+     * Combined PDF for all staff of a site.
      */
     public function site(Request $request, Site $site)
     {
@@ -52,11 +52,11 @@ class PlanningPdfController extends Controller
             'date_to' => 'required|date|after_or_equal:date_from',
         ]);
 
-        $employees = $site->employees()->where('is_active', true)->orderBy('name')->get();
+        $employees = $site->staff()->where('is_active', true)->orderBy('name')->get();
 
         $employeePlannings = [];
         foreach ($employees as $employee) {
-            $schedules = EmployeeSchedule::where('employee_id', $employee->id)
+            $schedules = UserSchedule::where('user_id', $employee->id)
                 ->whereBetween('date', [$request->date_from, $request->date_to])
                 ->orderBy('date')
                 ->get();
@@ -84,13 +84,14 @@ class PlanningPdfController extends Controller
         return $pdf->download($filename);
     }
 
-    /**
-     * Show the PDF export form.
-     */
     public function exportForm()
     {
         $sites = Site::where('is_active', true)->get();
-        $employees = Employee::where('is_active', true)->with('site')->orderBy('name')->get();
+        $employees = User::whereNotNull('staff_role')
+            ->where('is_active', true)
+            ->with('site')
+            ->orderBy('name')
+            ->get();
 
         return view('backoffice.schedules.export', compact('sites', 'employees'));
     }

@@ -4,7 +4,8 @@ namespace App\Services\Encaissement;
 
 use App\Models\Encaissement;
 use App\Models\EncaissementImport;
-use App\Models\Employee;
+use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\UploadedFile;
 
@@ -79,7 +80,7 @@ class EncaissementImportService
             $fullPath = storage_path('app/' . $storedPath);
             $result = $this->parseFile($fullPath, $siteId, $sourceSystem, $fileType, $schoolYear);
 
-            // Sync operators as employees (new CRM only) and attach employee_id to rows
+            // Sync operators as staff users (new CRM only) and attach user_id to rows
             if ($sourceSystem === 'new_crm') {
                 $result['rows'] = $this->syncOperators($result['rows'], $siteId);
             }
@@ -222,9 +223,9 @@ class EncaissementImportService
     }
 
     /**
-     * Ensure every distinct operator_name from the parsed rows exists as an Employee
-     * (role = Caissier) scoped to the site. Case-insensitive dedup against existing
-     * employees. Returns the rows with employee_id populated.
+     * Ensure every distinct operator_name from the parsed rows exists as a staff User
+     * (staff_role = Caissier) scoped to the site. Case-insensitive dedup against
+     * existing users at that site. Returns the rows with user_id populated.
      */
     private function syncOperators(array $rows, int $siteId): array
     {
@@ -241,31 +242,33 @@ class EncaissementImportService
         $map = [];
 
         if (!empty($distinct)) {
-            // Load existing employees at this site, keyed by lowercased name for case-insensitive lookup
-            $existing = Employee::where('site_id', $siteId)
+            $existing = User::where('site_id', $siteId)
                 ->get()
-                ->keyBy(fn($e) => mb_strtolower(trim($e->name)));
+                ->keyBy(fn($u) => mb_strtolower(trim($u->name)));
 
             foreach ($distinct as $key => $displayName) {
                 if (isset($existing[$key])) {
                     $map[$key] = $existing[$key]->id;
                     continue;
                 }
-                $employee = Employee::create([
-                    'name' => $displayName,
-                    'site_id' => $siteId,
-                    'role' => 'Caissier',
-                    'is_active' => true,
-                    'notes' => 'Auto-créé depuis import encaissement',
+                $user = User::create([
+                    'name'              => $displayName,
+                    'email'             => Str::slug($displayName) . '-' . $siteId . '-' . Str::random(6) . '@staff.local',
+                    'password'          => Str::random(32),
+                    'site_id'           => $siteId,
+                    'staff_role'        => 'Caissier',
+                    'is_active'         => true,
+                    'staff_notes'       => 'Auto-créé depuis import encaissement',
+                    'email_verified_at' => now(),
                 ]);
-                $map[$key] = $employee->id;
+                $map[$key] = $user->id;
             }
         }
 
         foreach ($rows as &$row) {
             $name = trim((string) ($row['operator_name'] ?? ''));
             $key = $name !== '' ? mb_strtolower($name) : null;
-            $row['employee_id'] = ($key !== null && isset($map[$key])) ? $map[$key] : null;
+            $row['user_id'] = ($key !== null && isset($map[$key])) ? $map[$key] : null;
         }
         unset($row);
 

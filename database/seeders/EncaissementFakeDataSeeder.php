@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Site;
-use App\Models\Employee;
+use App\Models\User;
 use App\Models\Encaissement;
 use App\Models\SiteExpense;
 use App\Models\Impaye;
@@ -83,19 +83,22 @@ class EncaissementFakeDataSeeder extends Seeder
     {
         $roles = ['Réception', 'Commercial', 'Coordination'];
         foreach ($this->sitePerformance as $siteId => $perf) {
-            $count = Employee::where('site_id', $siteId)->count();
+            $count = User::where('site_id', $siteId)->whereNotNull('staff_role')->count();
             if ($count >= 3) continue;
 
             foreach ($roles as $role) {
-                if (!Employee::where('site_id', $siteId)->where('role', $role)->exists()) {
-                    Employee::create([
-                        'site_id' => $siteId,
-                        'name' => $this->randomName(),
-                        'role' => $role,
-                        'phone' => '06' . rand(10000000, 99999999),
-                        'email' => strtolower($perf['name_short']) . '.' . strtolower($role) . '@gls.ma',
-                        'is_active' => true,
-                        'hired_at' => Carbon::create(2022, rand(1, 12), rand(1, 28)),
+                $exists = User::where('site_id', $siteId)->where('staff_role', $role)->exists();
+                if (! $exists) {
+                    User::create([
+                        'site_id'           => $siteId,
+                        'name'              => $this->randomName(),
+                        'staff_role'        => $role,
+                        'phone'             => '06' . rand(10000000, 99999999),
+                        'email'             => strtolower($perf['name_short']) . '.' . strtolower(\Illuminate\Support\Str::slug($role)) . '.' . \Illuminate\Support\Str::random(4) . '@gls.ma',
+                        'password'          => \Illuminate\Support\Str::random(32),
+                        'is_active'         => true,
+                        'hired_at'          => Carbon::create(2022, rand(1, 12), rand(1, 28)),
+                        'email_verified_at' => now(),
                     ]);
                 }
             }
@@ -109,9 +112,9 @@ class EncaissementFakeDataSeeder extends Seeder
         $impayeRate = $perf['impaye_rate'];
 
         // Get operators for this site
-        $operators = Employee::where('site_id', $site->id)
+        $operators = User::where('site_id', $site->id)
             ->where('is_active', true)
-            ->whereIn('role', ['Réception', 'Commercial'])
+            ->whereIn('staff_role', ['Réception', 'Commercial'])
             ->pluck('name')
             ->toArray();
         if (empty($operators)) $operators = ['Latifa Abouelfath', 'Mustapha Benmoussa'];

@@ -349,12 +349,12 @@
                         </a>
                     </div>
 
-                    {{-- <div class="w-locale">
+                    <div class="w-locale">
                         <a class="nav-lang-btn {{ app()->getLocale() == 'ar' ? 'active-lang' : '' }}"
                             href="{{ LaravelLocalization::getLocalizedURL('ar') }}">
                             AR
                         </a>
-                    </div> --}}
+                    </div>
 
                 </div>
             </div>
@@ -529,10 +529,10 @@
                 DE
             </a>
 
-            {{-- <a href="{{ LaravelLocalization::getLocalizedURL('ar') }}"
+            <a href="{{ LaravelLocalization::getLocalizedURL('ar') }}"
                 class="nav-lang-btn {{ app()->getLocale() == 'ar' ? 'active-lang' : '' }}">
                 AR
-            </a> --}}
+            </a>
         </div>
 
 

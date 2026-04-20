@@ -32,7 +32,7 @@
             <h2>{{ \Carbon\Carbon::parse($dateFrom)->format('d/m/Y') }} au {{ \Carbon\Carbon::parse($dateTo)->format('d/m/Y') }}</h2>
         </div>
 
-        <div class="emp-header">{{ $planning['employee']->name }} — {{ $planning['employee']->role }}</div>
+        <div class="emp-header">{{ $planning['employee']->name }} — {{ $planning['employee']->staff_role ?? '—' }}</div>
         <table class="data">
             <thead><tr>
                 <th>Date</th><th>Jour</th><th>Début</th><th>Fin</th><th>Amplitude</th><th>Pause</th><th>Durée</th><th>Travaillé</th><th>Notes</th>
@@ -53,10 +53,10 @@
                 @endforeach
                 <tr class="total">
                     <td colspan="4">TOTAL — {{ $planning['schedules']->count() }} jours</td>
-                    <td class="text-center">{{ \App\Models\EmployeeSchedule::formatMinutes($planning['schedules']->sum('total_span_minutes')) }}</td>
+                    <td class="text-center">{{ \App\Models\UserSchedule::formatMinutes($planning['schedules']->sum('total_span_minutes')) }}</td>
                     <td></td>
-                    <td class="text-center">{{ \App\Models\EmployeeSchedule::formatMinutes($planning['totalBreak']) }}</td>
-                    <td class="text-center bold green">{{ \App\Models\EmployeeSchedule::formatMinutes($planning['totalWorked']) }}</td>
+                    <td class="text-center">{{ \App\Models\UserSchedule::formatMinutes($planning['totalBreak']) }}</td>
+                    <td class="text-center bold green">{{ \App\Models\UserSchedule::formatMinutes($planning['totalWorked']) }}</td>
                     <td></td>
                 </tr>
             </tbody>

@@ -12,7 +12,7 @@
     $presenceOpen = request()->routeIs('backoffice.payroll.presence.*');
     $contentOpen = request()->routeIs('backoffice.blog.*');
     $encaissementOpen = request()->routeIs('backoffice.encaissements.*');
-    $rhOpen = request()->routeIs('backoffice.employees.*') || request()->routeIs('backoffice.schedules.*') || request()->routeIs('backoffice.planning.*');
+    $rhOpen = request()->routeIs('backoffice.schedules.*') || request()->routeIs('backoffice.planning.*');
     $adminOpen = request()->routeIs('backoffice.users.*') || request()->routeIs('backoffice.roles.*');
 @endphp
 
@@ -221,6 +221,7 @@
                 <span class="pc-mtext">Historique imports</span>
             </a>
         </li>
+        {{-- Hidden for now — routes still work, just off the sidebar
         <li class="pc-item {{ request()->routeIs('backoffice.encaissements.rentabilite') ? 'active' : '' }}">
             <a href="{{ route('backoffice.encaissements.rentabilite') }}" class="pc-link {{ request()->routeIs('backoffice.encaissements.rentabilite') ? 'active' : '' }}">
                 <span class="pc-mtext">Rentabilité</span>
@@ -246,11 +247,11 @@
                 <span class="pc-mtext">Primes (auto)</span>
             </a>
         </li>
+        --}}
     </ul>
 </li>
 @endcan
 
-@canany(['employees.view', 'schedules.view'])
 <li class="pc-item pc-hasmenu {{ $rhOpen ? 'pc-trigger' : '' }}">
     <a href="#!" class="pc-link">
         <span class="pc-micon"><i class="ph-duotone ph-calendar-blank"></i></span>
@@ -258,17 +259,16 @@
         <span class="pc-arrow"><i class="ph-duotone ph-caret-right"></i></span>
     </a>
     <ul class="pc-submenu">
-        @can('employees.view')
-        <li class="pc-item {{ request()->routeIs('backoffice.employees.*') ? 'active' : '' }}">
-            <a href="{{ route('backoffice.employees.index') }}" class="pc-link {{ request()->routeIs('backoffice.employees.*') ? 'active' : '' }}">
-                <span class="pc-mtext">Employés</span>
+        {{-- Self-service weekly planning — visible to every logged-in user --}}
+        <li class="pc-item {{ request()->routeIs('backoffice.schedules.week') ? 'active' : '' }}">
+            <a href="{{ route('backoffice.schedules.week') }}" class="pc-link {{ request()->routeIs('backoffice.schedules.week') ? 'active' : '' }}">
+                <span class="pc-mtext">Mon Planning</span>
             </a>
         </li>
-        @endcan
         @can('schedules.view')
-        <li class="pc-item {{ request()->routeIs('backoffice.schedules.*') ? 'active' : '' }}">
-            <a href="{{ route('backoffice.schedules.index') }}" class="pc-link {{ request()->routeIs('backoffice.schedules.*') ? 'active' : '' }}">
-                <span class="pc-mtext">Planning</span>
+        <li class="pc-item {{ request()->routeIs('backoffice.schedules.index') ? 'active' : '' }}">
+            <a href="{{ route('backoffice.schedules.index') }}" class="pc-link {{ request()->routeIs('backoffice.schedules.index') ? 'active' : '' }}">
+                <span class="pc-mtext">Planning équipe</span>
             </a>
         </li>
         <li class="pc-item {{ request()->routeIs('backoffice.planning.*') ? 'active' : '' }}">
@@ -279,7 +279,6 @@
         @endcan
     </ul>
 </li>
-@endcanany
 
 @canany(['blog_categories.view', 'blog_posts.view'])
 <li class="pc-item pc-hasmenu {{ $contentOpen ? 'pc-trigger' : '' }}">

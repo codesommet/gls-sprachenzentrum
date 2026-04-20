@@ -2,124 +2,182 @@
 
 @section('title', __('partners/fc_marokko.meta.title'))
 
-<link rel="stylesheet" href="{{ asset('assets/css/frontoffice/partners/fc-marokko.css') }}">
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('assets/css/frontoffice/partners/fc-marokko.css') }}">
+@endpush
 
 @section('content')
 
-    <section class="hero-section section blog-hero-section blog-hero-margin reveal delay-1 fc-marokko-hero">
-        <div class="fc-marokko-hero-bg"
+    {{-- ================== HERO ================== --}}
+    <section class="fcm-hero">
+        <div class="fcm-hero__bg"
             style="background-image:url('https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg');">
         </div>
-        <div class="fc-marokko-hero-overlay"></div>
+        <div class="fcm-hero__overlay"></div>
 
-        <div class="container reveal delay-2">
-            <div class="blog-hero-inner reveal delay-3">
+        <div class="fcm-hero__stripes" aria-hidden="true">
+            <span></span><span></span><span></span><span></span>
+        </div>
 
-                <div class="blog-hero-badge reveal delay-1">{{ __('partners/fc_marokko.hero.badge') }}</div>
+        <div class="container fcm-hero__container">
 
-                <h1 class="blog-hero-title fade-blur-title reveal delay-2">
-                    {{ __('partners/fc_marokko.hero.title') }}
-                </h1>
+            <div class="fcm-hero__badge reveal delay-1">
+                <span class="fcm-dot"></span>
+                {{ __('partners/fc_marokko.hero.badge') }}
+            </div>
 
-                <p class="blog-hero-subtitle reveal delay-3">
-                    {{ __('partners/fc_marokko.hero.subtitle') }}
-                </p>
-
-                <div class="blog-hero-meta reveal delay-1">
-                    <span>{{ __('partners/fc_marokko.hero.meta') }}</span>
+            <div class="fcm-hero__lockup reveal delay-2">
+                <div class="fcm-lockup__logo">
+                    <img src="{{ asset('assets/images/logo/gls-round.png') }}"
+                         onerror="this.src='{{ asset('assets/images/gls-noir.png') }}'"
+                         alt="GLS Sprachenzentrum">
                 </div>
+                <div class="fcm-lockup__x">×</div>
+                <div class="fcm-lockup__logo fcm-lockup__logo--alt">
+                    <img src="https://fc-marokko.de/storage/2022/10/fcm-logo.png"
+                         alt="{{ __('partners/fc_marokko.hero.alt') }}">
+                </div>
+            </div>
 
+            <h1 class="fcm-hero__title reveal delay-3">
+                {!! __('partners/fc_marokko.hero.title') !!}
+            </h1>
+
+            <p class="fcm-hero__subtitle reveal delay-3">
+                {{ __('partners/fc_marokko.hero.subtitle') }}
+            </p>
+
+            <div class="fcm-hero__meta reveal delay-1">
+                {{ __('partners/fc_marokko.hero.meta') }}
+            </div>
+
+            <div class="fcm-hero__actions reveal delay-2">
+                <a href="#fcm-story" class="fcm-btn fcm-btn--primary">
+                    {{ __('partners/fc_marokko.hero.cta_primary') }}
+                    <i class="bi bi-arrow-down-short"></i>
+                </a>
+                <a href="https://fc-marokko.de/" target="_blank" rel="noopener" class="fcm-btn fcm-btn--ghost">
+                    {{ __('partners/fc_marokko.hero.cta_secondary') }}
+                    <i class="bi bi-box-arrow-up-right"></i>
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    {{-- ================== STATS STRIP ================== --}}
+    <section class="fcm-stats">
+        <div class="container">
+            <div class="fcm-stats__grid">
+                <div class="fcm-stat reveal delay-1">
+                    <div class="fcm-stat__value">{{ __('partners/fc_marokko.stats.s1_value') }}</div>
+                    <div class="fcm-stat__label">{{ __('partners/fc_marokko.stats.s1_label') }}</div>
+                </div>
+                <div class="fcm-stat reveal delay-2">
+                    <div class="fcm-stat__value">{{ __('partners/fc_marokko.stats.s2_value') }}</div>
+                    <div class="fcm-stat__label">{{ __('partners/fc_marokko.stats.s2_label') }}</div>
+                </div>
+                <div class="fcm-stat reveal delay-3">
+                    <div class="fcm-stat__value">{{ __('partners/fc_marokko.stats.s3_value') }}</div>
+                    <div class="fcm-stat__label">{{ __('partners/fc_marokko.stats.s3_label') }}</div>
+                </div>
+                <div class="fcm-stat reveal delay-1">
+                    <div class="fcm-stat__value">{{ __('partners/fc_marokko.stats.s4_value') }}</div>
+                    <div class="fcm-stat__label">{{ __('partners/fc_marokko.stats.s4_label') }}</div>
+                </div>
             </div>
         </div>
     </section>
 
-    <section class="section reveal delay-1">
-        <div class="container reveal delay-2">
+    {{-- ================== STORY ================== --}}
+    <section id="fcm-story" class="fcm-story">
+        <div class="container">
+            <div class="row g-5 align-items-center">
 
-            <div class="row g-4 align-items-center">
+                <div class="col-12 col-lg-6 reveal delay-1">
+                    <div class="fcm-story__kicker">
+                        <span class="fcm-bar"></span>
+                        {{ __('partners/fc_marokko.content.kicker') }}
+                    </div>
+                    <h2 class="fcm-story__heading">
+                        {{ __('partners/fc_marokko.content.heading') }}
+                    </h2>
 
-                <div class="col-12 col-lg-5 reveal delay-1">
-                    <div class="card p-4 border-0 shadow-sm">
-                        <div class="d-flex align-items-center gap-3">
-                            <img src="https://fc-marokko.de/storage/2022/10/fcm-logo.png"
-                                alt="{{ __('partners/fc_marokko.hero.alt') }}"
-                                style="width: 84px; height: 84px; object-fit: contain;" loading="lazy">
-                            <div>
-                                <div class="small text-muted">{{ __('partners/fc_marokko.section1.kicker') }}</div>
-                                <h2 class="h4 mb-1">{{ __('partners/fc_marokko.section1.title') }}</h2>
-                                <div class="text-muted">{{ __('partners/fc_marokko.section1.subtitle') }}</div>
+                    <div class="fcm-story__text">
+                        <p>{!! __('partners/fc_marokko.content.p1') !!}</p>
+                        <p>{!! __('partners/fc_marokko.content.p2') !!}</p>
+                        <p>{!! __('partners/fc_marokko.content.p3') !!}</p>
+                    </div>
+
+                    <a href="https://fc-marokko.de/" target="_blank" rel="noopener" class="fcm-btn fcm-btn--dark">
+                        {{ __('partners/fc_marokko.section1.button') }}
+                        <i class="bi bi-arrow-up-right"></i>
+                    </a>
+                </div>
+
+                <div class="col-12 col-lg-6 reveal delay-2">
+                    <div class="fcm-story__visual">
+                        <div class="fcm-story__card fcm-story__card--main">
+                            <img src="https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg"
+                                 alt="FC Marokko" loading="lazy">
+                            <div class="fcm-story__card-tag">
+                                <i class="bi bi-trophy-fill"></i>
+                                FC Marokko
                             </div>
                         </div>
-
-                        <div class="mt-3">
-                            <a href="https://fc-marokko.de/" target="_blank" rel="noopener" class="btn btn-white">
-                                {{ __('partners/fc_marokko.section1.button') }}
-                            </a>
+                        <div class="fcm-story__card fcm-story__card--badge">
+                            <img src="https://fc-marokko.de/storage/2022/10/fcm-logo.png" alt="FC Marokko logo" loading="lazy">
+                        </div>
+                        <div class="fcm-story__ball" aria-hidden="true">
+                            <i class="bi bi-dribbble"></i>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-12 col-lg-7 reveal delay-2">
-                    <div class="rich-text w-richtext">
-                        <p class="reveal delay-1">{!! __('partners/fc_marokko.content.p1') !!}</p>
-                        <p class="reveal delay-2">{!! __('partners/fc_marokko.content.p2') !!}</p>
-                        <p class="reveal delay-3">{!! __('partners/fc_marokko.content.p3') !!}</p>
-                    </div>
-                </div>
-
             </div>
-
         </div>
     </section>
 
-    <section class="section reveal delay-1">
-        <div class="container reveal delay-2">
+    {{-- ================== PILLARS ================== --}}
+    <section class="fcm-pillars">
+        <div class="container">
 
-            <div class="row g-4">
+            <div class="fcm-section-head text-center reveal delay-1">
+                <div class="fcm-section-head__kicker">
+                    <span class="fcm-bar"></span>
+                    {{ __('partners/fc_marokko.pillars.title') }}
+                    <span class="fcm-bar"></span>
+                </div>
+                <h2 class="fcm-section-head__title">{{ __('partners/fc_marokko.pillars.subtitle') }}</h2>
+            </div>
+
+            <div class="row g-4 fcm-pillars__grid">
 
                 <div class="col-12 col-md-4 reveal delay-1">
-                    <div class="card h-100 p-4 border-0 shadow-sm fc-info-card">
-                        <div class="fc-card-head">
-                            <div class="fc-card-icon">
-                                <i class="bi bi-shield-check"></i>
-                            </div>
-                            <div>
-                                <div class="small text-muted mb-2">{{ __('partners/fc_marokko.cards.c1_kicker') }}</div>
-                                <h3 class="h5 mb-2">{{ __('partners/fc_marokko.cards.c1_title') }}</h3>
-                            </div>
-                        </div>
-                        <p class="mb-0 text-muted">{!! __('partners/fc_marokko.cards.c1_text') !!}</p>
-                    </div>
+                    <article class="fcm-pillar fcm-pillar--green">
+                        <div class="fcm-pillar__index">{{ __('partners/fc_marokko.pillars.c1_kicker') }}</div>
+                        <div class="fcm-pillar__icon"><i class="bi bi-shield-check"></i></div>
+                        <h3 class="fcm-pillar__title">{{ __('partners/fc_marokko.pillars.c1_title') }}</h3>
+                        <p class="fcm-pillar__text">{!! __('partners/fc_marokko.pillars.c1_text') !!}</p>
+                    </article>
                 </div>
 
                 <div class="col-12 col-md-4 reveal delay-2">
-                    <div class="card h-100 p-4 border-0 shadow-sm fc-info-card">
-                        <div class="fc-card-head">
-                            <div class="fc-card-icon">
-                                <i class="bi bi-bullseye"></i>
-                            </div>
-                            <div>
-                                <div class="small text-muted mb-2">{{ __('partners/fc_marokko.cards.c2_kicker') }}</div>
-                                <h3 class="h5 mb-2">{{ __('partners/fc_marokko.cards.c2_title') }}</h3>
-                            </div>
-                        </div>
-                        <p class="mb-0 text-muted">{!! __('partners/fc_marokko.cards.c2_text') !!}</p>
-                    </div>
+                    <article class="fcm-pillar fcm-pillar--orange">
+                        <div class="fcm-pillar__index">{{ __('partners/fc_marokko.pillars.c2_kicker') }}</div>
+                        <div class="fcm-pillar__icon"><i class="bi bi-bullseye"></i></div>
+                        <h3 class="fcm-pillar__title">{{ __('partners/fc_marokko.pillars.c2_title') }}</h3>
+                        <p class="fcm-pillar__text">{!! __('partners/fc_marokko.pillars.c2_text') !!}</p>
+                    </article>
                 </div>
 
                 <div class="col-12 col-md-4 reveal delay-3">
-                    <div class="card h-100 p-4 border-0 shadow-sm fc-info-card">
-                        <div class="fc-card-head">
-                            <div class="fc-card-icon">
-                                <i class="bi bi-people"></i>
-                            </div>
-                            <div>
-                                <div class="small text-muted mb-2">{{ __('partners/fc_marokko.cards.c3_kicker') }}</div>
-                                <h3 class="h5 mb-2">{{ __('partners/fc_marokko.cards.c3_title') }}</h3>
-                            </div>
-                        </div>
-                        <p class="mb-0 text-muted">{!! __('partners/fc_marokko.cards.c3_text') !!}</p>
-                    </div>
+                    <article class="fcm-pillar fcm-pillar--red">
+                        <div class="fcm-pillar__index">{{ __('partners/fc_marokko.pillars.c3_kicker') }}</div>
+                        <div class="fcm-pillar__icon"><i class="bi bi-people-fill"></i></div>
+                        <h3 class="fcm-pillar__title">{{ __('partners/fc_marokko.pillars.c3_title') }}</h3>
+                        <p class="fcm-pillar__text">{!! __('partners/fc_marokko.pillars.c3_text') !!}</p>
+                    </article>
                 </div>
 
             </div>
@@ -127,106 +185,81 @@
         </div>
     </section>
 
-    <section class="section reveal delay-1">
-        <div class="container reveal delay-2">
+    {{-- ================== GALLERY ================== --}}
+    <section class="fcm-gallery">
+        <div class="container">
 
-            <div class="row align-items-end mb-4">
-                <div class="col-12 col-lg-8">
-                    <h2 class="h3 mb-2">{{ __('partners/fc_marokko.gallery.title') }}</h2>
-                    <p class="text-muted mb-0">{!! __('partners/fc_marokko.gallery.subtitle') !!}</p>
+            <div class="fcm-section-head reveal delay-1">
+                <div class="fcm-section-head__kicker">
+                    <span class="fcm-bar"></span>
+                    {{ __('partners/fc_marokko.gallery.kicker') }}
                 </div>
-            </div>
-
-            <div class="row g-3 fc-gallery">
-
-                <div class="col-12 col-md-7">
-                    <a class="fc-gallery-item"
-                        href="https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg"
-                        target="_blank" rel="noopener">
-                        <img src="https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg"
-                            alt="FC Marokko" loading="lazy">
-                    </a>
-                </div>
-
-                <div class="col-12 col-md-5">
-                    <div class="row g-3">
-                        <div class="col-6 col-md-12">
-                            <a class="fc-gallery-item" href="https://fc-marokko.de/storage/2022/10/fcm-logo.png"
-                                target="_blank" rel="noopener">
-                                <img src="https://fc-marokko.de/storage/2022/10/fcm-logo.png" alt="FC Marokko"
-                                    loading="lazy">
-                            </a>
-                        </div>
-
-                        <div class="col-6 col-md-12">
-                            <a class="fc-gallery-item"
-                                href="https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg"
-                                target="_blank" rel="noopener">
-                                <img src="https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg"
-                                    alt="FC Marokko" loading="lazy">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-4">
-                    <a class="fc-gallery-item"
-                        href="https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg"
-                        target="_blank" rel="noopener">
-                        <img src="https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg"
-                            alt="FC Marokko" loading="lazy">
-                    </a>
-                </div>
-
-                <div class="col-6 col-md-4">
-                    <a class="fc-gallery-item"
-                        href="https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg"
-                        target="_blank" rel="noopener">
-                        <img src="https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg"
-                            alt="FC Marokko" loading="lazy">
-                    </a>
-                </div>
-
-                <div class="col-12 col-md-4">
-                    <a class="fc-gallery-item"
-                        href="https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg"
-                        target="_blank" rel="noopener">
-                        <img src="https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg"
-                            alt="FC Marokko" loading="lazy">
-                    </a>
-                </div>
-
-            </div>
-
-        </div>
-    </section>
-
-    <section class="section reveal delay-1">
-    <div class="container reveal delay-2">
-
-        <div class="card p-4 p-md-5 border-0 shadow-sm fc-cta">
-            <div class="fc-cta-content text-center mx-auto">
-
-                <h2 class="fc-cta-title mb-3">
-                    {{ __('partners/fc_marokko.cta.title') }}
+                <h2 class="fcm-section-head__title fcm-section-head__title--left">
+                    {{ __('partners/fc_marokko.gallery.title') }}
                 </h2>
+                <p class="fcm-section-head__sub">{!! __('partners/fc_marokko.gallery.subtitle') !!}</p>
+            </div>
 
-                <p class="fc-cta-text mb-4">
-                    {!! __('partners/fc_marokko.cta.text') !!}
-                </p>
+            <div class="fcm-gallery__grid">
 
-                <div class="fc-cta-action justify-content-center">
-                    <a href="{{ LaravelLocalization::localizeUrl(route('front.contact')) }}"
-                       class="btn btn-dark fc-cta-btn">
-                        {{ __('partners/fc_marokko.cta.button') }}
-                    </a>
-                </div>
+                <a class="fcm-gallery__item fcm-gallery__item--big"
+                   href="https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg"
+                   target="_blank" rel="noopener">
+                    <img src="https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg" alt="FC Marokko" loading="lazy">
+                    <div class="fcm-gallery__overlay"><i class="bi bi-arrows-fullscreen"></i></div>
+                </a>
+
+                <a class="fcm-gallery__item"
+                   href="https://fc-marokko.de/storage/2022/10/fcm-logo.png"
+                   target="_blank" rel="noopener">
+                    <img src="https://fc-marokko.de/storage/2022/10/fcm-logo.png" alt="FC Marokko" loading="lazy">
+                    <div class="fcm-gallery__overlay"><i class="bi bi-arrows-fullscreen"></i></div>
+                </a>
+
+                <a class="fcm-gallery__item"
+                   href="https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg"
+                   target="_blank" rel="noopener">
+                    <img src="https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg" alt="FC Marokko" loading="lazy">
+                    <div class="fcm-gallery__overlay"><i class="bi bi-arrows-fullscreen"></i></div>
+                </a>
+
+                <a class="fcm-gallery__item"
+                   href="https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg"
+                   target="_blank" rel="noopener">
+                    <img src="https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg" alt="FC Marokko" loading="lazy">
+                    <div class="fcm-gallery__overlay"><i class="bi bi-arrows-fullscreen"></i></div>
+                </a>
+
+                <a class="fcm-gallery__item"
+                   href="https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg"
+                   target="_blank" rel="noopener">
+                    <img src="https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg" alt="FC Marokko" loading="lazy">
+                    <div class="fcm-gallery__overlay"><i class="bi bi-arrows-fullscreen"></i></div>
+                </a>
 
             </div>
+
         </div>
+    </section>
 
-    </div>
-</section>
-
+    {{-- ================== CTA ================== --}}
+    <section class="fcm-cta-wrap">
+        <div class="container">
+            <div class="fcm-cta reveal delay-1">
+                <div class="fcm-cta__stripes" aria-hidden="true">
+                    <span></span><span></span><span></span>
+                </div>
+                <div class="fcm-cta__content">
+                    <div class="fcm-cta__kicker">{{ __('partners/fc_marokko.cta.kicker') }}</div>
+                    <h2 class="fcm-cta__title">{{ __('partners/fc_marokko.cta.title') }}</h2>
+                    <p class="fcm-cta__text">{!! __('partners/fc_marokko.cta.text') !!}</p>
+                    <a href="{{ LaravelLocalization::localizeUrl(route('front.contact')) }}" class="fcm-btn fcm-btn--primary fcm-btn--lg">
+                        {{ __('partners/fc_marokko.cta.button') }}
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 
 @endsection

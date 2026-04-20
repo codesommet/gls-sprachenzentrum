@@ -24,6 +24,9 @@
     <div class="d-flex align-items-center justify-content-between mb-4">
         <h5 class="mb-0">Planning</h5>
         <div class="d-flex gap-2">
+            <a href="{{ route('backoffice.schedules.week') }}" class="btn btn-outline-primary">
+                <i class="ph-duotone ph-calendar-check me-1"></i> Vue semaine
+            </a>
             <a href="{{ route('backoffice.planning.export-form') }}" class="btn btn-outline-danger">
                 <i class="ph-duotone ph-file-pdf me-1"></i> PDF
             </a>
@@ -49,10 +52,10 @@
                     </select>
                 </div>
                 <div class="col-6 col-md">
-                    <select name="employee_id" class="form-select" onchange="this.form.submit()">
+                    <select name="user_id" class="form-select" onchange="this.form.submit()">
                         <option value="">Tous employés</option>
                         @foreach($employees as $e)
-                            <option value="{{ $e->id }}" {{ request('employee_id') == $e->id ? 'selected' : '' }}>{{ $e->name }}</option>
+                            <option value="{{ $e->id }}" {{ request('user_id') == $e->id ? 'selected' : '' }}>{{ $e->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -88,7 +91,7 @@
             <div class="card text-center border-start border-start-width-4 border-primary">
                 <div class="card-body py-3">
                     <p class="text-muted mb-1 small text-uppercase">Amplitude</p>
-                    <h3 class="mb-0 fw-bold">{{ \App\Models\EmployeeSchedule::formatMinutes($totalSpan) }}</h3>
+                    <h3 class="mb-0 fw-bold">{{ \App\Models\UserSchedule::formatMinutes($totalSpan) }}</h3>
                 </div>
             </div>
         </div>
@@ -96,7 +99,7 @@
             <div class="card text-center border-start border-start-width-4 border-warning">
                 <div class="card-body py-3">
                     <p class="text-muted mb-1 small text-uppercase">Pauses</p>
-                    <h3 class="mb-0 fw-bold">{{ \App\Models\EmployeeSchedule::formatMinutes($totalBreak) }}</h3>
+                    <h3 class="mb-0 fw-bold">{{ \App\Models\UserSchedule::formatMinutes($totalBreak) }}</h3>
                 </div>
             </div>
         </div>
@@ -104,7 +107,7 @@
             <div class="card text-center border-start border-start-width-4 border-success">
                 <div class="card-body py-3">
                     <p class="text-muted mb-1 small text-uppercase">Travaillé</p>
-                    <h3 class="mb-0 fw-bold text-success">{{ \App\Models\EmployeeSchedule::formatMinutes($totalWorked) }}</h3>
+                    <h3 class="mb-0 fw-bold text-success">{{ \App\Models\UserSchedule::formatMinutes($totalWorked) }}</h3>
                 </div>
             </div>
         </div>
@@ -130,10 +133,10 @@
                             @foreach($employeeTotals as $et)
                                 <tr>
                                     <td class="fw-medium">{{ $et['employee']->name }}</td>
-                                    <td><span class="badge bg-light-primary">{{ $et['employee']->role }}</span></td>
+                                    <td><span class="badge bg-light-primary">{{ $et['employee']->staff_role ?? '—' }}</span></td>
                                     <td class="text-center">{{ $et['days'] }}</td>
-                                    <td class="text-center fw-bold text-success">{{ \App\Models\EmployeeSchedule::formatMinutes($et['worked_minutes']) }}</td>
-                                    <td class="text-center">{{ \App\Models\EmployeeSchedule::formatMinutes($et['break_minutes']) }}</td>
+                                    <td class="text-center fw-bold text-success">{{ \App\Models\UserSchedule::formatMinutes($et['worked_minutes']) }}</td>
+                                    <td class="text-center">{{ \App\Models\UserSchedule::formatMinutes($et['break_minutes']) }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -170,7 +173,7 @@
                                     {{ $s->date->format('d/m') }}
                                     <span class="text-muted small">{{ $s->date->translatedFormat('D') }}</span>
                                 </td>
-                                <td>{{ $s->employee->name }}</td>
+                                <td>{{ $s->user->name ?? '—' }}</td>
                                 <td class="text-center">{{ substr($s->start_time, 0, 5) }}</td>
                                 <td class="text-center">{{ substr($s->end_time, 0, 5) }}</td>
                                 <td class="text-center">{{ $s->total_span_formatted }}</td>

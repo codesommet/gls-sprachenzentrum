@@ -16,7 +16,7 @@ class Prime extends Model
     ];
 
     protected $fillable = [
-        'employee_id', 'site_id', 'amount', 'month', 'type',
+        'user_id', 'site_id', 'amount', 'month', 'type',
         'reason', 'approved_by', 'approved_at',
         'calculation_rule', 'collection_rate', 'total_encaisse', 'total_impaye', 'auto_generated',
         'period_start', 'period_end', 'period_months',
@@ -34,9 +34,15 @@ class Prime extends Model
         'auto_generated' => 'boolean',
     ];
 
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    // BC alias
     public function employee(): BelongsTo
     {
-        return $this->belongsTo(Employee::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function site(): BelongsTo

@@ -14,22 +14,29 @@ class StorePrimeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'employee_id' => 'required|exists:employees,id',
-            'site_id'     => 'required|exists:sites,id',
-            'amount'      => 'required|numeric|min:0.01',
-            'month'       => 'required|date',
-            'type'        => 'required|in:performance,collection,assiduite,autre',
-            'reason'      => 'nullable|string|max:2000',
+            'user_id' => 'required|exists:users,id',
+            'site_id' => 'required|exists:sites,id',
+            'amount'  => 'required|numeric|min:0.01',
+            'month'   => 'required|date',
+            'type'    => 'required|in:performance,collection,assiduite,autre',
+            'reason'  => 'nullable|string|max:2000',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'employee_id.required' => 'Veuillez sélectionner un employé.',
+            'user_id.required' => 'Veuillez sélectionner un employé.',
             'site_id.required' => 'Veuillez sélectionner un centre.',
             'amount.required' => 'Le montant est obligatoire.',
             'month.required' => 'Le mois est obligatoire.',
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        if ($this->has('employee_id') && ! $this->has('user_id')) {
+            $this->merge(['user_id' => $this->employee_id]);
+        }
     }
 }

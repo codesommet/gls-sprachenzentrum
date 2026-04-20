@@ -30,7 +30,6 @@ use App\Http\Controllers\Frontoffice\GroupApplicationController as GroupApplicat
 use App\Http\Controllers\Backoffice\WeeklyReportController;
 
 // RH / Planning
-use App\Http\Controllers\Backoffice\EmployeeController;
 use App\Http\Controllers\Backoffice\ScheduleController;
 use App\Http\Controllers\Backoffice\PlanningPdfController;
 
@@ -370,21 +369,14 @@ Route::prefix('backoffice')
         | RH / PLANNING — Employés & Horaires
         |----------------------------------------------------------------------
         */
-        Route::prefix('employees')
-            ->name('employees.')
-            ->group(function () {
-                Route::get('/', [EmployeeController::class, 'index'])->middleware('permission:employees.view')->name('index');
-                Route::get('/create', [EmployeeController::class, 'create'])->middleware('permission:employees.create')->name('create');
-                Route::post('/', [EmployeeController::class, 'store'])->middleware('permission:employees.create')->name('store');
-                Route::get('/{employee}', [EmployeeController::class, 'show'])->middleware('permission:employees.view')->name('show');
-                Route::get('/{employee}/edit', [EmployeeController::class, 'edit'])->middleware('permission:employees.edit')->name('edit');
-                Route::put('/{employee}', [EmployeeController::class, 'update'])->middleware('permission:employees.edit')->name('update');
-                Route::delete('/{employee}', [EmployeeController::class, 'destroy'])->middleware('permission:employees.delete')->name('destroy');
-            });
-
         Route::prefix('schedules')
             ->name('schedules.')
             ->group(function () {
+                // Self-service + admin weekly planning — open to any authenticated user
+                Route::get('/week', [ScheduleController::class, 'week'])->name('week');
+                Route::post('/week', [ScheduleController::class, 'saveWeek'])->name('week.save');
+
+                // Admin-only overview + legacy batch edit
                 Route::get('/', [ScheduleController::class, 'index'])->middleware('permission:schedules.view')->name('index');
                 Route::get('/create', [ScheduleController::class, 'create'])->middleware('permission:schedules.create')->name('create');
                 Route::post('/', [ScheduleController::class, 'store'])->middleware('permission:schedules.create')->name('store');

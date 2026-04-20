@@ -40,9 +40,15 @@ class Site extends Model implements HasMedia
         return $this->hasMany(Group::class);
     }
 
+    public function staff()
+    {
+        return $this->hasMany(User::class)->whereNotNull('staff_role');
+    }
+
+    // BC alias
     public function employees()
     {
-        return $this->hasMany(Employee::class);
+        return $this->staff();
     }
 
     public function encaissements()

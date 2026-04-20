@@ -28,7 +28,7 @@
                             <select id="emp_select" class="form-select" required>
                                 <option value="">-- Choisir --</option>
                                 @foreach($employees as $emp)
-                                    <option value="{{ $emp->id }}">{{ $emp->name }} ({{ $emp->site->name }})</option>
+                                    <option value="{{ $emp->id }}">{{ $emp->name }} ({{ $emp->site?->name ?? '—' }})</option>
                                 @endforeach
                             </select>
                         </div>

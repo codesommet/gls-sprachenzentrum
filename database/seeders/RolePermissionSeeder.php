@@ -37,7 +37,6 @@ class RolePermissionSeeder extends Seeder
             'presence'         => ['view', 'create', 'edit', 'delete'],
             'level_followups'  => ['view', 'create', 'edit', 'delete'],
             'weekly_reports'   => ['view', 'create', 'edit', 'delete'],
-            'employees'        => ['view', 'create', 'edit', 'delete'],
             'schedules'        => ['view', 'create', 'edit', 'delete'],
             'encaissements'    => ['view', 'create', 'edit', 'delete'],
         ];

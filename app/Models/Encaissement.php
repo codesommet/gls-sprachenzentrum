@@ -45,7 +45,7 @@ class Encaissement extends Model
         'site_id', 'encaissement_import_id', 'reference', 'source_system',
         'student_name', 'payer_name', 'amount', 'payment_method',
         'fee_type', 'fee_month', 'fee_description', 'group_name',
-        'school_year', 'collected_at', 'operator_name', 'employee_id',
+        'school_year', 'collected_at', 'operator_name', 'user_id',
         'guichet_number', 'order_number', 'notes',
     ];
 
@@ -67,9 +67,15 @@ class Encaissement extends Model
         return $this->belongsTo(EncaissementImport::class, 'encaissement_import_id');
     }
 
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    // BC alias so existing views calling ->employee still resolve to the staff user
     public function employee(): BelongsTo
     {
-        return $this->belongsTo(Employee::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     // ── Scopes ────────────────────────────────────────────────

@@ -5,7 +5,7 @@ namespace App\Services\Encaissement;
 use App\Models\Encaissement;
 use App\Models\Impaye;
 use App\Models\Prime;
-use App\Models\Employee;
+use App\Models\User;
 use App\Models\Site;
 use App\Models\SystemConfig;
 use Carbon\Carbon;
@@ -187,21 +187,21 @@ class PrimeCalculationService
      */
     public function distributePrimeToEmployees(int $siteId, string $month, float $totalPrime): array
     {
-        $employees = Employee::where('site_id', $siteId)
+        $staff = User::where('site_id', $siteId)
             ->where('is_active', true)
-            ->whereIn('role', $this->getEligibleRoles())
+            ->whereIn('staff_role', $this->getEligibleRoles())
             ->get();
 
-        if ($employees->isEmpty() || $totalPrime <= 0) {
+        if ($staff->isEmpty() || $totalPrime <= 0) {
             return [];
         }
 
-        $perEmployee = round($totalPrime / $employees->count(), 2);
+        $perEmployee = round($totalPrime / $staff->count(), 2);
 
-        return $employees->map(fn($emp) => [
-            'employee_id' => $emp->id,
-            'employee_name' => $emp->name,
-            'role' => $emp->role,
+        return $staff->map(fn($u) => [
+            'user_id' => $u->id,
+            'employee_name' => $u->name,
+            'role' => $u->staff_role,
             'amount' => $perEmployee,
         ])->toArray();
     }
@@ -235,8 +235,8 @@ class PrimeCalculationService
 
         DB::transaction(function () use ($distribution, $siteId, $monthDate, $suggestion, $periodMonths, $periodStart, $periodEnd, &$created) {
             foreach ($distribution as $d) {
-                // Skip if prime already exists for this employee/month
-                $exists = Prime::where('employee_id', $d['employee_id'])
+                // Skip if prime already exists for this user/month
+                $exists = Prime::where('user_id', $d['user_id'])
                     ->where('month', $monthDate)
                     ->where('type', 'collection')
                     ->exists();
@@ -244,7 +244,7 @@ class PrimeCalculationService
                 if ($exists) continue;
 
                 Prime::create([
-                    'employee_id' => $d['employee_id'],
+                    'user_id' => $d['user_id'],
                     'site_id' => $siteId,
                     'amount' => $d['amount'],
                     'month' => $monthDate,

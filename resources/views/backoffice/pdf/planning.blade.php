@@ -27,12 +27,12 @@
     <div class="header">
         <img src="{{ public_path('assets/images/logo/gls.png') }}" alt="GLS">
         <h1>Planning Employé</h1>
-        <h2>{{ $employee->name }} ({{ $employee->role }}) — {{ $site->name }}</h2>
+        <h2>{{ $employee->name }} ({{ $employee->staff_role ?? '—' }}) — {{ $site->name ?? '—' }}</h2>
     </div>
 
     <table class="info" style="margin-bottom: 10px;">
         <tr><td class="lbl">Employé :</td><td>{{ $employee->name }}</td><td class="lbl">Centre :</td><td>{{ $site->name }}</td></tr>
-        <tr><td class="lbl">Poste :</td><td>{{ $employee->role }}</td><td class="lbl">Période :</td><td>{{ \Carbon\Carbon::parse($dateFrom)->format('d/m/Y') }} au {{ \Carbon\Carbon::parse($dateTo)->format('d/m/Y') }}</td></tr>
+        <tr><td class="lbl">Poste :</td><td>{{ $employee->staff_role ?? '—' }}</td><td class="lbl">Période :</td><td>{{ \Carbon\Carbon::parse($dateFrom)->format('d/m/Y') }} au {{ \Carbon\Carbon::parse($dateTo)->format('d/m/Y') }}</td></tr>
     </table>
 
     <table class="data">
@@ -58,10 +58,10 @@
             @if($schedules->isNotEmpty())
             <tr class="total">
                 <td colspan="4" class="bold">TOTAL — {{ $schedules->count() }} jours</td>
-                <td class="text-center">{{ \App\Models\EmployeeSchedule::formatMinutes($schedules->sum('total_span_minutes')) }}</td>
+                <td class="text-center">{{ \App\Models\UserSchedule::formatMinutes($schedules->sum('total_span_minutes')) }}</td>
                 <td></td>
-                <td class="text-center">{{ \App\Models\EmployeeSchedule::formatMinutes($totalBreak) }}</td>
-                <td class="text-center bold green">{{ \App\Models\EmployeeSchedule::formatMinutes($totalWorked) }}</td>
+                <td class="text-center">{{ \App\Models\UserSchedule::formatMinutes($totalBreak) }}</td>
+                <td class="text-center bold green">{{ \App\Models\UserSchedule::formatMinutes($totalWorked) }}</td>
                 <td></td>
             </tr>
             @endif

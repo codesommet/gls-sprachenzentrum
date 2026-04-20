@@ -39,10 +39,10 @@
                     </select>
                 </div>
                 <div class="col-12 col-sm">
-                    <select name="employee_id" class="form-select form-select-sm" onchange="this.form.submit()">
+                    <select name="user_id" class="form-select form-select-sm" onchange="this.form.submit()">
                         <option value="">Tous les employes</option>
                         @foreach($employees as $employee)
-                            <option value="{{ $employee->id }}" {{ request('employee_id') == $employee->id ? 'selected' : '' }}>
+                            <option value="{{ $employee->id }}" {{ request('user_id') == $employee->id ? 'selected' : '' }}>
                                 {{ $employee->name }}
                             </option>
                         @endforeach
@@ -55,7 +55,7 @@
                         <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>En attente</option>
                     </select>
                 </div>
-                @if(request()->hasAny(['site_id', 'employee_id', 'status']))
+                @if(request()->hasAny(['site_id', 'user_id', 'status']))
                     <div class="col-12 col-sm-auto">
                         <a href="{{ route('backoffice.encaissements.primes.index') }}" class="btn btn-outline-secondary btn-sm">
                             <i class="ph-duotone ph-x me-1"></i> Reset
@@ -138,7 +138,7 @@
                                         {{ \Carbon\Carbon::parse($prime->month)->format('m/Y') }}
                                     @endif
                                 </td>
-                                <td class="fw-semibold">{{ $prime->employee->name ?? '—' }}</td>
+                                <td class="fw-semibold">{{ $prime->user->name ?? '—' }}</td>
                                 <td>{{ $prime->site->name ?? '—' }}</td>
                                 <td class="text-center">
                                     @if($prime->auto_generated)

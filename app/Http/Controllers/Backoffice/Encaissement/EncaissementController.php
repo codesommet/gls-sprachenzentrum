@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Backoffice\Encaissement\StoreEncaissementRequest;
 use App\Models\Encaissement;
 use App\Models\Site;
-use App\Models\Employee;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class EncaissementController extends Controller
@@ -67,7 +67,7 @@ class EncaissementController extends Controller
     public function create()
     {
         $sites = Site::where('is_active', true)->orderBy('name')->get();
-        $employees = Employee::where('is_active', true)->orderBy('name')->get();
+        $employees = User::whereNotNull('staff_role')->where('is_active', true)->orderBy('name')->get();
 
         return view('backoffice.encaissements.create', compact('sites', 'employees'));
     }
@@ -92,7 +92,7 @@ class EncaissementController extends Controller
      */
     public function show(Encaissement $encaissement)
     {
-        $encaissement->load('site', 'import', 'employee');
+        $encaissement->load('site', 'import', 'user');
 
         return view('backoffice.encaissements.show', compact('encaissement'));
     }
@@ -103,7 +103,7 @@ class EncaissementController extends Controller
     public function edit(Encaissement $encaissement)
     {
         $sites = Site::where('is_active', true)->orderBy('name')->get();
-        $employees = Employee::where('is_active', true)->orderBy('name')->get();
+        $employees = User::whereNotNull('staff_role')->where('is_active', true)->orderBy('name')->get();
 
         return view('backoffice.encaissements.edit', compact('encaissement', 'sites', 'employees'));
     }

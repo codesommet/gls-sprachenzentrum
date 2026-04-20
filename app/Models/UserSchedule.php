@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class EmployeeSchedule extends Model
+class UserSchedule extends Model
 {
     protected $fillable = [
-        'employee_id', 'site_id', 'date',
+        'user_id', 'site_id', 'date',
         'start_time', 'end_time',
         'break_start', 'break_end',
         'total_span_minutes', 'break_minutes', 'worked_minutes',
@@ -19,9 +19,9 @@ class EmployeeSchedule extends Model
         'date' => 'date',
     ];
 
-    public function employee(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(Employee::class);
+        return $this->belongsTo(User::class);
     }
 
     public function site(): BelongsTo
@@ -54,7 +54,6 @@ class EmployeeSchedule extends Model
         ];
     }
 
-    // Accessors for display
     public function getTotalSpanFormattedAttribute(): string
     {
         return self::formatMinutes($this->total_span_minutes);

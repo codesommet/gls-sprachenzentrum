@@ -13,7 +13,7 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
                             <h5 class="mb-1">Modifier entrée</h5>
-                            <p class="text-muted mb-0 small">{{ $schedule->employee->name }} — {{ $schedule->date->format('d/m/Y') }}</p>
+                            <p class="text-muted mb-0 small">{{ $schedule->user->name ?? '—' }} — {{ $schedule->date->format('d/m/Y') }}</p>
                         </div>
                         <a href="{{ route('backoffice.schedules.index') }}" class="btn btn-outline-secondary">
                             <i class="ph-duotone ph-arrow-left me-1"></i> Retour
@@ -33,9 +33,9 @@
                         <div class="row g-3 mb-4">
                             <div class="col-md-6">
                                 <label class="form-label">Employé <span class="text-danger">*</span></label>
-                                <select name="employee_id" class="form-select" required>
+                                <select name="user_id" class="form-select" required>
                                     @foreach($employees as $emp)
-                                        <option value="{{ $emp->id }}" {{ old('employee_id', $schedule->employee_id) == $emp->id ? 'selected' : '' }}>{{ $emp->name }}</option>
+                                        <option value="{{ $emp->id }}" {{ old('user_id', $schedule->user_id) == $emp->id ? 'selected' : '' }}>{{ $emp->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
