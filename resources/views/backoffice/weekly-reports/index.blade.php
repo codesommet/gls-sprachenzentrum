@@ -23,7 +23,8 @@
     }
 
     /* ===== Desktop: Table Calendar (>=992px) ===== */
-    .week-calendar { width: 100%; border-collapse: separate; border-spacing: 0; }
+    .calendar-scroll { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .week-calendar { width: 100%; min-width: 700px; border-collapse: separate; border-spacing: 0; table-layout: fixed; }
     .week-calendar th {
         background: #4680ff;
         color: #fff;
@@ -31,6 +32,7 @@
         padding: 10px 6px;
         font-size: 0.82rem;
         font-weight: 600;
+        width: 20%;
     }
     .week-calendar th:first-child { border-radius: 8px 0 0 0; }
     .week-calendar th:last-child  { border-radius: 0 8px 0 0; }
@@ -97,12 +99,14 @@
         font-weight: 600;
         color: #1a3a6e;
         white-space: nowrap;
+        flex-shrink: 0;
     }
     .report-chip .notes-preview {
         color: #555;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        min-width: 0;
     }
 
     /* ===== Mobile: Stacked Day Cards (<992px) ===== */
@@ -211,7 +215,13 @@
 
             {{-- Header with week navigation --}}
             <div class="card-header">
-                <h5 class="mb-3 text-center text-lg-start">Rapport Semaine — Enseignants</h5>
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                    <h5 class="mb-0">Rapport Semaine — Enseignants</h5>
+                    <a href="{{ route('backoffice.weekly_reports.export_pdf', ['week' => $date->format('Y-m-d')]) }}"
+                       class="btn btn-outline-danger btn-sm">
+                        <i class="ph-duotone ph-file-pdf me-1"></i> Export PDF
+                    </a>
+                </div>
 
                 <div class="week-nav">
                     <a href="{{ route('backoffice.weekly_reports.index', ['week' => $date->copy()->subWeek()->format('Y-m-d')]) }}"
@@ -238,6 +248,7 @@
 
                 {{-- ===== DESKTOP: Table Calendar ===== --}}
                 <div class="desktop-calendar">
+                    <div class="calendar-scroll">
                     <table class="week-calendar">
                         <thead>
                             <tr>
@@ -273,6 +284,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    </div>
                 </div>
 
                 {{-- ===== MOBILE / TABLET: Stacked Day Cards ===== --}}
@@ -391,7 +403,14 @@
         document.getElementById('modalTitle').textContent = 'Modifier le rapport';
         document.getElementById('modalDate').value = date;
         document.getElementById('modalDateLabel').textContent = label;
-        document.getElementById('teacher_id').value = teacherId;
+        const sel = document.getElementById('teacher_id');
+        sel.value = String(teacherId);
+        // Fallback: if value didn't match, find by content
+        if (!sel.value) {
+            for (const opt of sel.options) {
+                if (opt.value == teacherId) { sel.selectedIndex = opt.index; break; }
+            }
+        }
         document.getElementById('notes').value = notes;
         document.getElementById('btnDelete').classList.remove('d-none');
         reportModal.show();

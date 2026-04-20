@@ -39,6 +39,16 @@ use App\Http\Controllers\Backoffice\Payroll\GroupImportController;
 use App\Http\Controllers\Backoffice\Payroll\GroupAnalysisController;
 use App\Http\Controllers\Backoffice\Payroll\PresenceImportController;
 
+// Encaissement / Rentabilité
+use App\Http\Controllers\Backoffice\Encaissement\EncaissementController;
+use App\Http\Controllers\Backoffice\Encaissement\EncaissementImportController;
+use App\Http\Controllers\Backoffice\Encaissement\EncaissementDashboardController;
+use App\Http\Controllers\Backoffice\Encaissement\SiteExpenseController;
+use App\Http\Controllers\Backoffice\Encaissement\ExpenseImportController;
+use App\Http\Controllers\Backoffice\Encaissement\PrimeController;
+use App\Http\Controllers\Backoffice\Encaissement\ImpayeImportController;
+use App\Http\Controllers\Backoffice\Encaissement\RecouvrementController;
+
 /*
 |--------------------------------------------------------------------------
 | BACKOFFICE ROUTES
@@ -352,6 +362,7 @@ Route::prefix('backoffice')
                 Route::post('/', [WeeklyReportController::class, 'store'])->middleware('permission:weekly_reports.create')->name('store');
                 Route::delete('/{weeklyReport}', [WeeklyReportController::class, 'destroy'])->middleware('permission:weekly_reports.delete')->name('destroy');
                 Route::get('/events', [WeeklyReportController::class, 'events'])->middleware('permission:weekly_reports.view')->name('events');
+                Route::get('/export-pdf', [WeeklyReportController::class, 'exportPdf'])->middleware('permission:weekly_reports.view')->name('export_pdf');
             });
 
         /*
@@ -388,6 +399,142 @@ Route::prefix('backoffice')
                 Route::get('/export', [PlanningPdfController::class, 'exportForm'])->middleware('permission:schedules.view')->name('export-form');
                 Route::get('/pdf/employee/{employee}', [PlanningPdfController::class, 'employee'])->middleware('permission:schedules.view')->name('pdf.employee');
                 Route::get('/pdf/site/{site}', [PlanningPdfController::class, 'site'])->middleware('permission:schedules.view')->name('pdf.site');
+            });
+
+        /*
+        |----------------------------------------------------------------------
+        | ENCAISSEMENTS — Recettes, Charges, Primes, Rentabilité
+        |----------------------------------------------------------------------
+        */
+        Route::prefix('encaissements')
+            ->name('encaissements.')
+            ->group(function () {
+
+                // Dashboard & Analytics
+                Route::get('/dashboard', [EncaissementDashboardController::class, 'index'])
+                    ->middleware('permission:encaissements.view')->name('dashboard');
+                Route::get('/rentabilite', [EncaissementDashboardController::class, 'rentabilite'])
+                    ->middleware('permission:encaissements.view')->name('rentabilite');
+                Route::get('/operators', [EncaissementDashboardController::class, 'operators'])
+                    ->middleware('permission:encaissements.view')->name('operators');
+
+                // Import
+                Route::prefix('imports')
+                    ->name('imports.')
+                    ->group(function () {
+                        Route::get('/', [EncaissementImportController::class, 'index'])
+                            ->middleware('permission:encaissements.view')->name('index');
+                        Route::get('/create', [EncaissementImportController::class, 'create'])
+                            ->middleware('permission:encaissements.create')->name('create');
+                        Route::post('/preview', [EncaissementImportController::class, 'preview'])
+                            ->middleware('permission:encaissements.create')->name('preview');
+                        Route::post('/', [EncaissementImportController::class, 'store'])
+                            ->middleware('permission:encaissements.create')->name('store');
+                        Route::get('/{import}', [EncaissementImportController::class, 'show'])
+                            ->middleware('permission:encaissements.view')->name('show');
+                        Route::delete('/{import}', [EncaissementImportController::class, 'destroy'])
+                            ->middleware('permission:encaissements.delete')->name('destroy');
+                    });
+
+                // Charges (Site Expenses)
+                Route::prefix('expenses')
+                    ->name('expenses.')
+                    ->group(function () {
+                        Route::get('/', [SiteExpenseController::class, 'index'])
+                            ->middleware('permission:encaissements.view')->name('index');
+                        Route::get('/create', [SiteExpenseController::class, 'create'])
+                            ->middleware('permission:encaissements.create')->name('create');
+                        Route::post('/', [SiteExpenseController::class, 'store'])
+                            ->middleware('permission:encaissements.create')->name('store');
+
+                        // Expense imports
+                        Route::prefix('imports')
+                            ->name('imports.')
+                            ->group(function () {
+                                Route::get('/', [ExpenseImportController::class, 'index'])
+                                    ->middleware('permission:encaissements.view')->name('index');
+                                Route::get('/create', [ExpenseImportController::class, 'create'])
+                                    ->middleware('permission:encaissements.create')->name('create');
+                                Route::post('/', [ExpenseImportController::class, 'store'])
+                                    ->middleware('permission:encaissements.create')->name('store');
+                                Route::get('/{import}', [ExpenseImportController::class, 'show'])
+                                    ->middleware('permission:encaissements.view')->name('show');
+                                Route::delete('/{import}', [ExpenseImportController::class, 'destroy'])
+                                    ->middleware('permission:encaissements.delete')->name('destroy');
+                            });
+
+                        Route::get('/{expense}/edit', [SiteExpenseController::class, 'edit'])
+                            ->middleware('permission:encaissements.edit')->name('edit');
+                        Route::put('/{expense}', [SiteExpenseController::class, 'update'])
+                            ->middleware('permission:encaissements.edit')->name('update');
+                        Route::delete('/{expense}', [SiteExpenseController::class, 'destroy'])
+                            ->middleware('permission:encaissements.delete')->name('destroy');
+                    });
+
+                // Recouvrement & Impayés
+                Route::get('/recouvrement', [RecouvrementController::class, 'index'])
+                    ->middleware('permission:encaissements.view')->name('recouvrement');
+                Route::post('/recouvrement/generate-primes', [RecouvrementController::class, 'generatePrimes'])
+                    ->middleware('permission:encaissements.create')->name('recouvrement.generate');
+
+                Route::prefix('impayes')
+                    ->name('impayes.')
+                    ->group(function () {
+                        Route::prefix('imports')->name('imports.')->group(function () {
+                            Route::get('/', [ImpayeImportController::class, 'index'])
+                                ->middleware('permission:encaissements.view')->name('index');
+                            Route::get('/create', [ImpayeImportController::class, 'create'])
+                                ->middleware('permission:encaissements.create')->name('create');
+                            Route::post('/', [ImpayeImportController::class, 'store'])
+                                ->middleware('permission:encaissements.create')->name('store');
+                            Route::get('/{import}', [ImpayeImportController::class, 'show'])
+                                ->middleware('permission:encaissements.view')->name('show');
+                            Route::delete('/{import}', [ImpayeImportController::class, 'destroy'])
+                                ->middleware('permission:encaissements.delete')->name('destroy');
+                        });
+                        Route::post('/{impaye}/recover', [ImpayeImportController::class, 'markRecovered'])
+                            ->middleware('permission:encaissements.edit')->name('recover');
+                    });
+
+                // Primes (auto-generated only — no manual create/edit)
+                Route::prefix('primes')
+                    ->name('primes.')
+                    ->group(function () {
+                        // Config — MUST come before /{prime} wildcard
+                        Route::get('/config', [PrimeController::class, 'config'])
+                            ->middleware('permission:encaissements.edit')->name('config');
+                        Route::put('/config', [PrimeController::class, 'updateConfig'])
+                            ->middleware('permission:encaissements.edit')->name('config.update');
+
+                        Route::get('/', [PrimeController::class, 'index'])
+                            ->middleware('permission:encaissements.view')->name('index');
+                        Route::post('/{prime}/approve', [PrimeController::class, 'approve'])
+                            ->where('prime', '[0-9]+')
+                            ->middleware('permission:encaissements.edit')->name('approve');
+                        Route::delete('/{prime}', [PrimeController::class, 'destroy'])
+                            ->where('prime', '[0-9]+')
+                            ->middleware('permission:encaissements.delete')->name('destroy');
+                    });
+
+                // CRUD Encaissements (wildcard routes MUST be last to avoid catching /expenses, /primes, etc.)
+                Route::get('/', [EncaissementController::class, 'index'])
+                    ->middleware('permission:encaissements.view')->name('index');
+                Route::get('/create', [EncaissementController::class, 'create'])
+                    ->middleware('permission:encaissements.create')->name('create');
+                Route::post('/', [EncaissementController::class, 'store'])
+                    ->middleware('permission:encaissements.create')->name('store');
+                Route::get('/{encaissement}', [EncaissementController::class, 'show'])
+                    ->where('encaissement', '[0-9]+')
+                    ->middleware('permission:encaissements.view')->name('show');
+                Route::get('/{encaissement}/edit', [EncaissementController::class, 'edit'])
+                    ->where('encaissement', '[0-9]+')
+                    ->middleware('permission:encaissements.edit')->name('edit');
+                Route::put('/{encaissement}', [EncaissementController::class, 'update'])
+                    ->where('encaissement', '[0-9]+')
+                    ->middleware('permission:encaissements.edit')->name('update');
+                Route::delete('/{encaissement}', [EncaissementController::class, 'destroy'])
+                    ->where('encaissement', '[0-9]+')
+                    ->middleware('permission:encaissements.delete')->name('destroy');
             });
 
         /*

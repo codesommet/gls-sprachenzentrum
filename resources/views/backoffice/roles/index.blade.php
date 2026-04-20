@@ -67,14 +67,16 @@
                                         </td>
                                         <td>
                                             @can('roles.edit')
+                                            @if($role->name !== 'Super Admin' || auth()->user()->hasRole('Super Admin'))
                                             <a href="{{ route('backoffice.roles.edit', $role->id) }}"
                                                class="avtar avtar-xs btn-link-secondary me-2" title="Modifier">
                                                 <i class="ti ti-edit f-20"></i>
                                             </a>
+                                            @endif
                                             @endcan
 
                                             @can('roles.delete')
-                                            @if($role->name !== 'Super Admin')
+                                            @if($role->name !== 'Super Admin' && auth()->user()->hasRole('Super Admin'))
                                                 <form action="{{ route('backoffice.roles.destroy', $role->id) }}"
                                                       method="POST" class="d-inline-block">
                                                     @csrf @method('DELETE')

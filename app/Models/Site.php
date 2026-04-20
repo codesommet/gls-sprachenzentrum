@@ -45,6 +45,31 @@ class Site extends Model implements HasMedia
         return $this->hasMany(Employee::class);
     }
 
+    public function encaissements()
+    {
+        return $this->hasMany(Encaissement::class);
+    }
+
+    public function encaissementImports()
+    {
+        return $this->hasMany(EncaissementImport::class);
+    }
+
+    public function expenses()
+    {
+        return $this->hasMany(SiteExpense::class);
+    }
+
+    public function primes()
+    {
+        return $this->hasMany(Prime::class);
+    }
+
+    public function impayes()
+    {
+        return $this->hasMany(Impaye::class);
+    }
+
     // Auto slug + validation YouTube
     protected static function boot()
     {

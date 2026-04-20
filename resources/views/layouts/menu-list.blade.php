@@ -11,6 +11,7 @@
     $payrollOpen = request()->routeIs('backoffice.payroll.*') && !request()->routeIs('backoffice.payroll.presence.*');
     $presenceOpen = request()->routeIs('backoffice.payroll.presence.*');
     $contentOpen = request()->routeIs('backoffice.blog.*');
+    $encaissementOpen = request()->routeIs('backoffice.encaissements.*');
     $rhOpen = request()->routeIs('backoffice.employees.*') || request()->routeIs('backoffice.schedules.*') || request()->routeIs('backoffice.planning.*');
     $adminOpen = request()->routeIs('backoffice.users.*') || request()->routeIs('backoffice.roles.*');
 @endphp
@@ -186,6 +187,65 @@
             </a>
         </li>
         @endcan
+    </ul>
+</li>
+@endcan
+
+@can('encaissements.view')
+<li class="pc-item pc-hasmenu {{ $encaissementOpen ? 'pc-trigger' : '' }}">
+    <a href="#!" class="pc-link">
+        <span class="pc-micon"><i class="ph-duotone ph-money"></i></span>
+        <span class="pc-mtext">Encaissements</span>
+        <span class="pc-arrow"><i class="ph-duotone ph-caret-right"></i></span>
+    </a>
+    <ul class="pc-submenu">
+        <li class="pc-item {{ request()->routeIs('backoffice.encaissements.dashboard') ? 'active' : '' }}">
+            <a href="{{ route('backoffice.encaissements.dashboard') }}" class="pc-link {{ request()->routeIs('backoffice.encaissements.dashboard') ? 'active' : '' }}">
+                <span class="pc-mtext">Tableau de bord</span>
+            </a>
+        </li>
+        <li class="pc-item {{ request()->routeIs('backoffice.encaissements.index') || request()->routeIs('backoffice.encaissements.show') ? 'active' : '' }}">
+            <a href="{{ route('backoffice.encaissements.index') }}" class="pc-link {{ request()->routeIs('backoffice.encaissements.index') ? 'active' : '' }}">
+                <span class="pc-mtext">Liste encaissements</span>
+            </a>
+        </li>
+        @can('encaissements.create')
+        <li class="pc-item {{ request()->routeIs('backoffice.encaissements.imports.create') ? 'active' : '' }}">
+            <a href="{{ route('backoffice.encaissements.imports.create') }}" class="pc-link {{ request()->routeIs('backoffice.encaissements.imports.create') ? 'active' : '' }}">
+                <span class="pc-mtext">Importer</span>
+            </a>
+        </li>
+        @endcan
+        <li class="pc-item {{ request()->routeIs('backoffice.encaissements.imports.index') || request()->routeIs('backoffice.encaissements.imports.show') ? 'active' : '' }}">
+            <a href="{{ route('backoffice.encaissements.imports.index') }}" class="pc-link {{ request()->routeIs('backoffice.encaissements.imports.index') || request()->routeIs('backoffice.encaissements.imports.show') ? 'active' : '' }}">
+                <span class="pc-mtext">Historique imports</span>
+            </a>
+        </li>
+        <li class="pc-item {{ request()->routeIs('backoffice.encaissements.rentabilite') ? 'active' : '' }}">
+            <a href="{{ route('backoffice.encaissements.rentabilite') }}" class="pc-link {{ request()->routeIs('backoffice.encaissements.rentabilite') ? 'active' : '' }}">
+                <span class="pc-mtext">Rentabilité</span>
+            </a>
+        </li>
+        <li class="pc-item {{ request()->routeIs('backoffice.encaissements.operators') ? 'active' : '' }}">
+            <a href="{{ route('backoffice.encaissements.operators') }}" class="pc-link {{ request()->routeIs('backoffice.encaissements.operators') ? 'active' : '' }}">
+                <span class="pc-mtext">Opérateurs</span>
+            </a>
+        </li>
+        <li class="pc-item {{ request()->routeIs('backoffice.encaissements.expenses.*') ? 'active' : '' }}">
+            <a href="{{ route('backoffice.encaissements.expenses.index') }}" class="pc-link {{ request()->routeIs('backoffice.encaissements.expenses.*') ? 'active' : '' }}">
+                <span class="pc-mtext">Charges</span>
+            </a>
+        </li>
+        <li class="pc-item {{ request()->routeIs('backoffice.encaissements.recouvrement') || request()->routeIs('backoffice.encaissements.impayes.*') ? 'active' : '' }}">
+            <a href="{{ route('backoffice.encaissements.recouvrement') }}" class="pc-link {{ request()->routeIs('backoffice.encaissements.recouvrement') || request()->routeIs('backoffice.encaissements.impayes.*') ? 'active' : '' }}">
+                <span class="pc-mtext">Recouvrement & Impayés</span>
+            </a>
+        </li>
+        <li class="pc-item {{ request()->routeIs('backoffice.encaissements.primes.index') || request()->routeIs('backoffice.encaissements.primes.config') ? 'active' : '' }}">
+            <a href="{{ route('backoffice.encaissements.primes.index') }}" class="pc-link {{ request()->routeIs('backoffice.encaissements.primes.index') || request()->routeIs('backoffice.encaissements.primes.config') ? 'active' : '' }}">
+                <span class="pc-mtext">Primes (auto)</span>
+            </a>
+        </li>
     </ul>
 </li>
 @endcan

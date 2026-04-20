@@ -39,6 +39,7 @@ class RolePermissionSeeder extends Seeder
             'weekly_reports'   => ['view', 'create', 'edit', 'delete'],
             'employees'        => ['view', 'create', 'edit', 'delete'],
             'schedules'        => ['view', 'create', 'edit', 'delete'],
+            'encaissements'    => ['view', 'create', 'edit', 'delete'],
         ];
 
         // Create all permissions
@@ -61,35 +62,46 @@ class RolePermissionSeeder extends Seeder
 
         /*
         |----------------------------------------------------------------------
-        | Admin — everything except roles management
+        | Admin — everything except roles & users management
+        | Admins manage day-to-day operations but cannot touch access control
         |----------------------------------------------------------------------
         */
         $admin = Role::firstOrCreate(['name' => 'Admin', 'guard_name' => 'web']);
         $adminPermissions = collect($allPermissions)->reject(function ($perm) {
-            return str_starts_with($perm, 'roles.');
+            return str_starts_with($perm, 'roles.') || str_starts_with($perm, 'users.');
         })->values()->toArray();
         $admin->syncPermissions($adminPermissions);
 
         /*
         |----------------------------------------------------------------------
-        | Réception — pilotage, school modules (no delete), certificates, no admin
+        | Réception — front-desk operations only
+        | Can view most things, create/edit leads & school data, no delete,
+        | no access to payroll, HR, admin, or content management
         |----------------------------------------------------------------------
         */
         $reception = Role::firstOrCreate(['name' => 'Réception', 'guard_name' => 'web']);
         $receptionPermissions = [
             // Dashboard
             'dashboard.view',
-            // Pilotage
+
+            // Pilotage — view + create/edit reports, no delete
             'level_followups.view', 'level_followups.create', 'level_followups.edit',
             'weekly_reports.view', 'weekly_reports.create', 'weekly_reports.edit',
-            // Enseignants (no delete)
+
+            // Ecole — view + create/edit, no delete (reception shouldn't delete data)
+            'sites.view',
             'teachers.view', 'teachers.create', 'teachers.edit',
-            // Groupes (no delete)
             'groups.view', 'groups.create', 'groups.edit',
-            // Certificats (no delete)
             'certificates.view', 'certificates.create', 'certificates.edit',
-            // Studienkollegs (no delete)
-            'studienkollegs.view', 'studienkollegs.create', 'studienkollegs.edit',
+            'studienkollegs.view',
+
+            // Admissions — reception handles incoming students
+            'applications.view', 'applications.create', 'applications.edit',
+            'leads.view',
+            'lead_stats.view',
+
+            // Quizzes — view only (teachers/admins manage content)
+            'quizzes.view',
         ];
         $reception->syncPermissions($receptionPermissions);
     }

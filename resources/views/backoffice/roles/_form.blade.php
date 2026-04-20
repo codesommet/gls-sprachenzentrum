@@ -3,11 +3,16 @@
     {{-- ROLE NAME --}}
     <div class="col-md-6 mb-3">
         <label class="form-label fw-bold">Nom du rôle</label>
-        <input type="text" name="name"
-               class="form-control"
-               value="{{ old('name', $role->name ?? '') }}"
-               placeholder="Nom du rôle"
-               required>
+        @if(isset($role) && $role->name === 'Super Admin')
+            <input type="text" class="form-control" value="Super Admin" disabled>
+            <input type="hidden" name="name" value="Super Admin">
+        @else
+            <input type="text" name="name"
+                   class="form-control"
+                   value="{{ old('name', $role->name ?? '') }}"
+                   placeholder="Nom du rôle"
+                   required>
+        @endif
     </div>
 
     <div class="col-12 mb-3">
@@ -53,6 +58,7 @@
                             'weekly_reports'  => 'Rapport Semaine',
                             'employees'       => 'Employés',
                             'schedules'       => 'Planning',
+                            'encaissements'   => 'Encaissements',
                         ];
                         $actions = ['view', 'create', 'edit', 'delete'];
                         $actionLabels = [

@@ -42,6 +42,13 @@ class RoleController extends Controller
 
     public function edit(Role $role)
     {
+        // Only Super Admin can edit the Super Admin role
+        if ($role->name === 'Super Admin' && ! auth()->user()->hasRole('Super Admin')) {
+            return redirect()
+                ->route('backoffice.roles.index')
+                ->with('error', 'Seul un Super Admin peut modifier ce rôle.');
+        }
+
         $permissions = Permission::orderBy('name')->get();
         $groupedPermissions = $this->groupPermissions($permissions);
         $rolePermissions = $role->permissions->pluck('name')->toArray();
@@ -51,11 +58,23 @@ class RoleController extends Controller
 
     public function update(Request $request, Role $role)
     {
+        // Only Super Admin can update the Super Admin role
+        if ($role->name === 'Super Admin' && ! auth()->user()->hasRole('Super Admin')) {
+            return redirect()
+                ->route('backoffice.roles.index')
+                ->with('error', 'Seul un Super Admin peut modifier ce rôle.');
+        }
+
         $validated = $request->validate([
             'name'          => 'required|string|max:255|unique:roles,name,' . $role->id,
             'permissions'   => 'nullable|array',
             'permissions.*' => 'string|exists:permissions,name',
         ]);
+
+        // Prevent renaming Super Admin
+        if ($role->name === 'Super Admin') {
+            $validated['name'] = 'Super Admin';
+        }
 
         $role->update(['name' => $validated['name']]);
         $role->syncPermissions($validated['permissions'] ?? []);
@@ -71,6 +90,13 @@ class RoleController extends Controller
             return redirect()
                 ->route('backoffice.roles.index')
                 ->with('error', 'Le rôle Super Admin ne peut pas être supprimé.');
+        }
+
+        // Prevent Admin from deleting roles they shouldn't
+        if (! auth()->user()->hasRole('Super Admin')) {
+            return redirect()
+                ->route('backoffice.roles.index')
+                ->with('error', 'Seul un Super Admin peut supprimer des rôles.');
         }
 
         $role->delete();

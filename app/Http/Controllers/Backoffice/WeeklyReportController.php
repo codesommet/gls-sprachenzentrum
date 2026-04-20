@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backoffice;
 use App\Http\Controllers\Controller;
 use App\Models\Teacher;
 use App\Models\WeeklyReport;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -74,6 +75,45 @@ class WeeklyReportController extends Controller
         }
 
         return back()->with('success', 'Rapport supprimé.');
+    }
+
+    /**
+     * Export the current week's reports as PDF.
+     */
+    public function exportPdf(Request $request)
+    {
+        $date = $request->filled('week')
+            ? Carbon::parse($request->input('week'))->startOfWeek(Carbon::MONDAY)
+            : Carbon::now()->startOfWeek(Carbon::MONDAY);
+
+        $weekDays = collect();
+        for ($i = 0; $i < 5; $i++) {
+            $weekDays->push($date->copy()->addDays($i));
+        }
+
+        $weekStart = $weekDays->first();
+        $weekEnd = $weekDays->last();
+
+        $reports = WeeklyReport::with('teacher')
+            ->whereBetween('report_date', [$weekStart, $weekEnd])
+            ->orderBy('report_date')
+            ->get()
+            ->groupBy(fn ($r) => $r->report_date->format('Y-m-d'));
+
+        $reportsByTeacher = WeeklyReport::with('teacher')
+            ->whereBetween('report_date', [$weekStart, $weekEnd])
+            ->orderBy('report_date')
+            ->get()
+            ->groupBy(fn ($r) => $r->teacher->name)
+            ->sortKeys();
+
+        $pdf = Pdf::loadView('backoffice.pdf.weekly-report', compact(
+            'weekDays', 'weekStart', 'weekEnd', 'reports', 'reportsByTeacher'
+        ))->setPaper('A4', 'landscape');
+
+        $filename = 'rapport_semaine_' . $weekStart->format('Y-m-d') . '_' . $weekEnd->format('Y-m-d') . '.pdf';
+
+        return $pdf->download($filename);
     }
 
     /**
