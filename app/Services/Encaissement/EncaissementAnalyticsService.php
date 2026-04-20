@@ -17,12 +17,22 @@ class EncaissementAnalyticsService
 {
     /**
      * Dashboard summary for a given period and optional site.
+     *
+     * $month accepts either:
+     *   - 'YYYY-MM' (single month, original behaviour)
+     *   - 'YYYY'    (whole year)
      */
     public function getDashboardData(?int $siteId = null, ?string $month = null): array
     {
         $month = $month ?: now()->format('Y-m');
-        $start = Carbon::parse($month . '-01')->startOfMonth();
-        $end = $start->copy()->endOfMonth();
+
+        if (preg_match('/^\d{4}$/', $month)) {
+            $start = Carbon::parse($month . '-01-01')->startOfYear();
+            $end = $start->copy()->endOfYear();
+        } else {
+            $start = Carbon::parse($month . '-01')->startOfMonth();
+            $end = $start->copy()->endOfMonth();
+        }
 
         $query = Encaissement::whereBetween('collected_at', [$start, $end]);
         if ($siteId) $query->where('site_id', $siteId);

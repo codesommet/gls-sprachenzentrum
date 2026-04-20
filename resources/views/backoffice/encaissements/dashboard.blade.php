@@ -26,9 +26,33 @@
                     </select>
                 </div>
                 <div class="col-12 col-sm">
-                    <input type="month" name="month" class="form-control" value="{{ $month }}" onchange="this.form.submit()">
+                    <select name="year" class="form-select" onchange="this.form.submit()">
+                        @php $currentYear = (int) now()->format('Y'); @endphp
+                        @for($y = $currentYear; $y >= 2023; $y--)
+                            <option value="{{ $y }}" {{ (int) $year === $y ? 'selected' : '' }}>
+                                Année {{ $y }}
+                            </option>
+                        @endfor
+                    </select>
                 </div>
-                @if($siteId || $month !== now()->format('Y-m'))
+                <div class="col-12 col-sm">
+                    <select name="month_num" class="form-select" onchange="this.form.submit()">
+                        <option value="">Toute l'année</option>
+                        @php
+                            $monthLabels = [
+                                1 => 'Janvier', 2 => 'Février', 3 => 'Mars', 4 => 'Avril',
+                                5 => 'Mai', 6 => 'Juin', 7 => 'Juillet', 8 => 'Août',
+                                9 => 'Septembre', 10 => 'Octobre', 11 => 'Novembre', 12 => 'Décembre',
+                            ];
+                        @endphp
+                        @foreach($monthLabels as $num => $label)
+                            <option value="{{ $num }}" {{ (int) $monthNum === $num ? 'selected' : '' }}>
+                                {{ $label }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                @if($siteId || (int) $year !== (int) now()->format('Y') || $monthNum !== '')
                     <div class="col-12 col-sm-auto">
                         <a href="{{ route('backoffice.encaissements.dashboard') }}" class="btn btn-outline-secondary">
                             <i class="ph-duotone ph-x me-1"></i> Reset
