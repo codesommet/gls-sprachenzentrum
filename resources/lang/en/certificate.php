@@ -1,0 +1,22 @@
+<?php
+
+return [
+    'page_title' => 'Certificate Verification',
+    'heading' => 'Verify a GLS Certificate',
+    'subheading' => 'Enter the certificate number to verify its authenticity.',
+    'form_label' => 'Certificate number',
+    'form_placeholder' => 'Ex: K5FDM3VB',
+    'submit' => 'Verify',
+    'success_toast' => 'Certificate found successfully.',
+    'details_title' => 'GLS Certificate',
+    'label_name' => 'Name',
+    'label_level' => 'Level',
+    'label_exam_date' => 'Exam date',
+    'label_issued_date' => 'Issue date',
+    'label_number' => 'Certificate number',
+    'download_pdf' => 'Download certificate (PDF)',
+    'token_missing' => 'Public link unavailable: missing token.',
+    'qr_caption_line1' => 'Scan to download',
+    'qr_caption_line2' => 'the certificate',
+    'qr_unavailable' => 'QR code unavailable',
+];

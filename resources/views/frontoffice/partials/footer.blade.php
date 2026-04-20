@@ -61,11 +61,11 @@
                         </a>
                     </li>
 
-                    {{-- <li>
+                    <li>
                         <a href="{{ LaravelLocalization::localizeUrl(route('front.partners.fc_marokko')) }}">
                             {{ __('footer.partner_fc_marokko') }}
                         </a>
-                    </li> --}}
+                    </li>
 
                     <li>
                         <a href="{{ LaravelLocalization::localizeUrl(route('front.discover-your-level')) }}">

@@ -1,0 +1,22 @@
+<?php
+
+return [
+    'page_title' => 'التحقق من الشهادة',
+    'heading' => 'التحقق من شهادة GLS',
+    'subheading' => 'أدخل رقم الشهادة للتحقق من صحتها.',
+    'form_label' => 'رقم الشهادة',
+    'form_placeholder' => 'مثال: K5FDM3VB',
+    'submit' => 'تحقّق',
+    'success_toast' => 'تم العثور على الشهادة بنجاح.',
+    'details_title' => 'شهادة GLS',
+    'label_name' => 'الاسم',
+    'label_level' => 'المستوى',
+    'label_exam_date' => 'تاريخ الامتحان',
+    'label_issued_date' => 'تاريخ الإصدار',
+    'label_number' => 'رقم الشهادة',
+    'download_pdf' => 'تحميل الشهادة (PDF)',
+    'token_missing' => 'الرابط العام غير متوفر: الرمز مفقود.',
+    'qr_caption_line1' => 'امسح للتحميل',
+    'qr_caption_line2' => 'الشهادة',
+    'qr_unavailable' => 'رمز QR غير متوفر',
+];

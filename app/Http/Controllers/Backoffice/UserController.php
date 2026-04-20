@@ -3,15 +3,17 @@
 namespace App\Http\Controllers\Backoffice;
 
 use App\Http\Controllers\Controller;
+use App\Models\Site;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with('roles')->latest()->get();
+        $users = User::with(['roles', 'site'])->latest()->get();
 
         return view('backoffice.users.index', compact('users'));
     }
@@ -19,32 +21,32 @@ class UserController extends Controller
     public function create()
     {
         $roles = $this->availableRoles();
+        $sites = Site::where('is_active', true)->orderBy('name')->get();
+        $staffRoles = User::STAFF_ROLES;
 
-        return view('backoffice.users.create', compact('roles'));
+        return view('backoffice.users.create', compact('roles', 'sites', 'staffRoles'));
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6|confirmed',
-            'role'     => 'required|string|exists:roles,name',
-        ]);
+        $validated = $this->validateUser($request);
 
-        $validated['email_verified_at'] = now();
+        if ($validated['role'] === 'Super Admin' && ! auth()->user()->hasRole('Super Admin')) {
+            return back()->with('error', 'Seul un Super Admin peut attribuer le rôle Super Admin.');
+        }
 
         $user = User::create([
             'name'              => $validated['name'],
             'email'             => $validated['email'],
             'password'          => $validated['password'],
+            'phone'             => $validated['phone'] ?? null,
+            'site_id'           => $validated['site_id'] ?? null,
+            'staff_role'        => $validated['staff_role'] ?? null,
+            'hired_at'          => $validated['hired_at'] ?? null,
+            'is_active'         => $request->boolean('is_active', true),
+            'staff_notes'       => $validated['staff_notes'] ?? null,
             'email_verified_at' => now(),
         ]);
-
-        // Only Super Admin can assign the Super Admin role
-        if ($validated['role'] === 'Super Admin' && ! auth()->user()->hasRole('Super Admin')) {
-            return back()->with('error', 'Seul un Super Admin peut attribuer le rôle Super Admin.');
-        }
 
         $user->assignRole($validated['role']);
 
@@ -57,33 +59,34 @@ class UserController extends Controller
     {
         $user  = User::findOrFail($id);
         $roles = $this->availableRoles();
+        $sites = Site::where('is_active', true)->orderBy('name')->get();
+        $staffRoles = User::STAFF_ROLES;
 
-        return view('backoffice.users.edit', compact('user', 'roles'));
+        return view('backoffice.users.edit', compact('user', 'roles', 'sites', 'staffRoles'));
     }
 
     public function update(Request $request, string $id)
     {
         $user = User::findOrFail($id);
+        $validated = $this->validateUser($request, $user->id);
 
-        $validated = $request->validate([
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users,email,' . $user->id,
-            'password' => 'nullable|string|min:6|confirmed',
-            'role'     => 'required|string|exists:roles,name',
-        ]);
+        if ($validated['role'] === 'Super Admin' && ! auth()->user()->hasRole('Super Admin')) {
+            return back()->with('error', 'Seul un Super Admin peut attribuer le rôle Super Admin.');
+        }
 
         $userData = [
-            'name'  => $validated['name'],
-            'email' => $validated['email'],
+            'name'        => $validated['name'],
+            'email'       => $validated['email'],
+            'phone'       => $validated['phone'] ?? null,
+            'site_id'     => $validated['site_id'] ?? null,
+            'staff_role'  => $validated['staff_role'] ?? null,
+            'hired_at'    => $validated['hired_at'] ?? null,
+            'is_active'   => $request->boolean('is_active'),
+            'staff_notes' => $validated['staff_notes'] ?? null,
         ];
 
         if (! empty($validated['password'])) {
             $userData['password'] = $validated['password'];
-        }
-
-        // Only Super Admin can assign the Super Admin role
-        if ($validated['role'] === 'Super Admin' && ! auth()->user()->hasRole('Super Admin')) {
-            return back()->with('error', 'Seul un Super Admin peut attribuer le rôle Super Admin.');
         }
 
         $user->update($userData);
@@ -92,20 +95,6 @@ class UserController extends Controller
         return redirect()
             ->route('backoffice.users.index')
             ->with('success', 'Utilisateur mis à jour avec succès.');
-    }
-
-    /**
-     * Only Super Admin users see the "Super Admin" role in the dropdown.
-     */
-    private function availableRoles()
-    {
-        $query = Role::orderBy('name');
-
-        if (! auth()->user()->hasRole('Super Admin')) {
-            $query->where('name', '!=', 'Super Admin');
-        }
-
-        return $query->get();
     }
 
     public function destroy(string $id)
@@ -123,5 +112,32 @@ class UserController extends Controller
         return redirect()
             ->route('backoffice.users.index')
             ->with('success', 'Utilisateur supprimé avec succès.');
+    }
+
+    private function validateUser(Request $request, ?int $userId = null): array
+    {
+        return $request->validate([
+            'name'        => 'required|string|max:255',
+            'email'       => ['required', 'email', Rule::unique('users', 'email')->ignore($userId)],
+            'password'    => $userId ? 'nullable|string|min:6|confirmed' : 'required|string|min:6|confirmed',
+            'role'        => 'required|string|exists:roles,name',
+            'phone'       => 'nullable|string|max:50',
+            'site_id'     => 'nullable|exists:sites,id',
+            'staff_role'  => ['nullable', Rule::in(User::STAFF_ROLES)],
+            'hired_at'    => 'nullable|date',
+            'is_active'   => 'nullable|boolean',
+            'staff_notes' => 'nullable|string|max:2000',
+        ]);
+    }
+
+    private function availableRoles()
+    {
+        $query = Role::orderBy('name');
+
+        if (! auth()->user()->hasRole('Super Admin')) {
+            $query->where('name', '!=', 'Super Admin');
+        }
+
+        return $query->get();
     }
 }

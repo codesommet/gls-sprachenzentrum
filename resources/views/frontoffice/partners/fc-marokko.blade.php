@@ -19,6 +19,29 @@
             <span></span><span></span><span></span><span></span>
         </div>
 
+        {{-- Rolling football intro animation --}}
+        <div class="fcm-rolling-ball" aria-hidden="true">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <radialGradient id="fcmBallShade" cx="35%" cy="30%" r="80%">
+                        <stop offset="0%" stop-color="#ffe27a"/>
+                        <stop offset="55%" stop-color="#ffb90e"/>
+                        <stop offset="100%" stop-color="#b87d00"/>
+                    </radialGradient>
+                </defs>
+                <circle cx="50" cy="50" r="48" fill="url(#fcmBallShade)" stroke="#121212" stroke-width="2"/>
+                <polygon points="50,22 62,32 58,47 42,47 38,32"
+                         fill="#121212"/>
+                <polygon points="50,53 66,60 60,76 40,76 34,60"
+                         fill="#121212" opacity=".85"/>
+                <polygon points="22,40 34,36 38,50 30,60 20,54"
+                         fill="#121212" opacity=".7"/>
+                <polygon points="78,40 80,54 70,60 62,50 66,36"
+                         fill="#121212" opacity=".7"/>
+                <circle cx="50" cy="50" r="48" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1"/>
+            </svg>
+        </div>
+
         <div class="container fcm-hero__container">
 
             <div class="fcm-hero__badge reveal delay-1">
@@ -129,7 +152,13 @@
                             <img src="https://fc-marokko.de/storage/2022/10/fcm-logo.png" alt="FC Marokko logo" loading="lazy">
                         </div>
                         <div class="fcm-story__ball" aria-hidden="true">
-                            <i class="bi bi-dribbble"></i>
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.6" fill="#fff"/>
+                                <path d="M12 4.5 14.8 7l-1 3.2h-3.6l-1-3.2L12 4.5Z" fill="currentColor"/>
+                                <path d="M12 13.6 15.2 16l-1.2 3.3h-4l-1.2-3.3L12 13.6Z" fill="currentColor"/>
+                                <path d="m4.4 8.8 2.9.9.8 3.2-2.6 2.2-2.3-1.7.2-4.6 1-.0Z" fill="currentColor"/>
+                                <path d="m19.6 8.8 1 .0.2 4.6-2.3 1.7-2.6-2.2.8-3.2 2.9-.9Z" fill="currentColor"/>
+                            </svg>
                         </div>
                     </div>
                 </div>
@@ -200,47 +229,98 @@
                 <p class="fcm-section-head__sub">{!! __('partners/fc_marokko.gallery.subtitle') !!}</p>
             </div>
 
+            @php
+                $fcmGallery = [
+                    'https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg',
+                    'https://fc-marokko.de/storage/2022/10/fcm-logo.png',
+                    'https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg',
+                    'https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg',
+                    'https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg',
+                ];
+            @endphp
+
             <div class="fcm-gallery__grid">
-
-                <a class="fcm-gallery__item fcm-gallery__item--big"
-                   href="https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg"
-                   target="_blank" rel="noopener">
-                    <img src="https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg" alt="FC Marokko" loading="lazy">
-                    <div class="fcm-gallery__overlay"><i class="bi bi-arrows-fullscreen"></i></div>
-                </a>
-
-                <a class="fcm-gallery__item"
-                   href="https://fc-marokko.de/storage/2022/10/fcm-logo.png"
-                   target="_blank" rel="noopener">
-                    <img src="https://fc-marokko.de/storage/2022/10/fcm-logo.png" alt="FC Marokko" loading="lazy">
-                    <div class="fcm-gallery__overlay"><i class="bi bi-arrows-fullscreen"></i></div>
-                </a>
-
-                <a class="fcm-gallery__item"
-                   href="https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg"
-                   target="_blank" rel="noopener">
-                    <img src="https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg" alt="FC Marokko" loading="lazy">
-                    <div class="fcm-gallery__overlay"><i class="bi bi-arrows-fullscreen"></i></div>
-                </a>
-
-                <a class="fcm-gallery__item"
-                   href="https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg"
-                   target="_blank" rel="noopener">
-                    <img src="https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg" alt="FC Marokko" loading="lazy">
-                    <div class="fcm-gallery__overlay"><i class="bi bi-arrows-fullscreen"></i></div>
-                </a>
-
-                <a class="fcm-gallery__item"
-                   href="https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg"
-                   target="_blank" rel="noopener">
-                    <img src="https://fc-marokko.de/storage/2025/02/475873194_1137954098118088_822180009608469424_n.jpg" alt="FC Marokko" loading="lazy">
-                    <div class="fcm-gallery__overlay"><i class="bi bi-arrows-fullscreen"></i></div>
-                </a>
-
+                @foreach ($fcmGallery as $i => $img)
+                    <button type="button"
+                            class="fcm-gallery__item{{ $i === 0 ? ' fcm-gallery__item--big' : '' }}"
+                            data-bs-toggle="modal"
+                            data-bs-target="#fcmGalleryModal"
+                            data-fcm-index="{{ $i }}">
+                        <img src="{{ $img }}" alt="FC Marokko" loading="lazy">
+                        <div class="fcm-gallery__overlay"><i class="bi bi-arrows-fullscreen"></i></div>
+                    </button>
+                @endforeach
             </div>
 
         </div>
     </section>
+
+    {{-- ================== GALLERY MODAL (CAROUSEL) ================== --}}
+    <div class="modal fade fcm-modal" id="fcmGalleryModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content fcm-modal__content">
+                <button type="button" class="fcm-modal__close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+
+                <div id="fcmGalleryCarousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
+                    <div class="carousel-inner">
+                        @foreach ($fcmGallery as $i => $img)
+                            <div class="carousel-item @if ($i === 0) active @endif">
+                                <img src="{{ $img }}" class="d-block w-100 fcm-modal__img" alt="FC Marokko">
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <button class="carousel-control-prev fcm-modal__nav" type="button"
+                            data-bs-target="#fcmGalleryCarousel" data-bs-slide="prev">
+                        <span class="fcm-modal__nav-icon"><i class="bi bi-chevron-left"></i></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next fcm-modal__nav" type="button"
+                            data-bs-target="#fcmGalleryCarousel" data-bs-slide="next">
+                        <span class="fcm-modal__nav-icon"><i class="bi bi-chevron-right"></i></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+
+                    <div class="fcm-modal__counter">
+                        <span class="fcm-current">1</span> / <span class="fcm-total">{{ count($fcmGallery) }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @push('scripts')
+        <script>
+            (function () {
+                const modalEl = document.getElementById('fcmGalleryModal');
+                if (!modalEl) return;
+                const carouselEl = document.getElementById('fcmGalleryCarousel');
+                const counter = modalEl.querySelector('.fcm-current');
+
+                modalEl.addEventListener('show.bs.modal', function (event) {
+                    const trigger = event.relatedTarget;
+                    if (!trigger) return;
+                    const index = parseInt(trigger.getAttribute('data-fcm-index') || '0', 10);
+                    const carousel = bootstrap.Carousel.getOrCreateInstance(carouselEl);
+                    carousel.to(index);
+                    if (counter) counter.textContent = index + 1;
+                });
+
+                carouselEl.addEventListener('slid.bs.carousel', function (event) {
+                    if (counter) counter.textContent = event.to + 1;
+                });
+
+                document.addEventListener('keydown', function (e) {
+                    if (!modalEl.classList.contains('show')) return;
+                    const carousel = bootstrap.Carousel.getOrCreateInstance(carouselEl);
+                    if (e.key === 'ArrowLeft')  carousel.prev();
+                    if (e.key === 'ArrowRight') carousel.next();
+                });
+            })();
+        </script>
+    @endpush
 
     {{-- ================== CTA ================== --}}
     <section class="fcm-cta-wrap">

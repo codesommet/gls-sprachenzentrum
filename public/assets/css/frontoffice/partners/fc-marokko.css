@@ -33,8 +33,8 @@
     overflow: hidden;
     color: #fff;
     margin-top: -64px;
-    border-bottom-left-radius: 60px;
-    border-bottom-right-radius: 60px;
+    /* border-bottom-left-radius: 60px;
+    border-bottom-right-radius: 60px; */
     isolation: isolate;
 }
 .fcm-hero__bg {
@@ -50,8 +50,58 @@
     background:
         radial-gradient(1000px 500px at 80% 20%, rgba(193,39,45,.35), transparent 60%),
         radial-gradient(800px 400px at 10% 90%, rgba(0,98,51,.35), transparent 60%),
-        linear-gradient(180deg, rgba(10,10,10,.55), rgba(10,10,10,.8));
+        linear-gradient(180deg, rgba(10,10,10,.78) 0%, rgba(10,10,10,.88) 100%);
     z-index: -1;
+}
+
+/* ================================================================
+   ROLLING FOOTBALL — intro animation
+   ================================================================ */
+.fcm-rolling-ball {
+    position: absolute;
+    top: 60%;
+    left: -180px;
+    width: 140px;
+    height: 140px;
+    pointer-events: none;
+    z-index: 3;
+    filter: drop-shadow(0 18px 18px rgba(0,0,0,.45));
+    animation: fcm-roll 2.4s cubic-bezier(.18,.72,.32,1) .2s 1 both;
+    will-change: transform, opacity;
+}
+.fcm-rolling-ball svg {
+    width: 100%; height: 100%;
+    display: block;
+    animation: fcm-spin 2.4s linear .2s 1 both;
+    will-change: transform;
+}
+
+/* horizontal travel path (outer element handles x + slight arc) */
+@keyframes fcm-roll {
+    0%   { transform: translate3d(0, 0, 0)              scale(1);   opacity: 0; }
+    8%   { transform: translate3d(6vw, -2vh, 0)         scale(1);   opacity: 1; }
+    35%  { transform: translate3d(30vw, 4vh, 0)         scale(1); }
+    65%  { transform: translate3d(55vw, -2vh, 0)        scale(1); }
+    85%  { transform: translate3d(82vw, 6vh, 0)         scale(.85); opacity: 1; }
+    100% { transform: translate3d(110vw, 14vh, 0)       scale(.4);  opacity: 0; }
+}
+
+/* inner SVG handles the continuous spin */
+@keyframes fcm-spin {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(1440deg); }
+}
+
+/* respect users who don't want motion */
+@media (prefers-reduced-motion: reduce) {
+    .fcm-rolling-ball { display: none; }
+}
+
+@media (max-width: 767px){
+    .fcm-rolling-ball {
+        width: 90px; height: 90px;
+        top: 72%;
+    }
 }
 
 /* diagonal sport stripes */
@@ -133,14 +183,33 @@
     letter-spacing: -.04em;
     line-height: 1.02;
     margin: 0 0 18px;
-    text-shadow: 0 4px 20px rgba(0,0,0,.45);
+    color: #fff;
+    text-shadow:
+        0 2px 0  rgba(0,0,0,.35),
+        0 8px 24px rgba(0,0,0,.75),
+        0 0 40px rgba(0,0,0,.5);
 }
 .fcm-hero__title span {
-    display: inline-block;
-    margin: 0 .25em;
-    color: var(--fcm-gold);
-    font-weight: 300;
-    transform: translateY(-6px);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    margin: 0 .35em;
+    width: .9em;
+    height: .9em;
+    color: var(--fcm-ink);
+    background: var(--fcm-gold);
+    border-radius: 14px;
+    font-family: "Arial", "Helvetica", sans-serif;
+    font-weight: 700;
+    font-size: .48em;
+    line-height: 1;
+    transform: translateY(-.08em) rotate(-6deg);
+    box-shadow:
+        0 6px 18px rgba(255,185,14,.45),
+        0 2px 0 rgba(0,0,0,.15) inset;
+    text-shadow: none;
+    letter-spacing: 0;
 }
 
 .fcm-hero__subtitle {
@@ -148,15 +217,19 @@
     line-height: 1.55;
     max-width: 640px;
     margin: 0 auto 14px;
-    opacity: .92;
+    color: #fff;
+    opacity: .98;
+    text-shadow: 0 2px 14px rgba(0,0,0,.75);
 }
 
 .fcm-hero__meta {
     text-transform: uppercase;
     letter-spacing: .22em;
     font-size: .78rem;
-    opacity: .75;
+    color: #fff;
+    opacity: .9;
     margin-bottom: 36px;
+    text-shadow: 0 2px 10px rgba(0,0,0,.7);
 }
 
 .fcm-hero__actions {
@@ -377,9 +450,13 @@
     background: var(--fcm-gold);
     color: var(--fcm-ink);
     display: flex; align-items: center; justify-content: center;
-    font-size: 2rem;
     box-shadow: 0 14px 30px rgba(255,185,14,.45);
     animation: fcm-float 5s ease-in-out infinite;
+    padding: 14px;
+}
+.fcm-story__ball svg {
+    width: 100%; height: 100%;
+    display: block;
 }
 @keyframes fcm-float {
     0%,100% { transform: translateY(0) rotate(0);  }
@@ -508,6 +585,20 @@
     border-radius: 18px;
     background: #000;
     box-shadow: 0 14px 30px rgba(0,0,0,.12);
+    /* button reset */
+    border: 0;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+}
+.fcm-gallery__item:focus-visible {
+    outline: 3px solid var(--fcm-red);
+    outline-offset: 2px;
 }
 .fcm-gallery__item img {
     width: 100%; height: 100%;
@@ -618,7 +709,7 @@
    RESPONSIVE
    ================================================================ */
 @media (max-width: 991px){
-    .fcm-hero { padding: 120px 0 80px; min-height: auto; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px; }
+    /* .fcm-hero { padding: 120px 0 80px; min-height: auto; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px; } */
     .fcm-story { padding: 80px 0; }
     .fcm-pillars { padding: 80px 0; }
     .fcm-gallery { padding: 80px 0; }
@@ -633,4 +724,97 @@
     .fcm-hero__stripes { display: none; }
     .fcm-btn { width: 100%; }
     .fcm-hero__actions { flex-direction: column; }
+}
+
+/* ================================================================
+   GALLERY MODAL (CAROUSEL LIGHTBOX)
+   ================================================================ */
+.fcm-modal .modal-dialog {
+    max-width: 1100px;
+}
+.fcm-modal__content {
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    position: relative;
+}
+.fcm-modal .carousel-inner {
+    border-radius: 18px;
+    overflow: hidden;
+    background: #0a0a0a;
+    box-shadow: 0 40px 80px rgba(0,0,0,.6);
+}
+.fcm-modal__img {
+    width: 100%;
+    max-height: 82vh;
+    object-fit: contain;
+    background: #0a0a0a;
+}
+
+.fcm-modal__close {
+    position: absolute;
+    top: -48px; right: 0;
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.25);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    cursor: pointer;
+    z-index: 10;
+    transition: background .25s ease, transform .25s ease;
+    backdrop-filter: blur(8px);
+}
+.fcm-modal__close:hover {
+    background: var(--fcm-red);
+    border-color: var(--fcm-red);
+    transform: scale(1.06);
+}
+
+.fcm-modal__nav {
+    width: 72px;
+    opacity: 1;
+}
+.fcm-modal__nav:hover .fcm-modal__nav-icon {
+    background: var(--fcm-red);
+    color: #fff;
+    transform: scale(1.08);
+}
+.fcm-modal__nav-icon {
+    width: 54px; height: 54px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.92);
+    color: var(--fcm-ink);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,.35);
+    transition: background .25s ease, color .25s ease, transform .25s ease;
+}
+.fcm-modal .carousel-control-prev-icon,
+.fcm-modal .carousel-control-next-icon { display: none; }
+
+.fcm-modal__counter {
+    position: absolute;
+    bottom: -42px; left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: .1em;
+    font-size: .9rem;
+    background: rgba(0,0,0,.55);
+    padding: 8px 18px;
+    border-radius: 999px;
+    backdrop-filter: blur(10px);
+}
+
+.fcm-modal .modal-backdrop.show { opacity: .92; }
+
+@media (max-width: 767px){
+    .fcm-modal .modal-dialog { margin: 3rem auto; }
+    .fcm-modal__close { top: -44px; }
+    .fcm-modal__nav { width: 50px; }
+    .fcm-modal__nav-icon { width: 42px; height: 42px; font-size: 1.1rem; }
+    .fcm-modal__img { max-height: 70vh; }
 }

@@ -575,10 +575,10 @@ SITES — Images only (NO iframe, NO yt-holder, NO video)
         {{-- ===============================
  COOPERATION PARTNERS – Auto Marquee
 ================================ --}}
-        <section class="partners-section text-center reveal delay-1" aria-label="Our Cooperation Partners">
+        <section class="partners-section text-center reveal delay-1 {{ app()->getLocale() == 'ar' ? 'rtl' : '' }}" aria-label="{{ __('home.partners.aria_label') }}">
             <div class="container reveal delay-2">
 
-                <h2 class="partners-title reveal fade-blur-title delay-1">Our Cooperation Partners</h2>
+                <h2 class="partners-title reveal fade-blur-title delay-1">{{ __('home.partners.title') }}</h2>
 
                 <div class="partners-marquee reveal delay-2">
                     <div class="partners-track reveal delay-3">

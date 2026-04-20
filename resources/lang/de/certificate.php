@@ -1,0 +1,22 @@
+<?php
+
+return [
+    'page_title' => 'Zertifikatsüberprüfung',
+    'heading' => 'GLS-Zertifikat überprüfen',
+    'subheading' => 'Geben Sie die Zertifikatsnummer ein, um die Echtheit zu überprüfen.',
+    'form_label' => 'Zertifikatsnummer',
+    'form_placeholder' => 'Bsp.: K5FDM3VB',
+    'submit' => 'Überprüfen',
+    'success_toast' => 'Zertifikat erfolgreich gefunden.',
+    'details_title' => 'GLS-Zertifikat',
+    'label_name' => 'Name',
+    'label_level' => 'Niveau',
+    'label_exam_date' => 'Prüfungsdatum',
+    'label_issued_date' => 'Ausstellungsdatum',
+    'label_number' => 'Zertifikatsnummer',
+    'download_pdf' => 'Zertifikat herunterladen (PDF)',
+    'token_missing' => 'Öffentlicher Link nicht verfügbar: Token fehlt.',
+    'qr_caption_line1' => 'Scannen zum Herunterladen',
+    'qr_caption_line2' => 'des Zertifikats',
+    'qr_unavailable' => 'QR-Code nicht verfügbar',
+];

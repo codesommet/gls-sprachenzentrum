@@ -71,6 +71,18 @@
   100% { transform: translateX(-50%); }
 }
 
+/* RTL (Arabic): flip the container so the track
+   visually scrolls right-to-left (reading direction).
+   Keeps the same keyframe, so logos are visible from
+   t=0 — no waiting for reverse-playback to catch up. */
+.partners-section.rtl .partners-marquee {
+  transform: scaleX(-1);
+}
+
+.partners-section.rtl .partners-track img {
+  transform: scaleX(-1);
+}
+
 .partners-logos-noscript {
   margin-top: 1rem;
   display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; align-items: center;

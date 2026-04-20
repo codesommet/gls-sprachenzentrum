@@ -1,6 +1,6 @@
 @extends('frontoffice.layouts.app')
 
-@section('title', 'Vérification de Certificat')
+@section('title', __('certificate.page_title'))
 
 @section('content')
 
@@ -31,7 +31,7 @@
                     aria-live="assertive" aria-atomic="true">
                     <div class="d-flex">
                         <div class="toast-body">
-                            Certificat trouvé avec succès.
+                            {{ __('certificate.success_toast') }}
                         </div>
                         <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
                             aria-label="Close"></button>
@@ -44,8 +44,8 @@
     <div class="container py-5">
 
         <div class="text-center mb-5">
-            <h1 class="fw-bold">Vérifier un Certificat GLS</h1>
-            <p class="text-muted">Entrez le numéro du certificat pour vérifier son authenticité.</p>
+            <h1 class="fw-bold">{{ __('certificate.heading') }}</h1>
+            <p class="text-muted">{{ __('certificate.subheading') }}</p>
         </div>
 
         {{-- FORMULAIRE --}}
@@ -56,13 +56,13 @@
                     @csrf
 
                     <div class="mb-3">
-                        <label class="form-label">Numéro du certificat</label>
-                        <input type="text" name="certificate_number" class="form-control" placeholder="Ex : K5FDM3VB"
+                        <label class="form-label">{{ __('certificate.form_label') }}</label>
+                        <input type="text" name="certificate_number" class="form-control" placeholder="{{ __('certificate.form_placeholder') }}"
                             required>
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100">
-                        Vérifier
+                        {{ __('certificate.submit') }}
                     </button>
                 </form>
 
@@ -84,31 +84,31 @@
                     <div class="row align-items-center">
                         {{-- LEFT : CERTIFICATE INFO --}}
                         <div class="col-md-8">
-                            <h4 class="mb-3">Certificat GLS</h4>
+                            <h4 class="mb-3">{{ __('certificate.details_title') }}</h4>
 
-                            <p><strong>Nom :</strong> {{ $cert['first_name'] }} {{ $cert['last_name'] }}</p>
+                            <p><strong>{{ __('certificate.label_name') }} :</strong> {{ $cert['first_name'] }} {{ $cert['last_name'] }}</p>
 
-                            <p><strong>Niveau :</strong> {{ $cert['exam_level'] }}</p>
+                            <p><strong>{{ __('certificate.label_level') }} :</strong> {{ $cert['exam_level'] }}</p>
 
-                            <p><strong>Date d’examen :</strong>
+                            <p><strong>{{ __('certificate.label_exam_date') }} :</strong>
                                 {{ \Carbon\Carbon::parse($cert['exam_date'])->format('d/m/Y') }}
                             </p>
 
-                            <p><strong>Date de délivrance :</strong>
+                            <p><strong>{{ __('certificate.label_issued_date') }} :</strong>
                                 {{ \Carbon\Carbon::parse($cert['issued_date'])->format('d/m/Y') }}
                             </p>
 
-                            <p><strong>Numéro du certificat :</strong> {{ $cert['certificate_number'] }}</p>
+                            <p><strong>{{ __('certificate.label_number') }} :</strong> {{ $cert['certificate_number'] }}</p>
 
                             @if($publicToken)
                                 <a href="{{ route('certificates.public.download', ['token' => $publicToken]) }}"
                                    target="_blank"
                                    class="btn btn-dark mt-3">
-                                    Télécharger le certificat (PDF)
+                                    {{ __('certificate.download_pdf') }}
                                 </a>
                             @else
                                 <div class="alert alert-warning mt-3 mb-0">
-                                    Lien public indisponible : token manquant.
+                                    {{ __('certificate.token_missing') }}
                                 </div>
                             @endif
                         </div>
@@ -123,11 +123,11 @@
                                         class="img-fluid"
                                     >
                                     <div class="text-muted mt-2" style="font-size: 13px;">
-                                        Scanner pour télécharger<br>le certificat
+                                        {{ __('certificate.qr_caption_line1') }}<br>{{ __('certificate.qr_caption_line2') }}
                                     </div>
                                 @else
                                     <div class="text-muted" style="font-size: 13px;">
-                                        QR code indisponible
+                                        {{ __('certificate.qr_unavailable') }}
                                     </div>
                                 @endif
                             </div>

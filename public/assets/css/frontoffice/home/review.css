@@ -146,6 +146,31 @@
   .review-carousel_track:hover {
     animation-play-state: paused;
   }
+
+  /* ===================================
+     RTL (Arabic): Top track scrolls left (normal).
+     Bottom track uses flex row-reverse (cards
+     laid right-to-left) + a dedicated keyframe
+     that starts at 0% and moves forward by 50%,
+     so visually cards flow in the opposite
+     direction. Both tracks start at translateX(0)
+     so both are fully populated at t=0.
+  =================================== */
+  @keyframes scroll-rtl-right {
+    from { transform: translateX(0%); }
+    to   { transform: translateX(50%); }
+  }
+
+  .reviews-carousel-section.rtl .is-animating-left {
+    animation-name: scroll-left;
+    animation-direction: normal;
+  }
+
+  .reviews-carousel-section.rtl .is-animating-right {
+    animation-name: scroll-rtl-right;
+    animation-direction: normal;
+    flex-direction: row-reverse;
+  }
   
   /* ===================================
      Mobile Adjustments (max-width: 479px)

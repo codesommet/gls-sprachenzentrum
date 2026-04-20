@@ -8,7 +8,7 @@ return [
 
     'hero' => [
         'badge'    => 'Official Partnership',
-        'title'    => 'GLS <span>×</span> FC Marokko',
+        'title'    => 'GLS <span>x</span> FC Marokko',
         'subtitle' => 'An alliance of language, sport and youth — united to shape the next generation.',
         'meta'     => 'Sport • Education • Integration',
         'alt'      => 'FC Marokko Logo',

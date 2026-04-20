@@ -321,4 +321,9 @@ return [
             ],
         ],
     ],
+
+    'partners' => [
+        'title' => 'Our Cooperation Partners',
+        'aria_label' => 'Our Cooperation Partners',
+    ],
 ];

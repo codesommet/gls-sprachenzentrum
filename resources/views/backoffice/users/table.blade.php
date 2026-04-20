@@ -6,8 +6,9 @@
                 <th>Nom</th>
                 <th>Email</th>
                 <th>Rôle</th>
-                <th>Vérifié</th>
-                <th>Création</th>
+                <th>Centre</th>
+                <th>Poste</th>
+                <th>Statut</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -30,14 +31,28 @@
                     </td>
 
                     <td>
-                        @if($user->email_verified_at)
-                            <span class="badge bg-light-success">Oui</span>
+                        @if($user->site)
+                            <span class="badge bg-light-info">{{ $user->site->name }}</span>
                         @else
-                            <span class="badge bg-light-danger">Non</span>
+                            <span class="text-muted">—</span>
                         @endif
                     </td>
 
-                    <td>{{ $user->created_at->format('Y-m-d') }}</td>
+                    <td>
+                        @if($user->staff_role)
+                            <span class="badge bg-light-secondary">{{ $user->staff_role }}</span>
+                        @else
+                            <span class="text-muted">—</span>
+                        @endif
+                    </td>
+
+                    <td>
+                        @if($user->is_active)
+                            <span class="badge bg-light-success">Actif</span>
+                        @else
+                            <span class="badge bg-light-danger">Inactif</span>
+                        @endif
+                    </td>
 
                     <td>
 
@@ -69,7 +84,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="7" class="text-center text-muted">Aucun utilisateur trouvé.</td>
+                    <td colspan="8" class="text-center text-muted">Aucun utilisateur trouvé.</td>
                 </tr>
             @endforelse
         </tbody>

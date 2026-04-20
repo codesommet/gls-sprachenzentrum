@@ -279,4 +279,9 @@ return [
         'subtitle' => 'Entdecken Sie die Geschichten unserer Studenten',
         'aria_section' => 'Video-Erfahrungsberichte',
     ],
+
+    'partners' => [
+        'title' => 'Unsere Kooperationspartner',
+        'aria_label' => 'Unsere Kooperationspartner',
+    ],
 ];
