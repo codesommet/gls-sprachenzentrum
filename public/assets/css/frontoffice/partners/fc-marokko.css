@@ -63,6 +63,8 @@
     left: -200px;
     width: 110px;
     height: 110px;
+    max-width: 110px;
+    max-height: 110px;
     pointer-events: none;
     z-index: 4; /* above everything while rolling */
     filter:
@@ -74,6 +76,7 @@
         fcm-ball-hide 0s linear 3.91s 1 forwards;
     will-change: transform, opacity;
 }
+.fcm-rolling-ball svg { max-width: 100%; max-height: 100%; }
 
 /* Drops the ball between back-net (z:1) and front-net (z:3) at moment of impact */
 @keyframes fcm-ball-zorder {
@@ -140,18 +143,26 @@
     bottom: 0;
     width: 300px;
     height: 380px;
+    max-width: 300px;
+    max-height: 380px;
     pointer-events: none;
     opacity: 0;
+    visibility: hidden;           /* hidden until intro animation starts */
     transform: perspective(900px) rotateY(-22deg) translateX(60px) scale(.95);
     transform-origin: 100% 100%;
     transform-style: preserve-3d;
-    /* goal appears just before ball reaches it, then fades after the GOAL! burst */
+    overflow: hidden;             /* defensive: clip any child overflow */
+    /* Appear just before ball arrives, fade after the GOAL! burst */
     animation:
-        fcm-goal-in  .5s cubic-bezier(.2,.85,.3,1) 2.4s 1 forwards,
-        fcm-goal-out .7s ease-in 4.3s 1 forwards,
+        fcm-goal-show 0s linear 2.4s 1 forwards,
+        fcm-goal-in   .5s cubic-bezier(.2,.85,.3,1) 2.4s 1 forwards,
+        fcm-goal-out  .7s ease-in 4.3s 1 forwards,
         fcm-goal-hide 0s linear 5.05s 1 forwards;
     will-change: transform, opacity;
 }
+
+/* make the goal visible exactly when the intro animation starts */
+@keyframes fcm-goal-show { to { visibility: visible; } }
 
 @keyframes fcm-goal-out {
     0%   { opacity: 1; transform: perspective(900px) rotateY(-22deg) translateX(0) scale(1); }
@@ -166,11 +177,16 @@
 .fcm-goal__back {
     position: absolute;
     inset: 0;
+    width: 100%;
+    height: 100%;
     z-index: 1;
     transform: translateZ(-40px);
 }
 .fcm-goal__back svg {
-    width: 100%; height: 100%;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
     display: block;
     filter: drop-shadow(0 14px 14px rgba(0,0,0,.35));
 }
@@ -179,11 +195,16 @@
 .fcm-goal__front {
     position: absolute;
     inset: 0;
-    z-index: 3; /* ABOVE the ball (which is z-index:2 when in the goal) */
+    width: 100%;
+    height: 100%;
+    z-index: 3;
     pointer-events: none;
 }
 .fcm-goal__front svg {
-    width: 100%; height: 100%;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
     display: block;
     filter: drop-shadow(0 22px 18px rgba(0,0,0,.45));
 }
