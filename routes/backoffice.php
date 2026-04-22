@@ -610,6 +610,8 @@ Route::prefix('backoffice')
                     ->middleware('permission:whatsapp_campaigns.edit')->name('resume');
                 Route::post('/stop',   [WhatsAppCampaignController::class, 'stop'])
                     ->middleware('permission:whatsapp_campaigns.edit')->name('stop');
+                Route::post('/force-reset', [WhatsAppCampaignController::class, 'forceReset'])
+                    ->middleware('permission:whatsapp_campaigns.edit')->name('force_reset');
             });
     });
 

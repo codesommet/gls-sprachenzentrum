@@ -179,6 +179,7 @@
     const URL_PAUSE  = @json(route('backoffice.whatsapp_campaigns.pause'));
     const URL_RESUME = @json(route('backoffice.whatsapp_campaigns.resume'));
     const URL_STOP   = @json(route('backoffice.whatsapp_campaigns.stop'));
+    const URL_RESET  = @json(route('backoffice.whatsapp_campaigns.force_reset'));
 
     const btnStart  = document.getElementById('wa-btn-start');
     const btnPause  = document.getElementById('wa-btn-pause');
@@ -372,13 +373,44 @@
         } catch(e){ /* ignore */ }
     }
 
+    async function tryStart(){
+        const r = await api(URL_START, {method:'POST'});
+        if (r.ok) {
+            uiRunning();
+            startPolling();
+            startLogAuto();
+            return true;
+        }
+        // 409 = another campaign (or stale lock) is marked as running.
+        if (r.status === 409) {
+            const otherId = r.data && r.data.runningCampaignId;
+            const isSelf  = otherId && Number(otherId) === Number(CAMPAIGN_ID);
+            const prompt = isSelf
+                ? 'Le verrou indique que cette campagne tourne déjà, mais aucun worker n\'est actif. Forcer la réinitialisation et redémarrer ?'
+                : 'Une autre campagne est marquée comme en cours (ID ' + (otherId ?? '?') + '). Si elle est bloquée, forcer la réinitialisation ?';
+            if (confirm(prompt)) {
+                const rr = await api(URL_RESET, {method:'POST'});
+                if (!rr.ok) { alert('Réinitialisation échouée : ' + apiErr(rr)); return false; }
+                const r2 = await api(URL_START, {method:'POST'});
+                if (r2.ok) {
+                    uiRunning();
+                    startPolling();
+                    startLogAuto();
+                    return true;
+                }
+                alert('Démarrage échoué après réinitialisation : ' + apiErr(r2));
+                return false;
+            }
+            return false;
+        }
+        alert('Démarrage échoué : ' + apiErr(r));
+        return false;
+    }
+
     btnStart.addEventListener('click', async ()=>{
         btnStart.disabled = true;
-        const r = await api(URL_START, {method:'POST'});
-        if (!r.ok) { btnStart.disabled = false; return alert('Démarrage échoué : ' + apiErr(r)); }
-        uiRunning();
-        startPolling();
-        startLogAuto();
+        const ok = await tryStart();
+        if (!ok) btnStart.disabled = false;
     });
     btnPause.addEventListener('click', async ()=>{
         btnPause.disabled = true;

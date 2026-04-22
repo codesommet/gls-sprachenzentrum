@@ -229,8 +229,20 @@ class WhatsAppCampaignController extends Controller
 
     public function start(WhatsAppCampaign $campaign): JsonResponse
     {
-        if ($this->runtime->readStatus()['running'] ?? false) {
-            return response()->json(['error' => 'Une campagne est déjà en cours'], 409);
+        $status = $this->runtime->readStatus();
+        if (!empty($status['running'])) {
+            return response()->json([
+                'error' => 'Une campagne est déjà en cours',
+                'runningCampaignId' => $status['campaignId'] ?? null,
+            ], 409);
+        }
+        // readStatus() already flags stale locks as not-running, but purge
+        // the leftover file so subsequent reads are clean.
+        if (!empty($status['stale'])) {
+            $this->runtime->clearStatus();
+            // Any previous campaign still in "running" state in DB is also a
+            // zombie — the worker died without finalizing.
+            WhatsAppCampaign::where('status', 'running')->update(['status' => 'paused']);
         }
 
         $attach = (string) ($campaign->attachment_path ?? '');
@@ -342,6 +354,19 @@ class WhatsAppCampaignController extends Controller
         $c['paused']  = false;
         $this->runtime->writeControl($c);
         return response()->json(['stopped' => true]);
+    }
+
+    /**
+     * Clear a stuck "running" lock. Used when a worker died without writing
+     * its final status (e.g. server restart, PHP crash), leaving every new
+     * start attempt blocked by a stale lock.
+     */
+    public function forceReset(): JsonResponse
+    {
+        $this->runtime->clearStatus();
+        $this->runtime->writeControl(['paused' => false, 'aborted' => false]);
+        WhatsAppCampaign::where('status', 'running')->update(['status' => 'paused']);
+        return response()->json(['reset' => true]);
     }
 
     /**
