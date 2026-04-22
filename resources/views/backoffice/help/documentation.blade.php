@@ -1119,6 +1119,414 @@
         </div>
     </div>
 
+    {{-- ================================================================== --}}
+    {{-- COMMUNICATION — Campagnes WhatsApp                                --}}
+    {{-- ================================================================== --}}
+
+    <div class="doc-section">
+        <div class="row g-4">
+            <div class="col-12">
+                <section class="doc-hero" style="background: radial-gradient(circle at top right, rgba(37,211,102,0.18), transparent 28%), linear-gradient(135deg, #ffffff 0%, #f2fbf5 55%, #f4f8fd 100%);">
+                    <div class="doc-hero__body">
+                        <div class="doc-eyebrow" style="background:#e6f9ee;color:#1a8f4c;">
+                            <i class="ph-duotone ph-whatsapp-logo"></i>
+                            Module Communication
+                        </div>
+                        <h2 class="doc-hero__title">Campagnes WhatsApp — Envois massifs</h2>
+                        <p class="doc-hero__text">
+                            Ce module permet d'envoyer un meme message WhatsApp (texte + piece jointe optionnelle) a une liste
+                            de numeros. Les envois se font depuis un poste Windows sur lequel WhatsApp Desktop est ouvert et
+                            connecte, avec des delais aleatoires entre chaque message pour eviter la suspension du compte.
+                        </p>
+                        <div class="doc-metrics">
+                            <div class="doc-metric">
+                                <div class="doc-metric__value">Par centre</div>
+                                <div class="doc-metric__label">campagnes filtrables</div>
+                            </div>
+                            <div class="doc-metric">
+                                <div class="doc-metric__value">Doublons</div>
+                                <div class="doc-metric__label">detection automatique</div>
+                            </div>
+                            <div class="doc-metric">
+                                <div class="doc-metric__value">Live</div>
+                                <div class="doc-metric__label">suivi en temps reel</div>
+                            </div>
+                            <div class="doc-metric">
+                                <div class="doc-metric__value">Pause</div>
+                                <div class="doc-metric__label">controle d'envoi</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <div class="doc-section">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="doc-card">
+                    <div class="doc-card__header">
+                        <div class="doc-card__icon" style="background:#e6f9ee;color:#1a8f4c;">
+                            <i class="ph-duotone ph-arrows-left-right"></i>
+                        </div>
+                        <h5 class="doc-card__title">Flux d'une campagne</h5>
+                    </div>
+                    <div class="doc-card__body">
+                        <div class="doc-workflow" style="margin-top:4px;">
+                            <div class="doc-step">
+                                <div class="doc-step__num">1</div>
+                                <h6 class="doc-step__title">Creer la campagne</h6>
+                                <p class="doc-step__text"><strong>Communication &rarr; Campagnes WhatsApp &rarr; Nouvelle campagne</strong>. Choisir le nom, le centre, la liste de numeros et le message.</p>
+                            </div>
+                            <div class="doc-step">
+                                <div class="doc-step__num">2</div>
+                                <h6 class="doc-step__title">Verifier les doublons</h6>
+                                <p class="doc-step__text">Le systeme compare avec tous les envois deja « reussis » dans les anciennes campagnes et permet de retirer les numeros deja contactes.</p>
+                            </div>
+                            <div class="doc-step">
+                                <div class="doc-step__num">3</div>
+                                <h6 class="doc-step__title">Demarrer l'envoi</h6>
+                                <p class="doc-step__text">Sur la page de detail, cliquer « Demarrer ». Le worker Windows ouvre WhatsApp Desktop et envoie un message a la fois avec un delai aleatoire.</p>
+                            </div>
+                            <div class="doc-step">
+                                <div class="doc-step__num">4</div>
+                                <h6 class="doc-step__title">Suivre en direct</h6>
+                                <p class="doc-step__text">La progression (envoyes / echecs / en attente) est mise a jour en temps reel. On peut <strong>Mettre en pause</strong>, <strong>Reprendre</strong> ou <strong>Arreter</strong> a tout moment.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="doc-section">
+        <div class="doc-grid-2">
+            <div class="doc-card">
+                <div class="doc-card__header">
+                    <div class="doc-card__icon" style="background:#e6f9ee;color:#1a8f4c;">
+                        <i class="ph-duotone ph-gear"></i>
+                    </div>
+                    <h5 class="doc-card__title">Formulaire Nouvelle campagne</h5>
+                </div>
+                <div class="doc-card__body">
+                    <ul class="doc-list">
+                        <li><strong>Nom :</strong> libelle interne pour retrouver la campagne (ex: « Liste annules mars », « Interets B2 »).</li>
+                        <li><strong>Centre :</strong> centre GLS associe. Il est <strong>pre-selectionne automatiquement</strong> a partir du centre de votre compte utilisateur. Permet ensuite de filtrer l'historique par centre.</li>
+                        <li><strong>Delai min / max (s) :</strong> intervalle aleatoire entre deux envois. Par defaut 45 s / 90 s. Plus c'est long, moins WhatsApp risque de bloquer le numero.</li>
+                        <li><strong>Attente chargement (s) :</strong> temps d'attente apres ouverture de la conversation avant d'envoyer. Par defaut 7 s.</li>
+                        <li><strong>Piece jointe (optionnelle) :</strong> PDF, JPG, PNG, WEBP ou MP4 jusqu'a 20 Mo. Si fournie, le message devient la legende.</li>
+                        <li><strong>Liste des numeros :</strong> un numero par ligne au format <code>numero[,nom]</code>. Accepte les formats marocains (06..., +2126..., 2126...).</li>
+                        <li><strong>Message :</strong> texte a envoyer. Variables disponibles : <code>{business}</code>, <code>{name}</code>, <code>{phone}</code>.</li>
+                    </ul>
+                    <div class="doc-note mt-3">
+                        <strong>Doublons :</strong> le champ « Liste des numeros » s'auto-analyse. Si certains numeros ont deja recu un message « reussi » dans une campagne precedente, un bandeau jaune s'affiche avec les options <strong>Afficher</strong> et <strong>Retirer automatiquement</strong>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="doc-card">
+                <div class="doc-card__header">
+                    <div class="doc-card__icon" style="background:#e6f9ee;color:#1a8f4c;">
+                        <i class="ph-duotone ph-funnel"></i>
+                    </div>
+                    <h5 class="doc-card__title">Historique et filtre Centre</h5>
+                </div>
+                <div class="doc-card__body">
+                    <ul class="doc-list">
+                        <li><strong>Filtre automatique :</strong> a l'ouverture de la page <strong>Campagnes WhatsApp</strong>, la liste est filtree par defaut sur votre centre (celui defini dans votre compte utilisateur).</li>
+                        <li><strong>Tous les centres :</strong> choisir « — Tous les centres — » pour voir toutes les campagnes.</li>
+                        <li><strong>Non assigne :</strong> choisir « — Non assigne — » pour retrouver les campagnes creees sans centre.</li>
+                        <li><strong>Colonnes :</strong> Nom, Centre, Creee par, Statut, Total, Envoyes, Echecs, Progression (%), Creee le, Actions.</li>
+                        <li><strong>Statuts :</strong> <span class="badge bg-secondary">QUEUED</span> en file d'attente, <span class="badge bg-info">RUNNING</span> en cours, <span class="badge bg-warning">PAUSED</span> en pause, <span class="badge bg-success">COMPLETED</span> termine, <span class="badge bg-dark">STOPPED</span> arrete.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="doc-section">
+        <div class="doc-grid-2">
+            <div class="doc-card">
+                <div class="doc-card__header">
+                    <div class="doc-card__icon" style="background:#e6f9ee;color:#1a8f4c;">
+                        <i class="ph-duotone ph-chart-line-up"></i>
+                    </div>
+                    <h5 class="doc-card__title">Tableau de bord Communication</h5>
+                </div>
+                <div class="doc-card__body">
+                    <ul class="doc-list">
+                        <li><strong>Totaux :</strong> nombre total de campagnes, de destinataires, de messages envoyes, echoues, en attente.</li>
+                        <li><strong>Taux de reussite :</strong> pourcentage global envoyes / total.</li>
+                        <li><strong>Statuts :</strong> repartition entre queued, running, paused, completed, stopped.</li>
+                        <li><strong>Serie 14 jours :</strong> evolution des envois et echecs par jour.</li>
+                        <li><strong>Classement par centre :</strong> nombre de campagnes et de messages envoyes par centre.</li>
+                        <li><strong>Top utilisateurs :</strong> les 10 utilisateurs ayant lance le plus de campagnes.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="doc-card">
+                <div class="doc-card__header">
+                    <div class="doc-card__icon" style="background:#fff2e8;color:#d66b1f;">
+                        <i class="ph-duotone ph-warning-circle"></i>
+                    </div>
+                    <h5 class="doc-card__title">Precautions et bonnes pratiques</h5>
+                </div>
+                <div class="doc-card__body">
+                    <ul class="doc-list">
+                        <li><strong>Numero secondaire :</strong> utilisez un numero WhatsApp dedie. L'envoi massif peut entrainer la suspension du compte.</li>
+                        <li><strong>WhatsApp Desktop ouvert :</strong> la machine Windows qui execute le serveur doit avoir WhatsApp Desktop ouvert et connecte.</li>
+                        <li><strong>Ne pas toucher la souris :</strong> pendant qu'une campagne tourne, ne pas interagir avec WhatsApp ; cela peut faire echouer un envoi.</li>
+                        <li><strong>Delais raisonnables :</strong> ne pas descendre sous 30 / 40 secondes. Les valeurs par defaut (45 / 90) sont un bon compromis.</li>
+                        <li><strong>Une campagne a la fois :</strong> impossible de lancer deux campagnes en parallele. Attendre la fin ou arreter la campagne en cours.</li>
+                        <li><strong>Pause vs Arret :</strong> Pause permet de reprendre plus tard (etat paused). Arret termine la campagne definitivement (etat stopped) ; seuls les numeros restes « pending » sont perdus.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- ================================================================== --}}
+    {{-- RH — Mon planning (semaine)                                       --}}
+    {{-- ================================================================== --}}
+
+    <div class="doc-section">
+        <div class="row g-4">
+            <div class="col-12">
+                <section class="doc-hero" style="background: radial-gradient(circle at top right, rgba(70,128,255,0.15), transparent 28%), linear-gradient(135deg, #ffffff 0%, #f2f6ff 55%, #f4f8fd 100%);">
+                    <div class="doc-hero__body">
+                        <div class="doc-eyebrow" style="background:#eaf5ff;color:#0b72c7;">
+                            <i class="ph-duotone ph-clock"></i>
+                            Module RH / Planning
+                        </div>
+                        <h2 class="doc-hero__title">Mon planning — Semaine</h2>
+                        <p class="doc-hero__text">
+                            Cette page permet de saisir les horaires de travail (debut / fin / pause) pour chaque jour de la
+                            semaine. Le temps travaille est calcule <strong>en temps reel</strong> au fur et a mesure de la saisie,
+                            en soustrayant automatiquement la pause. Un administrateur peut gerer le planning des autres membres
+                            de l'equipe.
+                        </p>
+                        <div class="doc-metrics">
+                            <div class="doc-metric">
+                                <div class="doc-metric__value">Live</div>
+                                <div class="doc-metric__label">calcul en temps reel</div>
+                            </div>
+                            <div class="doc-metric">
+                                <div class="doc-metric__value">7 jours</div>
+                                <div class="doc-metric__label">lundi a dimanche</div>
+                            </div>
+                            <div class="doc-metric">
+                                <div class="doc-metric__value">Total</div>
+                                <div class="doc-metric__label">semaine automatique</div>
+                            </div>
+                            <div class="doc-metric">
+                                <div class="doc-metric__value">Admin</div>
+                                <div class="doc-metric__label">gerer d'autres plannings</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <div class="doc-section">
+        <div class="doc-grid-2">
+            <div class="doc-card">
+                <div class="doc-card__header">
+                    <div class="doc-card__icon bg-doc-blue">
+                        <i class="ph-duotone ph-calculator"></i>
+                    </div>
+                    <h5 class="doc-card__title">Calcul du temps travaille</h5>
+                </div>
+                <div class="doc-card__body">
+                    <p class="doc-card__text"><strong>Formule :</strong></p>
+                    <ul class="doc-list">
+                        <li><strong>Travaille = Fin - Debut - (Pause fin - Pause debut)</strong></li>
+                        <li>Si la pause depasse les heures de travail, elle est coupee aux bornes Debut / Fin.</li>
+                        <li>Si Debut, Fin sont vides ou que Fin &le; Debut, la ligne affiche « — » et ne compte pas dans le total.</li>
+                        <li>La cellule <strong>Travaille</strong> et le <strong>Total semaine</strong> se mettent a jour instantanement a chaque modification d'heure.</li>
+                    </ul>
+                    <div class="doc-note mt-3">
+                        <strong>Exemple :</strong> Debut 09:30, Fin 19:30, Pause 14:00 &rarr; 16:00.<br>
+                        Travaille = 10h00 - 2h00 = <strong>8h00</strong>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="doc-card">
+                <div class="doc-card__header">
+                    <div class="doc-card__icon bg-doc-blue">
+                        <i class="ph-duotone ph-users-three"></i>
+                    </div>
+                    <h5 class="doc-card__title">Naviguer et gerer</h5>
+                </div>
+                <div class="doc-card__body">
+                    <ul class="doc-list">
+                        <li><strong>Precedente / Suivante :</strong> changer de semaine.</li>
+                        <li><strong>Selecteur de date :</strong> sauter directement a une semaine donnee.</li>
+                        <li><strong>Gerer le planning de (admin) :</strong> pour un administrateur, menu deroulant « Moi-meme / autre utilisateur » pour saisir le planning d'un collegue.</li>
+                        <li><strong>Notes :</strong> champ libre par jour (500 caracteres max).</li>
+                        <li><strong>Vider un jour :</strong> laisser Debut et Fin vides et enregistrer supprime l'entree du jour.</li>
+                        <li><strong>Enregistrer la semaine :</strong> bouton en bas de page ; le calcul cote serveur est identique au calcul en direct.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- ================================================================== --}}
+    {{-- PILOTAGE — Rapport Semaine (Enseignants)                          --}}
+    {{-- ================================================================== --}}
+
+    <div class="doc-section">
+        <div class="row g-4">
+            <div class="col-12">
+                <section class="doc-hero" style="background: radial-gradient(circle at top right, rgba(70,128,255,0.18), transparent 28%), linear-gradient(135deg, #ffffff 0%, #f3f7ff 55%, #f4f8fd 100%);">
+                    <div class="doc-hero__body">
+                        <div class="doc-eyebrow" style="background:#eaf5ff;color:#0b72c7;">
+                            <i class="ph-duotone ph-calendar-check"></i>
+                            Module Pilotage
+                        </div>
+                        <h2 class="doc-hero__title">Rapport Semaine — Enseignants</h2>
+                        <p class="doc-hero__text">
+                            Cette page sert de carnet de bord : pour chaque jour de la semaine, on note ce que chaque enseignant
+                            a fait (cours, intervention, absence justifiee, etc.). La vue semaine offre un calendrier lundi-vendredi
+                            et un aper&ccedil;u mensuel accessible depuis un bouton dedie.
+                        </p>
+                        <div class="doc-metrics">
+                            <div class="doc-metric">
+                                <div class="doc-metric__value">Semaine</div>
+                                <div class="doc-metric__label">calendrier lun-ven</div>
+                            </div>
+                            <div class="doc-metric">
+                                <div class="doc-metric__value">Mois</div>
+                                <div class="doc-metric__label">modale aper&ccedil;u</div>
+                            </div>
+                            <div class="doc-metric">
+                                <div class="doc-metric__value">PDF</div>
+                                <div class="doc-metric__label">export semaine</div>
+                            </div>
+                            <div class="doc-metric">
+                                <div class="doc-metric__value">Mobile</div>
+                                <div class="doc-metric__label">vue adaptative</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <div class="doc-section">
+        <div class="doc-grid-2">
+            <div class="doc-card">
+                <div class="doc-card__header">
+                    <div class="doc-card__icon bg-doc-blue">
+                        <i class="ph-duotone ph-pencil-simple-line"></i>
+                    </div>
+                    <h5 class="doc-card__title">Ajouter / modifier un rapport</h5>
+                </div>
+                <div class="doc-card__body">
+                    <ul class="doc-list">
+                        <li><strong>Cliquer sur une case jour</strong> (ou le bouton + au survol) pour ouvrir la modale d'ajout.</li>
+                        <li><strong>Enseignant :</strong> choisir dans la liste des enseignants.</li>
+                        <li><strong>Notes :</strong> decrire ce que l'enseignant a fait ce jour-la (2000 caracteres max).</li>
+                        <li><strong>Modifier :</strong> cliquer sur un rapport existant (chip bleu) rouvre la modale pre-remplie avec un bouton <strong>Supprimer</strong>.</li>
+                        <li><strong>Un couple Enseignant + Date :</strong> un seul rapport par enseignant par jour ; une nouvelle saisie met a jour l'existant.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="doc-card">
+                <div class="doc-card__header">
+                    <div class="doc-card__icon bg-doc-blue">
+                        <i class="ph-duotone ph-calendar-blank"></i>
+                    </div>
+                    <h5 class="doc-card__title">Icone calendrier — Vue mensuelle</h5>
+                </div>
+                <div class="doc-card__body">
+                    <ul class="doc-list">
+                        <li><strong>Bouton calendrier</strong> a cote de la navigation semaine : ouvre une modale avec la grille du mois complet (6 lignes &times; 7 colonnes).</li>
+                        <li><strong>Navigation mois :</strong> fleches precedent / suivant et bouton « Aujourd'hui ».</li>
+                        <li><strong>Chaque case :</strong> numero du jour + jusqu'a 3 rapports visibles (nom enseignant + debut de la note). Au-dela, un indicateur « +N autres » apparait.</li>
+                        <li><strong>Cliquer une case :</strong> saute a la semaine correspondante pour editer le jour.</li>
+                        <li><strong>Mobile :</strong> les chips se resument a une pastille bleue + un compteur pour garder la grille lisible.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="doc-section">
+        <div class="doc-grid-2">
+            <div class="doc-card">
+                <div class="doc-card__header">
+                    <div class="doc-card__icon bg-doc-blue">
+                        <i class="ph-duotone ph-device-mobile"></i>
+                    </div>
+                    <h5 class="doc-card__title">Affichage adaptatif</h5>
+                </div>
+                <div class="doc-card__body">
+                    <ul class="doc-list">
+                        <li><strong>Desktop (&ge; 992 px) :</strong> calendrier tableau lundi a vendredi, une colonne par jour.</li>
+                        <li><strong>Tablette / mobile :</strong> cartes empilees jour par jour, avec un bouton + dedie pour ajouter rapidement.</li>
+                        <li><strong>Aujourd'hui :</strong> la case ou la carte du jour est mise en avant.</li>
+                        <li><strong>Langue :</strong> les jours et mois s'affichent toujours en fran&ccedil;ais (<em>lundi, mardi, avril, mai...</em>) meme si l'interface passe en anglais.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="doc-card">
+                <div class="doc-card__header">
+                    <div class="doc-card__icon bg-doc-blue">
+                        <i class="ph-duotone ph-file-pdf"></i>
+                    </div>
+                    <h5 class="doc-card__title">Export PDF</h5>
+                </div>
+                <div class="doc-card__body">
+                    <ul class="doc-list">
+                        <li>Bouton <strong>Export PDF</strong> en haut de la page : exporte la semaine visible au format paysage A4.</li>
+                        <li>Contient : grille jour par jour et regroupement par enseignant.</li>
+                        <li>Nomme automatiquement <code>rapport_semaine_YYYY-MM-DD_YYYY-MM-DD.pdf</code>.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- ================================================================== --}}
+    {{-- Routine recapitulative (updated)                                   --}}
+    {{-- ================================================================== --}}
+
+    <div class="doc-section">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="doc-card">
+                    <div class="doc-card__header">
+                        <div class="doc-card__icon bg-doc-orange">
+                            <i class="ph-duotone ph-list-numbers"></i>
+                        </div>
+                        <h5 class="doc-card__title">Routine recapitulative (modules recents inclus)</h5>
+                    </div>
+                    <div class="doc-card__body">
+                        <ul class="doc-list">
+                            <li><strong>1. Dashboard :</strong> verifier les compteurs et alertes du jour.</li>
+                            <li><strong>2. Admissions & leads :</strong> traiter consultations, inscriptions, applications.</li>
+                            <li><strong>3. Rapport Semaine :</strong> noter les activites des enseignants (et consulter le mois via l'icone calendrier).</li>
+                            <li><strong>4. Mon planning :</strong> saisir ses horaires du jour ; verifier le total semaine calcule en direct.</li>
+                            <li><strong>5. Campagnes WhatsApp :</strong> si envoi prevu, filtrer par centre, verifier les doublons avant lancement.</li>
+                            <li><strong>6. Suivi Paiement / Paiement Professeurs :</strong> importer / verifier les fichiers mensuels selon le jour du mois.</li>
+                            <li><strong>7. Contenu :</strong> publier un blog, quiz ou certificat si prevu au planning editorial.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="doc-section mb-4">
         <div class="doc-note">
             <strong>Besoin d'aide supplementaire ?</strong>

@@ -21,9 +21,8 @@
 
         {{-- Rolling football intro animation --}}
         <div class="fcm-rolling-ball" aria-hidden="true">
-            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <svg width="110" height="110" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" style="display:block;width:100%;height:100%;max-width:110px;max-height:110px;">
                 <defs>
-                    {{-- Sphere body gradient (gold with sheen) --}}
                     <radialGradient id="fcmBallBody" cx="38%" cy="32%" r="72%">
                         <stop offset="0%"   stop-color="#fff6c7"/>
                         <stop offset="18%"  stop-color="#ffe27a"/>
@@ -31,143 +30,66 @@
                         <stop offset="85%"  stop-color="#a66b00"/>
                         <stop offset="100%" stop-color="#5a3900"/>
                     </radialGradient>
-
-                    {{-- Rim shadow to sell the sphere --}}
                     <radialGradient id="fcmBallRim" cx="50%" cy="50%" r="50%">
                         <stop offset="70%"  stop-color="rgba(0,0,0,0)"/>
                         <stop offset="90%"  stop-color="rgba(0,0,0,.35)"/>
                         <stop offset="100%" stop-color="rgba(0,0,0,.75)"/>
                     </radialGradient>
-
-                    {{-- Specular highlight --}}
                     <radialGradient id="fcmBallGloss" cx="34%" cy="26%" r="32%">
                         <stop offset="0%"  stop-color="rgba(255,255,255,.95)"/>
                         <stop offset="45%" stop-color="rgba(255,255,255,.25)"/>
                         <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
                     </radialGradient>
-
-                    {{-- Darker panel fill with subtle depth --}}
                     <radialGradient id="fcmPanelDark" cx="50%" cy="40%" r="60%">
                         <stop offset="0%"  stop-color="#2a2220"/>
                         <stop offset="100%" stop-color="#0b0908"/>
                     </radialGradient>
-
-                    {{-- Clip to sphere --}}
                     <clipPath id="fcmBallClip">
                         <circle cx="100" cy="100" r="94"/>
                     </clipPath>
                 </defs>
-
-                {{-- Base sphere --}}
                 <circle cx="100" cy="100" r="94" fill="url(#fcmBallBody)"/>
-
-                {{-- Panel pattern (truncated-icosahedron net, spherically projected) --}}
                 <g clip-path="url(#fcmBallClip)" stroke="#0b0908" stroke-width="1.4" stroke-linejoin="round">
-
-                    {{-- Center pentagon --}}
-                    <polygon fill="url(#fcmPanelDark)"
-                        points="100,68 122,84 114,110 86,110 78,84"/>
-
-                    {{-- 5 surrounding hexagons (outlines only — ball body shows through) --}}
-                    <polygon fill="none"
-                        points="100,68 122,84 148,74 152,50 130,36 108,44"/>
-                    <polygon fill="none"
-                        points="122,84 114,110 134,130 160,120 162,92 148,74"/>
-                    <polygon fill="none"
-                        points="114,110 86,110 72,132 88,154 114,154 134,130"/>
-                    <polygon fill="none"
-                        points="86,110 78,84 52,74 38,92 40,120 72,132"/>
-                    <polygon fill="none"
-                        points="78,84 100,68 108,44 92,24 66,32 52,74"/>
-
-                    {{-- Outer ring pentagons (black, slightly projected/shrunken near rim) --}}
-                    {{-- top-left --}}
-                    <polygon fill="url(#fcmPanelDark)"
-                        points="92,24 108,44 130,36 126,14 104,8"/>
-                    {{-- top-right --}}
-                    <polygon fill="url(#fcmPanelDark)"
-                        points="130,36 152,50 174,42 166,20 148,14"/>
-                    {{-- right --}}
-                    <polygon fill="url(#fcmPanelDark)"
-                        points="162,92 148,74 168,62 184,78 180,98"/>
-                    {{-- bottom-right --}}
-                    <polygon fill="url(#fcmPanelDark)"
-                        points="160,120 134,130 140,156 166,158 176,136"/>
-                    {{-- bottom --}}
-                    <polygon fill="url(#fcmPanelDark)"
-                        points="114,154 88,154 82,180 108,188 124,172"/>
-                    {{-- bottom-left --}}
-                    <polygon fill="url(#fcmPanelDark)"
-                        points="72,132 40,120 24,138 38,160 66,158"/>
-                    {{-- left --}}
-                    <polygon fill="url(#fcmPanelDark)"
-                        points="40,120 38,92 16,78 6,104 22,122"/>
-                    {{-- top-left-edge --}}
-                    <polygon fill="url(#fcmPanelDark)"
-                        points="52,74 66,32 42,24 24,42 28,68"/>
-
-                    {{-- Extra seam lines connecting rim panels --}}
-                    <g fill="none">
-                        <line x1="104" y1="8"   x2="92"  y2="24"/>
-                        <line x1="126" y1="14"  x2="130" y2="36"/>
-                        <line x1="148" y1="14"  x2="130" y2="36"/>
-                        <line x1="166" y1="20"  x2="152" y2="50"/>
-                        <line x1="174" y1="42"  x2="162" y2="92"/>
-                        <line x1="184" y1="78"  x2="168" y2="62"/>
-                        <line x1="180" y1="98"  x2="160" y2="120"/>
-                        <line x1="176" y1="136" x2="160" y2="120"/>
-                        <line x1="166" y1="158" x2="134" y2="130"/>
-                        <line x1="124" y1="172" x2="114" y2="154"/>
-                        <line x1="108" y1="188" x2="88"  y2="154"/>
-                        <line x1="82"  y1="180" x2="72"  y2="132"/>
-                        <line x1="66"  y1="158" x2="72"  y2="132"/>
-                        <line x1="38"  y1="160" x2="40"  y2="120"/>
-                        <line x1="24"  y1="138" x2="40"  y2="120"/>
-                        <line x1="6"   y1="104" x2="38"  y2="92"/>
-                        <line x1="16"  y1="78"  x2="52"  y2="74"/>
-                        <line x1="24"  y1="42"  x2="52"  y2="74"/>
-                        <line x1="28"  y1="68"  x2="52"  y2="74"/>
-                        <line x1="42"  y1="24"  x2="66"  y2="32"/>
-                    </g>
+                    <polygon fill="url(#fcmPanelDark)" points="100,68 122,84 114,110 86,110 78,84"/>
+                    <polygon fill="none" points="100,68 122,84 148,74 152,50 130,36 108,44"/>
+                    <polygon fill="none" points="122,84 114,110 134,130 160,120 162,92 148,74"/>
+                    <polygon fill="none" points="114,110 86,110 72,132 88,154 114,154 134,130"/>
+                    <polygon fill="none" points="86,110 78,84 52,74 38,92 40,120 72,132"/>
+                    <polygon fill="none" points="78,84 100,68 108,44 92,24 66,32 52,74"/>
+                    <polygon fill="url(#fcmPanelDark)" points="92,24 108,44 130,36 126,14 104,8"/>
+                    <polygon fill="url(#fcmPanelDark)" points="130,36 152,50 174,42 166,20 148,14"/>
+                    <polygon fill="url(#fcmPanelDark)" points="162,92 148,74 168,62 184,78 180,98"/>
+                    <polygon fill="url(#fcmPanelDark)" points="160,120 134,130 140,156 166,158 176,136"/>
+                    <polygon fill="url(#fcmPanelDark)" points="114,154 88,154 82,180 108,188 124,172"/>
+                    <polygon fill="url(#fcmPanelDark)" points="72,132 40,120 24,138 38,160 66,158"/>
+                    <polygon fill="url(#fcmPanelDark)" points="40,120 38,92 16,78 6,104 22,122"/>
+                    <polygon fill="url(#fcmPanelDark)" points="52,74 66,32 42,24 24,42 28,68"/>
                 </g>
-
-                {{-- Rim shadow for spherical depth --}}
                 <circle cx="100" cy="100" r="94" fill="url(#fcmBallRim)"/>
-
-                {{-- Specular highlight (glossy sheen, top-left) --}}
                 <ellipse cx="72" cy="58" rx="40" ry="26" fill="url(#fcmBallGloss)"/>
-
-                {{-- Crisp silhouette --}}
                 <circle cx="100" cy="100" r="94" fill="none" stroke="#0b0908" stroke-width="1.5"/>
             </svg>
         </div>
 
         {{-- ============ GOAL (3D perspective: back net → ball → front net) ============ --}}
-        <div class="fcm-goal" aria-hidden="true">
+        <div class="fcm-goal" aria-hidden="true" style="max-width:300px;max-height:380px;overflow:hidden;">
 
-            {{-- BACK of goal: far posts + back net (sits behind ball) --}}
-            <div class="fcm-goal__back">
-                <svg viewBox="0 0 240 340" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
+            {{-- BACK of goal: far posts + back net --}}
+            <div class="fcm-goal__back" style="overflow:hidden;">
+                <svg width="300" height="380" viewBox="0 0 240 340" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet" style="display:block;width:100%;height:100%;max-width:300px;max-height:380px;">
                     <defs>
                         <linearGradient id="fcmBackPost" x1="0" y1="0" x2="1" y2="0">
                             <stop offset="0%"  stop-color="#d0d0d0"/>
                             <stop offset="50%" stop-color="#b0b0b0"/>
                             <stop offset="100%" stop-color="#7a7a7a"/>
                         </linearGradient>
-                        {{-- Ground shadow gradient inside the goal --}}
                         <radialGradient id="fcmGoalFloor" cx="50%" cy="100%" r="70%">
                             <stop offset="0%"  stop-color="rgba(0,0,0,.55)"/>
                             <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
                         </radialGradient>
                     </defs>
-
-                    {{-- Inner floor shadow (creates depth inside the net) --}}
                     <ellipse cx="120" cy="320" rx="100" ry="18" fill="url(#fcmGoalFloor)"/>
-
-                    {{-- BACK net — slightly smaller + darker, feels further away --}}
-                    <g class="fcm-goal__net fcm-goal__net--back"
-                       stroke="rgba(220,220,220,.35)" stroke-width=".9" fill="none">
-                        {{-- verticals (narrower horizontally to imply perspective) --}}
+                    <g class="fcm-goal__net fcm-goal__net--back" stroke="rgba(220,220,220,.35)" stroke-width=".9" fill="none">
                         <line x1="40"  y1="60" x2="40"  y2="310"/>
                         <line x1="60"  y1="60" x2="60"  y2="310"/>
                         <line x1="80"  y1="60" x2="80"  y2="310"/>
@@ -177,7 +99,6 @@
                         <line x1="160" y1="60" x2="160" y2="310"/>
                         <line x1="180" y1="60" x2="180" y2="310"/>
                         <line x1="200" y1="60" x2="200" y2="310"/>
-                        {{-- horizontals --}}
                         <line x1="30" y1="80"  x2="210" y2="80"/>
                         <line x1="30" y1="110" x2="210" y2="110"/>
                         <line x1="30" y1="140" x2="210" y2="140"/>
@@ -187,24 +108,15 @@
                         <line x1="30" y1="260" x2="210" y2="260"/>
                         <line x1="30" y1="290" x2="210" y2="290"/>
                     </g>
-
-                    {{-- Back/inner posts (darker, suggest depth) --}}
                     <g class="fcm-goal__frame fcm-goal__frame--back">
-                        {{-- back crossbar --}}
                         <rect x="28" y="52" width="184" height="12" rx="2" fill="url(#fcmBackPost)" stroke="#222" stroke-width=".8"/>
-                        {{-- back-left post --}}
                         <rect x="28"  y="52" width="12" height="260" rx="2" fill="url(#fcmBackPost)" stroke="#222" stroke-width=".8"/>
-                        {{-- back-right post --}}
                         <rect x="200" y="52" width="12" height="260" rx="2" fill="url(#fcmBackPost)" stroke="#222" stroke-width=".8"/>
                     </g>
-
-                    {{-- Side side-net panels (diagonals from front frame to back frame) --}}
                     <g class="fcm-goal__sides" stroke="rgba(220,220,220,.3)" stroke-width=".8" fill="none">
-                        {{-- left side diagonals --}}
                         <line x1="4"   y1="18"  x2="28"  y2="52"/>
                         <line x1="4"   y1="318" x2="28"  y2="312"/>
                         <line x1="16"  y1="18"  x2="34"  y2="52"/>
-                        {{-- right side diagonals --}}
                         <line x1="236" y1="18"  x2="212" y2="52"/>
                         <line x1="236" y1="318" x2="212" y2="312"/>
                         <line x1="224" y1="18"  x2="206" y2="52"/>
@@ -212,9 +124,9 @@
                 </svg>
             </div>
 
-            {{-- FRONT of goal: front posts + front net (sits in front of ball) --}}
-            <div class="fcm-goal__front">
-                <svg viewBox="0 0 240 340" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
+            {{-- FRONT of goal: front posts + front net --}}
+            <div class="fcm-goal__front" style="overflow:hidden;">
+                <svg width="300" height="380" viewBox="0 0 240 340" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet" style="display:block;width:100%;height:100%;max-width:300px;max-height:380px;">
                     <defs>
                         <linearGradient id="fcmPost" x1="0" y1="0" x2="1" y2="0">
                             <stop offset="0%"  stop-color="#ffffff"/>
@@ -222,11 +134,7 @@
                             <stop offset="100%" stop-color="#a8a8a8"/>
                         </linearGradient>
                     </defs>
-
-                    {{-- FRONT net (ball sinks into this, so we make it look partially transparent) --}}
-                    <g class="fcm-goal__net fcm-goal__net--front"
-                       stroke="rgba(255,255,255,.45)" stroke-width="1" fill="none">
-                        {{-- verticals --}}
+                    <g class="fcm-goal__net fcm-goal__net--front" stroke="rgba(255,255,255,.45)" stroke-width="1" fill="none">
                         <line x1="18"  y1="30" x2="18"  y2="322"/>
                         <line x1="40"  y1="30" x2="40"  y2="322"/>
                         <line x1="62"  y1="30" x2="62"  y2="322"/>
@@ -237,7 +145,6 @@
                         <line x1="172" y1="30" x2="172" y2="322"/>
                         <line x1="194" y1="30" x2="194" y2="322"/>
                         <line x1="216" y1="30" x2="216" y2="322"/>
-                        {{-- horizontals --}}
                         <line x1="4" y1="60"  x2="236" y2="60"/>
                         <line x1="4" y1="90"  x2="236" y2="90"/>
                         <line x1="4" y1="120" x2="236" y2="120"/>
@@ -248,22 +155,16 @@
                         <line x1="4" y1="270" x2="236" y2="270"/>
                         <line x1="4" y1="300" x2="236" y2="300"/>
                     </g>
-
-                    {{-- FRONT frame (crossbar + both front posts) --}}
                     <g class="fcm-goal__frame fcm-goal__frame--front">
-                        {{-- crossbar --}}
                         <rect x="2" y="18" width="236" height="16" rx="3" fill="url(#fcmPost)" stroke="#333" stroke-width="1"/>
-                        {{-- front-left post --}}
                         <rect x="2"   y="18" width="16" height="300" rx="3" fill="url(#fcmPost)" stroke="#333" stroke-width="1"/>
-                        {{-- front-right post --}}
                         <rect x="222" y="18" width="16" height="300" rx="3" fill="url(#fcmPost)" stroke="#333" stroke-width="1"/>
-                        {{-- base bar --}}
                         <rect x="2" y="316" width="236" height="6" rx="1.5" fill="url(#fcmPost)" stroke="#333" stroke-width=".8"/>
                     </g>
                 </svg>
             </div>
 
-            {{-- GOAL flash (on top) --}}
+            {{-- GOAL flash --}}
             <div class="fcm-goal__flash">
                 <div class="fcm-goal__burst"></div>
                 <div class="fcm-goal__text">GOAL!</div>
@@ -321,24 +222,79 @@
         <div class="container">
             <div class="fcm-stats__grid">
                 <div class="fcm-stat reveal fcm-anim fcm-anim--stat delay-1">
-                    <div class="fcm-stat__value">{{ __('partners/fc_marokko.stats.s1_value') }}</div>
+                    <div class="fcm-stat__value" data-fcm-count="{{ __('partners/fc_marokko.stats.s1_value') }}">{{ __('partners/fc_marokko.stats.s1_value') }}</div>
                     <div class="fcm-stat__label">{{ __('partners/fc_marokko.stats.s1_label') }}</div>
                 </div>
                 <div class="fcm-stat reveal fcm-anim fcm-anim--stat delay-2">
-                    <div class="fcm-stat__value">{{ __('partners/fc_marokko.stats.s2_value') }}</div>
+                    <div class="fcm-stat__value" data-fcm-count="{{ __('partners/fc_marokko.stats.s2_value') }}">{{ __('partners/fc_marokko.stats.s2_value') }}</div>
                     <div class="fcm-stat__label">{{ __('partners/fc_marokko.stats.s2_label') }}</div>
                 </div>
                 <div class="fcm-stat reveal fcm-anim fcm-anim--stat delay-3">
-                    <div class="fcm-stat__value">{{ __('partners/fc_marokko.stats.s3_value') }}</div>
+                    <div class="fcm-stat__value" data-fcm-count="{{ __('partners/fc_marokko.stats.s3_value') }}">{{ __('partners/fc_marokko.stats.s3_value') }}</div>
                     <div class="fcm-stat__label">{{ __('partners/fc_marokko.stats.s3_label') }}</div>
                 </div>
                 <div class="fcm-stat reveal fcm-anim fcm-anim--stat delay-1">
-                    <div class="fcm-stat__value">{{ __('partners/fc_marokko.stats.s4_value') }}</div>
+                    <div class="fcm-stat__value" data-fcm-count="{{ __('partners/fc_marokko.stats.s4_value') }}">{{ __('partners/fc_marokko.stats.s4_value') }}</div>
                     <div class="fcm-stat__label">{{ __('partners/fc_marokko.stats.s4_label') }}</div>
                 </div>
             </div>
         </div>
     </section>
+
+    @push('scripts')
+        <script>
+            (function () {
+                const targets = document.querySelectorAll('.fcm-stats [data-fcm-count]');
+                if (!targets.length) return;
+
+                const parse = (raw) => {
+                    const match = String(raw).match(/^(\D*)(\d[\d\s.,]*)(\D*)$/);
+                    if (!match) return null;
+                    const prefix = match[1];
+                    const numStr = match[2].replace(/[\s,]/g, '');
+                    const suffix = match[3];
+                    const end = parseFloat(numStr);
+                    if (!isFinite(end)) return null;
+                    return { prefix, suffix, end, isInt: !numStr.includes('.') };
+                };
+
+                const ease = (t) => 1 - Math.pow(1 - t, 3);
+
+                const animate = (el) => {
+                    const raw = el.getAttribute('data-fcm-count') || el.textContent;
+                    const parsed = parse(raw);
+                    if (!parsed) return;
+
+                    const duration = 1600;
+                    const start = performance.now();
+                    el.textContent = parsed.prefix + '0' + parsed.suffix;
+
+                    const step = (now) => {
+                        const p = Math.min((now - start) / duration, 1);
+                        const v = parsed.end * ease(p);
+                        const shown = parsed.isInt ? Math.floor(v) : v.toFixed(1);
+                        el.textContent = parsed.prefix + shown + parsed.suffix;
+                        if (p < 1) requestAnimationFrame(step);
+                        else el.textContent = raw;
+                    };
+                    requestAnimationFrame(step);
+                };
+
+                const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                if (reduce || !('IntersectionObserver' in window)) return;
+
+                const io = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (!entry.isIntersecting) return;
+                        animate(entry.target);
+                        io.unobserve(entry.target);
+                    });
+                }, { threshold: 0.4 });
+
+                targets.forEach((el) => io.observe(el));
+            })();
+        </script>
+    @endpush
 
     {{-- ================== STORY ================== --}}
     <section id="fcm-story" class="fcm-story">

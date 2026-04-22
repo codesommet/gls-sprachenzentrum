@@ -24,6 +24,24 @@
 }
 
 /* ================================================================
+   Hard size guards for goal/ball — defensive against cascade failure.
+   The SVGs also carry inline width/height + max-width/max-height
+   attributes so they can NEVER leak out and cover the whole hero,
+   even if these rules don't apply.
+   ================================================================ */
+.fcm-rolling-ball,
+.fcm-goal {
+    overflow: hidden;
+    contain: strict;
+}
+.fcm-rolling-ball > svg,
+.fcm-goal__back > svg,
+.fcm-goal__front > svg {
+    max-width: 100% !important;
+    max-height: 100% !important;
+}
+
+/* ================================================================
    HERO
    ================================================================ */
 .fcm-hero {

@@ -190,6 +190,82 @@
     @media (min-width: 1200px) {
         .report-chip .notes-preview { max-width: 140px; }
     }
+
+    /* ===== Month Modal Calendar ===== */
+    .month-nav {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+    }
+    .month-nav .month-label {
+        font-size: 1rem;
+        font-weight: 600;
+        min-width: 180px;
+        text-align: center;
+        text-transform: capitalize;
+    }
+    .month-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 4px;
+    }
+    .month-grid .mg-head {
+        background: #4680ff;
+        color: #fff;
+        text-align: center;
+        padding: 6px 2px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        border-radius: 4px;
+        text-transform: capitalize;
+    }
+    .month-grid .mg-cell {
+        border: 1px solid #e9ecef;
+        border-radius: 4px;
+        min-height: 90px;
+        padding: 4px 5px;
+        font-size: 0.72rem;
+        background: #fff;
+        overflow: hidden;
+        position: relative;
+    }
+    .month-grid .mg-cell.other-month { background: #f8f9fa; color: #adb5bd; }
+    .month-grid .mg-cell.today { border-color: #4680ff; background: #f0f7ff; }
+    .month-grid .mg-cell.weekend { background: #fafafa; }
+    .month-grid .mg-cell .mg-day { font-weight: 700; font-size: 0.82rem; margin-bottom: 2px; color: #333; }
+    .month-grid .mg-cell.today .mg-day { color: #4680ff; }
+    .month-grid .mg-cell .mg-chip {
+        background: #e8f0fe;
+        border-left: 2px solid #4680ff;
+        padding: 2px 4px;
+        margin-bottom: 2px;
+        border-radius: 3px;
+        font-size: 0.68rem;
+        line-height: 1.25;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .month-grid .mg-cell .mg-chip .tn { font-weight: 600; color: #1a3a6e; }
+    .month-grid .mg-cell .mg-more { font-size: 0.68rem; color: #4680ff; font-weight: 600; }
+    @media (max-width: 575.98px) {
+        .month-grid .mg-cell { min-height: 60px; padding: 2px 3px; }
+        .month-grid .mg-cell .mg-day { font-size: 0.72rem; }
+        .month-grid .mg-cell .mg-chip { display: none; }
+        .month-grid .mg-cell .mg-dot {
+            display: inline-block;
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #4680ff;
+            margin-right: 2px;
+        }
+    }
+    @media (min-width: 576px) {
+        .month-grid .mg-cell .mg-dot { display: none; }
+    }
 </style>
 @endsection
 
@@ -230,8 +306,13 @@
                     </a>
 
                     <span class="week-label">
-                        {{ $weekDays->first()->translatedFormat('d M') }} — {{ $weekDays->last()->translatedFormat('d M Y') }}
+                        {{ $weekDays->first()->locale('fr')->isoFormat('D MMM') }} — {{ $weekDays->last()->locale('fr')->isoFormat('D MMM YYYY') }}
                     </span>
+
+                    <button type="button" class="btn btn-outline-primary btn-sm" id="btnOpenMonth"
+                            title="Voir le mois complet" onclick="openMonthModal()">
+                        <i class="ph-duotone ph-calendar-blank"></i>
+                    </button>
 
                     <a href="{{ route('backoffice.weekly_reports.index', ['week' => $date->copy()->addWeek()->format('Y-m-d')]) }}"
                        class="btn btn-outline-secondary btn-sm">
@@ -253,7 +334,7 @@
                         <thead>
                             <tr>
                                 @foreach ($weekDays as $day)
-                                    <th>{{ $day->translatedFormat('l d/m') }}</th>
+                                    <th>{{ $day->locale('fr')->isoFormat('dddd DD/MM') }}</th>
                                 @endforeach
                             </tr>
                         </thead>
@@ -267,14 +348,14 @@
                                     @endphp
                                     <td class="{{ $isToday ? 'today' : '' }}"
                                         data-date="{{ $key }}"
-                                        onclick="openAddModal('{{ $key }}', '{{ $day->translatedFormat('l d M Y') }}')">
+                                        onclick="openAddModal('{{ $key }}', '{{ $day->locale('fr')->isoFormat('dddd D MMM YYYY') }}')">
 
                                         <div class="day-number">{{ $day->format('d') }}</div>
                                         <button class="btn-add-day" title="Ajouter rapport">+</button>
 
                                         @foreach ($dayReports as $report)
                                             <div class="report-chip"
-                                                 onclick="event.stopPropagation(); openEditModal({{ $report->id }}, {{ $report->teacher_id }}, '{{ $key }}', '{{ $day->translatedFormat('l d M Y') }}', {{ json_encode($report->notes) }})">
+                                                 onclick="event.stopPropagation(); openEditModal({{ $report->id }}, {{ $report->teacher_id }}, '{{ $key }}', '{{ $day->locale('fr')->isoFormat('dddd D MMM YYYY') }}', {{ json_encode($report->notes) }})">
                                                 <span class="teacher-name">{{ $report->teacher->name }}</span>
                                                 <span class="notes-preview">{{ Str::limit($report->notes, 40) }}</span>
                                             </div>
@@ -297,17 +378,17 @@
                         @endphp
                         <div class="day-card {{ $isToday ? 'today' : '' }}">
                             <div class="day-card-header">
-                                <span class="day-label">{{ $day->translatedFormat('l d M') }}</span>
+                                <span class="day-label">{{ $day->locale('fr')->isoFormat('dddd D MMM') }}</span>
                                 <button class="btn-add-mobile"
-                                        onclick="event.stopPropagation(); openAddModal('{{ $key }}', '{{ $day->translatedFormat('l d M Y') }}')"
+                                        onclick="event.stopPropagation(); openAddModal('{{ $key }}', '{{ $day->locale('fr')->isoFormat('dddd D MMM YYYY') }}')"
                                         title="Ajouter rapport">+</button>
                             </div>
                             <div class="day-card-body"
-                                 onclick="openAddModal('{{ $key }}', '{{ $day->translatedFormat('l d M Y') }}')">
+                                 onclick="openAddModal('{{ $key }}', '{{ $day->locale('fr')->isoFormat('dddd D MMM YYYY') }}')">
 
                                 @forelse ($dayReports as $report)
                                     <div class="report-chip"
-                                         onclick="event.stopPropagation(); openEditModal({{ $report->id }}, {{ $report->teacher_id }}, '{{ $key }}', '{{ $day->translatedFormat('l d M Y') }}', {{ json_encode($report->notes) }})">
+                                         onclick="event.stopPropagation(); openEditModal({{ $report->id }}, {{ $report->teacher_id }}, '{{ $key }}', '{{ $day->locale('fr')->isoFormat('dddd D MMM YYYY') }}', {{ json_encode($report->notes) }})">
                                         <span class="teacher-name">{{ $report->teacher->name }}</span>
                                         <span class="notes-preview">{{ Str::limit($report->notes, 80) }}</span>
                                     </div>
@@ -374,6 +455,36 @@
     </div>
 </div>
 
+{{-- ==================== MODAL: Full Month Calendar ==================== --}}
+<div class="modal fade" id="monthModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-fullscreen-md-down">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="ph-duotone ph-calendar-blank me-1"></i> Vue mensuelle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="month-nav">
+                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="shiftMonth(-1)">
+                        <i class="ph-duotone ph-caret-left"></i>
+                    </button>
+                    <span class="month-label" id="monthLabel">—</span>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="shiftMonth(1)">
+                        <i class="ph-duotone ph-caret-right"></i>
+                    </button>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="goToMonth(new Date())">
+                        Aujourd'hui
+                    </button>
+                </div>
+                <div id="monthLoading" class="text-center text-muted py-3 d-none">
+                    <i class="ph-duotone ph-spinner"></i> Chargement...
+                </div>
+                <div class="month-grid" id="monthGrid"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 {{-- Delete form (hidden) --}}
 <form id="deleteForm" method="POST" class="d-none">
     @csrf
@@ -423,6 +534,126 @@
         const form = document.getElementById('deleteForm');
         form.action = '{{ url("backoffice/weekly-reports") }}/' + currentReportId;
         form.submit();
+    }
+
+    // ==================== Month Modal ====================
+    const monthModal = new bootstrap.Modal(document.getElementById('monthModal'));
+    const EVENTS_URL = '{{ route('backoffice.weekly_reports.events') }}';
+    const WEEK_INDEX_URL = '{{ route('backoffice.weekly_reports.index') }}';
+    const MONTH_NAMES = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+    const DAY_HEADS = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+    let monthCursor = new Date({{ $date->year }}, {{ $date->month - 1 }}, 1);
+
+    function fmtDate(d) {
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${y}-${m}-${day}`;
+    }
+
+    function escapeHtml(s) {
+        return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    function openMonthModal() {
+        monthCursor = new Date({{ $date->year }}, {{ $date->month - 1 }}, 1);
+        renderMonth();
+        monthModal.show();
+    }
+
+    function shiftMonth(delta) {
+        monthCursor = new Date(monthCursor.getFullYear(), monthCursor.getMonth() + delta, 1);
+        renderMonth();
+    }
+
+    function goToMonth(d) {
+        monthCursor = new Date(d.getFullYear(), d.getMonth(), 1);
+        renderMonth();
+    }
+
+    async function renderMonth() {
+        const year = monthCursor.getFullYear();
+        const month = monthCursor.getMonth();
+        document.getElementById('monthLabel').textContent = `${MONTH_NAMES[month]} ${year}`;
+
+        const firstOfMonth = new Date(year, month, 1);
+        const lastOfMonth = new Date(year, month + 1, 0);
+
+        // Grid starts on Monday of the week containing day 1
+        const startOffset = (firstOfMonth.getDay() + 6) % 7; // Mon=0 .. Sun=6
+        const gridStart = new Date(year, month, 1 - startOffset);
+
+        // 6 rows * 7 cols = 42 cells
+        const cells = [];
+        for (let i = 0; i < 42; i++) {
+            const d = new Date(gridStart.getFullYear(), gridStart.getMonth(), gridStart.getDate() + i);
+            cells.push(d);
+        }
+
+        const grid = document.getElementById('monthGrid');
+        const loading = document.getElementById('monthLoading');
+        loading.classList.remove('d-none');
+        grid.innerHTML = '';
+
+        // Fetch reports for grid range
+        let reports = [];
+        try {
+            const res = await fetch(`${EVENTS_URL}?start=${fmtDate(cells[0])}&end=${fmtDate(cells[41])}`, {
+                headers: { 'Accept': 'application/json' },
+                credentials: 'same-origin',
+            });
+            if (res.ok) reports = await res.json();
+        } catch (e) { /* ignore */ }
+
+        const byDate = {};
+        for (const r of reports) {
+            (byDate[r.report_date] ||= []).push(r);
+        }
+
+        const todayStr = fmtDate(new Date());
+        let html = '';
+        for (const h of DAY_HEADS) html += `<div class="mg-head">${h}</div>`;
+
+        for (const d of cells) {
+            const key = fmtDate(d);
+            const isOther = d.getMonth() !== month;
+            const isToday = key === todayStr;
+            const dow = d.getDay(); // 0 Sun .. 6 Sat
+            const isWeekend = dow === 0 || dow === 6;
+            const list = byDate[key] || [];
+
+            const classes = ['mg-cell'];
+            if (isOther) classes.push('other-month');
+            if (isToday) classes.push('today');
+            if (isWeekend) classes.push('weekend');
+
+            let chipsHtml = '';
+            const max = 3;
+            for (let i = 0; i < Math.min(list.length, max); i++) {
+                const r = list[i];
+                chipsHtml += `<div class="mg-chip" title="${escapeHtml(r.teacher_name)} — ${escapeHtml(r.notes)}">`
+                    + `<span class="tn">${escapeHtml(r.teacher_name)}</span> `
+                    + `<span>${escapeHtml(r.notes)}</span></div>`;
+            }
+            if (list.length > max) {
+                chipsHtml += `<div class="mg-more">+${list.length - max} autre${list.length - max > 1 ? 's' : ''}</div>`;
+            }
+            const dotsHtml = list.length > 0
+                ? `<span class="mg-dot"></span><span class="mg-more" style="font-size:.68rem;">${list.length}</span>`
+                : '';
+
+            html += `<div class="${classes.join(' ')}" data-date="${key}" onclick="goToWeek('${key}')" style="cursor:pointer;">`
+                + `<div class="mg-day">${d.getDate()} ${dotsHtml}</div>`
+                + chipsHtml
+                + `</div>`;
+        }
+
+        grid.innerHTML = html;
+        loading.classList.add('d-none');
+    }
+
+    function goToWeek(dateStr) {
+        window.location.href = `${WEEK_INDEX_URL}?week=${dateStr}`;
     }
 
     // Toast auto-show

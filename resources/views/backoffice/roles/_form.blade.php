@@ -58,6 +58,7 @@
                             'weekly_reports'  => 'Rapport Semaine',
                             'schedules'       => 'Planning',
                             'encaissements'   => 'Encaissements',
+                            'whatsapp_campaigns' => 'Campagnes WhatsApp',
                         ];
                         $actions = ['view', 'create', 'edit', 'delete'];
                         $actionLabels = [

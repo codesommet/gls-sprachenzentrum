@@ -21,6 +21,7 @@ use App\Http\Controllers\Backoffice\QuizQuestionController;
 use App\Http\Controllers\Backoffice\HelpController;
 use App\Http\Controllers\Backoffice\UserController;
 use App\Http\Controllers\Backoffice\RoleController;
+use App\Http\Controllers\Backoffice\WhatsAppCampaignController;
 
 use App\Http\Controllers\Backoffice\LeadController;
 use App\Http\Controllers\Backoffice\GroupApplicationController as BackofficeGroupApplicationController;
@@ -572,6 +573,44 @@ Route::prefix('backoffice')
         Route::delete('/level-followups/{followup}', [LevelFollowupController::class, 'destroy'])
             ->middleware('permission:level_followups.delete')
             ->name('level_followups.destroy');
+
+        /*
+        |----------------------------------------------------------------------
+        | WHATSAPP CAMPAIGNS — Manual sender (WhatsApp Desktop automation)
+        |----------------------------------------------------------------------
+        */
+        Route::prefix('whatsapp-campaigns')
+            ->name('whatsapp_campaigns.')
+            ->group(function () {
+                Route::get('/', [WhatsAppCampaignController::class, 'index'])
+                    ->middleware('permission:whatsapp_campaigns.view')->name('index');
+                Route::get('/dashboard', [WhatsAppCampaignController::class, 'dashboard'])
+                    ->middleware('permission:whatsapp_campaigns.view')->name('dashboard');
+                Route::get('/contacted-phones', [WhatsAppCampaignController::class, 'contactedPhones'])
+                    ->middleware('permission:whatsapp_campaigns.view')->name('contacted_phones');
+                Route::get('/create', [WhatsAppCampaignController::class, 'create'])
+                    ->middleware('permission:whatsapp_campaigns.create')->name('create');
+                Route::post('/', [WhatsAppCampaignController::class, 'store'])
+                    ->middleware('permission:whatsapp_campaigns.create')->name('store');
+                Route::get('/{campaign}', [WhatsAppCampaignController::class, 'show'])
+                    ->middleware('permission:whatsapp_campaigns.view')->name('show');
+                Route::delete('/{campaign}', [WhatsAppCampaignController::class, 'destroy'])
+                    ->middleware('permission:whatsapp_campaigns.delete')->name('destroy');
+
+                // Live controls (JSON) — edit permission covers start/pause/resume/stop
+                Route::post('/{campaign}/start',  [WhatsAppCampaignController::class, 'start'])
+                    ->middleware('permission:whatsapp_campaigns.edit')->name('start');
+                Route::get('/{campaign}/status',  [WhatsAppCampaignController::class, 'status'])
+                    ->middleware('permission:whatsapp_campaigns.view')->name('status');
+                Route::get('/{campaign}/log',     [WhatsAppCampaignController::class, 'log'])
+                    ->middleware('permission:whatsapp_campaigns.view')->name('log');
+                Route::post('/pause',  [WhatsAppCampaignController::class, 'pause'])
+                    ->middleware('permission:whatsapp_campaigns.edit')->name('pause');
+                Route::post('/resume', [WhatsAppCampaignController::class, 'resume'])
+                    ->middleware('permission:whatsapp_campaigns.edit')->name('resume');
+                Route::post('/stop',   [WhatsAppCampaignController::class, 'stop'])
+                    ->middleware('permission:whatsapp_campaigns.edit')->name('stop');
+            });
     });
 
 /*

@@ -14,6 +14,7 @@
     $encaissementOpen = request()->routeIs('backoffice.encaissements.*');
     $rhOpen = request()->routeIs('backoffice.schedules.*') || request()->routeIs('backoffice.planning.*');
     $adminOpen = request()->routeIs('backoffice.users.*') || request()->routeIs('backoffice.roles.*');
+    $whatsappOpen = request()->routeIs('backoffice.whatsapp_campaigns.*');
 @endphp
 
 <li class="pc-item pc-caption">
@@ -305,6 +306,35 @@
     </ul>
 </li>
 @endcanany
+
+@can('whatsapp_campaigns.view')
+<li class="pc-item pc-hasmenu {{ $whatsappOpen ? 'pc-trigger' : '' }}">
+    <a href="#!" class="pc-link">
+        <span class="pc-micon"><i class="ph-duotone ph-whatsapp-logo"></i></span>
+        <span class="pc-mtext">Campagnes WhatsApp</span>
+        <span class="pc-arrow"><i class="ph-duotone ph-caret-right"></i></span>
+    </a>
+    <ul class="pc-submenu">
+        <li class="pc-item {{ request()->routeIs('backoffice.whatsapp_campaigns.dashboard') ? 'active' : '' }}">
+            <a href="{{ route('backoffice.whatsapp_campaigns.dashboard') }}" class="pc-link {{ request()->routeIs('backoffice.whatsapp_campaigns.dashboard') ? 'active' : '' }}">
+                <span class="pc-mtext">Tableau de bord</span>
+            </a>
+        </li>
+        <li class="pc-item {{ request()->routeIs('backoffice.whatsapp_campaigns.index') ? 'active' : '' }}">
+            <a href="{{ route('backoffice.whatsapp_campaigns.index') }}" class="pc-link {{ request()->routeIs('backoffice.whatsapp_campaigns.index') ? 'active' : '' }}">
+                <span class="pc-mtext">Historique</span>
+            </a>
+        </li>
+        @can('whatsapp_campaigns.create')
+        <li class="pc-item {{ request()->routeIs('backoffice.whatsapp_campaigns.create') ? 'active' : '' }}">
+            <a href="{{ route('backoffice.whatsapp_campaigns.create') }}" class="pc-link {{ request()->routeIs('backoffice.whatsapp_campaigns.create') ? 'active' : '' }}">
+                <span class="pc-mtext">Nouvelle campagne</span>
+            </a>
+        </li>
+        @endcan
+    </ul>
+</li>
+@endcan
 
 @canany(['users.view', 'roles.view'])
 <li class="pc-item pc-hasmenu {{ $adminOpen ? 'pc-trigger' : '' }}">

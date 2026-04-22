@@ -12,6 +12,9 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        //
+        'backoffice/whatsapp-campaigns/*/start',
+        'backoffice/whatsapp-campaigns/pause',
+        'backoffice/whatsapp-campaigns/resume',
+        'backoffice/whatsapp-campaigns/stop',
     ];
 }
