@@ -16,5 +16,6 @@ class VerifyCsrfToken extends Middleware
         'backoffice/whatsapp-campaigns/pause',
         'backoffice/whatsapp-campaigns/resume',
         'backoffice/whatsapp-campaigns/stop',
+        'backoffice/whatsapp-campaigns/force-reset',
     ];
 }

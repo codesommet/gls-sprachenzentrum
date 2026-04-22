@@ -295,7 +295,13 @@ class WhatsAppCampaignController extends Controller
         ]);
         $this->runtime->writeControl(['paused' => false, 'aborted' => false]);
 
-        $this->spawnWorker($campaign->id);
+        try {
+            $this->spawnWorker($campaign->id);
+        } catch (\Throwable $e) {
+            // Roll back the lock so the user isn't stuck.
+            $this->runtime->clearStatus();
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
 
         return response()->json([
             'started'    => true,
@@ -432,12 +438,21 @@ class WhatsAppCampaignController extends Controller
         ]);
     }
 
+    /**
+     * Spawn the worker as a detached background process on Windows.
+     *
+     * Tries several mechanisms because shared/locked-down PHP installs often
+     * disable some of popen/pclose/exec/shell_exec/proc_open. We only need ONE
+     * of them to work. Order: proc_open (cleanest) → COM WScript.Shell (no
+     * disable_functions involvement) → Symfony Process (uses proc_open) →
+     * a clear error if everything is off.
+     */
     private function spawnWorker(int $campaignId): void
     {
-        $php     = PHP_BINARY;
-        $artisan = base_path('artisan');
-        $batPath = storage_path('app/wa-run-' . $campaignId . '.bat');
-        $logPath = storage_path('app/wa-spawn.log');
+        $php       = PHP_BINARY;
+        $artisan   = base_path('artisan');
+        $batPath   = storage_path('app/wa-run-' . $campaignId . '.bat');
+        $logPath   = storage_path('app/wa-spawn.log');
         $workerLog = storage_path('app/wa-worker-' . $campaignId . '.log');
 
         $dir = dirname($batPath);
@@ -448,13 +463,70 @@ class WhatsAppCampaignController extends Controller
               . ' > "' . $workerLog . '" 2>&1' . "\r\n";
         file_put_contents($batPath, $bat);
 
-        $cmd = 'start "" /B cmd /c "' . $batPath . '" > NUL 2>&1';
-        pclose(popen($cmd, 'r'));
+        $cmd    = 'cmd /c start "" /B "' . $batPath . '"';
+        $method = null;
+        $err    = null;
+
+        try {
+            if ($this->funcEnabled('proc_open')) {
+                $p = @proc_open($cmd, [
+                    0 => ['pipe', 'r'],
+                    1 => ['file', 'NUL', 'w'],
+                    2 => ['file', 'NUL', 'w'],
+                ], $pipes, null, null, ['bypass_shell' => true]);
+                if (is_resource($p)) {
+                    foreach ($pipes as $pipe) { if (is_resource($pipe)) fclose($pipe); }
+                    proc_close($p);
+                    $method = 'proc_open';
+                }
+            }
+
+            if ($method === null && class_exists('COM')) {
+                try {
+                    $shell = new \COM('WScript.Shell');
+                    // Run() args: cmd, windowStyle (0=hidden), waitOnReturn(false)
+                    $shell->Run($cmd, 0, false);
+                    $method = 'wscript.shell';
+                } catch (\Throwable $e) {
+                    $err = 'COM failed: ' . $e->getMessage();
+                }
+            }
+
+            if ($method === null) {
+                try {
+                    $p = \Symfony\Component\Process\Process::fromShellCommandline($cmd);
+                    $p->disableOutput();
+                    $p->start();
+                    $method = 'symfony.process';
+                } catch (\Throwable $e) {
+                    $err = 'Symfony Process failed: ' . $e->getMessage();
+                }
+            }
+        } catch (\Throwable $e) {
+            $err = $e->getMessage();
+        }
 
         file_put_contents(
             $logPath,
-            sprintf("[%s] spawn %s\n  bat=%s\n  worker-log=%s\n", gmdate('c'), $campaignId, $batPath, $workerLog),
+            sprintf(
+                "[%s] spawn %s via=%s err=%s\n  bat=%s\n  worker-log=%s\n",
+                gmdate('c'), $campaignId, $method ?? 'NONE', $err ?? '-', $batPath, $workerLog
+            ),
             FILE_APPEND | LOCK_EX
         );
+
+        if ($method === null) {
+            throw new \RuntimeException(
+                'Impossible de démarrer le worker WhatsApp : toutes les méthodes de spawn sont bloquées ' .
+                '(proc_open/COM/Symfony Process). Vérifiez php.ini → disable_functions sur le serveur.'
+            );
+        }
+    }
+
+    private function funcEnabled(string $fn): bool
+    {
+        if (!function_exists($fn)) return false;
+        $disabled = array_map('trim', explode(',', (string) ini_get('disable_functions')));
+        return !in_array($fn, $disabled, true);
     }
 }
