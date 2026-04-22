@@ -211,12 +211,25 @@ class WhatsAppCampaignController extends Controller
             ->with('success', 'Campagne créée. Cliquez sur "Démarrer" pour lancer l\'envoi.');
     }
 
-    public function destroy(WhatsAppCampaign $campaign)
+    public function destroy(Request $request, WhatsAppCampaign $campaign)
     {
         $s = $this->runtime->readStatus();
-        if (!empty($s['running']) && (int) ($s['campaignId'] ?? 0) === $campaign->id) {
-            return back()->with('error', 'Impossible de supprimer une campagne en cours.');
+        $isThis = (int) ($s['campaignId'] ?? 0) === $campaign->id;
+
+        if (!empty($s['running']) && $isThis) {
+            // Allow an explicit force-delete: stop the worker and purge the lock.
+            if ($request->boolean('force')) {
+                $this->runtime->writeControl(['paused' => false, 'aborted' => true]);
+                $this->runtime->clearStatus();
+            } else {
+                return back()->with('error', 'Impossible de supprimer une campagne en cours. Arrêtez-la d\'abord, ou utilisez "Forcer la suppression".');
+            }
+        } elseif ($isThis) {
+            // Lock file still points at this campaign but isn't running (stale
+            // or finished) — purge it so a future start isn't confused.
+            $this->runtime->clearStatus();
         }
+
         if ($campaign->attachment_path && is_file($campaign->attachment_path)) {
             @unlink($campaign->attachment_path);
         }

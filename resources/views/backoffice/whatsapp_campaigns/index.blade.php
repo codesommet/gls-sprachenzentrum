@@ -97,8 +97,9 @@
                                                class="btn btn-sm btn-light-primary">Voir</a>
                                             <form action="{{ route('backoffice.whatsapp_campaigns.destroy', $c) }}"
                                                   method="POST" class="d-inline"
-                                                  onsubmit="return confirm('Supprimer cette campagne ?')">
+                                                  onsubmit="return confirm('Supprimer cette campagne ? Si elle est en cours, elle sera d\'abord arrêtée.')">
                                                 @csrf @method('DELETE')
+                                                <input type="hidden" name="force" value="1">
                                                 <button class="btn btn-sm btn-light-danger">Supprimer</button>
                                             </form>
                                         </td>
